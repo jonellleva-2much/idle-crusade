@@ -1532,6 +1532,7 @@
         <div class="panel center-panel">
             <div class="panel-header">
                 <h2 class="panel-title">BATTLE LOG</h2>
+                <button id="instant-finish-btn" style="display: none;">Instant Finish</button>
             </div>
             <div class="explore-status" id="explore-status" style="display: flex;">
                 <span id="explore-selected-time">AFK</span>
@@ -2043,18 +2044,24 @@
                 console.log('User authenticated:', user.email);
                 window.currentUser = user;
 
-                // SESSION MANAGEMENT: Generate unique session ID
-                const sessionId = Date.now() + '-' + Math.random().toString(36).substr(2, 9);
-                sessionStorage.setItem('currentSessionId', sessionId);
+                // SESSION MANAGEMENT: Generate or reuse session ID
+                let sessionId = sessionStorage.getItem('currentSessionId');
+                if (!sessionId) {
+                    // Generate new session ID only if one doesn't exist
+                    sessionId = Date.now() + '-' + Math.random().toString(36).substr(2, 9);
+                    sessionStorage.setItem('currentSessionId', sessionId);
 
-                // Write session ID to Firebase
-                set(ref(db, `users/${user.uid}/activeSession`), sessionId)
-                    .then(() => {
-                        console.log('✅ Session ID set:', sessionId);
-                    })
-                    .catch((error) => {
-                        console.error('❌ Error setting session ID:', error);
-                    });
+                    // Write session ID to Firebase only for new sessions
+                    set(ref(db, `users/${user.uid}/activeSession`), sessionId)
+                        .then(() => {
+                            console.log('✅ Session ID set:', sessionId);
+                        })
+                        .catch((error) => {
+                            console.error('❌ Error setting session ID:', error);
+                        });
+                } else {
+                    console.log('✅ Reusing existing session ID:', sessionId);
+                }
 
                 // Monitor session changes (skip initial trigger)
                 let isFirstCheck = true;
