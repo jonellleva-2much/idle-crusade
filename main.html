@@ -2057,11 +2057,18 @@
                         console.error('❌ Error setting session ID:', error);
                     });
 
-                // Monitor session changes
+                // Monitor session changes (skip initial trigger)
+                let isFirstCheck = true;
                 const sessionRef = ref(db, `users/${user.uid}/activeSession`);
                 onValue(sessionRef, (snapshot) => {
                     const activeSessionId = snapshot.val();
                     const currentSessionId = sessionStorage.getItem('currentSessionId');
+
+                    // Skip the first check (initial value)
+                    if (isFirstCheck) {
+                        isFirstCheck = false;
+                        return;
+                    }
 
                     if (activeSessionId && currentSessionId && activeSessionId !== currentSessionId) {
                         console.log('🚫 Session invalidated. Another device logged in.');
