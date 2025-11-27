@@ -1751,7 +1751,7 @@
         // Import Firebase modules
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
         import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
-        import { getDatabase, ref, set, get, child, update } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js';
+        import { getDatabase, ref, set, get, child } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js';
 
         // Firebase configuration
         const firebaseConfig = {
@@ -1779,210 +1779,68 @@
             }
         }, 8000);
 
-        // Save to Firebase - ORGANIZED STRUCTURE
+        // Save to Firebase
         window.saveToFirebase = function (user, data) {
             if (!user) return;
-
-            // Organize data into logical categories
-            const organizedData = {
-                profile: {
-                    name: data.character?.name || '',
-                    race: data.character?.race || '',
-                    gender: data.character?.gender || '',
-                    class: data.character?.class || '',
-                    location: data.currentMap || data.character?.location || 'HQ'
-                },
-                stats: {
-                    level: data.character?.level || 1,
-                    hp: data.character?.hp || 100,
-                    maxHp: data.character?.maxHp || 100,
-                    fp: data.character?.fp || 100,
-                    maxFp: data.character?.maxFp || 100,
-                    attack: data.character?.attack || 10,
-                    defense: data.character?.defense || 5,
-                    exp: data.character?.exp || 0,
-                    maxExp: data.character?.maxExp || 100,
-                    criticalChance: data.character?.criticalChance || 0.05
-                },
-                equipment: {
-                    weapon: data.character?.equipped?.weapon || null,
-                    armor: data.character?.equipped?.armor || null,
-                    accessory1: data.character?.equipped?.accessory1 || null,
-                    accessory2: data.character?.equipped?.accessory2 || null
-                },
-                inventory: {
-                    items: data.inventory || [],
-                    materials: data.materials || []
-                },
-                currency: {
-                    leaves: data.currency || 0,
-                    coins: data.coins || 0
-                },
-                progression: {
-                    currentMap: data.currentMap || 'HQ',
-                    bosses: data.bosses || {}
-                },
-                exploration: {
-                    isExploring: data.isExploring || false,
-                    startTime: data.exploreStartTime || null,
-                    duration: data.exploreDuration || 0,
-                    area: data.exploreArea || null,
-                    isTraveling: data.isTraveling || false
-                },
-                settings: {
-                    autoPotion: data.autoPotion || false
-                },
-                metadata: {
-                    lastSaveTime: Date.now(),
-                    version: '2.0' // New organized structure version
-                }
-            };
-
-            // Save each category separately for better organization
-            const updates = {};
-            updates[`users/${user.uid}/profile`] = organizedData.profile;
-            updates[`users/${user.uid}/stats`] = organizedData.stats;
-            updates[`users/${user.uid}/equipment`] = organizedData.equipment;
-            updates[`users/${user.uid}/inventory`] = organizedData.inventory;
-            updates[`users/${user.uid}/currency`] = organizedData.currency;
-            updates[`users/${user.uid}/progression`] = organizedData.progression;
-            updates[`users/${user.uid}/exploration`] = organizedData.exploration;
-            updates[`users/${user.uid}/settings`] = organizedData.settings;
-            updates[`users/${user.uid}/metadata`] = organizedData.metadata;
-
-            // Use update() to save all categories atomically
-            update(ref(db), updates)
+            set(ref(db, 'users/' + user.uid + '/character'), data)
                 .then(() => {
-                    console.log('✅ Data saved to Firebase (Organized Structure v2.0)');
+                    console.log('Data saved to Firebase');
                 })
                 .catch((error) => {
-                    console.error('❌ Error saving to Firebase:', error);
+                    console.error('Error saving to Firebase:', error);
                 });
         };
 
-        // Load from Firebase - SUPPORTS OLD & NEW STRUCTURE
+        // Load from Firebase
         window.loadFromFirebase = function (user) {
             if (!user) return;
             const dbRef = ref(db);
+            get(child(dbRef, `users/${user.uid}/character`)).then((snapshot) => {
+                if (snapshot.exists()) {
+                    console.log('Data loaded from Firebase');
+                    const data = snapshot.val();
 
-            // First, try to load from NEW organized structure
-            get(child(dbRef, `users/${user.uid}/metadata`)).then((metadataSnapshot) => {
-                if (metadataSnapshot.exists() && metadataSnapshot.val().version === '2.0') {
-                    // NEW STRUCTURE EXISTS - Load from organized structure
-                    console.log('📦 Loading from NEW organized structure (v2.0)...');
+                    localStorage.setItem('rfOnlineGame', JSON.stringify(data));
 
-                    Promise.all([
-                        get(child(dbRef, `users/${user.uid}/profile`)),
-                        get(child(dbRef, `users/${user.uid}/stats`)),
-                        get(child(dbRef, `users/${user.uid}/equipment`)),
-                        get(child(dbRef, `users/${user.uid}/inventory`)),
-                        get(child(dbRef, `users/${user.uid}/currency`)),
-                        get(child(dbRef, `users/${user.uid}/progression`)),
-                        get(child(dbRef, `users/${user.uid}/exploration`)),
-                        get(child(dbRef, `users/${user.uid}/settings`))
-                    ]).then(([profile, stats, equipment, inventory, currency, progression, exploration, settings]) => {
-                        // Reconstruct the game data from organized structure
-                        const profileData = profile.val() || {};
-                        const statsData = stats.val() || {};
-                        const equipmentData = equipment.val() || {};
-                        const inventoryData = inventory.val() || {};
-                        const currencyData = currency.val() || {};
-                        const progressionData = progression.val() || {};
-                        const explorationData = exploration.val() || {};
-                        const settingsData = settings.val() || {};
+                    const currentLocal = localStorage.getItem('rfOnlineGame');
+                    const newDataStr = JSON.stringify(data);
 
-                        const reconstructedData = {
-                            character: {
-                                name: profileData.name,
-                                race: profileData.race,
-                                gender: profileData.gender,
-                                class: profileData.class,
-                                location: profileData.location,
-                                level: statsData.level,
-                                hp: statsData.hp,
-                                maxHp: statsData.maxHp,
-                                fp: statsData.fp,
-                                maxFp: statsData.maxFp,
-                                attack: statsData.attack,
-                                defense: statsData.defense,
-                                exp: statsData.exp,
-                                maxExp: statsData.maxExp,
-                                criticalChance: statsData.criticalChance,
-                                equipped: {
-                                    weapon: equipmentData.weapon,
-                                    armor: equipmentData.armor,
-                                    accessory1: equipmentData.accessory1,
-                                    accessory2: equipmentData.accessory2
-                                }
-                            },
-                            inventory: inventoryData.items || [],
-                            materials: inventoryData.materials || [],
-                            currency: currencyData.leaves || 0,
-                            coins: currencyData.coins || 0,
-                            currentMap: progressionData.currentMap || 'HQ',
-                            bosses: progressionData.bosses || {},
-                            isExploring: explorationData.isExploring || false,
-                            exploreStartTime: explorationData.startTime || null,
-                            exploreDuration: explorationData.duration || 0,
-                            exploreArea: explorationData.area || null,
-                            autoPotion: settingsData.autoPotion || false
-                        };
-
-                        localStorage.setItem('rfOnlineGame', JSON.stringify(reconstructedData));
-                        console.log('✅ Data loaded from NEW organized structure');
-
+                    if (currentLocal !== newDataStr) {
+                        const reloadCount = parseInt(sessionStorage.getItem('firebaseReloadCount') || '0');
+                        if (reloadCount > 2) {
+                            console.warn('Infinite reload loop detected. Stopping reloads.');
+                            sessionStorage.removeItem('firebaseReloadCount');
+                            localStorage.setItem('rfOnlineGame', newDataStr);
+                            const loadingScreen = document.getElementById('auth-loading');
+                            if (loadingScreen) loadingScreen.style.display = 'none';
+                        } else {
+                            console.log('Cloud data different from local. Updating and reloading...');
+                            localStorage.setItem('rfOnlineGame', newDataStr);
+                            sessionStorage.setItem('firebaseReloadCount', (reloadCount + 1).toString());
+                            window.location.reload();
+                        }
+                    } else {
+                        console.log('Cloud data matches local. No reload needed.');
                         sessionStorage.removeItem('firebaseReloadCount');
                         const loadingScreen = document.getElementById('auth-loading');
                         if (loadingScreen) loadingScreen.style.display = 'none';
-                    });
+                    }
                 } else {
-                    // Try to load from OLD flat structure
-                    console.log('🔍 Checking for OLD structure...');
-                    get(child(dbRef, `users/${user.uid}/character`)).then((snapshot) => {
-                        if (snapshot.exists()) {
-                            console.log('📦 OLD structure detected! Migrating to NEW structure...');
-                            const oldData = snapshot.val();
+                    console.log("No cloud data available. Resetting for new player.");
+                    localStorage.removeItem('rfOnlineGame');
 
-                            // Save to localStorage
-                            localStorage.setItem('rfOnlineGame', JSON.stringify(oldData));
+                    const loadingScreen = document.getElementById('auth-loading');
+                    if (loadingScreen) loadingScreen.style.display = 'none';
 
-                            // Migrate to new structure automatically
-                            console.log('🔄 Auto-migrating data to organized structure...');
-                            window.saveToFirebase(user, oldData);
-
-                            // Delete old structure after successful migration
-                            set(ref(db, `users/${user.uid}/character`), null)
-                                .then(() => {
-                                    console.log('🗑️ Old structure cleaned up');
-                                });
-
-                            const loadingScreen = document.getElementById('auth-loading');
-                            if (loadingScreen) loadingScreen.style.display = 'none';
-
-                            sessionStorage.removeItem('firebaseReloadCount');
-                        } else {
-                            // No data at all - new player
-                            console.log("📝 No cloud data available. New player detected.");
-                            localStorage.removeItem('rfOnlineGame');
-
-                            const loadingScreen = document.getElementById('auth-loading');
-                            if (loadingScreen) loadingScreen.style.display = 'none';
-
-                            if (!sessionStorage.getItem('newPlayerReset')) {
-                                sessionStorage.setItem('newPlayerReset', 'true');
-                                window.location.reload();
-                            } else {
-                                sessionStorage.removeItem('newPlayerReset');
-                            }
-                        }
-                    }).catch((error) => {
-                        console.error("❌ Error loading from Firebase:", error);
-                        const loadingScreen = document.getElementById('auth-loading');
-                        if (loadingScreen) loadingScreen.style.display = 'none';
-                    });
+                    if (!sessionStorage.getItem('newPlayerReset')) {
+                        sessionStorage.setItem('newPlayerReset', 'true');
+                        window.location.reload();
+                    } else {
+                        sessionStorage.removeItem('newPlayerReset');
+                    }
                 }
             }).catch((error) => {
-                console.error("❌ Error checking metadata:", error);
+                console.error("Error loading from Firebase:", error);
                 const loadingScreen = document.getElementById('auth-loading');
                 if (loadingScreen) loadingScreen.style.display = 'none';
             });
