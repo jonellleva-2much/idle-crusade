@@ -1779,11 +1779,29 @@
             }
         }, 8000);
 
-        // Save to Firebase - ORGANIZED STRUCTURE
+        // Save to Firebase - ORGANIZED STRUCTURE (User's Preferred Order)
         window.saveToFirebase = function (user, data) {
             if (!user) return;
 
-            // Organize data into logical categories
+            // Helper function to calculate lifesteal from equipped weapon
+            const getLifesteal = () => {
+                const weapon = data.character?.equipped?.weapon;
+                if (weapon?.lifesteal) {
+                    return {
+                        chance: weapon.lifesteal.chance || 0,
+                        multiplier: weapon.lifesteal.multiplier || 0
+                    };
+                }
+                return { chance: 0, multiplier: 0 };
+            };
+
+            // Helper function to calculate damage reduction from equipped armor
+            const getDamageReduction = () => {
+                const armor = data.character?.equipped?.armor;
+                return armor?.damageReduction || 0;
+            };
+
+            // Organize data into logical categories (User's preferred order)
             const organizedData = {
                 profile: {
                     name: data.character?.name || '',
@@ -1792,31 +1810,33 @@
                     class: data.character?.class || '',
                     location: data.currentMap || data.character?.location || 'HQ'
                 },
+                currency: {
+                    leaves: data.currency || 0,
+                    coins: data.coins || 0
+                },
+                inventory: {
+                    items: data.inventory || [],
+                    materials: data.materials || []
+                },
                 stats: {
                     level: data.character?.level || 1,
+                    exp: data.character?.exp || 0,
+                    maxExp: data.character?.maxExp || 100,
                     hp: data.character?.hp || 100,
                     maxHp: data.character?.maxHp || 100,
                     fp: data.character?.fp || 100,
                     maxFp: data.character?.maxFp || 100,
                     attack: data.character?.attack || 10,
                     defense: data.character?.defense || 5,
-                    exp: data.character?.exp || 0,
-                    maxExp: data.character?.maxExp || 100,
-                    criticalChance: data.character?.criticalChance || 0.05
+                    criticalChance: data.character?.criticalChance || 0.05,
+                    lifesteal: getLifesteal(),
+                    damageReduction: getDamageReduction()
                 },
                 equipment: {
                     weapon: data.character?.equipped?.weapon || null,
                     armor: data.character?.equipped?.armor || null,
                     accessory1: data.character?.equipped?.accessory1 || null,
                     accessory2: data.character?.equipped?.accessory2 || null
-                },
-                inventory: {
-                    items: data.inventory || [],
-                    materials: data.materials || []
-                },
-                currency: {
-                    leaves: data.currency || 0,
-                    coins: data.coins || 0
                 },
                 progression: {
                     currentMap: data.currentMap || 'HQ',
@@ -1834,17 +1854,17 @@
                 },
                 metadata: {
                     lastSaveTime: Date.now(),
-                    version: '2.0' // New organized structure version
+                    version: '2.1' // Updated version with user's preferred structure
                 }
             };
 
-            // Save each category separately for better organization
+            // Save each category separately (in user's preferred order)
             const updates = {};
             updates[`users/${user.uid}/profile`] = organizedData.profile;
+            updates[`users/${user.uid}/currency`] = organizedData.currency;
+            updates[`users/${user.uid}/inventory`] = organizedData.inventory;
             updates[`users/${user.uid}/stats`] = organizedData.stats;
             updates[`users/${user.uid}/equipment`] = organizedData.equipment;
-            updates[`users/${user.uid}/inventory`] = organizedData.inventory;
-            updates[`users/${user.uid}/currency`] = organizedData.currency;
             updates[`users/${user.uid}/progression`] = organizedData.progression;
             updates[`users/${user.uid}/exploration`] = organizedData.exploration;
             updates[`users/${user.uid}/settings`] = organizedData.settings;
@@ -1853,7 +1873,7 @@
             // Use update() to save all categories atomically
             update(ref(db), updates)
                 .then(() => {
-                    console.log('✅ Data saved to Firebase (Organized Structure v2.0)');
+                    console.log('✅ Data saved to Firebase (Organized Structure v2.1)');
                 })
                 .catch((error) => {
                     console.error('❌ Error saving to Firebase:', error);
@@ -1867,9 +1887,10 @@
 
             // First, try to load from NEW organized structure
             get(child(dbRef, `users/${user.uid}/metadata`)).then((metadataSnapshot) => {
-                if (metadataSnapshot.exists() && metadataSnapshot.val().version === '2.0') {
+                const version = metadataSnapshot.exists() ? metadataSnapshot.val().version : null;
+                if (version === '2.0' || version === '2.1') {
                     // NEW STRUCTURE EXISTS - Load from organized structure
-                    console.log('📦 Loading from NEW organized structure (v2.0)...');
+                    console.log(`📦 Loading from organized structure (v${version})...`);
 
                     Promise.all([
                         get(child(dbRef, `users/${user.uid}/profile`)),
