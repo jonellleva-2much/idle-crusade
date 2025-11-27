@@ -3390,19 +3390,21 @@
             exploreBtn.style.display = 'none';
             stopBtn.style.display = 'block';
             exploreStatus.style.display = 'flex';
-            document.getElementById('instant-finish-btn').style.display = 'inline-block';
-
-            mapsBtn.disabled = true;
-            mapsBtn.style.opacity = '0.5';
-            mapsBtn.style.cursor = 'not-allowed';
-
             // Restore exploreArea if it exists
             if (savedData.exploreArea) {
                 gameState.exploreArea = savedData.exploreArea;
                 document.getElementById('explore-selected-time').textContent = `Explore Time: ${savedData.exploreArea}`;
             } else {
-                document.getElementById('explore-selected-time').textContent = `Explore Time: ${formatExplorationTime(gameState.exploreDuration / 60000)}`;
+                const minutes = gameState.exploreDuration / 60000;
+                let displayText;
+                if (minutes < 60) {
+                    displayText = `${minutes}m`;
+                } else {
+                    displayText = `${minutes / 60}h`;
+                }
+                document.getElementById('explore-selected-time').textContent = `Explore Time: ${displayText}`;
             }
+
 
             // Restart timers
             gameState.exploreTimer = setInterval(() => {
@@ -3580,6 +3582,18 @@
                 updateCharacterDisplay();
                 updateInventoryDisplay();
                 updateMapsAccessibility(); // Update map access based on level
+
+                // Fix UI if exploration finished but UI wasn't reset
+                if (!gameState.isExploring) {
+                    exploreBtn.style.display = 'block';
+                    stopBtn.style.display = 'none';
+                    exploreStatus.style.display = 'flex';
+                    document.getElementById('explore-selected-time').textContent = 'AFK';
+                    document.getElementById('explore-timer').textContent = '';
+                    mapsBtn.disabled = false;
+                    mapsBtn.style.opacity = '1';
+                    mapsBtn.style.cursor = 'pointer';
+                }
 
                 // Start HP regeneration timer
                 startHPRegeneration();
