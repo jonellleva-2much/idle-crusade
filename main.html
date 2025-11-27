@@ -1751,7 +1751,7 @@
         // Import Firebase modules
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
         import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
-        import { getDatabase, ref, set, get, child, update } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js';
+        import { getDatabase, ref, set, get, child, update, onValue } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js';
 
         // Firebase configuration
         const firebaseConfig = {
@@ -1950,9 +1950,24 @@
                         };
 
                         localStorage.setItem('rfOnlineGame', JSON.stringify(reconstructedData));
-                        console.log('✅ Data loaded from NEW organized structure');
+
+                        // Verify localStorage was set successfully
+                        const verifyData = localStorage.getItem('rfOnlineGame');
+                        if (verifyData) {
+                            console.log('✅ Data loaded from NEW organized structure and saved to localStorage');
+                        } else {
+                            console.error('❌ Failed to save data to localStorage');
+                        }
 
                         sessionStorage.removeItem('firebaseReloadCount');
+
+                        // Small delay to ensure localStorage is fully written before hiding loading screen
+                        setTimeout(() => {
+                            const loadingScreen = document.getElementById('auth-loading');
+                            if (loadingScreen) loadingScreen.style.display = 'none';
+                        }, 100);
+                    }).catch((error) => {
+                        console.error('❌ Error loading organized structure:', error);
                         const loadingScreen = document.getElementById('auth-loading');
                         if (loadingScreen) loadingScreen.style.display = 'none';
                     });
@@ -1967,6 +1982,14 @@
                             // Save to localStorage
                             localStorage.setItem('rfOnlineGame', JSON.stringify(oldData));
 
+                            // Verify localStorage was set successfully
+                            const verifyData = localStorage.getItem('rfOnlineGame');
+                            if (verifyData) {
+                                console.log('✅ OLD structure migrated and saved to localStorage');
+                            } else {
+                                console.error('❌ Failed to save old data to localStorage');
+                            }
+
                             // Migrate to new structure automatically
                             console.log('🔄 Auto-migrating data to organized structure...');
                             window.saveToFirebase(user, oldData);
@@ -1977,10 +2000,13 @@
                                     console.log('🗑️ Old structure cleaned up');
                                 });
 
-                            const loadingScreen = document.getElementById('auth-loading');
-                            if (loadingScreen) loadingScreen.style.display = 'none';
-
                             sessionStorage.removeItem('firebaseReloadCount');
+
+                            // Small delay to ensure localStorage is fully written
+                            setTimeout(() => {
+                                const loadingScreen = document.getElementById('auth-loading');
+                                if (loadingScreen) loadingScreen.style.display = 'none';
+                            }, 100);
                         } else {
                             // No data at all - new player
                             console.log("📝 No cloud data available. New player detected.");
@@ -2017,6 +2043,35 @@
             } else {
                 console.log('User authenticated:', user.email);
                 window.currentUser = user;
+
+                // SESSION MANAGEMENT: Generate unique session ID
+                const sessionId = Date.now() + '-' + Math.random().toString(36).substr(2, 9);
+                sessionStorage.setItem('currentSessionId', sessionId);
+
+                // Write session ID to Firebase
+                set(ref(db, `users/${user.uid}/activeSession`), sessionId)
+                    .then(() => {
+                        console.log('✅ Session ID set:', sessionId);
+                    })
+                    .catch((error) => {
+                        console.error('❌ Error setting session ID:', error);
+                    });
+
+                // Monitor session changes
+                const sessionRef = ref(db, `users/${user.uid}/activeSession`);
+                onValue(sessionRef, (snapshot) => {
+                    const activeSessionId = snapshot.val();
+                    const currentSessionId = sessionStorage.getItem('currentSessionId');
+
+                    if (activeSessionId && currentSessionId && activeSessionId !== currentSessionId) {
+                        console.log('🚫 Session invalidated. Another device logged in.');
+                        alert('Your account has been logged in from another device. You will be disconnected.');
+
+                        // Redirect to login page
+                        window.location.href = 'index.html';
+                    }
+                });
+
                 window.loadFromFirebase(user);
             }
         });
@@ -3277,6 +3332,15 @@
                     // Let's add up to 10 items to avoid spam, convert rest to currency?
                     // For now, just add them.
                     for (let k = 0; k < drop.count; k++) {
+                        // Check inventory limit
+                        if (gameState.inventory.length >= 20) {
+                            // Only log once per item type to avoid spam
+                            if (k === 0) {
+                                addToBattleLog(`Inventory full! Could not pick up remaining ${drop.name}s.`, 'warning');
+                            }
+                            continue;
+                        }
+
                         gameState.inventory.push({
                             name: drop.name,
                             stats: { ...drop.stats },
@@ -3394,42 +3458,18 @@
                     };
                 }
 
-                // OFFLINE PROGRESS CHECK
+                // RESUME EXPLORATION IF IT WAS IN PROGRESS
                 if (savedData.isExploring) {
-                    const currentTime = Date.now();
-                    const startTime = savedData.exploreStartTime;
-                    const duration = savedData.exploreDuration;
-                    const elapsedTime = currentTime - startTime;
-
                     gameState.isExploring = true;
-                    gameState.exploreStartTime = startTime;
-                    gameState.exploreDuration = duration;
+                    gameState.exploreStartTime = Date.now(); // Reset start time to now
+                    gameState.exploreDuration = savedData.exploreDuration;
                     gameState.currentMap = savedData.currentMap;
 
-                    if (elapsedTime >= duration) {
-                        // Finished while offline
-                        const totalBattles = Math.floor(duration / 45000); // Average 45s per battle
-                        addToBattleLog(`📅 Exploration finished while offline!`, 'success');
-                        processOfflineBattles(totalBattles, savedData.currentMap, duration, savedData.exploreArea);
-                        finishExploration();
-                    } else {
-                        // Still going
-                        const remainingTime = duration - elapsedTime;
-                        const lastSaveTime = savedData.lastSaveTime || startTime;
-                        const offlineTime = currentTime - lastSaveTime;
-
-                        // Simulate battles for the time missed (if significant, e.g. > 1 min)
-                        if (offlineTime > 60000) {
-                            const battlesMissed = Math.floor(offlineTime / 45000);
-                            if (battlesMissed > 0) {
-                                addToBattleLog(`⚡ Catching up: Simulating ${battlesMissed} battles from offline time...`);
-                                processOfflineBattles(battlesMissed, savedData.currentMap, duration, savedData.exploreArea);
-                            }
-                        }
-
-                        resumeExploration(remainingTime, savedData);
-                    }
+                    // Resume exploration with full duration (no offline progress)
+                    addToBattleLog(`🔄 Resuming exploration in ${savedData.currentMap}...`, 'info');
+                    resumeExploration(savedData.exploreDuration, savedData);
                 }
+
 
                 // Force update boss static stats (MaxHP, Level, etc.) from source
                 // This fixes issues where old save data has outdated boss stats (e.g. Turncoat Knight 25k HP)
