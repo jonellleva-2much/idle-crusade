@@ -29,6 +29,34 @@
             --equip-color: #9c4aff;
         }
 
+        /* Custom Scrollbar Styling */
+        /* Webkit browsers (Chrome, Edge, Safari) */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--accent);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--highlight);
+            border-radius: 4px;
+            transition: background 0.2s ease;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-color);
+        }
+
+        /* Firefox */
+        * {
+            scrollbar-width: thin;
+            scrollbar-color: var(--highlight) var(--accent);
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -354,6 +382,29 @@
             background-color: var(--highlight);
         }
 
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            color: var(--text-dim);
+            font-size: 2rem;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .close-modal:hover {
+            color: var(--accent-color);
+        }
+
+        /* Map item hover effects for unlocked maps */
+        .map-item.map-unlocked:hover {
+            opacity: 0.8 !important;
+            transform: translateY(-2px) !important;
+            transition: all 0.2s ease !important;
+        }
+
         /* Dropdown Styles */
         .dropdown {
             position: relative;
@@ -632,12 +683,12 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0.5rem;
-            background-color: var(--accent);
-            border-radius: 4px;
-            margin-bottom: 1rem;
             font-size: 0.8rem;
             width: 100%;
+            margin-top: -12px !important;
+            /* Negative margin to reduce gap above */
+            margin-bottom: -15px !important;
+            /* Negative margin to reduce gap below */
         }
 
         #explore-timer {
@@ -700,6 +751,7 @@
         }
 
         .modal-content {
+            position: relative;
             background-color: var(--panel-bg);
             border-radius: 8px;
             padding: 2rem;
@@ -1057,7 +1109,7 @@
         }
 
         /* Mobile Optimization */
-        @media (max-width: 768px) {
+        @media (max-width: 720px) {
             header {
                 margin: 0;
                 padding: 0.5rem;
@@ -1385,7 +1437,7 @@
     <div id="auth-loading">
         <div class="loading-title">RF Online: Idle Crusade</div>
         <div class="loading-spinner"></div>
-        <div class="loading-text">Verifying authentication...</div>
+        <div class="loading-text" id="loading-text">Verifying authentication...</div>
     </div>
     <header>
         <div class="logo">RF Online: Idle Crusade</div>
@@ -1495,6 +1547,10 @@
                 <div class="combat-stat">
                     <span class="combat-label">Crit Chance</span>
                     <span class="combat-value" id="char-crit" style="color: #ff4444;">5%</span>
+                </div>
+                <div class="combat-stat" id="speed-stat-container" style="display: none;">
+                    <span class="combat-label">Speed</span>
+                    <span class="combat-value" id="char-speed" style="color: #ffaa00;">0</span>
                 </div>
                 <div class="combat-stat" id="lifesteal-stat-container" style="display: none;">
                     <span class="combat-label">Lifesteal</span>
@@ -1681,6 +1737,8 @@
     <!-- Maps Modal -->
     <div class="modal" id="maps-modal">
         <div class="modal-content">
+            <button class="close-modal"
+                onclick="document.getElementById('maps-modal').style.display='none'">&times;</button>
             <h2 class="modal-title">MAPS</h2>
             <div class="maps-list" id="maps-list">
                 <div class="map-item" id="hq-map"
@@ -1750,7 +1808,7 @@
         // Import Firebase modules
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
         import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
-        import { getDatabase, ref, set, get, child, update, onValue } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js';
+        import { getDatabase, ref, set, get, child, update, onValue, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js';
 
         // Firebase configuration
         const firebaseConfig = {
@@ -1800,237 +1858,266 @@
                 return armor?.damageReduction || 0;
             };
 
-            // Organize data into logical categories (User's preferred order)
-            const organizedData = {
-                profile: {
-                    name: data.character?.name || '',
-                    race: data.character?.race || '',
-                    gender: data.character?.gender || '',
-                    class: data.character?.class || '',
-                    location: data.currentMap || data.character?.location || 'HQ'
-                },
-                currency: {
-                    leaves: data.currency || 0,
-                    coins: data.coins || 0
-                },
-                inventory: {
-                    items: data.inventory || [],
-                    materials: data.materials || []
-                },
-                stats: {
-                    level: data.character?.level || 1,
-                    exp: data.character?.exp || 0,
-                    maxExp: data.character?.maxExp || 100,
-                    hp: data.character?.hp || 100,
-                    maxHp: data.character?.maxHp || 100,
-                    fp: data.character?.fp || 100,
-                    maxFp: data.character?.maxFp || 100,
-                    attack: data.character?.attack || 10,
-                    defense: data.character?.defense || 5,
-                    criticalChance: data.character?.criticalChance || 0.05,
-                    lifesteal: getLifesteal(),
-                    damageReduction: getDamageReduction()
-                },
-                equipment: {
-                    weapon: data.character?.equipped?.weapon || null,
-                    armor: data.character?.equipped?.armor || null,
-                    accessory1: data.character?.equipped?.accessory1 || null,
-                    accessory2: data.character?.equipped?.accessory2 || null
-                },
-                progression: {
-                    currentMap: data.currentMap || 'HQ',
-                    bosses: data.bosses || {}
-                },
-                exploration: {
-                    isExploring: data.isExploring || false,
-                    startTime: data.exploreStartTime || null,
-                    duration: data.exploreDuration || 0,
-                    area: data.exploreArea || null,
-                    isTraveling: data.isTraveling || false
-                },
-                settings: {
-                    autoPotion: data.autoPotion || false
-                },
-                metadata: {
-                    lastSaveTime: Date.now(),
-                    version: '2.1' // Updated version with user's preferred structure
+            // CONFLICT DETECTION: Check if cloud data is newer before saving
+            const localSaveTime = data.lastSaveTime || Date.now();
+            const metadataRef = ref(db, `users/${user.uid}/metadata`);
+
+            get(metadataRef).then((snapshot) => {
+                const cloudMetadata = snapshot.val();
+                const cloudSaveTime = cloudMetadata?.lastSaveTime || 0;
+
+                // If cloud data is newer than local data, abort save to prevent data loss
+                if (cloudSaveTime > localSaveTime) {
+                    console.warn('⚠️ CONFLICT DETECTED: Cloud data is newer than local data.');
+                    console.warn(`   Cloud timestamp: ${new Date(cloudSaveTime).toISOString()}`);
+                    console.warn(`   Local timestamp: ${new Date(localSaveTime).toISOString()}`);
+                    console.warn('   ❌ Save aborted to prevent overwriting newer data.');
+                    return; // Abort save
                 }
-            };
 
-            // Save each category separately (in user's preferred order)
-            const updates = {};
-            updates[`users/${user.uid}/profile`] = organizedData.profile;
-            updates[`users/${user.uid}/currency`] = organizedData.currency;
-            updates[`users/${user.uid}/inventory`] = organizedData.inventory;
-            updates[`users/${user.uid}/stats`] = organizedData.stats;
-            updates[`users/${user.uid}/equipment`] = organizedData.equipment;
-            updates[`users/${user.uid}/progression`] = organizedData.progression;
-            updates[`users/${user.uid}/exploration`] = organizedData.exploration;
-            updates[`users/${user.uid}/settings`] = organizedData.settings;
-            updates[`users/${user.uid}/metadata`] = organizedData.metadata;
+                // Organize data into logical categories (User's preferred order)
+                const organizedData = {
+                    profile: {
+                        name: data.character?.name || '',
+                        race: data.character?.race || '',
+                        gender: data.character?.gender || '',
+                        class: data.character?.class || '',
+                        location: data.currentMap || data.character?.location || 'HQ'
+                    },
+                    currency: {
+                        leaves: data.currency || 0,
+                        coins: data.coins || 0
+                    },
+                    inventory: {
+                        items: data.inventory || [],
+                        materials: data.materials || []
+                    },
+                    stats: {
+                        level: data.character?.level || 1,
+                        exp: data.character?.exp || 0,
+                        maxExp: data.character?.maxExp || 100,
+                        hp: data.character?.hp || 100,
+                        maxHp: data.character?.maxHp || 100,
+                        fp: data.character?.fp || 100,
+                        maxFp: data.character?.maxFp || 100,
+                        attack: data.character?.attack || 10,
+                        defense: data.character?.defense || 5,
+                        criticalChance: data.character?.criticalChance || 0.05,
+                        lifesteal: getLifesteal(),
+                        damageReduction: getDamageReduction()
+                    },
+                    equipment: {
+                        weapon: data.character?.equipped?.weapon || null,
+                        armor: data.character?.equipped?.armor || null,
+                        accessory1: data.character?.equipped?.accessory1 || null,
+                        accessory2: data.character?.equipped?.accessory2 || null,
+                        wings: data.character?.equipped?.wings || null
+                    },
+                    progression: {
+                        currentMap: data.currentMap || 'HQ',
+                        bosses: data.bosses || {}
+                    },
+                    exploration: {
+                        isExploring: data.isExploring || false,
+                        startTime: data.exploreStartTime || null,
+                        duration: data.exploreDuration || 0,
+                        area: data.exploreArea || null,
+                        isTraveling: data.isTraveling || false
+                    },
+                    settings: {
+                        autoPotion: data.autoPotion || false
+                    },
+                    metadata: {
+                        lastSaveTime: Date.now(),
+                        version: '2.1' // Updated version with user's preferred structure
+                    }
+                };
 
-            // Use update() to save all categories atomically
-            update(ref(db), updates)
-                .then(() => {
-                    console.log('✅ Data saved to Firebase (Organized Structure v2.1)');
-                })
-                .catch((error) => {
-                    console.error('❌ Error saving to Firebase:', error);
-                });
+                // Save each category separately (in user's preferred order)
+                const updates = {};
+                updates[`users/${user.uid}/profile`] = organizedData.profile;
+                updates[`users/${user.uid}/currency`] = organizedData.currency;
+                updates[`users/${user.uid}/inventory`] = organizedData.inventory;
+                updates[`users/${user.uid}/stats`] = organizedData.stats;
+                updates[`users/${user.uid}/equipment`] = organizedData.equipment;
+                updates[`users/${user.uid}/progression`] = organizedData.progression;
+                updates[`users/${user.uid}/exploration`] = organizedData.exploration;
+                updates[`users/${user.uid}/settings`] = organizedData.settings;
+                updates[`users/${user.uid}/metadata`] = organizedData.metadata;
+
+                // Use update() to save all categories atomically
+                update(ref(db), updates)
+                    .then(() => {
+                        console.log('✅ Data saved to Firebase (Organized Structure v2.1)');
+                    })
+                    .catch((error) => {
+                        console.error('❌ Error saving to Firebase:', error);
+                    });
+            }).catch((error) => {
+                console.error('❌ Error checking cloud timestamp:', error);
+                // If we can't check the timestamp, proceed with save (fail-safe)
+                console.warn('⚠️ Proceeding with save despite timestamp check failure.');
+            });
         };
 
         // Load from Firebase - SUPPORTS OLD & NEW STRUCTURE
         window.loadFromFirebase = function (user) {
-            if (!user) return;
-            const dbRef = ref(db);
+            return new Promise((resolve, reject) => {
+                if (!user) {
+                    reject('No user provided');
+                    return;
+                }
 
-            // First, try to load from NEW organized structure
-            get(child(dbRef, `users/${user.uid}/metadata`)).then((metadataSnapshot) => {
-                const version = metadataSnapshot.exists() ? metadataSnapshot.val().version : null;
-                if (version === '2.0' || version === '2.1') {
-                    // NEW STRUCTURE EXISTS - Load from organized structure
-                    console.log(`📦 Loading from organized structure (v${version})...`);
+                const dbRef = ref(db);
 
-                    Promise.all([
-                        get(child(dbRef, `users/${user.uid}/profile`)),
-                        get(child(dbRef, `users/${user.uid}/stats`)),
-                        get(child(dbRef, `users/${user.uid}/equipment`)),
-                        get(child(dbRef, `users/${user.uid}/inventory`)),
-                        get(child(dbRef, `users/${user.uid}/currency`)),
-                        get(child(dbRef, `users/${user.uid}/progression`)),
-                        get(child(dbRef, `users/${user.uid}/exploration`)),
-                        get(child(dbRef, `users/${user.uid}/settings`))
-                    ]).then(([profile, stats, equipment, inventory, currency, progression, exploration, settings]) => {
-                        // Reconstruct the game data from organized structure
-                        const profileData = profile.val() || {};
-                        const statsData = stats.val() || {};
-                        const equipmentData = equipment.val() || {};
-                        const inventoryData = inventory.val() || {};
-                        const currencyData = currency.val() || {};
-                        const progressionData = progression.val() || {};
-                        const explorationData = exploration.val() || {};
-                        const settingsData = settings.val() || {};
+                // First, try to load from NEW organized structure
+                get(child(dbRef, `users/${user.uid}/metadata`)).then((metadataSnapshot) => {
+                    const version = metadataSnapshot.exists() ? metadataSnapshot.val().version : null;
+                    if (version === '2.0' || version === '2.1') {
+                        // NEW STRUCTURE EXISTS - Load from organized structure
+                        console.log(`📦 Loading from organized structure (v${version})...`);
 
-                        const reconstructedData = {
-                            character: {
-                                name: profileData.name,
-                                race: profileData.race,
-                                gender: profileData.gender,
-                                class: profileData.class,
-                                location: profileData.location,
-                                level: statsData.level,
-                                hp: statsData.hp,
-                                maxHp: statsData.maxHp,
-                                fp: statsData.fp,
-                                maxFp: statsData.maxFp,
-                                attack: statsData.attack,
-                                defense: statsData.defense,
-                                exp: statsData.exp,
-                                maxExp: statsData.maxExp,
-                                criticalChance: statsData.criticalChance,
-                                equipped: {
-                                    weapon: equipmentData.weapon,
-                                    armor: equipmentData.armor,
-                                    accessory1: equipmentData.accessory1,
-                                    accessory2: equipmentData.accessory2
-                                }
-                            },
-                            inventory: inventoryData.items || [],
-                            materials: inventoryData.materials || [],
-                            currency: currencyData.leaves || 0,
-                            coins: currencyData.coins || 0,
-                            currentMap: progressionData.currentMap || 'HQ',
-                            bosses: progressionData.bosses || {},
-                            isExploring: explorationData.isExploring || false,
-                            exploreStartTime: explorationData.startTime || null,
-                            exploreDuration: explorationData.duration || 0,
-                            exploreArea: explorationData.area || null,
-                            autoPotion: settingsData.autoPotion || false
-                        };
+                        Promise.all([
+                            get(child(dbRef, `users/${user.uid}/profile`)),
+                            get(child(dbRef, `users/${user.uid}/stats`)),
+                            get(child(dbRef, `users/${user.uid}/equipment`)),
+                            get(child(dbRef, `users/${user.uid}/inventory`)),
+                            get(child(dbRef, `users/${user.uid}/currency`)),
+                            get(child(dbRef, `users/${user.uid}/progression`)),
+                            get(child(dbRef, `users/${user.uid}/exploration`)),
+                            get(child(dbRef, `users/${user.uid}/settings`))
+                        ]).then(([profile, stats, equipment, inventory, currency, progression, exploration, settings]) => {
+                            // Reconstruct the game data from organized structure
+                            const profileData = profile.val() || {};
+                            const statsData = stats.val() || {};
+                            const equipmentData = equipment.val() || {};
+                            const inventoryData = inventory.val() || {};
+                            const currencyData = currency.val() || {};
+                            const progressionData = progression.val() || {};
+                            const explorationData = exploration.val() || {};
+                            const settingsData = settings.val() || {};
 
-                        localStorage.setItem('rfOnlineGame', JSON.stringify(reconstructedData));
+                            const reconstructedData = {
+                                character: {
+                                    name: profileData.name,
+                                    race: profileData.race,
+                                    gender: profileData.gender,
+                                    class: profileData.class,
+                                    location: profileData.location,
+                                    level: statsData.level,
+                                    hp: statsData.hp,
+                                    maxHp: statsData.maxHp,
+                                    fp: statsData.fp,
+                                    maxFp: statsData.maxFp,
+                                    attack: statsData.attack,
+                                    defense: statsData.defense,
+                                    exp: statsData.exp,
+                                    maxExp: statsData.maxExp,
+                                    criticalChance: statsData.criticalChance,
+                                    equipped: {
+                                        weapon: equipmentData.weapon,
+                                        armor: equipmentData.armor,
+                                        accessory1: equipmentData.accessory1,
+                                        accessory2: equipmentData.accessory2,
+                                        wings: equipmentData.wings
+                                    }
+                                },
+                                inventory: inventoryData.items || [],
+                                materials: inventoryData.materials || [],
+                                currency: currencyData.leaves || 0,
+                                coins: currencyData.coins || 0,
+                                currentMap: progressionData.currentMap || 'HQ',
+                                bosses: progressionData.bosses || {},
+                                isExploring: explorationData.isExploring || false,
+                                exploreStartTime: explorationData.startTime || null,
+                                exploreDuration: explorationData.duration || 0,
+                                exploreArea: explorationData.area || null,
+                                autoPotion: settingsData.autoPotion || false
+                            };
 
-                        // Verify localStorage was set successfully
-                        const verifyData = localStorage.getItem('rfOnlineGame');
-                        if (verifyData) {
-                            console.log('✅ Data loaded from NEW organized structure and saved to localStorage');
-                        } else {
-                            console.error('❌ Failed to save data to localStorage');
-                        }
-
-                        sessionStorage.removeItem('firebaseReloadCount');
-
-                        // Small delay to ensure localStorage is fully written before hiding loading screen
-                        setTimeout(() => {
-                            const loadingScreen = document.getElementById('auth-loading');
-                            if (loadingScreen) loadingScreen.style.display = 'none';
-                        }, 100);
-                    }).catch((error) => {
-                        console.error('❌ Error loading organized structure:', error);
-                        const loadingScreen = document.getElementById('auth-loading');
-                        if (loadingScreen) loadingScreen.style.display = 'none';
-                    });
-                } else {
-                    // Try to load from OLD flat structure
-                    console.log('🔍 Checking for OLD structure...');
-                    get(child(dbRef, `users/${user.uid}/character`)).then((snapshot) => {
-                        if (snapshot.exists()) {
-                            console.log('📦 OLD structure detected! Migrating to NEW structure...');
-                            const oldData = snapshot.val();
-
-                            // Save to localStorage
-                            localStorage.setItem('rfOnlineGame', JSON.stringify(oldData));
+                            localStorage.setItem('rfOnlineGame', JSON.stringify(reconstructedData));
 
                             // Verify localStorage was set successfully
                             const verifyData = localStorage.getItem('rfOnlineGame');
                             if (verifyData) {
-                                console.log('✅ OLD structure migrated and saved to localStorage');
+                                console.log('✅ Data loaded from NEW organized structure and saved to localStorage');
                             } else {
-                                console.error('❌ Failed to save old data to localStorage');
+                                console.error('❌ Failed to save data to localStorage');
                             }
-
-                            // Migrate to new structure automatically
-                            console.log('🔄 Auto-migrating data to organized structure...');
-                            window.saveToFirebase(user, oldData);
-
-                            // Delete old structure after successful migration
-                            set(ref(db, `users/${user.uid}/character`), null)
-                                .then(() => {
-                                    console.log('🗑️ Old structure cleaned up');
-                                });
 
                             sessionStorage.removeItem('firebaseReloadCount');
 
                             // Small delay to ensure localStorage is fully written
                             setTimeout(() => {
-                                const loadingScreen = document.getElementById('auth-loading');
-                                if (loadingScreen) loadingScreen.style.display = 'none';
+                                resolve(); // Resolve promise when loading is complete
                             }, 100);
-                        } else {
-                            // No data at all - new player
-                            console.log("📝 No cloud data available. New player detected.");
-                            localStorage.removeItem('rfOnlineGame');
-
+                        }).catch((error) => {
+                            console.error('❌ Error loading organized structure:', error);
                             const loadingScreen = document.getElementById('auth-loading');
                             if (loadingScreen) loadingScreen.style.display = 'none';
+                            reject(error);
+                        });
+                    } else {
+                        // Try to load from OLD flat structure
+                        console.log('🔍 Checking for OLD structure...');
+                        get(child(dbRef, `users/${user.uid}/character`)).then((snapshot) => {
+                            if (snapshot.exists()) {
+                                console.log('📦 OLD structure detected! Migrating to NEW structure...');
+                                const oldData = snapshot.val();
 
-                            if (!sessionStorage.getItem('newPlayerReset')) {
-                                sessionStorage.setItem('newPlayerReset', 'true');
-                                window.location.reload();
+                                // Save to localStorage
+                                localStorage.setItem('rfOnlineGame', JSON.stringify(oldData));
+
+                                // Verify localStorage was set successfully
+                                const verifyData = localStorage.getItem('rfOnlineGame');
+                                if (verifyData) {
+                                    console.log('✅ OLD structure migrated and saved to localStorage');
+                                } else {
+                                    console.error('❌ Failed to save old data to localStorage');
+                                }
+
+                                // Migrate to new structure automatically
+                                console.log('🔄 Auto-migrating data to organized structure...');
+                                window.saveToFirebase(user, oldData);
+
+                                // Delete old structure after successful migration
+                                set(ref(db, `users/${user.uid}/character`), null)
+                                    .then(() => {
+                                        console.log('🗑️ Old structure cleaned up');
+                                    });
+
+                                sessionStorage.removeItem('firebaseReloadCount');
+
+                                // Small delay to ensure localStorage is fully written
+                                setTimeout(() => {
+                                    resolve(); // Resolve promise
+                                }, 100);
                             } else {
-                                sessionStorage.removeItem('newPlayerReset');
+                                // No data at all - new player
+                                console.log("📝 No cloud data available. New player detected.");
+                                localStorage.removeItem('rfOnlineGame');
+
+                                if (!sessionStorage.getItem('newPlayerReset')) {
+                                    sessionStorage.setItem('newPlayerReset', 'true');
+                                    window.location.reload();
+                                } else {
+                                    sessionStorage.removeItem('newPlayerReset');
+                                }
+                                resolve(); // Resolve even for new players
                             }
-                        }
-                    }).catch((error) => {
-                        console.error("❌ Error loading from Firebase:", error);
-                        const loadingScreen = document.getElementById('auth-loading');
-                        if (loadingScreen) loadingScreen.style.display = 'none';
-                    });
-                }
-            }).catch((error) => {
-                console.error("❌ Error checking metadata:", error);
-                const loadingScreen = document.getElementById('auth-loading');
-                if (loadingScreen) loadingScreen.style.display = 'none';
+                        }).catch((error) => {
+                            console.error("❌ Error loading from Firebase:", error);
+                            const loadingScreen = document.getElementById('auth-loading');
+                            if (loadingScreen) loadingScreen.style.display = 'none';
+                            reject(error);
+                        });
+                    }
+                }).catch((error) => {
+                    console.error("❌ Error checking metadata:", error);
+                    const loadingScreen = document.getElementById('auth-loading');
+                    if (loadingScreen) loadingScreen.style.display = 'none';
+                    reject(error);
+                });
             });
         };
 
@@ -2084,7 +2171,40 @@
                     }
                 });
 
-                window.loadFromFirebase(user);
+                // ALWAYS load from Firebase first, then initialize game
+                console.log('🔄 Loading data from Firebase...');
+
+                // Update loading text
+                const loadingText = document.getElementById('loading-text');
+                if (loadingText) loadingText.textContent = 'Loading your character...';
+
+                window.loadFromFirebase(user).then(() => {
+                    console.log('✅ Firebase data loaded, initializing game...');
+                    initGame();
+
+                    // Hide loading screen after initGame completes
+                    setTimeout(() => {
+                        const loadingScreen = document.getElementById('auth-loading');
+                        if (loadingScreen) {
+                            loadingScreen.style.display = 'none';
+                            loadingScreen.remove(); // Completely remove from DOM
+                        }
+                    }, 100); // Reduced from 200ms
+                }).catch((error) => {
+                    console.error('❌ Failed to load from Firebase:', error);
+                    // Fall back to localStorage if Firebase fails
+                    console.log('⚠️ Falling back to localStorage...');
+                    initGame();
+
+                    // Hide loading screen even on error
+                    setTimeout(() => {
+                        const loadingScreen = document.getElementById('auth-loading');
+                        if (loadingScreen) {
+                            loadingScreen.style.display = 'none';
+                            loadingScreen.remove(); // Completely remove from DOM
+                        }
+                    }, 100); // Reduced from 200ms
+                });
             }
         });
     </script>
@@ -2221,6 +2341,7 @@
                     { type: "item", name: "Novice Wand", stats: { attack: 2 }, sellValue: 1, chance: 0.30 },
                     { type: "item", name: "Novice Bow", stats: { attack: 2 }, sellValue: 1, chance: 0.30 },
                     { type: "item", name: "Novice Armor", stats: { defense: 2 }, sellValue: 1, chance: 0.40 },
+                    { type: "item", name: "Basic Wings", stats: { attack: 5, defense: 5 }, movementSpeed: 1.0, isWings: true, sellValue: 10, chance: 1.0 },
                     { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.30 },
                     { type: "material", name: "Blue Gem", stats: {}, sellValue: 2, chance: 0.30 }
                 ]
@@ -3195,7 +3316,7 @@
         const exploreOptions = document.getElementById('explore-options');
         const stopBtn = document.getElementById('stop-btn');
         const playersBtn = document.getElementById('players-btn');
-        const mapsBtn = document.getElementById('maps-main-btn');
+        const mapsBtn = document.getElementById('maps-btn');
         const createCharacterBtn = document.getElementById('create-character-btn');
         const battleLog = document.getElementById('battle-log');
         const inventoryItems = document.getElementById('inventory-items');
@@ -3431,11 +3552,10 @@
 
         // Initialize the game
         function initGame() {
-            // Check if character exists in localStorage
-            const savedGame = localStorage.getItem('rfOnlineGame');
+            // Check if character exists in localStorage with integrity validation
+            const savedData = loadGameState();
 
-            if (savedGame) {
-                const savedData = JSON.parse(savedGame);
+            if (savedData) {
                 gameState.character = savedData.character;
                 // Initialize new properties if they don't exist in saved data (for migration)
                 if (savedData.currency === undefined) savedData.currency = 0;
@@ -3472,7 +3592,9 @@
                     };
                 }
 
-                // RESUME EXPLORATION IF IT WAS IN PROGRESS
+                // TEMPORARILY DISABLED: RESUME EXPLORATION IF IT WAS IN PROGRESS
+                // This was causing issues where exploration would resume even after death
+                /*
                 if (savedData.isExploring) {
                     gameState.isExploring = true;
                     gameState.exploreStartTime = Date.now(); // Reset start time to now
@@ -3483,6 +3605,7 @@
                     addToBattleLog(`🔄 Resuming exploration in ${savedData.currentMap}...`, 'info');
                     resumeExploration(savedData.exploreDuration, savedData);
                 }
+                */
 
 
                 // Force update boss static stats (MaxHP, Level, etc.) from source
@@ -3509,7 +3632,17 @@
                 // Fix object references lost during JSON serialization and recalculate stats
                 if (gameState.character.equipped) {
                     const char = gameState.character;
-                    const slots = ['weapon', 'armor', 'accessory1', 'accessory2'];
+
+                    // Initialize ALL equipment slots if they don't exist (for old/corrupted saves)
+                    if (!char.equipped.weapon) char.equipped.weapon = null;
+                    if (!char.equipped.armor) char.equipped.armor = null;
+                    if (!char.equipped.accessory1) char.equipped.accessory1 = null;
+                    if (!char.equipped.accessory2) char.equipped.accessory2 = null;
+                    if (!char.equipped.hasOwnProperty('wings')) {
+                        char.equipped.wings = null;
+                    }
+
+                    const slots = ['weapon', 'armor', 'accessory1', 'accessory2', 'wings'];
                     const claimedItems = new Set();
 
                     // Reset stats to base (Class + Level) to ensure accuracy
@@ -3557,8 +3690,10 @@
                                 // Apply stats
                                 const itemLevel = match.upgradeLevel || 0;
                                 const isAccessory = slot.includes('accessory');
+                                const isWings = slot === 'wings';
 
-                                if (isAccessory) {
+                                if (isAccessory || isWings) {
+                                    // Accessories and Wings have both attack and defense
                                     char.attack += match.stats.attack || 0;
                                     char.defense += match.stats.defense || 0;
                                 } else {
@@ -3593,6 +3728,14 @@
                     mapsBtn.disabled = false;
                     mapsBtn.style.opacity = '1';
                     mapsBtn.style.cursor = 'pointer';
+
+                    // Enable Maps button (center panel)
+                    const mapsMainBtnInit = document.getElementById('maps-main-btn');
+                    if (mapsMainBtnInit) {
+                        mapsMainBtnInit.disabled = false;
+                        mapsMainBtnInit.style.opacity = '1';
+                        mapsMainBtnInit.style.cursor = 'pointer';
+                    }
                 }
 
                 // Start HP regeneration timer
@@ -3624,7 +3767,33 @@
                 autoPotion: gameState.autoPotion,
                 lastSaveTime: Date.now()
             };
-            localStorage.setItem('rfOnlineGame', JSON.stringify(gameData));
+
+            // SECURITY: Validate data before saving
+            const violations = validateGameData(gameData);
+            if (violations.length > 0) {
+                console.error('🚫 CHEAT DETECTED:', violations);
+
+                // Log each violation
+                violations.forEach(violation => {
+                    logCheatAttempt('data_validation_failed', violation);
+                });
+
+                // Show warning to player
+                addToBattleLog('⚠️ Invalid data detected. Save blocked.', 'danger');
+                return; // Don't save
+            }
+
+            // Generate checksum
+            const checksum = generateChecksum(gameData);
+
+            // Save with checksum
+            const saveData = {
+                data: gameData,
+                checksum: checksum,
+                timestamp: Date.now()
+            };
+
+            localStorage.setItem('rfOnlineGame', JSON.stringify(saveData));
 
             // Sync with Firebase
             if (window.saveToFirebase && window.currentUser) {
@@ -3637,6 +3806,145 @@
                     hasSaveFn: !!window.saveToFirebase,
                     user: window.currentUser
                 });
+            }
+        }
+
+        // ============================================
+        // SECURITY: Data Integrity System
+        // ============================================
+
+        // Generate checksum for data validation
+        function generateChecksum(data) {
+            const str = JSON.stringify(data);
+            let hash = 0;
+            for (let i = 0; i < str.length; i++) {
+                const char = str.charCodeAt(i);
+                hash = ((hash << 5) - hash) + char;
+                hash = hash & hash; // Convert to 32-bit integer
+            }
+            return hash.toString(36);
+        }
+
+        // Validate data integrity
+        function validateDataIntegrity(data, checksum) {
+            const calculatedChecksum = generateChecksum(data);
+            return calculatedChecksum === checksum;
+        }
+
+        // Log cheat attempt to Firebase
+        async function logCheatAttempt(cheatType, details) {
+            if (!window.currentUser) return;
+
+            const db = getDatabase();
+            const cheatLogRef = ref(db, `cheatLogs/${window.currentUser.uid}/${Date.now()}`);
+
+            const logData = {
+                userId: window.currentUser.uid,
+                email: window.currentUser.email,
+                characterName: gameState.character?.name || 'Unknown',
+                cheatType: cheatType,
+                details: details,
+                timestamp: serverTimestamp(),
+                userAgent: navigator.userAgent
+            };
+
+            try {
+                await set(cheatLogRef, logData);
+                console.error('🚫 CHEAT LOGGED:', cheatType, details);
+            } catch (error) {
+                console.error('Failed to log cheat:', error);
+            }
+        }
+
+        // Validate game data for impossible values
+        function validateGameData(data) {
+            const violations = [];
+            const char = data.character;
+
+            if (!char) return violations;
+
+            // Check level (max 50)
+            if (char.level > 50 || char.level < 1) {
+                violations.push({
+                    field: 'level',
+                    value: char.level,
+                    reason: 'Level out of range (1-50)'
+                });
+            }
+
+            // Check currency (max reasonable gain per session)
+            const maxCurrency = 1000000; // 1 million
+            if (data.currency > maxCurrency || data.currency < 0) {
+                violations.push({
+                    field: 'currency',
+                    value: data.currency,
+                    reason: `Currency out of range (0-${maxCurrency})`
+                });
+            }
+
+            // Check stats (max reasonable values)
+            if (char.attack > 10000 || char.defense > 10000) {
+                violations.push({
+                    field: 'stats',
+                    value: { attack: char.attack, defense: char.defense },
+                    reason: 'Stats impossibly high'
+                });
+            }
+
+            // Check inventory size
+            if (data.inventory && data.inventory.length > 20) {
+                violations.push({
+                    field: 'inventory',
+                    value: data.inventory.length,
+                    reason: 'Inventory exceeds max size (20)'
+                });
+            }
+
+            return violations;
+        }
+
+        // Modified loadGameState with checksum validation
+        function loadGameState() {
+            const savedGame = localStorage.getItem('rfOnlineGame');
+            if (!savedGame) return null;
+
+            try {
+                const saveData = JSON.parse(savedGame);
+
+                // Check if old format (no checksum)
+                if (!saveData.checksum) {
+                    console.warn('⚠️ Old save format detected. Migrating...');
+                    return saveData; // Old format, accept it
+                }
+
+                // Validate checksum
+                if (!validateDataIntegrity(saveData.data, saveData.checksum)) {
+                    console.error('🚫 DATA CORRUPTION DETECTED!');
+
+                    // Log the cheat attempt
+                    logCheatAttempt('localStorage_manipulation', {
+                        attemptedData: saveData.data,
+                        reason: 'Checksum mismatch'
+                    });
+
+                    addToBattleLog('⚠️ Save data corruption detected. Loading from cloud...', 'warning');
+
+                    // Clear corrupted local save
+                    localStorage.removeItem('rfOnlineGame');
+
+                    // Force reload from Firebase
+                    if (window.currentUser) {
+                        window.loadFromFirebase(window.currentUser).then(() => {
+                            location.reload();
+                        });
+                    }
+                    return null;
+                }
+
+                return saveData.data;
+            } catch (error) {
+                console.error('Failed to load save data:', error);
+                return null;
             }
         }
 
@@ -3675,6 +3983,104 @@
             document.getElementById(`${mapName.toLowerCase().replace(' ', '-')}-map`).style.border = '2px solid var(--accent-color)';
 
             saveGameState();
+        }
+
+        // Show maps modal
+        function showMaps() {
+            updateMapsAccessibility();
+            mapsModal.style.display = 'flex';
+        }
+
+        // Update maps accessibility based on level
+        function updateMapsAccessibility() {
+            const char = gameState.character;
+            if (!char) return;
+
+            // HQ: Always accessible
+            const hqMap = document.getElementById('hq-map');
+            if (hqMap) {
+                hqMap.classList.add('map-unlocked');
+
+
+                hqMap.onclick = () => {
+                    changeMap('HQ');
+                    mapsModal.style.display = 'none';
+                };
+            }
+
+            // Sette Desert: Level 20+
+            const setteMap = document.getElementById('sette-desset-map');
+            if (setteMap) {
+                if (char.level >= 20) {
+                    setteMap.classList.add('map-unlocked');
+                    setteMap.style.opacity = '1';
+                    setteMap.style.cursor = 'pointer';
+
+
+                    setteMap.onclick = () => {
+                        changeMap('Sette Desert');
+                        mapsModal.style.display = 'none';
+                    };
+                    const levelText = setteMap.querySelector('.map-level');
+                    if (levelText) {
+                        levelText.style.color = 'var(--success)';
+                        levelText.textContent = 'Level 20+ (Unlocked)';
+                    }
+                } else {
+                    setteMap.classList.remove('map-unlocked');
+                    setteMap.style.opacity = '0.5';
+                    setteMap.style.cursor = 'not-allowed';
+                    setteMap.onclick = null;
+                    const levelText = setteMap.querySelector('.map-level');
+                    if (levelText) {
+                        levelText.style.color = 'var(--text-dim)';
+                        levelText.textContent = 'Level 20+ (Locked)';
+                    }
+                }
+            }
+
+            // Ether Platform: Level 30+
+            const etherMap = document.getElementById('ether-platform-map');
+            if (etherMap) {
+                if (char.level >= 30) {
+                    etherMap.classList.add('map-unlocked');
+                    etherMap.style.opacity = '1';
+                    etherMap.style.cursor = 'pointer';
+
+
+                    etherMap.onclick = () => {
+                        // Check for travel cost (1000 Leaves)
+                        if (gameState.currentMap === 'Ether Platform') {
+                            addToBattleLog('You are already at Ether Platform.', 'warning');
+                            return;
+                        }
+
+                        if (gameState.currency >= 1000) {
+                            if (confirm('Travel to Ether Platform? Cost: 1000 Leaves')) {
+                                gameState.currency -= 1000;
+                                document.getElementById('currency-amount').textContent = gameState.currency;
+                                changeMap('Ether Platform');
+                                mapsModal.style.display = 'none';
+                            }
+                        } else {
+                            addToBattleLog('Not enough Leaves to travel to Ether Platform (Cost: 1000).', 'warning');
+                        }
+                    };
+                    const levelText = etherMap.querySelector('.map-level');
+                    if (levelText) {
+                        levelText.innerHTML = 'Level 30+ <span style="color: var(--success); font-size: 0.8rem;">(Unlocked)</span>';
+                    }
+                } else {
+                    etherMap.classList.remove('map-unlocked');
+                    etherMap.style.opacity = '0.5';
+                    etherMap.style.cursor = 'not-allowed';
+                    etherMap.onclick = null;
+                    const levelText = etherMap.querySelector('.map-level');
+                    if (levelText) {
+                        levelText.innerHTML = 'Level 30+ <span style="color: var(--text-dim); font-size: 0.8rem;">(Locked)</span>';
+                    }
+                }
+            }
         }
 
         // Set up event listeners
@@ -3755,8 +4161,14 @@
             // Players button
             playersBtn.addEventListener('click', showPlayers);
 
-            // Maps button
+            // Maps button (navigation)
             mapsBtn.addEventListener('click', showMaps);
+
+            // Maps button (center panel)
+            const mapsMainBtn = document.getElementById('maps-main-btn');
+            if (mapsMainBtn) {
+                mapsMainBtn.addEventListener('click', showMaps);
+            }
 
             // Craft button
             craftBtn.addEventListener('click', openCraftingModal);
@@ -3990,7 +4402,8 @@
             });
 
             // Instant finish button
-            document.getElementById('instant-finish-btn').addEventListener('click', instantFinishExploration);
+            // Instant finish button - REMOVED (Element missing)
+            // document.getElementById('instant-finish-btn')?.addEventListener('click', instantFinishExploration);
 
             // Global click listener for modals
             window.addEventListener('click', (e) => {
@@ -4074,7 +4487,8 @@
                     weapon: null,
                     armor: null,
                     accessory1: null,
-                    accessory2: null
+                    accessory2: null,
+                    wings: null  // Dedicated Wings slot
                 },
                 criticalChance: classStats[charClass].criticalChance || 0.05
             };
@@ -4136,6 +4550,28 @@
                 dmgRedValue.textContent = `${Math.round(char.equipped.armor.damageReduction * 100)}%`;
             } else {
                 dmgRedContainer.style.display = 'none';
+            }
+
+            // Update Speed Display (Movement Speed from Wings)
+            const speedContainer = document.getElementById('speed-stat-container');
+            const speedValue = document.getElementById('char-speed');
+
+            let totalMovementSpeed = 0;
+            if (char.equipped.accessory1?.movementSpeed) {
+                totalMovementSpeed += char.equipped.accessory1.movementSpeed;
+            }
+            if (char.equipped.accessory2?.movementSpeed) {
+                totalMovementSpeed += char.equipped.accessory2.movementSpeed;
+            }
+            if (char.equipped.wings?.movementSpeed) {
+                totalMovementSpeed += char.equipped.wings.movementSpeed;
+            }
+
+            if (totalMovementSpeed > 0) {
+                speedContainer.style.display = 'flex';
+                speedValue.textContent = totalMovementSpeed;
+            } else {
+                speedContainer.style.display = 'none';
             }
 
             // Update progress bars
@@ -4350,8 +4786,16 @@
             // Disable controls
             exploreBtn.disabled = true;
             mapsBtn.disabled = true;
+            const mapsMainBtn = document.getElementById('maps-main-btn');
+            if (mapsMainBtn) {
+                mapsMainBtn.disabled = true;
+                mapsMainBtn.style.opacity = '0.5';
+                mapsMainBtn.style.cursor = 'not-allowed';
+            }
             exploreBtn.style.opacity = '0.5';
+            exploreBtn.style.cursor = 'not-allowed';
             mapsBtn.style.opacity = '0.5';
+            mapsBtn.style.cursor = 'not-allowed';
 
             addToBattleLog("Ticket purchased. Boarding the transport ship...", "info");
 
@@ -4383,8 +4827,16 @@
             exploreStatus.style.display = 'none';
             exploreBtn.disabled = false;
             mapsBtn.disabled = false;
+            const mapsMainBtn = document.getElementById('maps-main-btn');
+            if (mapsMainBtn) {
+                mapsMainBtn.disabled = false;
+                mapsMainBtn.style.opacity = '1';
+                mapsMainBtn.style.cursor = '';
+            }
             exploreBtn.style.opacity = '1';
+            exploreBtn.style.cursor = '';
             mapsBtn.style.opacity = '1';
+            mapsBtn.style.cursor = '';
 
             addToBattleLog("You have arrived at Ether Platform.", "success");
 
@@ -4401,8 +4853,16 @@
             // Disable controls
             exploreBtn.disabled = true;
             mapsBtn.disabled = true;
+            const mapsMainBtn = document.getElementById('maps-main-btn');
+            if (mapsMainBtn) {
+                mapsMainBtn.disabled = true;
+                mapsMainBtn.style.opacity = '0.5';
+                mapsMainBtn.style.cursor = 'not-allowed';
+            }
             exploreBtn.style.opacity = '0.5';
+            exploreBtn.style.cursor = 'not-allowed';
             mapsBtn.style.opacity = '0.5';
+            mapsBtn.style.cursor = 'not-allowed';
 
             addToBattleLog("Ticket purchased. Boarding the transport ship to HQ...", "info");
 
@@ -4434,8 +4894,16 @@
             exploreStatus.style.display = 'none';
             exploreBtn.disabled = false;
             mapsBtn.disabled = false;
+            const mapsMainBtn = document.getElementById('maps-main-btn');
+            if (mapsMainBtn) {
+                mapsMainBtn.disabled = false;
+                mapsMainBtn.style.opacity = '1';
+                mapsMainBtn.style.cursor = '';
+            }
             exploreBtn.style.opacity = '1';
+            exploreBtn.style.cursor = '';
             mapsBtn.style.opacity = '1';
+            mapsBtn.style.cursor = '';
 
             addToBattleLog("You have arrived at HQ.", "success");
 
@@ -4451,6 +4919,60 @@
             exploreOptions.style.display = 'none';
             updateMapsAccessibility();
             mapsModal.style.display = 'flex';
+
+            // Add hover effects to all unlocked maps
+            console.log('showMaps called, adding hover effects');
+            const char = gameState.character;
+            if (char) {
+                // HQ - always unlocked
+                const hqMap = document.getElementById('hq-map');
+                if (hqMap) {
+                    hqMap.style.transition = 'all 0.1s ease';
+                    hqMap.addEventListener('mouseenter', () => {
+                        console.log('Hovering HQ');
+                        hqMap.style.opacity = '0.7';
+                        hqMap.style.transform = 'translateY(-1px)';
+                    });
+                    hqMap.addEventListener('mouseleave', () => {
+                        hqMap.style.opacity = '1';
+                        hqMap.style.transform = 'translateY(0)';
+                    });
+                }
+
+                // Sette Desert - level 20+ AND not in Ether Platform
+                if (char.level >= 20 && gameState.currentMap !== 'Ether Platform') {
+                    const setteMap = document.getElementById('sette-desset-map');
+                    if (setteMap) {
+                        setteMap.style.transition = 'all 0.1s ease';
+                        setteMap.addEventListener('mouseenter', () => {
+                            console.log('Hovering Sette');
+                            setteMap.style.opacity = '0.7';
+                            setteMap.style.transform = 'translateY(-1px)';
+                        });
+                        setteMap.addEventListener('mouseleave', () => {
+                            setteMap.style.opacity = '1';
+                            setteMap.style.transform = 'translateY(0)';
+                        });
+                    }
+                }
+
+                // Ether Platform - level 30+ AND not in Sette Desert
+                if (char.level >= 30 && gameState.currentMap !== 'Sette Desert') {
+                    const etherMap = document.getElementById('ether-platform-map');
+                    if (etherMap) {
+                        etherMap.style.transition = 'all 0.1s ease';
+                        etherMap.addEventListener('mouseenter', () => {
+                            console.log('Hovering Ether');
+                            etherMap.style.opacity = '0.7';
+                            etherMap.style.transform = 'translateY(-1px)';
+                        });
+                        etherMap.addEventListener('mouseleave', () => {
+                            etherMap.style.opacity = '1';
+                            etherMap.style.transform = 'translateY(0)';
+                        });
+                    }
+                }
+            }
         }
 
 
@@ -4568,6 +5090,14 @@
             mapsBtn.style.opacity = '0.5';
             mapsBtn.style.cursor = 'not-allowed';
 
+            // Disable Maps button (center panel)
+            const mapsMainBtn = document.getElementById('maps-main-btn');
+            if (mapsMainBtn) {
+                mapsMainBtn.disabled = true;
+                mapsMainBtn.style.opacity = '0.5';
+                mapsMainBtn.style.cursor = 'not-allowed';
+            }
+
             document.getElementById('explore-selected-time').textContent = `Explore Time: ${displayText}`;
             exploreTimer.textContent = "Elapsed 0:00"; // Initial state
 
@@ -4647,7 +5177,22 @@
         function scheduleNextBattle() {
             if (!gameState.isExploring) return;
 
-            const interval = 30000 + Math.random() * 30000;
+            let baseInterval = 30000 + Math.random() * 30000; // 30-60 seconds
+
+            // Calculate movement speed bonus from equipped accessories
+            const char = gameState.character;
+            let totalMovementSpeed = 0;
+
+            if (char.equipped.accessory1?.movementSpeed) {
+                totalMovementSpeed += char.equipped.accessory1.movementSpeed;
+            }
+            if (char.equipped.accessory2?.movementSpeed) {
+                totalMovementSpeed += char.equipped.accessory2.movementSpeed;
+            }
+
+            // Apply movement speed: 1 MS = 10% faster encounters
+            const encounterMultiplier = 1.0 - (totalMovementSpeed * 0.10);
+            const interval = baseInterval * encounterMultiplier;
 
             gameState.battleTimer = setTimeout(() => {
                 if (gameState.isExploring) {
@@ -4661,7 +5206,12 @@
         function stopExploration() {
             if (!gameState.isExploring) return;
 
-            addToBattleLog('Exploration finished. Returning to HQ in 30 seconds...');
+            // Use different messaging based on current location
+            const returnMessage = gameState.currentMap === 'Sette Desert'
+                ? 'Exploration finished. Returning to safezone in 30 seconds...'
+                : 'Exploration finished. Returning to HQ in 30 seconds...';
+
+            addToBattleLog(returnMessage);
 
             if (gameState.exploreTimer) {
                 clearInterval(gameState.exploreTimer);
@@ -4684,13 +5234,11 @@
 
             gameState.isExploring = false;
 
-            // Enable Maps button immediately upon stopping manually
-            mapsBtn.disabled = false;
-            mapsBtn.style.opacity = '1';
-            mapsBtn.style.cursor = 'pointer';
-
             // HIDE INSTANT FINISH BUTTON
-            document.getElementById('instant-finish-btn').style.display = 'none';
+            const instantFinishBtn = document.getElementById('instant-finish-btn');
+            if (instantFinishBtn) {
+                instantFinishBtn.style.display = 'none';
+            }
 
             gameState.stopTimer = setTimeout(() => {
                 exploreBtn.style.display = 'block';
@@ -4699,7 +5247,25 @@
                 document.getElementById('explore-selected-time').textContent = 'AFK';
                 document.getElementById('explore-timer').textContent = '';
 
-                addToBattleLog('Returned to HQ.');
+                // Enable Maps button after returning to HQ
+                mapsBtn.disabled = false;
+                mapsBtn.style.opacity = '1';
+                mapsBtn.style.cursor = 'pointer';
+
+                // Enable Maps button (center panel)
+                const mapsMainBtnStop = document.getElementById('maps-main-btn');
+                if (mapsMainBtnStop) {
+                    mapsMainBtnStop.disabled = false;
+                    mapsMainBtnStop.style.opacity = '1';
+                    mapsMainBtnStop.style.cursor = 'pointer';
+                }
+
+                // Use different messaging based on current location
+                const returnedMessage = gameState.currentMap === 'Sette Desert'
+                    ? 'Returned to safezone.'
+                    : 'Returned to HQ.';
+
+                addToBattleLog(returnedMessage);
                 gameState.stopTimer = null;
                 saveGameState();
             }, 30 * 1000);
@@ -4711,7 +5277,12 @@
         function finishExploration() {
             if (!gameState.isExploring) return;
 
-            addToBattleLog('Exploration finished. Returning to HQ in 30 seconds...');
+            // Use different messaging based on current location
+            const returnMessage = gameState.currentMap === 'Sette Desert'
+                ? 'Exploration finished. Returning to safezone in 30 seconds...'
+                : 'Exploration finished. Returning to HQ in 30 seconds...';
+
+            addToBattleLog(returnMessage);
 
             if (gameState.exploreTimer) {
                 clearInterval(gameState.exploreTimer);
@@ -4735,7 +5306,10 @@
             gameState.isExploring = false;
 
             // HIDE INSTANT FINISH BUTTON
-            document.getElementById('instant-finish-btn').style.display = 'none';
+            const instantFinishBtn = document.getElementById('instant-finish-btn');
+            if (instantFinishBtn) {
+                instantFinishBtn.style.display = 'none';
+            }
 
             gameState.stopTimer = setTimeout(() => {
                 exploreBtn.style.display = 'block';
@@ -4749,7 +5323,20 @@
                 mapsBtn.style.opacity = '1';
                 mapsBtn.style.cursor = 'pointer';
 
-                addToBattleLog('Returned to HQ.');
+                // Enable Maps button (center panel)
+                const mapsMainBtnFinish = document.getElementById('maps-main-btn');
+                if (mapsMainBtnFinish) {
+                    mapsMainBtnFinish.disabled = false;
+                    mapsMainBtnFinish.style.opacity = '1';
+                    mapsMainBtnFinish.style.cursor = 'pointer';
+                }
+
+                // Use different messaging based on current location
+                const returnedMessage = gameState.currentMap === 'Sette Desert'
+                    ? 'Returned to safezone.'
+                    : 'Returned to HQ.';
+
+                addToBattleLog(returnedMessage);
                 gameState.stopTimer = null;
                 saveGameState();
             }, 30 * 1000);
@@ -4844,12 +5431,23 @@
             // Set to AFK mode instead of hiding
             document.getElementById('explore-selected-time').textContent = 'AFK';
             document.getElementById('explore-timer').textContent = '';
-            document.getElementById('instant-finish-btn').style.display = 'none';
+            const instantFinishBtn = document.getElementById('instant-finish-btn');
+            if (instantFinishBtn) {
+                instantFinishBtn.style.display = 'none';
+            }
 
             // Enable Maps button
             mapsBtn.disabled = false;
             mapsBtn.style.opacity = '1';
             mapsBtn.style.cursor = 'pointer';
+
+            // Enable Maps button (center panel)
+            const mapsMainBtnInstant = document.getElementById('maps-main-btn');
+            if (mapsMainBtnInstant) {
+                mapsMainBtnInstant.disabled = false;
+                mapsMainBtnInstant.style.opacity = '1';
+                mapsMainBtnInstant.style.cursor = 'pointer';
+            }
 
             gameState.isExploring = false;
 
@@ -5044,6 +5642,7 @@
                 }
 
                 if (charHp <= 0) {
+                    console.log('DEATH CONDITION MET - charHp:', charHp, 'monsterHp:', monsterHp, 'isBoss:', selectedMonster.isBoss);
                     addToBattleLog(`<span class="log-damage">You have been defeated!</span>`, 'danger');
 
                     // Handle death location logic
@@ -5075,17 +5674,38 @@
                         gameState.battleTimer = null;
                     }
 
+                    if (gameState.bossCheckTimer) {
+                        clearTimeout(gameState.bossCheckTimer);
+                        gameState.bossCheckTimer = null;
+                    }
+
                     exploreBtn.style.display = 'block';
                     stopBtn.style.display = 'none';
                     exploreStatus.style.display = 'none';
-                    document.getElementById('instant-finish-btn').style.display = 'none';
+                    const instantFinishBtn = document.getElementById('instant-finish-btn');
+                    if (instantFinishBtn) {
+                        instantFinishBtn.style.display = 'none';
+                    }
 
                     // Enable Maps button
                     mapsBtn.disabled = false;
                     mapsBtn.style.opacity = '1';
                     mapsBtn.style.cursor = 'pointer';
 
+                    // Enable Maps button (center panel)
+                    const mapsMainBtnDeath = document.getElementById('maps-main-btn');
+                    if (mapsMainBtnDeath) {
+                        mapsMainBtnDeath.disabled = false;
+                        mapsMainBtnDeath.style.opacity = '1';
+                        mapsMainBtnDeath.style.cursor = 'pointer';
+                    }
+
+                    console.log('RESETTING EXPLORATION STATE - isExploring was:', gameState.isExploring);
                     gameState.isExploring = false;
+                    gameState.bossEncounterQueued = false;
+                    gameState.bossEncountered = false;
+                    gameState.encounterStats = {};
+                    console.log('EXPLORATION STATE RESET - isExploring now:', gameState.isExploring);
 
                     updateCharacterDisplay();
                     saveGameState();
@@ -5133,7 +5753,12 @@
                             sellValue: drop.sellValue,
                             quantity: 1,
                             type: itemType,
-                            upgradeLevel: 0
+                            upgradeLevel: 0,
+                            movementSpeed: drop.movementSpeed || null,
+                            isWings: drop.isWings || false,
+                            lifesteal: drop.lifesteal || null,
+                            damageReduction: drop.damageReduction || null,
+                            rarity: drop.rarity || null
                         });
 
 
@@ -5226,8 +5851,8 @@
 
             // Sort inventory: equipped items first, then unequipped
             const sortedInventory = [...gameState.inventory].sort((a, b) => {
-                const aEquipped = (gameState.character.equipped.weapon === a || gameState.character.equipped.armor === a || gameState.character.equipped.accessory1 === a || gameState.character.equipped.accessory2 === a);
-                const bEquipped = (gameState.character.equipped.weapon === b || gameState.character.equipped.armor === b || gameState.character.equipped.accessory1 === b || gameState.character.equipped.accessory2 === b);
+                const aEquipped = (gameState.character.equipped.weapon === a || gameState.character.equipped.armor === a || gameState.character.equipped.accessory1 === a || gameState.character.equipped.accessory2 === a || gameState.character.equipped.wings === a);
+                const bEquipped = (gameState.character.equipped.weapon === b || gameState.character.equipped.armor === b || gameState.character.equipped.accessory1 === b || gameState.character.equipped.accessory2 === b || gameState.character.equipped.wings === b);
 
                 if (aEquipped && !bEquipped) return -1;
                 if (!aEquipped && bEquipped) return 1;
@@ -5254,7 +5879,8 @@
                     const isArmorEquipped = gameState.character.equipped.armor === item;
                     const isAccessory1Equipped = gameState.character.equipped.accessory1 === item;
                     const isAccessory2Equipped = gameState.character.equipped.accessory2 === item;
-                    const isEquipped = isWeaponEquipped || isArmorEquipped || isAccessory1Equipped || isAccessory2Equipped;
+                    const isWingsEquipped = gameState.character.equipped.wings === item;
+                    const isEquipped = isWeaponEquipped || isArmorEquipped || isAccessory1Equipped || isAccessory2Equipped || isWingsEquipped;
 
                     if (isEquipped) {
                         itemElement.classList.add('equipped');
@@ -5262,7 +5888,14 @@
 
                     const itemLevel = item.upgradeLevel || 0;
                     const upgradeText = itemLevel > 0 ? `+${itemLevel}` : '';
-                    const displayName = `${getEmoji(item.name.toLowerCase())} ${item.name} ${upgradeText}`.trim();
+
+                    // Handle Emoji
+                    let emoji = getEmoji(item.name.toLowerCase());
+                    if (item.isWings || item.name.toLowerCase().includes('wings')) {
+                        emoji = '🪽';
+                    }
+
+                    const displayName = `${emoji} ${item.name} ${upgradeText}`.trim();
 
                     const isArmor = item.name.toLowerCase().includes('armor') ||
                         item.name.toLowerCase().includes('shirt') ||
@@ -5270,7 +5903,7 @@
                         item.name.toLowerCase().includes('cloak') ||
                         item.name.toLowerCase().includes('core');
 
-                    const isAccessory = item.name.toLowerCase().includes('wristlet');
+                    const isAccessory = item.name.toLowerCase().includes('wristlet') || item.isWings || item.name.toLowerCase().includes('wings');
 
                     let statDisplay = '';
                     if (isArmor) {
@@ -5285,6 +5918,11 @@
                         const atk = item.stats.attack || 0;
                         const def = item.stats.defense || 0;
                         statDisplay = `⚔️ +${atk}  🛡️ +${def}`;
+
+                        // Add Movement Speed display for Wings
+                        if (item.movementSpeed) {
+                            statDisplay += ` | Speed ${item.movementSpeed}`;
+                        }
                     } else {
                         const statBonus = item.stats.attack + (upgradeSystem.bonuses[itemLevel]?.attack || 0);
                         statDisplay = `⚔️ +${statBonus} Attack`;
@@ -5635,9 +6273,40 @@
         function toggleEquipItem(item, index) {
             const char = gameState.character;
             const itemLevel = item.upgradeLevel || 0;
-
-            // Robust Type Detection
             const name = item.name.toLowerCase();
+
+            // WINGS HANDLING - Check this FIRST before any other equipment type
+            const isWings = item.isWings || name.includes('wings');
+            if (isWings) {
+                const isEquipped = char.equipped.wings === item;
+
+                if (isEquipped) {
+                    // Unequip wings
+                    char.equipped.wings = null;
+                    char.attack -= item.stats.attack || 0;
+                    char.defense -= item.stats.defense || 0;
+                    addToBattleLog(`You unequipped ${getEmoji(item.name.toLowerCase())} ${item.name}.`);
+                } else {
+                    // Equip wings (replace if already equipped)
+                    if (char.equipped.wings) {
+                        const oldWings = char.equipped.wings;
+                        char.attack -= oldWings.stats.attack || 0;
+                        char.defense -= oldWings.stats.defense || 0;
+                        addToBattleLog(`You unequipped ${getEmoji(oldWings.name.toLowerCase())} ${oldWings.name}.`);
+                    }
+                    char.equipped.wings = item;
+                    char.attack += item.stats.attack || 0;
+                    char.defense += item.stats.defense || 0;
+                    addToBattleLog(`You equipped ${getEmoji(item.name.toLowerCase())} ${item.name}!`);
+                }
+
+                updateCharacterDisplay();
+                updateInventoryDisplay(); // Re-render inventory to show equipped state
+                saveGameState();
+                return; // Exit early - Wings handled
+            }
+
+            // Robust Type Detection (for non-Wings items)
             let isArmor = name.includes('armor') ||
                 name.includes('shirt') ||
                 name.includes('tunic') ||
@@ -5652,7 +6321,7 @@
 
             // Class Weapon Restrictions Check
             const playerClass = gameState.character.class;
-            if (!isArmor && !name.includes('wristlet')) { // It's a weapon
+            if (!isArmor && !name.includes('wristlet') && !item.isWings && !name.includes('wings')) { // It's a weapon
                 const isSword = name.includes('sword') || name.includes('blade') || name.includes('claymore') || name.includes('breaker') || name.includes('zweihander');
                 const isStaff = name.includes('staff') || name.includes('wand') || name.includes('bead');
                 const isBow = name.includes('bow');
@@ -5669,7 +6338,7 @@
                 }
             }
 
-            const isAccessory = name.includes('wristlet');
+            const isAccessory = name.includes('wristlet') || item.isWings || name.includes('wings');
 
             let statType = 'attack';
             let equippedSlot = 'weapon';
@@ -5705,6 +6374,19 @@
                     char.defense -= item.stats.defense || 0;
                     addToBattleLog(`You unequipped ${getEmoji(item.name.toLowerCase())} ${item.name}.`);
                 } else {
+                    // Check Wings restriction before equipping
+                    if (item.isWings) {
+                        // Check if another Wings is already equipped
+                        const hasWingsEquipped =
+                            (char.equipped.accessory1?.isWings) ||
+                            (char.equipped.accessory2?.isWings);
+
+                        if (hasWingsEquipped) {
+                            addToBattleLog('You can only equip one Wings item at a time!', 'warning');
+                            return;
+                        }
+                    }
+
                     // Equip logic
                     // Try slot 1
                     if (!char.equipped.accessory1) {
@@ -5879,6 +6561,10 @@
                     if (char.equipped.accessory2) {
                         char.attack += (char.equipped.accessory2.stats.attack || 0);
                         char.defense += (char.equipped.accessory2.stats.defense || 0);
+                    }
+                    if (char.equipped.wings) {
+                        char.attack += (char.equipped.wings.stats.attack || 0);
+                        char.defense += (char.equipped.wings.stats.defense || 0);
                     }
                 }
             }
@@ -6134,7 +6820,13 @@
         }
 
         // Initialize the game when the page loads
-        window.addEventListener('load', initGame);
+        // NOTE: initGame() is now called by the auth flow AFTER Firebase data is loaded
+        // This ensures Firebase is always the source of truth, not localStorage
+        console.log('Page loaded, waiting for authentication...');
+        // window.addEventListener('load', () => {
+        //     console.log('Window load event fired, calling initGame');
+        //     initGame();
+        // });
     </script>
 </body>
 
