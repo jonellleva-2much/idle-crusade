@@ -2379,58 +2379,127 @@
 
     <!-- Market Modal -->
     <div class="modal" id="market-modal">
-        <div class="modal-content" style="max-width: 900px;">
-            <button class="close-modal"
-                onclick="document.getElementById('market-modal').style.display='none'">×</button>
-            <h2 class="modal-title">🏪 GLOBAL MARKET</h2>
+        <style>
+            .market-item-row {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 0.75rem 1rem;
+                margin-bottom: 0.5rem;
+                border-radius: 6px;
+                background: var(--panel-bg);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                transition: all 0.2s ease;
+            }
 
-            <!-- Market Tabs -->
-            <div style="display: flex; gap: 0.5rem; margin-bottom: 1.5rem; border-bottom: 2px solid var(--accent);">
-                <button class="btn btn-secondary" id="browse-tab-btn" onclick="showBrowseMode(); loadMarketItems();"
-                    style="flex: 1; border-radius: 4px 4px 0 0; background-color: var(--accent-color);">
-                    🛒 Browse
-                </button>
-                <button class="btn btn-secondary" id="sell-tab-btn" onclick="showSellMode();"
-                    style="flex: 1; border-radius: 4px 4px 0 0;">
-                    💰 Sell Items
-                </button>
-                <button class="btn btn-secondary" id="listings-tab-btn"
-                    onclick="showMyListingsMode(); loadMyListings();" style="flex: 1; border-radius: 4px 4px 0 0;">
-                    📋 My Listings
+            .market-item-row:hover {
+                background: var(--bg);
+                border-color: var(--accent);
+                transform: translateX(2px);
+            }
+
+            .market-item-row.my-listing {
+                background: linear-gradient(90deg, rgba(52, 152, 219, 0.15) 0%, var(--panel-bg) 100%);
+                border-left: 3px solid var(--accent-color);
+            }
+
+            .market-item-row.my-listing:hover {
+                background: linear-gradient(90deg, rgba(52, 152, 219, 0.2) 0%, var(--bg) 100%);
+            }
+
+            .market-item-info {
+                display: flex;
+                align-items: center;
+                gap: 1.5rem;
+                flex: 1;
+            }
+
+            .market-item-name {
+                min-width: 200px;
+                font-weight: 500;
+                color: var(--text);
+                font-size: 0.95rem;
+            }
+
+            .market-item-stats {
+                min-width: 120px;
+                color: var(--text-dim);
+                font-size: 0.9rem;
+            }
+
+            .market-item-price {
+                min-width: 100px;
+                font-weight: 600;
+                color: var(--success);
+                font-size: 1rem;
+            }
+
+            .market-item-action {
+                min-width: 100px;
+                text-align: right;
+            }
+        </style>
+        <div class="modal-content" style="max-width: 1000px;">
+            <!-- Header with title, sell button, and close button -->
+            <div
+                style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 2rem; padding-right: 3rem;">
+                <h2 class="modal-title" style="margin: 0;">🏪 GLOBAL MARKET</h2>
+                <button class="btn btn-success" onclick="showSellMode()"
+                    style="padding: 0.6rem 1.2rem; font-size: 0.95rem;">
+                    <span class="btn-icon">💰</span> Sell Items
                 </button>
             </div>
+            <button class="close-modal" onclick="document.getElementById('market-modal').style.display='none'"
+                style="top: 1.5rem; right: 1.5rem;">×</button>
 
-            <!-- Browse Mode -->
-            <div id="market-browse" class="market-mode active">
-                <div class="market-items" id="market-items">
-                    <div class="loading">Loading market items...</div>
+            <!-- Single unified market view -->
+            <div id="market-unified-view">
+                <!-- My Listings Section -->
+                <div id="my-listings-section" style="margin-bottom: 2rem;">
+                    <h3
+                        style="color: var(--accent-color); font-size: 1.1rem; margin-bottom: 1rem; padding-left: 0.5rem;">
+                        📋 My Listings
+                    </h3>
+                    <div id="my-listings-container">
+                        <!-- My listings will be loaded here -->
+                    </div>
+                </div>
+
+                <!-- Market Items Section -->
+                <div id="market-items-section">
+                    <h3 style="color: var(--text); font-size: 1.1rem; margin-bottom: 1rem; padding-left: 0.5rem;">
+                        🛒 Available Items
+                    </h3>
+                    <div id="market-items-container">
+                        <!-- Market items will be loaded here -->
+                    </div>
                 </div>
             </div>
 
-            <!-- Sell Mode -->
-            <div id="market-sell" class="market-mode">
-                <div class="sell-interface">
-                    <div class="sell-header" style="text-align: center; margin-bottom: 1.5rem;">
-                        <h3 style="color: var(--accent-color); margin-bottom: 0.5rem;">💰 List an Item for Sale</h3>
-                        <p style="color: var(--text-dim); font-size: 0.95rem; margin: 0;">Select an unequipped item from
-                            your inventory</p>
-                    </div>
+            <!-- Sell Mode (Modal within modal) -->
+            <div id="market-sell-mode" style="display: none;">
+                <div style="text-align: center; margin-bottom: 2rem;">
+                    <h3 style="color: var(--accent-color); margin-bottom: 0.5rem;">💰 List an Item for Sale</h3>
+                    <p style="color: var(--text-dim); font-size: 0.95rem; margin: 0;">Select an unequipped item from
+                        your inventory</p>
+                </div>
 
-                    <div class="inventory-grid" id="sell-inventory">
-                        <!-- Inventory items will be loaded here -->
-                    </div>
+                <div class="inventory-grid" id="sell-inventory" style="margin-bottom: 2rem;">
+                    <!-- Inventory items will be loaded here -->
+                </div>
 
-                    <div class="sell-form" id="sell-form" style="display: none;">
-                        <div class="sell-preview">
-                            <div class="sell-item-display" id="sell-item-info">
-                                <div class="no-item-selected">Click an item above to select it for sale</div>
-                            </div>
+                <div class="sell-form" id="sell-form" style="display: none;">
+                    <div
+                        style="background: var(--panel-bg); padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem;">
+                        <div id="sell-item-info" style="text-align: center; margin-bottom: 1.5rem;">
+                            <!-- Selected item info -->
                         </div>
 
-                        <div class="sell-price-section" style="margin-bottom: 1.5rem;">
+                        <div style="margin-bottom: 1.5rem;">
                             <label for="sell-price"
-                                style="display: block; margin-bottom: 0.75rem; color: var(--text); font-weight: 500; font-size: 1rem;">Set
-                                Price (Leaves):</label>
+                                style="display: block; margin-bottom: 0.75rem; color: var(--text); font-weight: 500;">
+                                Set Price (Leaves):
+                            </label>
                             <div class="price-input-wrapper">
                                 <input type="number" id="sell-price" placeholder="0" min="1" max="999999"
                                     pattern="[0-9]*" oninput="this.value = this.value.replace(/[^0-9]/g, '')"
@@ -2438,26 +2507,18 @@
                                 <span class="currency-icon"
                                     style="padding: 0.75rem 1rem; background-color: rgba(255, 255, 255, 0.05); border-left: 1px solid var(--accent);">🍃</span>
                             </div>
-                            <p
-                                style="font-size: 0.85rem; color: var(--text-dim); margin-top: 0.5rem; font-style: italic;">
-                                Suggested: ${Math.floor((selectedSellItem?.sellValue || 0) * 1.5)} -
-                                ${Math.floor((selectedSellItem?.sellValue || 0) * 3)} Leaves</p>
                         </div>
 
-                        <div class="sell-buttons">
-                            <button class="btn btn-success" id="confirm-sell-btn"
-                                style="font-size: 1rem; padding: 0.8rem 1.5rem;">
+                        <div style="display: flex; gap: 1rem; justify-content: center;">
+                            <button class="btn btn-secondary" onclick="showUnifiedView()"
+                                style="padding: 0.8rem 1.5rem;">
+                                Cancel
+                            </button>
+                            <button class="btn btn-success" id="confirm-sell-btn" style="padding: 0.8rem 1.5rem;">
                                 <span class="btn-icon">📤</span> List for Sale
                             </button>
                         </div>
                     </div>
-                </div>
-            </div>
-
-            <!-- My Listings Mode -->
-            <div id="market-listings" class="market-mode">
-                <div class="my-listings" id="my-listings">
-                    <div class="loading">Loading your listings...</div>
                 </div>
             </div>
         </div>
@@ -8465,77 +8526,134 @@
             saveGameState();
         }
 
-        // ========================================
         // MARKET SYSTEM
         // ========================================
 
         let selectedSellItem = null;
-        let currentMarketMode = 'browse'; // 'browse', 'sell', or 'listings'
 
-        // Show market modal
+        // Show market modal with unified view
         function showMarket() {
             const marketModal = document.getElementById('market-modal');
             marketModal.style.display = 'flex';
-            currentMarketMode = 'browse';
-            showBrowseMode();
-            loadMarketItems();
+            showUnifiedView();
+            loadUnifiedMarket();
         }
 
-        // Show browse mode
-        function showBrowseMode() {
-            // Update tabs
-            document.getElementById('browse-tab-btn').style.backgroundColor = 'var(--accent-color)';
-            document.getElementById('sell-tab-btn').style.backgroundColor = 'var(--accent)';
-            document.getElementById('listings-tab-btn').style.backgroundColor = 'var(--accent)';
-
-            // Show/hide content
-            document.getElementById('market-browse').classList.add('active');
-            document.getElementById('market-sell').classList.remove('active');
-            document.getElementById('market-listings').classList.remove('active');
-
-            currentMarketMode = 'browse';
-            selectedSellItem = null;
+        // Show unified market view
+        function showUnifiedView() {
+            document.getElementById('market-unified-view').style.display = 'block';
+            document.getElementById('market-sell-mode').style.display = 'none';
         }
 
         // Show sell mode
         function showSellMode() {
-            // Update tabs
-            document.getElementById('browse-tab-btn').style.backgroundColor = 'var(--accent)';
-            document.getElementById('sell-tab-btn').style.backgroundColor = 'var(--accent-color)';
-            document.getElementById('listings-tab-btn').style.backgroundColor = 'var(--accent)';
-
-            // Show/hide content
-            document.getElementById('market-browse').classList.remove('active');
-            document.getElementById('market-sell').classList.add('active');
-            document.getElementById('market-listings').classList.remove('active');
-
-            currentMarketMode = 'sell';
+            document.getElementById('market-unified-view').style.display = 'none';
+            document.getElementById('market-sell-mode').style.display = 'block';
             loadSellInventory();
         }
 
-        // Show my listings mode
-        function showMyListingsMode() {
-            // Update tabs
-            document.getElementById('browse-tab-btn').style.backgroundColor = 'var(--accent)';
-            document.getElementById('sell-tab-btn').style.backgroundColor = 'var(--accent)';
-            document.getElementById('listings-tab-btn').style.backgroundColor = 'var(--accent-color)';
+        // Load unified market (my listings + other players' items)
+        async function loadUnifiedMarket() {
+            const myListingsContainer = document.getElementById('my-listings-container');
+            const marketItemsContainer = document.getElementById('market-items-container');
 
-            // Show/hide content
-            document.getElementById('market-browse').classList.remove('active');
-            document.getElementById('market-sell').classList.remove('active');
-            document.getElementById('market-listings').classList.add('active');
+            myListingsContainer.innerHTML = '<div style="text-align: center; padding: 1rem; color: var(--text-dim);">Loading...</div>';
+            marketItemsContainer.innerHTML = '<div style="text-align: center; padding: 1rem; color: var(--text-dim);">Loading...</div>';
 
-            currentMarketMode = 'listings';
+            try {
+                const { ref, get } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js');
+                const marketRef = ref(db, 'marketListings');
+                const snapshot = await get(marketRef);
+
+                if (!snapshot.exists()) {
+                    myListingsContainer.innerHTML = '<div style="text-align: center; padding: 2rem; color: var(--text-dim); font-style: italic;">No listings yet</div>';
+                    marketItemsContainer.innerHTML = '<div style="text-align: center; padding: 2rem; color: var(--text-dim); font-style: italic;">No items available</div>';
+                    return;
+                }
+
+                const listings = snapshot.val();
+                const currentUserId = window.currentUser?.uid;
+
+                // Separate my listings and other players' listings
+                const myListings = [];
+                const otherListings = [];
+
+                Object.entries(listings).forEach(([id, listing]) => {
+                    if (listing.sellerId === currentUserId) {
+                        myListings.push([id, listing]);
+                    } else {
+                        otherListings.push([id, listing]);
+                    }
+                });
+
+                // Render my listings
+                if (myListings.length === 0) {
+                    myListingsContainer.innerHTML = '<div style="text-align: center; padding: 2rem; color: var(--text-dim); font-style: italic;">You have no active listings</div>';
+                } else {
+                    myListingsContainer.innerHTML = '';
+                    myListings.forEach(([listingId, listing]) => {
+                        const itemEl = createSingleLineItem(listingId, listing, true);
+                        myListingsContainer.appendChild(itemEl);
+                    });
+                }
+
+                // Render other players' items
+                if (otherListings.length === 0) {
+                    marketItemsContainer.innerHTML = '<div style="text-align: center; padding: 2rem; color: var(--text-dim); font-style: italic;">No items available from other players</div>';
+                } else {
+                    marketItemsContainer.innerHTML = '';
+                    otherListings.forEach(([listingId, listing]) => {
+                        const itemEl = createSingleLineItem(listingId, listing, false);
+                        marketItemsContainer.appendChild(itemEl);
+                    });
+                }
+
+            } catch (error) {
+                console.error('Error loading market:', error);
+                myListingsContainer.innerHTML = '<div style="text-align: center; padding: 2rem; color: var(--warning);">Error loading listings</div>';
+                marketItemsContainer.innerHTML = '<div style="text-align: center; padding: 2rem; color: var(--warning);">Error loading market items</div>';
+            }
         }
 
-        // Toggle between browse and sell modes
-        function toggleSellMode() {
-            if (currentMarketMode === 'sell') {
-                showBrowseMode();
-                loadMarketItems();
-            } else {
-                showSellMode();
+        // Create single-line item element
+        function createSingleLineItem(listingId, listing, isMyListing) {
+            const item = listing.item;
+            const div = document.createElement('div');
+            div.className = isMyListing ? 'market-item-row my-listing' : 'market-item-row';
+
+            // Build item name with upgrade level
+            const itemName = item.upgradeLevel > 0 ? `${item.name} +${item.upgradeLevel}` : item.name;
+            const emoji = getEmoji(item.name.toLowerCase());
+
+            // Build stats display
+            let statsText = '';
+            if (item.stats.attack) statsText += `ATK: ${item.stats.attack}`;
+            if (item.stats.defense) {
+                if (statsText) statsText += ' | ';
+                statsText += `DEF: ${item.stats.defense}`;
             }
+            if (!statsText) statsText = '-';
+
+            // Build action button
+            let actionButton = '';
+            if (isMyListing) {
+                actionButton = `<button class="btn btn-danger btn-small" onclick="cancelListing('${listingId}', ${JSON.stringify(listing).replace(/"/g, '&quot;')})">✖ Cancel</button>`;
+            } else {
+                actionButton = `<button class="btn btn-success btn-small" onclick="buyMarketItem('${listingId}', ${JSON.stringify(listing).replace(/"/g, '&quot;')})">💰 Buy</button>`;
+            }
+
+            div.innerHTML = `
+                <div class="market-item-info">
+                    <div class="market-item-name">${emoji} ${itemName}</div>
+                    <div class="market-item-stats">${statsText}</div>
+                    <div class="market-item-price">${listing.price} 🍃</div>
+                </div>
+                <div class="market-item-action">
+                    ${actionButton}
+                </div>
+            `;
+
+            return div;
         }
 
         // Load market items from Firebase
@@ -8718,8 +8836,8 @@
 
                 addToBattleLog(`Purchased ${listing.item.name} for ${price} Leaves!`, 'success');
 
-                // Reload market items
-                loadMarketItems();
+                // Reload unified market
+                loadUnifiedMarket();
 
             } catch (error) {
                 console.error('Error buying item:', error);
@@ -8873,8 +8991,9 @@
 
                 addToBattleLog(`Listed ${selectedSellItem.name} for ${price} Leaves!`, 'success');
 
-                // Return to browse mode
-                toggleSellMode();
+                // Return to unified view and reload
+                showUnifiedView();
+                loadUnifiedMarket();
 
             } catch (error) {
                 console.error('Error listing item:', error);
@@ -8996,8 +9115,8 @@
 
                 addToBattleLog(`Cancelled listing for ${listing.item.name}`, 'info');
 
-                // Reload listings
-                loadMyListings();
+                // Reload unified market
+                loadUnifiedMarket();
 
             } catch (error) {
                 console.error('Error cancelling listing:', error);
@@ -9021,15 +9140,12 @@
 
         // Make functions globally accessible
         window.showMarket = showMarket;
-        window.showBrowseMode = showBrowseMode;
+        window.showUnifiedView = showUnifiedView;
         window.showSellMode = showSellMode;
-        window.showMyListingsMode = showMyListingsMode;
-        window.toggleSellMode = toggleSellMode;
         window.buyMarketItem = buyMarketItem;
         window.confirmSell = confirmSell;
         window.cancelListing = cancelListing;
-        window.loadMarketItems = loadMarketItems;
-        window.loadMyListings = loadMyListings;
+        window.loadUnifiedMarket = loadUnifiedMarket;
 
         // Add message to battle log
         function addToBattleLog(message, type = 'info') {
