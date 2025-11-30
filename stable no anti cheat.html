@@ -702,13 +702,6 @@
             color: var(--text-dim);
         }
 
-        #explore-map-players {
-            text-align: center;
-            font-weight: normal;
-            color: var(--text-primary);
-            flex: 1;
-        }
-
         .progress-bar {
             height: 8px;
             background-color: var(--darker-bg);
@@ -787,578 +780,6 @@
         .form-input {
             width: 100%;
             padding: 0.8rem;
-
-            /* Market Styles */
-            .market-container {
-                width: 100%;
-            }
-
-            .market-header {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                margin-bottom: 2rem;
-                padding-bottom: 1rem;
-                border-bottom: 1px solid var(--border);
-            }
-
-            .market-title {
-                color: var(--accent-color);
-                font-size: 1.5rem;
-                margin: 0;
-                display: flex;
-                align-items: center;
-                gap: 0.5rem;
-            }
-
-            .sell-btn {
-                padding: 0.75rem 1.25rem;
-                background: linear-gradient(135deg, var(--success), #4CAF50);
-                border: none;
-                border-radius: 8px;
-                color: white;
-                font-weight: 500;
-                cursor: pointer;
-                transition: all 0.3s ease;
-                display: flex;
-                align-items: center;
-                gap: 0.5rem;
-                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            }
-
-            .sell-btn:hover {
-                transform: translateY(-2px);
-                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-            }
-
-            .market-mode {
-                display: none;
-            }
-
-            .market-mode.active {
-                display: block;
-            }
-
-            .back-btn {
-                padding: 0.5rem 1rem;
-                background: var(--darker-bg);
-                border: 1px solid var(--border);
-                border-radius: 6px;
-                color: var(--text-primary);
-                cursor: pointer;
-                transition: all 0.3s ease;
-                font-size: 0.9rem;
-            }
-
-            .back-btn:hover {
-                background: var(--bg);
-                border-color: var(--accent-color);
-            }
-
-            .view-header {
-                display: flex;
-                align-items: flex-start;
-                gap: 1rem;
-                margin-bottom: 2rem;
-                padding-bottom: 1rem;
-                border-bottom: 1px solid var(--border);
-            }
-
-            .view-title h3 {
-                color: var(--accent-color);
-                margin: 0 0 0.25rem 0;
-                font-size: 1.3rem;
-            }
-
-            .view-description {
-                color: var(--text-dim);
-                margin: 0;
-                font-size: 0.95rem;
-            }
-
-            .market-items,
-            .my-listings {
-                max-height: 500px;
-                overflow-y: auto;
-            }
-
-            .market-item,
-            .listing-item {
-                display: flex;
-                flex-direction: column;
-                padding: 1.25rem;
-                border: 1px solid var(--border);
-                border-radius: 8px;
-                margin-bottom: 0.75rem;
-                background: linear-gradient(135deg, var(--darker-bg) 0%, var(--bg) 100%);
-                transition: all 0.3s ease;
-                position: relative;
-                overflow: hidden;
-            }
-
-            .market-item:hover,
-            .listing-item:hover {
-                border-color: var(--accent-color);
-                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-                transform: translateY(-1px);
-            }
-
-            .market-item::before {
-                content: '';
-                position: absolute;
-                top: 0;
-                left: 0;
-                right: 0;
-                height: 3px;
-                background: linear-gradient(90deg, var(--accent-color), var(--success));
-            }
-
-            .market-item-header {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                margin-bottom: 0.75rem;
-            }
-
-            .market-item-name,
-            .listing-item-name {
-                font-size: 1.1rem;
-                font-weight: bold;
-                color: var(--accent-color);
-                margin: 0;
-            }
-
-            .market-item-price,
-            .listing-item-price {
-                font-size: 1.2rem;
-                font-weight: bold;
-                color: var(--success);
-                display: flex;
-                align-items: center;
-                gap: 0.25rem;
-            }
-
-            .currency-icon {
-                font-size: 0.9rem;
-            }
-
-            .market-item-stats {
-                font-size: 0.9rem;
-                color: var(--text-primary);
-                margin-bottom: 0.75rem;
-                padding: 0.5rem;
-                background-color: rgba(255, 255, 255, 0.03);
-                border-radius: 4px;
-                border: 1px solid rgba(255, 255, 255, 0.1);
-            }
-
-            .market-item-footer {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-            }
-
-            .market-item-seller {
-                font-size: 0.85rem;
-                color: var(--text-dim);
-                font-style: italic;
-            }
-
-            .market-item button,
-            .listing-item button {
-                padding: 0.6rem 1.2rem;
-                border-radius: 6px;
-                font-weight: 500;
-                transition: all 0.3s ease;
-                display: flex;
-                align-items: center;
-                gap: 0.5rem;
-            }
-
-            .market-item button:hover,
-            .listing-item button:hover {
-                transform: translateY(-1px);
-                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-            }
-
-            .btn-success {
-                background: linear-gradient(135deg, var(--success), #4CAF50);
-                border: none;
-                color: white;
-            }
-
-            .btn-success:hover {
-                background: linear-gradient(135deg, #4CAF50, var(--success));
-            }
-
-            .btn-danger {
-                background: linear-gradient(135deg, var(--danger), #f44336);
-                border: none;
-                color: white;
-            }
-
-            .btn-danger:hover {
-                background: linear-gradient(135deg, #f44336, var(--danger));
-            }
-
-            .btn-icon {
-                font-size: 0.9rem;
-            }
-
-            /* Simple Market Styles */
-            .market-container {
-                width: 100%;
-            }
-
-            .market-header {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                margin-bottom: 2rem;
-                padding-bottom: 1rem;
-                border-bottom: 1px solid var(--border);
-            }
-
-            .market-title {
-                color: var(--accent-color);
-                font-size: 1.5rem;
-                margin: 0;
-                display: flex;
-                align-items: center;
-                gap: 0.5rem;
-            }
-
-            .sell-btn {
-                padding: 0.75rem 1.25rem;
-                background: linear-gradient(135deg, var(--success), #4CAF50);
-                border: none;
-                border-radius: 8px;
-                color: white;
-                font-weight: 500;
-                cursor: pointer;
-                transition: all 0.3s ease;
-                display: flex;
-                align-items: center;
-                gap: 0.5rem;
-                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            }
-
-            .sell-btn:hover {
-                transform: translateY(-2px);
-                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-            }
-
-            .market-mode {
-                display: none;
-            }
-
-            .market-mode.active {
-                display: block;
-            }
-
-            .sell-interface {
-                padding: 1rem 0;
-            }
-
-            .sell-section {
-                padding: 0;
-            }
-
-            .sell-header {
-                text-align: center;
-                margin-bottom: 2rem;
-            }
-
-            .sell-header h3 {
-                color: var(--accent-color);
-                margin-bottom: 0.5rem;
-                font-size: 1.3rem;
-            }
-
-            .sell-description {
-                color: var(--text-dim);
-                font-size: 0.95rem;
-                margin: 0;
-            }
-
-            .cancel-sell-btn {
-                margin-top: 1rem;
-                padding: 0.5rem 1rem;
-                background: var(--darker-bg);
-                border: 1px solid var(--border);
-                border-radius: 6px;
-                color: var(--text-primary);
-                cursor: pointer;
-                transition: all 0.3s ease;
-                font-size: 0.9rem;
-            }
-
-            .cancel-sell-btn:hover {
-                background: var(--bg);
-                border-color: var(--accent-color);
-            }
-
-            .sell-item-display {
-                padding: 1.25rem;
-                background: linear-gradient(135deg, var(--bg) 0%, var(--darker-bg) 100%);
-                border-radius: 6px;
-                border: 1px solid rgba(255, 255, 255, 0.1);
-                margin-bottom: 1.5rem;
-                min-height: 80px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
-
-            .no-item-selected {
-                color: var(--text-dim);
-                font-style: italic;
-            }
-
-            .sell-price-input {
-                margin-bottom: 2rem;
-            }
-
-            .sell-price-input label {
-                display: block;
-                margin-bottom: 0.75rem;
-                color: var(--text-primary);
-                font-weight: 500;
-            }
-
-            .price-input-wrapper {
-                display: flex;
-                align-items: center;
-                background-color: var(--bg);
-                border: 1px solid var(--border);
-                border-radius: 6px;
-                overflow: hidden;
-            }
-
-            .price-input-wrapper .currency-icon {
-                padding: 0.75rem 1rem;
-                background-color: rgba(255, 255, 255, 0.05);
-                border-right: 1px solid var(--border);
-            }
-
-            .sell-price-input input {
-                flex: 1;
-                padding: 0.75rem 1rem;
-                background-color: transparent;
-                border: none;
-                color: var(--text-primary);
-                font-size: 1rem;
-                text-align: right;
-            }
-
-            .sell-price-input input:focus {
-                outline: none;
-            }
-
-            .price-input-wrapper:focus-within {
-                border-color: var(--accent-color);
-                box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
-            }
-
-            .inventory-grid {
-                display: grid;
-                grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-                gap: 0.75rem;
-                margin-bottom: 2rem;
-                max-height: 350px;
-                overflow-y: auto;
-                padding: 1rem;
-                background-color: rgba(255, 255, 255, 0.02);
-                border-radius: 8px;
-                border: 1px solid rgba(255, 255, 255, 0.1);
-            }
-
-            .inventory-item {
-                padding: 0.75rem;
-                border: 1px solid var(--border);
-                border-radius: 6px;
-                background: linear-gradient(135deg, var(--darker-bg) 0%, var(--bg) 100%);
-                cursor: pointer;
-                text-align: center;
-                transition: all 0.3s ease;
-                position: relative;
-            }
-
-            .inventory-item:hover {
-                border-color: var(--accent-color);
-                transform: translateY(-2px);
-                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-            }
-
-            .inventory-item.selected {
-                border-color: var(--success);
-                background: linear-gradient(135deg, rgba(76, 175, 80, 0.1) 0%, rgba(46, 125, 50, 0.1) 100%);
-                box-shadow: 0 0 0 2px var(--success);
-            }
-
-            .inventory-item.selected::after {
-                content: '✓';
-                position: absolute;
-                top: 5px;
-                right: 5px;
-                background-color: var(--success);
-                color: white;
-                border-radius: 50%;
-                width: 20px;
-                height: 20px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                font-size: 12px;
-                font-weight: bold;
-            }
-
-            .inventory-item-name {
-                font-size: 0.85rem;
-                font-weight: bold;
-                margin-bottom: 0.5rem;
-                color: var(--accent-color);
-            }
-
-            .inventory-item-stats {
-                font-size: 0.75rem;
-                color: var(--text-dim);
-                line-height: 1.2;
-            }
-
-            .sell-form {
-                background: linear-gradient(135deg, var(--darker-bg) 0%, var(--bg) 100%);
-                padding: 2rem;
-                border-radius: 8px;
-                border: 1px solid var(--border);
-                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            }
-
-            .sell-preview h4,
-            .sell-price-section h4 {
-                color: var(--accent-color);
-                margin-bottom: 1rem;
-                font-size: 1.1rem;
-                display: flex;
-                align-items: center;
-                gap: 0.5rem;
-            }
-
-            .sell-item-info {
-                padding: 1.25rem;
-                background: linear-gradient(135deg, var(--bg) 0%, var(--darker-bg) 100%);
-                border-radius: 6px;
-                border: 1px solid rgba(255, 255, 255, 0.1);
-                margin-bottom: 1.5rem;
-                min-height: 80px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
-
-            .no-item-selected {
-                color: var(--text-dim);
-                font-style: italic;
-                text-align: center;
-            }
-
-            .sell-price-input {
-                margin-bottom: 2rem;
-            }
-
-            .sell-price-input label {
-                display: block;
-                margin-bottom: 0.75rem;
-                color: var(--text-primary);
-                font-weight: 500;
-            }
-
-            .price-input-wrapper {
-                display: flex;
-                align-items: center;
-                background-color: var(--bg);
-                border: 1px solid var(--border);
-                border-radius: 6px;
-                overflow: hidden;
-            }
-
-            .price-input-wrapper .currency-icon {
-                padding: 0.75rem 1rem;
-                background-color: rgba(255, 255, 255, 0.05);
-                border-left: 1px solid var(--border);
-            }
-
-            .sell-price-input input {
-                flex: 1;
-                padding: 0.75rem 1rem;
-                background-color: transparent;
-                border: none;
-                color: var(--text-primary);
-                font-size: 1rem;
-                text-align: right;
-            }
-
-            .sell-price-input input:focus {
-                outline: none;
-            }
-
-            .price-input-wrapper:focus-within {
-                border-color: var(--accent-color);
-                box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
-            }
-
-            .price-hint {
-                font-size: 0.85rem;
-                color: var(--text-dim);
-                margin-top: 0.5rem;
-                font-style: italic;
-            }
-
-            .sell-buttons {
-                display: flex;
-                gap: 1rem;
-                justify-content: center;
-                margin-top: 2rem;
-            }
-
-            .loading {
-                text-align: center;
-                color: var(--text-dim);
-                padding: 3rem 1rem;
-                font-style: italic;
-            }
-
-            .loading::before {
-                content: '⏳';
-                font-size: 2rem;
-                display: block;
-                margin-bottom: 1rem;
-            }
-
-            .empty-state {
-                text-align: center;
-                color: var(--text-dim);
-                padding: 3rem 1rem;
-            }
-
-            .empty-icon {
-                font-size: 3rem;
-                margin-bottom: 1rem;
-                opacity: 0.6;
-            }
-
-            .empty-state h3 {
-                color: var(--accent-color);
-                margin-bottom: 0.5rem;
-                font-size: 1.2rem;
-            }
-
-            .empty-state p {
-                margin: 0;
-                font-size: 0.95rem;
-                line-height: 1.4;
-            }
-
             background-color: var(--darker-bg);
             border: 1px solid var(--accent);
             border-radius: 4px;
@@ -2000,7 +1421,6 @@
             margin-top: 1.5rem;
             color: var(--text-dim);
             font-size: 1rem;
-            text-align: center;
         }
 
         .loading-title {
@@ -2008,37 +1428,6 @@
             font-size: 2rem;
             font-weight: bold;
             color: var(--accent-color);
-        }
-
-        .force-clear-btn {
-            margin-top: 2rem;
-            padding: 0.8rem 2rem;
-            background: var(--danger);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: none;
-        }
-
-        .force-clear-btn:hover {
-            background: #ff6a6a;
-            transform: translateY(-2px);
-        }
-
-        .debug-info {
-            margin-top: 1rem;
-            padding: 1rem;
-            background: var(--panel-bg);
-            border-radius: 8px;
-            font-family: monospace;
-            font-size: 0.85rem;
-            color: var(--text-dim);
-            max-width: 500px;
-            text-align: left;
-            display: none;
         }
     </style>
 </head>
@@ -2049,9 +1438,6 @@
         <div class="loading-title">RF Online: Idle Crusade</div>
         <div class="loading-spinner"></div>
         <div class="loading-text" id="loading-text">Verifying authentication...</div>
-        <button class="force-clear-btn" id="force-clear-btn" onclick="forceClearAndReload()">🧹 Force Clear All
-            Data</button>
-        <div class="debug-info" id="debug-info"></div>
     </div>
     <header>
         <div class="logo">RF Online: Idle Crusade</div>
@@ -2075,7 +1461,6 @@
                 <li><a href="#" class="active">Game</a></li>
                 <li><a href="#" id="players-btn">Players</a></li>
                 <li><a href="#" id="maps-btn">Maps</a></li>
-                <li><a href="#" id="market-btn">Market</a></li>
                 <li><a href="#" id="settings-btn">Settings</a></li>
                 <li>
                     <button id="auth-btn" class="btn"
@@ -2163,6 +1548,10 @@
                     <span class="combat-label">Crit Chance</span>
                     <span class="combat-value" id="char-crit" style="color: #ff4444;">5%</span>
                 </div>
+                <div class="combat-stat" id="speed-stat-container" style="display: none;">
+                    <span class="combat-label">Speed</span>
+                    <span class="combat-value" id="char-speed" style="color: #ffaa00;">0</span>
+                </div>
                 <div class="combat-stat" id="lifesteal-stat-container" style="display: none;">
                     <span class="combat-label">Lifesteal</span>
                     <span class="combat-value" id="char-lifesteal" style="color: #00ff00;">0%</span>
@@ -2170,10 +1559,6 @@
                 <div class="combat-stat" id="dmg-red-stat-container" style="display: none;">
                     <span class="combat-label">Dmg Red.</span>
                     <span class="combat-value" id="char-dmg-red" style="color: #3498db;">0%</span>
-                </div>
-                <div class="combat-stat" id="speed-stat-container" style="display: none;">
-                    <span class="combat-label">Speed</span>
-                    <span class="combat-value" id="char-speed" style="color: #ffaa00;">0</span>
                 </div>
             </div>
 
@@ -2206,7 +1591,6 @@
             </div>
             <div class="explore-status" id="explore-status" style="display: flex;">
                 <span id="explore-selected-time">AFK</span>
-                <span id="explore-map-players">Map Players: 0</span>
                 <span id="explore-timer"></span>
             </div>
             <div class="battle-log" id="battle-log">
@@ -2377,92 +1761,6 @@
         </div>
     </div>
 
-    <!-- Market Modal -->
-    <div class="modal" id="market-modal">
-        <div class="modal-content" style="max-width: 900px;">
-            <button class="close-modal"
-                onclick="document.getElementById('market-modal').style.display='none'">×</button>
-            <h2 class="modal-title">🏪 GLOBAL MARKET</h2>
-
-            <!-- Market Tabs -->
-            <div style="display: flex; gap: 0.5rem; margin-bottom: 1.5rem; border-bottom: 2px solid var(--accent);">
-                <button class="btn btn-secondary" id="browse-tab-btn" onclick="showBrowseMode(); loadMarketItems();"
-                    style="flex: 1; border-radius: 4px 4px 0 0; background-color: var(--accent-color);">
-                    🛒 Browse
-                </button>
-                <button class="btn btn-secondary" id="sell-tab-btn" onclick="showSellMode();"
-                    style="flex: 1; border-radius: 4px 4px 0 0;">
-                    💰 Sell Items
-                </button>
-                <button class="btn btn-secondary" id="listings-tab-btn"
-                    onclick="showMyListingsMode(); loadMyListings();" style="flex: 1; border-radius: 4px 4px 0 0;">
-                    📋 My Listings
-                </button>
-            </div>
-
-            <!-- Browse Mode -->
-            <div id="market-browse" class="market-mode active">
-                <div class="market-items" id="market-items">
-                    <div class="loading">Loading market items...</div>
-                </div>
-            </div>
-
-            <!-- Sell Mode -->
-            <div id="market-sell" class="market-mode">
-                <div class="sell-interface">
-                    <div class="sell-header" style="text-align: center; margin-bottom: 1.5rem;">
-                        <h3 style="color: var(--accent-color); margin-bottom: 0.5rem;">💰 List an Item for Sale</h3>
-                        <p style="color: var(--text-dim); font-size: 0.95rem; margin: 0;">Select an unequipped item from
-                            your inventory</p>
-                    </div>
-
-                    <div class="inventory-grid" id="sell-inventory">
-                        <!-- Inventory items will be loaded here -->
-                    </div>
-
-                    <div class="sell-form" id="sell-form" style="display: none;">
-                        <div class="sell-preview">
-                            <div class="sell-item-display" id="sell-item-info">
-                                <div class="no-item-selected">Click an item above to select it for sale</div>
-                            </div>
-                        </div>
-
-                        <div class="sell-price-section" style="margin-bottom: 1.5rem;">
-                            <label for="sell-price"
-                                style="display: block; margin-bottom: 0.75rem; color: var(--text); font-weight: 500; font-size: 1rem;">Set
-                                Price (Leaves):</label>
-                            <div class="price-input-wrapper">
-                                <input type="number" id="sell-price" placeholder="0" min="1" max="999999"
-                                    pattern="[0-9]*" oninput="this.value = this.value.replace(/[^0-9]/g, '')"
-                                    style="flex: 1; padding: 0.75rem 1rem; background-color: var(--darker-bg); border: 1px solid var(--accent); border-radius: 6px; color: var(--text); font-size: 1rem; text-align: right;">
-                                <span class="currency-icon"
-                                    style="padding: 0.75rem 1rem; background-color: rgba(255, 255, 255, 0.05); border-left: 1px solid var(--accent);">🍃</span>
-                            </div>
-                            <p
-                                style="font-size: 0.85rem; color: var(--text-dim); margin-top: 0.5rem; font-style: italic;">
-                                Suggested: ${Math.floor((selectedSellItem?.sellValue || 0) * 1.5)} -
-                                ${Math.floor((selectedSellItem?.sellValue || 0) * 3)} Leaves</p>
-                        </div>
-
-                        <div class="sell-buttons">
-                            <button class="btn btn-success" id="confirm-sell-btn"
-                                style="font-size: 1rem; padding: 0.8rem 1.5rem;">
-                                <span class="btn-icon">📤</span> List for Sale
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- My Listings Mode -->
-            <div id="market-listings" class="market-mode">
-                <div class="my-listings" id="my-listings">
-                    <div class="loading">Loading your listings...</div>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- Upgrade Modal -->
     <div class="upgrade-modal" id="upgrade-modal">
         <div class="upgrade-content">
@@ -2507,44 +1805,10 @@
 
     <!-- Firebase SDK -->
     <script type="module">
-        // Force Clear Function (must be global for onclick)
-        window.forceClearAndReload = function () {
-            console.log('🧹 FORCE CLEAR: Clearing all browser data...');
-
-            // Clear all storage
-            localStorage.clear();
-            sessionStorage.clear();
-
-            // Show confirmation
-            const debugInfo = document.getElementById('debug-info');
-            if (debugInfo) {
-                debugInfo.style.display = 'block';
-                debugInfo.innerHTML = '✅ All data cleared!<br>📍 Redirecting to login page...';
-            }
-
-            // Redirect to index.html
-            setTimeout(() => {
-                window.location.href = 'index.html';
-            }, 1000);
-        };
-
-        // Show Force Clear button after 3 seconds if still loading
-        setTimeout(() => {
-            const forceClearBtn = document.getElementById('force-clear-btn');
-            const debugInfo = document.getElementById('debug-info');
-            if (forceClearBtn && forceClearBtn.style.display !== 'block') {
-                forceClearBtn.style.display = 'block';
-                if (debugInfo) {
-                    debugInfo.style.display = 'block';
-                    debugInfo.innerHTML = '⚠️ Taking longer than expected...<br>📊 Current URL: ' + window.location.href + '<br>💾 localStorage: ' + (localStorage.getItem('rfOnlineGame') ? 'HAS DATA' : 'EMPTY');
-                }
-            }
-        }, 3000);
-
         // Import Firebase modules
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
         import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
-        import { getDatabase, ref, set, get, child, update, onValue, onDisconnect, push, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js';
+        import { getDatabase, ref, set, get, child, update, onValue } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js';
 
         // Firebase configuration
         const firebaseConfig = {
@@ -2562,264 +1826,6 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getDatabase(app);
-
-        // Expose Firebase functions to global scope for other scripts
-        window.getDatabase = getDatabase;
-        window.ref = ref;
-        window.set = set;
-        window.get = get;
-        window.child = child;
-        window.update = update;
-        window.onValue = onValue;
-        window.onDisconnect = onDisconnect;
-        window.push = push;
-        window.serverTimestamp = serverTimestamp;
-        window.db = db; // Expose the database instance too
-
-        // Firebase presence system with public access
-        console.log('Firebase presence system initializing...');
-
-        // Function to update user's online presence and map
-        window.updateUserPresence = function (user, currentMap) {
-            console.log('updateUserPresence called with user:', user, 'map:', currentMap);
-
-            if (!user) {
-                console.log('updateUserPresence: no user provided');
-                return;
-            }
-
-            if (!user.uid) {
-                console.log('updateUserPresence: user has no uid');
-                return;
-            }
-
-            try {
-                console.log('Setting presence for user', user.uid, 'on map', currentMap);
-
-                // Read current presence data, merge with our data, write back
-                const presenceRef = ref(db, 'publicPresence');
-
-                // First read current data
-                get(presenceRef).then((snapshot) => {
-                    const currentPresence = snapshot.val() || {};
-                    console.log('Current Firebase presence:', currentPresence);
-
-                    // Merge our presence data
-                    const updatedPresence = {
-                        ...currentPresence,
-                        [user.uid]: {
-                            uid: user.uid,
-                            map: currentMap,
-                            lastSeen: serverTimestamp(),
-                            online: true,
-                            characterName: gameState.character?.name || 'Unknown'
-                        }
-                    };
-
-                    console.log('Writing merged presence data:', updatedPresence);
-
-                    // Write the merged data back
-                    set(presenceRef, updatedPresence).then(() => {
-                        console.log('✅ Presence set successfully in Firebase for user', user.uid, 'on map', currentMap);
-                    }).catch((writeError) => {
-                        console.error('❌ Firebase presence write failed:', writeError);
-                        // Fallback to localStorage
-                        const allPresence = JSON.parse(localStorage.getItem('playerPresence') || '{}');
-                        allPresence[user.uid] = updatedPresence[user.uid];
-                        localStorage.setItem('playerPresence', JSON.stringify(allPresence));
-                        console.log('📦 Fallback: Presence set in localStorage');
-                    });
-
-                }).catch((readError) => {
-                    console.error('❌ Firebase presence read failed:', readError);
-                    // Fallback: just write our own data
-                    const presenceData = {
-                        [user.uid]: {
-                            uid: user.uid,
-                            map: currentMap,
-                            lastSeen: serverTimestamp(),
-                            online: true,
-                            characterName: gameState.character?.name || 'Unknown'
-                        }
-                    };
-
-                    set(presenceRef, presenceData).then(() => {
-                        console.log('✅ Presence set (new) in Firebase for user', user.uid);
-                    }).catch((error) => {
-                        console.error('❌ Firebase presence write failed:', error);
-                        // Fallback to localStorage
-                        const allPresence = JSON.parse(localStorage.getItem('playerPresence') || '{}');
-                        allPresence[user.uid] = presenceData[user.uid];
-                        localStorage.setItem('playerPresence', JSON.stringify(allPresence));
-                        console.log('📦 Fallback: Presence set in localStorage');
-                    });
-                });
-
-            } catch (error) {
-                console.error('💥 Exception in updateUserPresence for user', user.uid, ':', error);
-                // Fallback to localStorage
-                const allPresence = JSON.parse(localStorage.getItem('playerPresence') || '{}');
-                allPresence[user.uid] = {
-                    uid: user.uid,
-                    map: currentMap,
-                    lastSeen: Date.now(),
-                    online: true,
-                    characterName: gameState.character?.name || 'Unknown'
-                };
-                localStorage.setItem('playerPresence', JSON.stringify(allPresence));
-                console.log('📦 Exception fallback: Presence set in localStorage for user', user.uid);
-            }
-        };
-
-        // Function to get online players count for a specific map
-        window.getOnlinePlayersCount = function (mapName) {
-            return new Promise((resolve) => {
-                try {
-                    // Try Firebase first
-                    const presenceRef = ref(db, 'publicPresence');
-                    const unsubscribe = onValue(presenceRef, (snapshot) => {
-                        try {
-                            const allPresence = snapshot.val() || {};
-                            console.log('Firebase presence data:', allPresence);
-                            console.log('Current user:', window.currentUser?.uid);
-                            console.log('Looking for map:', mapName);
-
-                            // Count all online players on this map
-                            const playersOnMap = Object.values(allPresence).filter(player => {
-                                const matches = player && player.online && player.map === mapName;
-                                console.log('Player', player?.uid, 'on map', player?.map, 'online:', player?.online, 'matches:', matches);
-                                return matches;
-                            });
-
-                            const count = playersOnMap.length;
-                            console.log('Firebase count for', mapName, ':', count, 'players found:', playersOnMap.map(p => p.uid));
-                            resolve(count || 1); // At least 1 (yourself)
-
-                            // Clean up listener after first read
-                            unsubscribe();
-                        } catch (error) {
-                            console.error('Error processing Firebase presence data:', error);
-                            unsubscribe();
-                            fallbackToLocalStorage();
-                        }
-                    }, (error) => {
-                        console.log('Firebase read failed, using localStorage fallback:', error.message);
-                        fallbackToLocalStorage();
-                    });
-
-                    function fallbackToLocalStorage() {
-                        try {
-                            const allPresence = JSON.parse(localStorage.getItem('playerPresence') || '{}');
-                            console.log('localStorage fallback data:', allPresence);
-
-                            // Count all online players on this map
-                            const playersOnMap = Object.values(allPresence).filter(player =>
-                                player && player.online && player.map === mapName
-                            );
-
-                            const count = playersOnMap.length;
-                            console.log('localStorage count for', mapName, ':', count);
-                            resolve(count || 1);
-                        } catch (error) {
-                            console.error('localStorage fallback failed:', error);
-                            resolve(1);
-                        }
-                    }
-                } catch (error) {
-                    console.error('Error in getOnlinePlayersCount:', error);
-                    resolve(1);
-                }
-            });
-        };
-
-        // Debug function to check Firebase presence data
-        window.debugPresence = function () {
-            console.log('=== DEBUG PRESENCE ===');
-            console.log('Current user:', window.currentUser?.uid);
-            console.log('Current map:', gameState.currentMap);
-
-            // Check localStorage
-            const localData = JSON.parse(localStorage.getItem('playerPresence') || '{}');
-            console.log('localStorage presence:', localData);
-
-            // Check Firebase
-            const presenceRef = ref(db, 'publicPresence');
-            onValue(presenceRef, (snapshot) => {
-                const firebaseData = snapshot.val() || {};
-                console.log('Firebase presence data:', firebaseData);
-
-                // Count players on current map
-                const playersOnMap = Object.values(firebaseData).filter(player =>
-                    player && player.online && player.map === gameState.currentMap
-                );
-                console.log('Players on', gameState.currentMap, ':', playersOnMap.length, playersOnMap.map(p => p.uid));
-            }, { onlyOnce: true });
-        };
-
-        // Debug function to force refresh all presence
-        window.forcePresenceUpdate = function () {
-            console.log('=== FORCE PRESENCE UPDATE ===');
-            if (window.currentUser) {
-                updateUserPresence(window.currentUser, gameState.currentMap);
-            }
-            setTimeout(() => debugPresence(), 2000);
-        };
-
-        // Function to listen for real-time player count updates on current map
-        window.listenForMapPlayerUpdates = function (mapName, callback) {
-            try {
-                // Try Firebase real-time listener first
-                const presenceRef = ref(db, 'publicPresence');
-                const unsubscribe = onValue(presenceRef, (snapshot) => {
-                    try {
-                        const allPresence = snapshot.val() || {};
-                        console.log('Firebase real-time presence data:', allPresence);
-
-                        // Count all online players on this map
-                        const playersOnMap = Object.values(allPresence).filter(player =>
-                            player && player.online && player.map === mapName
-                        );
-
-                        const count = playersOnMap.length;
-                        console.log('Firebase real-time count for', mapName, ':', count);
-                        callback(count || 1);
-                    } catch (error) {
-                        console.error('Error processing Firebase real-time data:', error);
-                        callback(1);
-                    }
-                });
-
-                // Return unsubscribe function
-                return unsubscribe;
-
-            } catch (firebaseError) {
-                console.log('Firebase real-time failed, using localStorage polling:', firebaseError.message);
-
-                // Fallback to localStorage polling
-                const updateCount = () => {
-                    try {
-                        const allPresence = JSON.parse(localStorage.getItem('playerPresence') || '{}');
-                        const playersOnMap = Object.values(allPresence).filter(player =>
-                            player && player.online && player.map === mapName
-                        );
-                        const count = playersOnMap.length;
-                        callback(count || 1);
-                    } catch (error) {
-                        console.error('Error in localStorage polling:', error);
-                        callback(1);
-                    }
-                };
-
-                // Initial call
-                updateCount();
-
-                // Set up periodic checks every 5 seconds
-                const intervalId = setInterval(updateCount, 5000);
-
-                // Return cleanup function
-                return () => clearInterval(intervalId);
-            }
-        };
 
         // Failsafe: Hide loading screen after 8 seconds if something goes wrong
         setTimeout(() => {
@@ -3118,43 +2124,11 @@
         // Check authentication state
         onAuthStateChanged(auth, (user) => {
             if (!user) {
-                console.log('🚫 No user logged in, redirecting to login page...');
-                console.log('📊 Debug Info:');
-                console.log('   - Current URL:', window.location.href);
-                console.log('   - localStorage:', localStorage.getItem('rfOnlineGame') ? 'HAS DATA' : 'EMPTY');
-                console.log('   - sessionStorage:', sessionStorage.getItem('currentSessionId') ? 'HAS SESSION' : 'NO SESSION');
-
-                // Clear any stuck data
-                console.log('🧹 Clearing stuck session data...');
-                sessionStorage.removeItem('currentSessionId');
-                sessionStorage.removeItem('newPlayerReset');
-                sessionStorage.removeItem('firebaseReloadCount');
-
-                // Show visual message before redirect
-                const loadingScreen = document.getElementById('auth-loading');
-                if (loadingScreen) {
-                    const loadingText = document.getElementById('loading-text');
-                    if (loadingText) {
-                        loadingText.innerHTML = '🚫 Not logged in<br><small>Redirecting to login page...</small>';
-                        loadingText.style.color = 'var(--danger)';
-                    }
-                }
-
-                // Delay redirect slightly to allow console logging to be visible
-                setTimeout(() => {
-                    console.log('🔄 Redirecting to index.html...');
-                    window.location.href = 'index.html';
-                }, 1000);
+                console.log('No user logged in, redirecting to login page...');
+                window.location.href = 'index.html';
             } else {
                 console.log('User authenticated:', user.email);
                 window.currentUser = user;
-
-                // Set initial presence immediately when user logs in
-                setTimeout(() => {
-                    if (typeof updateUserPresence === 'function') {
-                        updateUserPresence(user, 'HQ'); // Default to HQ when logging in
-                    }
-                }, 3000); // Wait a bit longer for Firebase to be fully ready
 
                 // SESSION MANAGEMENT: Generate or reuse session ID
                 let sessionId = sessionStorage.getItem('currentSessionId');
@@ -3190,18 +2164,9 @@
 
                     if (activeSessionId && currentSessionId && activeSessionId !== currentSessionId) {
                         console.log('🚫 Session invalidated. Another device logged in.');
-                        console.log('📊 Session Debug:');
-                        console.log('   - Active Session ID:', activeSessionId);
-                        console.log('   - Current Session ID:', currentSessionId);
-
                         alert('Your account has been logged in from another device. You will be disconnected.');
 
-                        // Clear session data
-                        sessionStorage.clear();
-                        localStorage.removeItem('rfOnlineGame');
-
                         // Redirect to login page
-                        console.log('🔄 Redirecting to index.html due to session conflict...');
                         window.location.href = 'index.html';
                     }
                 });
@@ -3301,6 +2266,18 @@
                     lastDefeated: null
                 }
             },
+            players: [
+                { name: "Player1", race: "Accretia", class: "Warrior", level: 30 },
+                { name: "Player2", race: "Bellato", class: "Mystic", level: 28 },
+                { name: "Player3", race: "Cora", class: "Ranger", level: 27 },
+                { name: "Player4", race: "Accretia", class: "Ranger", level: 25 },
+                { name: "Player5", race: "Bellato", class: "Warrior", level: 24 },
+                { name: "Player6", race: "Cora", class: "Warrior", level: 22 },
+                { name: "Player7", race: "Bellato", class: "Mystic", level: 20 },
+                { name: "Player8", race: "Accretia", class: "Warrior", level: 18 },
+                { name: "Player9", race: "Cora", class: "Ranger", level: 15 },
+                { name: "Player10", race: "Bellato", class: "Warrior", level: 12 }
+            ],
             currentMap: "HQ" // Default map
         };
 
@@ -3825,7 +2802,7 @@
                 map: "Ether Platform",
                 drops: [
                     { type: "currency", amount: 50, chance: 1.0 },
-                    { type: "material", name: "Winter Box", sellValue: 100, chance: 0.20 },
+                    { type: "material", name: "Winter Box", emoji: "🧊", sellValue: 100, chance: 0.20 },
                     { type: "item", name: "Estoc", stats: { attack: 45 }, sellValue: 45, chance: 0.03 },
                     { type: "item", name: "Black Stick Bead", stats: { attack: 45 }, sellValue: 45, chance: 0.03 },
                     { type: "item", name: "Beam Siege Bow", stats: { attack: 45 }, sellValue: 45, chance: 0.03 },
@@ -3843,7 +2820,7 @@
                 map: "Ether Platform",
                 drops: [
                     { type: "currency", amount: 52, chance: 1.0 },
-                    { type: "material", name: "Winter Box", sellValue: 100, chance: 0.20 },
+                    { type: "material", name: "Winter Box", emoji: "🧊", sellValue: 100, chance: 0.20 },
                     { type: "item", name: "Estoc", stats: { attack: 45 }, sellValue: 45, chance: 0.04 },
                     { type: "item", name: "Black Stick Bead", stats: { attack: 45 }, sellValue: 45, chance: 0.04 },
                     { type: "item", name: "Beam Siege Bow", stats: { attack: 45 }, sellValue: 45, chance: 0.04 },
@@ -3861,7 +2838,7 @@
                 map: "Ether Platform",
                 drops: [
                     { type: "currency", amount: 52, chance: 1.0 },
-                    { type: "material", name: "Winter Box", sellValue: 100, chance: 0.20 },
+                    { type: "material", name: "Winter Box", emoji: "🧊", sellValue: 100, chance: 0.20 },
                     { type: "item", name: "Estoc", stats: { attack: 45 }, sellValue: 45, chance: 0.04 },
                     { type: "item", name: "Black Stick Bead", stats: { attack: 45 }, sellValue: 45, chance: 0.04 },
                     { type: "item", name: "Beam Siege Bow", stats: { attack: 45 }, sellValue: 45, chance: 0.04 },
@@ -3879,7 +2856,7 @@
                 map: "Ether Platform",
                 drops: [
                     { type: "currency", amount: 52, chance: 1.0 },
-                    { type: "material", name: "Winter Box", sellValue: 100, chance: 0.20 },
+                    { type: "material", name: "Winter Box", emoji: "🧊", sellValue: 100, chance: 0.20 },
                     { type: "item", name: "Estoc", stats: { attack: 45 }, sellValue: 45, chance: 0.04 },
                     { type: "item", name: "Black Stick Bead", stats: { attack: 45 }, sellValue: 45, chance: 0.04 },
                     { type: "item", name: "Beam Siege Bow", stats: { attack: 45 }, sellValue: 45, chance: 0.04 },
@@ -3897,7 +2874,7 @@
                 map: "Ether Platform",
                 drops: [
                     { type: "currency", amount: 52, chance: 1.0 },
-                    { type: "material", name: "Winter Box", sellValue: 100, chance: 0.20 },
+                    { type: "material", name: "Winter Box", emoji: "🧊", sellValue: 100, chance: 0.20 },
                     { type: "item", name: "Estoc", stats: { attack: 45 }, sellValue: 45, chance: 0.04 },
                     { type: "item", name: "Black Stick Bead", stats: { attack: 45 }, sellValue: 45, chance: 0.04 },
                     { type: "item", name: "Beam Siege Bow", stats: { attack: 45 }, sellValue: 45, chance: 0.04 },
@@ -3915,7 +2892,7 @@
                 map: "Ether Platform",
                 drops: [
                     { type: "currency", amount: 58, chance: 1.0 },
-                    { type: "material", name: "Winter Box", sellValue: 100, chance: 0.20 },
+                    { type: "material", name: "Winter Box", emoji: "🧊", sellValue: 100, chance: 0.25 },
                     { type: "item", name: "Estoc", stats: { attack: 45 }, sellValue: 45, chance: 0.05 },
                     { type: "item", name: "Black Stick Bead", stats: { attack: 45 }, sellValue: 45, chance: 0.05 },
                     { type: "item", name: "Beam Siege Bow", stats: { attack: 45 }, sellValue: 45, chance: 0.05 },
@@ -3935,7 +2912,7 @@
                 map: "Ether Platform",
                 drops: [
                     { type: "currency", amount: 60, chance: 1.0 },
-                    { type: "material", name: "Winter Box", sellValue: 100, chance: 0.20 },
+                    { type: "material", name: "Winter Box", emoji: "🧊", sellValue: 100, chance: 0.25 },
                     { type: "item", name: "Estoc", stats: { attack: 45 }, sellValue: 45, chance: 0.06 },
                     { type: "item", name: "Black Stick Bead", stats: { attack: 45 }, sellValue: 45, chance: 0.06 },
                     { type: "item", name: "Beam Siege Bow", stats: { attack: 45 }, sellValue: 45, chance: 0.06 },
@@ -3953,7 +2930,7 @@
                 map: "Ether Platform",
                 drops: [
                     { type: "currency", amount: 60, chance: 1.0 },
-                    { type: "material", name: "Winter Box", sellValue: 100, chance: 0.20 },
+                    { type: "material", name: "Winter Box", emoji: "🧊", sellValue: 100, chance: 0.25 },
                     { type: "item", name: "Estoc", stats: { attack: 45 }, sellValue: 45, chance: 0.06 },
                     { type: "item", name: "Black Stick Bead", stats: { attack: 45 }, sellValue: 45, chance: 0.06 },
                     { type: "item", name: "Beam Siege Bow", stats: { attack: 45 }, sellValue: 45, chance: 0.06 },
@@ -3971,7 +2948,7 @@
                 map: "Ether Platform",
                 drops: [
                     { type: "currency", amount: 62, chance: 1.0 },
-                    { type: "material", name: "Winter Box", sellValue: 100, chance: 0.20 },
+                    { type: "material", name: "Winter Box", emoji: "🧊", sellValue: 100, chance: 0.30 },
                     { type: "item", name: "Estoc", stats: { attack: 45 }, sellValue: 45, chance: 0.06 },
                     { type: "item", name: "Black Stick Bead", stats: { attack: 45 }, sellValue: 45, chance: 0.06 },
                     { type: "item", name: "Beam Siege Bow", stats: { attack: 45 }, sellValue: 45, chance: 0.06 },
@@ -3989,7 +2966,7 @@
                 map: "Ether Platform",
                 drops: [
                     { type: "currency", amount: 64, chance: 1.0 },
-                    { type: "material", name: "Winter Box", sellValue: 100, chance: 0.20 },
+                    { type: "material", name: "Winter Box", emoji: "🧊", sellValue: 100, chance: 0.30 },
                     { type: "item", name: "Estoc", stats: { attack: 45 }, sellValue: 45, chance: 0.07 },
                     { type: "item", name: "Black Stick Bead", stats: { attack: 45 }, sellValue: 45, chance: 0.07 },
                     { type: "item", name: "Beam Siege Bow", stats: { attack: 45 }, sellValue: 45, chance: 0.07 },
@@ -4007,7 +2984,7 @@
                 map: "Ether Platform",
                 drops: [
                     { type: "currency", amount: 64, chance: 1.0 },
-                    { type: "material", name: "Winter Box", sellValue: 100, chance: 0.20 },
+                    { type: "material", name: "Winter Box", emoji: "🧊", sellValue: 100, chance: 0.30 },
                     { type: "item", name: "Estoc", stats: { attack: 45 }, sellValue: 45, chance: 0.07 },
                     { type: "item", name: "Black Stick Bead", stats: { attack: 45 }, sellValue: 45, chance: 0.07 },
                     { type: "item", name: "Beam Siege Bow", stats: { attack: 45 }, sellValue: 45, chance: 0.07 },
@@ -4027,7 +3004,7 @@
                 map: "Ether Platform",
                 drops: [
                     { type: "currency", amount: 64, chance: 1.0 },
-                    { type: "material", name: "Winter Box", sellValue: 100, chance: 0.20 },
+                    { type: "material", name: "Winter Box", emoji: "🧊", sellValue: 100, chance: 0.30 },
                     { type: "item", name: "Estoc", stats: { attack: 45 }, sellValue: 45, chance: 0.07 },
                     { type: "item", name: "Black Stick Bead", stats: { attack: 45 }, sellValue: 45, chance: 0.07 },
                     { type: "item", name: "Beam Siege Bow", stats: { attack: 45 }, sellValue: 45, chance: 0.07 },
@@ -4045,7 +3022,7 @@
                 map: "Ether Platform",
                 drops: [
                     { type: "currency", amount: 64, chance: 1.0 },
-                    { type: "material", name: "Winter Box", sellValue: 100, chance: 0.20 },
+                    { type: "material", name: "Winter Box", emoji: "🧊", sellValue: 100, chance: 0.30 },
                     { type: "item", name: "Estoc", stats: { attack: 45 }, sellValue: 45, chance: 0.07 },
                     { type: "item", name: "Black Stick Bead", stats: { attack: 45 }, sellValue: 45, chance: 0.07 },
                     { type: "item", name: "Beam Siege Bow", stats: { attack: 45 }, sellValue: 45, chance: 0.07 },
@@ -4063,7 +3040,7 @@
                 map: "Ether Platform",
                 drops: [
                     { type: "currency", amount: 68, chance: 1.0 },
-                    { type: "material", name: "Winter Box", sellValue: 100, chance: 0.20 },
+                    { type: "material", name: "Winter Box", emoji: "🧊", sellValue: 100, chance: 0.35 },
                     { type: "item", name: "Estoc", stats: { attack: 45 }, sellValue: 45, chance: 0.08 },
                     { type: "item", name: "Black Stick Bead", stats: { attack: 45 }, sellValue: 45, chance: 0.08 },
                     { type: "item", name: "Beam Siege Bow", stats: { attack: 45 }, sellValue: 45, chance: 0.08 },
@@ -4081,7 +3058,7 @@
                 map: "Ether Platform",
                 drops: [
                     { type: "currency", amount: 70, chance: 1.0 },
-                    { type: "material", name: "Winter Box", sellValue: 100, chance: 0.20 },
+                    { type: "material", name: "Winter Box", emoji: "🧊", sellValue: 100, chance: 0.35 },
                     { type: "item", name: "Estoc", stats: { attack: 45 }, sellValue: 45, chance: 0.08 },
                     { type: "item", name: "Black Stick Bead", stats: { attack: 45 }, sellValue: 45, chance: 0.08 },
                     { type: "item", name: "Beam Siege Bow", stats: { attack: 45 }, sellValue: 45, chance: 0.08 },
@@ -4102,7 +3079,7 @@
                 isBoss: true,
                 drops: [
                     { type: "currency", amount: 500, chance: 1.0 },
-                    { type: "material", name: "Winter Box", sellValue: 100, chance: 0.20 },
+                    { type: "material", name: "Winter Box", emoji: "🧊", sellValue: 100, chance: 0.80 },
                     { type: "material", name: "Snowflake", emoji: "❄️", sellValue: 50, chance: 1.0, quantity: 3 },
                     { type: "item", name: "Estoc", stats: { attack: 45 }, sellValue: 45, chance: 0.60 },
                     { type: "item", name: "Black Stick Bead", stats: { attack: 45 }, sellValue: 45, chance: 0.60 },
@@ -4334,7 +3311,6 @@
         const registrationModal = document.getElementById('registration-modal');
         const playersModal = document.getElementById('players-modal');
         const mapsModal = document.getElementById('maps-modal');
-        const marketModal = document.getElementById('market-modal');
         const upgradeModal = document.getElementById('upgrade-modal');
         const exploreBtn = document.getElementById('explore-btn');
         const exploreOptions = document.getElementById('explore-options');
@@ -4439,7 +3415,7 @@
                 while (char.exp >= char.maxExp && char.level < 40) {
                     char.exp -= char.maxExp;
                     char.level++;
-                    char.maxExp = Math.floor(50 * Math.pow(1.2, char.level - 1));
+                    char.maxExp = Math.floor(100 * Math.pow(1.3, char.level - 1));
 
                     // Update stats
                     const base = classStats[char.class];
@@ -4576,10 +3552,11 @@
 
         // Initialize the game
         function initGame() {
-            // Check if character exists in localStorage with integrity validation
-            const savedData = loadGameState();
+            // Check if character exists in localStorage
+            const savedGame = localStorage.getItem('rfOnlineGame');
 
-            if (savedData) {
+            if (savedGame) {
+                const savedData = JSON.parse(savedGame);
                 gameState.character = savedData.character;
                 // Initialize new properties if they don't exist in saved data (for migration)
                 if (savedData.currency === undefined) savedData.currency = 0;
@@ -4681,7 +3658,7 @@
                     char.criticalChance = base.criticalChance || 0.05; // Reset crit chance
 
                     // Recalculate MaxExp with exponential 1.3 curve
-                    char.maxExp = Math.floor(50 * Math.pow(1.2, char.level - 1));
+                    char.maxExp = Math.floor(100 * Math.pow(1.3, char.level - 1));
 
                     // MIGRATION FIX: For characters at level 30+ who were capped before
                     // Ensure they have proper maxExp and can gain experience
@@ -4742,25 +3719,6 @@
                 updateInventoryDisplay();
                 updateMapsAccessibility(); // Update map access based on level
 
-                // Set up user presence in Firebase (will initialize after delay)
-                if (window.currentUser) {
-                    // Presence will be set up when Firebase is ready
-                    setTimeout(() => {
-                        if (typeof updateUserPresence === 'function') {
-                            console.log('Setting user presence for map:', gameState.currentMap);
-                            updateUserPresence(window.currentUser, gameState.currentMap);
-                        }
-                    }, 2500);
-                }
-
-                // Show player count immediately
-                updateMapPlayersDisplay();
-
-                // Start real-time map player updates
-                setTimeout(() => {
-                    startMapPlayerUpdates();
-                }, 2500);
-
                 // Fix UI if exploration finished but UI wasn't reset
                 if (!gameState.isExploring) {
                     exploreBtn.style.display = 'block';
@@ -4793,7 +3751,7 @@
         }
 
         // Save game state to localStorage
-        async function saveGameState() {
+        function saveGameState() {
             const gameData = {
                 character: gameState.character,
                 inventory: gameState.inventory,
@@ -4810,34 +3768,7 @@
                 autoPotion: gameState.autoPotion,
                 lastSaveTime: Date.now()
             };
-
-            // SIMPLE ANTI-CHEAT: Only detect extreme console manipulation
-            // This won't interfere with normal gameplay
-            const violations = detectConsoleCheat(gameData);
-            if (violations.length > 0) {
-                console.error('🚫 CONSOLE CHEAT DETECTED:', violations);
-
-                // Log to Firebase
-                for (const violation of violations) {
-                    await logCheatAttempt('console_manipulation', violation);
-                }
-
-                // Show warning
-                addToBattleLog('⚠️ Console manipulation detected. Save blocked.', 'danger');
-                return; // Block save
-            }
-
-            // Generate checksum
-            const checksum = generateChecksum(gameData);
-
-            // Save with checksum
-            const saveData = {
-                data: gameData,
-                checksum: checksum,
-                timestamp: Date.now()
-            };
-
-            localStorage.setItem('rfOnlineGame', JSON.stringify(saveData));
+            localStorage.setItem('rfOnlineGame', JSON.stringify(gameData));
 
             // Sync with Firebase
             if (window.saveToFirebase && window.currentUser) {
@@ -4850,191 +3781,6 @@
                     hasSaveFn: !!window.saveToFirebase,
                     user: window.currentUser
                 });
-            }
-        }
-
-        // ============================================
-        // SECURITY: Data Integrity System
-        // ============================================
-
-        // Generate checksum for data validation
-        function generateChecksum(data) {
-            const str = JSON.stringify(data);
-            let hash = 0;
-            for (let i = 0; i < str.length; i++) {
-                const char = str.charCodeAt(i);
-                hash = ((hash << 5) - hash) + char;
-                hash = hash & hash; // Convert to 32-bit integer
-            }
-            return hash.toString(36);
-        }
-
-        // Validate data integrity
-        function validateDataIntegrity(data, checksum) {
-            const calculatedChecksum = generateChecksum(data);
-            return calculatedChecksum === checksum;
-        }
-
-        // Log cheat attempt to Firebase
-        async function logCheatAttempt(cheatType, details) {
-            if (!window.currentUser) {
-                console.warn('Cannot log cheat: No user authenticated');
-                return;
-            }
-
-            const timestamp = Date.now();
-            // Use global Firebase functions exposed in module script
-            const db = window.getDatabase ? window.getDatabase() : null;
-
-            if (!db) {
-                console.error('❌ Firebase not initialized or not accessible globally');
-                return;
-            }
-
-            const cheatLogRef = window.ref(db, `cheatLogs/${window.currentUser.uid}/${timestamp}`);
-
-            const logData = {
-                userId: window.currentUser.uid,
-                email: window.currentUser.email,
-                characterName: gameState.character?.name || 'Unknown',
-                cheatType: cheatType,
-                details: details,
-                timestamp: timestamp,
-                timestampReadable: new Date(timestamp).toISOString(),
-                userAgent: navigator.userAgent,
-                screenResolution: `${window.screen.width}x${window.screen.height}`
-            };
-
-            try {
-                await window.set(cheatLogRef, logData);
-                console.error('🚫 CHEAT LOGGED TO FIREBASE:', cheatType, details);
-                console.log('📍 Firebase path:', `cheatLogs/${window.currentUser.uid}/${timestamp}`);
-            } catch (error) {
-                console.error('❌ Failed to log cheat to Firebase:', error);
-            }
-        }
-
-        // SIMPLE CONSOLE CHEAT DETECTION
-        // Only detects extreme, impossible jumps that indicate console manipulation
-        // Does NOT interfere with normal gameplay
-        function detectConsoleCheat(data) {
-            const violations = [];
-            const char = data.character;
-
-            if (!char) return violations;
-
-            // Get previous save for comparison
-            let previousData = null;
-            try {
-                const savedGame = localStorage.getItem('rfOnlineGame');
-                if (savedGame) {
-                    const parsed = JSON.parse(savedGame);
-                    previousData = parsed.data || parsed;
-                }
-            } catch (error) {
-                // No previous save, allow
-                return violations;
-            }
-
-            if (!previousData || !previousData.character) {
-                return violations; // First save, allow
-            }
-
-            const prevChar = previousData.character;
-
-            // 1. EXTREME level jump (5+ levels at once = console cheat)
-            const levelDiff = char.level - prevChar.level;
-            if (levelDiff >= 3) {
-                violations.push({
-                    type: 'extreme_level_jump',
-                    before: prevChar.level,
-                    after: char.level,
-                    difference: levelDiff,
-                    reason: `Level jumped ${levelDiff} levels at once (console manipulation)`
-                });
-            }
-
-            // 2. EXTREME currency jump (100k+ at once = console cheat)
-            const currencyDiff = data.currency - previousData.currency;
-            if (currencyDiff >= 999) {
-                violations.push({
-                    type: 'extreme_currency_jump',
-                    before: previousData.currency,
-                    after: data.currency,
-                    difference: currencyDiff,
-                    reason: `Currency jumped by ${currencyDiff} (console manipulation)`
-                });
-            }
-
-            // 3. EXTREME coins jump (10k+ at once = console cheat)
-            const coinsDiff = data.coins - previousData.coins;
-            if (coinsDiff >= 500) {
-                violations.push({
-                    type: 'extreme_coins_jump',
-                    before: previousData.coins,
-                    after: data.coins,
-                    difference: coinsDiff,
-                    reason: `Coins jumped by ${coinsDiff} (console manipulation)`
-                });
-            }
-
-            // 4. EXTREME inventory jump (50+ items at once = console cheat)
-            const invDiff = data.inventory.length - previousData.inventory.length;
-            if (invDiff >= 50) {
-                violations.push({
-                    type: 'extreme_inventory_jump',
-                    before: previousData.inventory.length,
-                    after: data.inventory.length,
-                    difference: invDiff,
-                    reason: `Inventory jumped by ${invDiff} items (console manipulation)`
-                });
-            }
-
-            return violations;
-        }
-
-        // Modified loadGameState with checksum validation
-        function loadGameState() {
-            const savedGame = localStorage.getItem('rfOnlineGame');
-            if (!savedGame) return null;
-
-            try {
-                const saveData = JSON.parse(savedGame);
-
-                // Check if old format (no checksum)
-                if (!saveData.checksum) {
-                    console.warn('⚠️ Old save format detected. Migrating...');
-                    return saveData; // Old format, accept it
-                }
-
-                // Validate checksum
-                if (!validateDataIntegrity(saveData.data, saveData.checksum)) {
-                    console.error('🚫 DATA CORRUPTION DETECTED!');
-
-                    // Log the cheat attempt
-                    logCheatAttempt('localStorage_manipulation', {
-                        attemptedData: saveData.data,
-                        reason: 'Checksum mismatch'
-                    });
-
-                    addToBattleLog('⚠️ Save data corruption detected. Loading from cloud...', 'warning');
-
-                    // Clear corrupted local save
-                    localStorage.removeItem('rfOnlineGame');
-
-                    // Force reload from Firebase
-                    if (window.currentUser) {
-                        window.loadFromFirebase(window.currentUser).then(() => {
-                            location.reload();
-                        });
-                    }
-                    return null;
-                }
-
-                return saveData.data;
-            } catch (error) {
-                console.error('Failed to load save data:', error);
-                return null;
             }
         }
 
@@ -5065,14 +3811,6 @@
                 document.getElementById('char-location').textContent = mapName;
             }
             addToBattleLog(`Traveling to ${mapName}...`);
-
-            // Update user's presence in Firebase with new map
-            if (window.currentUser && typeof updateUserPresence === 'function') {
-                updateUserPresence(window.currentUser, mapName);
-            }
-
-            // Update map players display
-            updateMapPlayersDisplay();
 
             // Update map selection UI
             document.querySelectorAll('.map-item').forEach(mapItem => {
@@ -5261,36 +3999,6 @@
 
             // Maps button (navigation)
             mapsBtn.addEventListener('click', showMaps);
-
-            // Market button
-            const marketBtn = document.getElementById('market-btn');
-            if (marketBtn) {
-                marketBtn.addEventListener('click', showMarket);
-            }
-
-            // Market confirm sell button
-            const confirmSellBtn = document.getElementById('confirm-sell-btn');
-            if (confirmSellBtn) {
-                confirmSellBtn.addEventListener('click', confirmSell);
-            }
-
-            // Clean up presence when user leaves
-            window.addEventListener('beforeunload', () => {
-                if (window.currentUser) {
-                    try {
-                        // Try Firebase cleanup first
-                        const presenceRef = ref(db, `publicPresence/${window.currentUser.uid}`);
-                        set(presenceRef, null).catch(() => {
-                            // Firebase cleanup failed, try localStorage
-                            const allPresence = JSON.parse(localStorage.getItem('playerPresence') || '{}');
-                            delete allPresence[window.currentUser.uid];
-                            localStorage.setItem('playerPresence', JSON.stringify(allPresence));
-                        });
-                    } catch (error) {
-                        console.error('Error cleaning up presence:', error);
-                    }
-                }
-            });
 
             // Maps button (center panel)
             const mapsMainBtn = document.getElementById('maps-main-btn');
@@ -5541,8 +4249,6 @@
                     playersModal.style.display = 'none';
                 } else if (e.target === mapsModal) {
                     mapsModal.style.display = 'none';
-                } else if (e.target === marketModal) {
-                    marketModal.style.display = 'none';
                 } else if (e.target === upgradeModal) {
                     upgradeModal.style.display = 'none';
                 } else if (e.target === craftingModal) {
@@ -5765,39 +4471,6 @@
             updateMapsAccessibility();
         }
 
-        function updateMapPlayersDisplay() {
-            const currentMap = gameState.currentMap;
-            const element = document.getElementById('explore-map-players');
-
-            if (!element) {
-                console.error('explore-map-players element not found!');
-                return;
-            }
-
-            // Get online players count from localStorage
-            getOnlinePlayersCount(currentMap).then(count => {
-                element.textContent = `Map Players: ${count}`;
-            }).catch(error => {
-                console.error('Error getting online players count:', error);
-                element.textContent = `Map Players: 1`;
-            });
-        }
-
-        // Start listening for real-time map player updates
-        function startMapPlayerUpdates() {
-            const currentMap = gameState.currentMap;
-
-            // First, update the display immediately
-            updateMapPlayersDisplay();
-
-            // Set up periodic updates for player count
-            if (typeof listenForMapPlayerUpdates === 'function') {
-                listenForMapPlayerUpdates(currentMap, (count) => {
-                    document.getElementById('explore-map-players').textContent = `Map Players: ${count}`;
-                });
-            }
-        }
-
         // Update maps accessibility based on level
         // Update maps accessibility based on level
         function updateMapsAccessibility() {
@@ -5940,65 +4613,6 @@
                     }
                 };
             }
-        }
-
-        // Flat EXP system for balanced monster rewards
-        function getMonsterExpGain(monsterName, monster) {
-            // HQ Monsters: 10-300 EXP (current values)
-            const hqExpValues = {
-                'Young Flym': 15,
-                'Wing': 20,
-                'Flym': 26,
-                'Stinkbug': 34,
-                'Desert Klan': 44,
-                'Demolis': 57,
-                'Splinter Brat': 74,
-                'Lunker': 94,
-                'Warbeast': 122,
-                'Ratmoth': 163,
-                'Snatcher Cheat': 212,
-                'Splinter': 276,
-                'Arghol Wasp': 300
-            };
-
-            // Sette Desert Monsters: 200-500 EXP
-            const setteExpValues = {
-                'Bulky Lunker': 220,
-                'Ghost': 240,
-                'Ghost II': 250,
-                'Rigor Lapis': 280,
-                'Rigor Lapis II': 300,
-                'Grumble Hook': 350,
-                'Grumble Hook II': 370,
-                'Turncoat': 420,
-                'Turncoat II': 450,
-                'Turncoat III': 480,
-                'Turncoat Knight': 500
-            };
-
-            // Ether Platform Monsters: 500-1,000 EXP
-            const etherExpValues = {
-                'Chooty': 520,
-                'Hobo Mite': 550,
-                'Hobo Sword': 560,
-                'Hobo Turnpike': 570,
-                'Hobo Cutter': 580,
-                'Passer Alpha': 650,
-                'Hobo Robber': 700,
-                'Hobo Blade': 720,
-                'Passer Beta': 780,
-                'Calliana Atroc': 850,
-                'Calliana Crew': 880,
-                'Calliana Princess': 1000
-            };
-
-            // Return EXP based on monster name (works for all maps)
-            if (hqExpValues[monsterName]) return hqExpValues[monsterName];
-            if (setteExpValues[monsterName]) return setteExpValues[monsterName];
-            if (etherExpValues[monsterName]) return etherExpValues[monsterName];
-
-            // Fallback for unknown monsters
-            return 100;
         }
 
         // Handle Ship Travel
@@ -6819,8 +5433,8 @@
                     }
 
                     if (char.level < 40) {
-                        // Flat EXP system: Different EXP per map for balanced progression
-                        const expGain = getMonsterExpGain(selectedMonsterName, selectedMonster);
+                        // EXP Formula: Exponential scaling for balanced progression
+                        const expGain = Math.floor(15 * Math.pow(1.3, selectedMonster.level - 1));
                         char.exp += expGain;
                         addToBattleLog(`You gained <span class="log-exp">${expGain} EXP points</span>.`, 'exp');
 
@@ -7043,8 +5657,8 @@
             while (char.exp >= char.maxExp && char.level < 40) {
                 char.level += 1;
                 char.exp -= char.maxExp;
-                // EXP Required Formula: Gentle exponential progression (50 * 1.2^(level-1))
-                char.maxExp = Math.floor(50 * Math.pow(1.2, char.level - 1));
+                // EXP Required Formula: Exponential progression (100 * 1.3^(level-1))
+                char.maxExp = Math.floor(100 * Math.pow(1.3, char.level - 1));
 
                 const increases = statIncrease[char.class];
                 char.maxHp += increases.hp;
@@ -7123,8 +5737,7 @@
                         item.name.toLowerCase().includes('shirt') ||
                         item.name.toLowerCase().includes('tunic') ||
                         item.name.toLowerCase().includes('cloak') ||
-                        item.name.toLowerCase().includes('core') ||
-                        item.name.toLowerCase().includes('suit');
+                        item.name.toLowerCase().includes('core');
 
                     const isAccessory = item.name.toLowerCase().includes('wristlet') || item.isWings || item.name.toLowerCase().includes('wings');
 
@@ -7691,482 +6304,6 @@
             playersModal.style.display = 'flex';
         }
 
-        // Global Market System
-        let selectedItemForSale = null;
-
-        // Show market modal
-        // Show market modal
-        function showMarket() {
-            const marketModal = document.getElementById('market-modal');
-            marketModal.style.display = 'flex';
-
-            // Show browse mode by default
-            document.getElementById('market-browse').classList.add('active');
-            document.getElementById('market-sell').classList.remove('active');
-
-            // Set up price input validation
-            setupPriceValidation();
-
-            // Load market data
-            loadMarketItems();
-        }
-
-        // Toggle between browse and sell modes
-        function toggleSellMode() {
-            const browseMode = document.getElementById('market-browse');
-            const sellMode = document.getElementById('market-sell');
-
-            if (browseMode.classList.contains('active')) {
-                // Switch to sell mode
-                browseMode.classList.remove('active');
-                sellMode.classList.add('active');
-                loadSellInventory();
-            } else {
-                // Switch back to browse mode
-                sellMode.classList.remove('active');
-                browseMode.classList.add('active');
-                cancelSell();
-            }
-        }
-
-        // Set up price input validation to only allow numbers
-        function setupPriceValidation() {
-            const priceInput = document.getElementById('sell-price');
-            if (priceInput) {
-                // Prevent non-numeric keys
-                priceInput.addEventListener('keypress', function (e) {
-                    // Allow backspace, delete, tab, escape, enter, and numbers
-                    if ([8, 9, 27, 13, 46].includes(e.keyCode) ||
-                        (e.keyCode >= 48 && e.keyCode <= 57) || // Numbers 0-9
-                        (e.keyCode >= 96 && e.keyCode <= 105)) { // Numpad 0-9
-                        return;
-                    }
-                    e.preventDefault();
-                });
-
-                // Clean input on change
-                priceInput.addEventListener('input', function (e) {
-                    // Remove any non-numeric characters
-                    let value = e.target.value.replace(/[^0-9]/g, '');
-
-                    // Remove leading zeros (except for single 0)
-                    if (value.length > 1 && value.startsWith('0')) {
-                        value = value.replace(/^0+/, '');
-                    }
-
-                    // Limit to reasonable price range (1-999999)
-                    const numValue = parseInt(value) || 0;
-                    if (numValue > 999999) {
-                        value = '999999';
-                    }
-
-                    e.target.value = value;
-                });
-
-                // Prevent paste of invalid characters
-                priceInput.addEventListener('paste', function (e) {
-                    e.preventDefault();
-                    setTimeout(() => {
-                        const value = e.target.value.replace(/[^0-9]/g, '');
-                        e.target.value = value;
-                    }, 0);
-                });
-            }
-        }
-
-        // Market view switching
-        function showBrowseMarket() {
-            switchMarketView('browse');
-        }
-
-        function showSellInterface() {
-            switchMarketView('sell');
-            loadSellInventory();
-        }
-
-        function showMyListings() {
-            switchMarketView('listings');
-            loadMyListings();
-        }
-
-        function switchMarketView(viewName) {
-            // Hide all views
-            document.querySelectorAll('.market-view').forEach(view => {
-                view.classList.remove('active');
-            });
-
-            // Show selected view
-            document.getElementById(`market-${viewName}`).classList.add('active');
-        }
-
-        // Load market items for browsing
-        function loadMarketItems() {
-            const marketItems = document.getElementById('market-items');
-            marketItems.innerHTML = '<div class="loading">Loading market items...</div>';
-
-            try {
-                // Use localStorage for market listings
-                const localListings = JSON.parse(localStorage.getItem('globalMarket') || '{}');
-                const listings = localListings;
-
-                if (Object.keys(listings).length === 0) {
-                    marketItems.innerHTML = `
-                        <div class="empty-state">
-                            <div class="empty-icon">🛒</div>
-                            <h3>No Items for Sale</h3>
-                            <p>Be the first to list an item! Start selling your gear to other players.</p>
-                            <button class="sell-btn" onclick="toggleSellMode()">
-                                <span class="btn-icon">💰</span> Start Selling
-                            </button>
-                        </div>
-                    `;
-                    return;
-                }
-
-                // Convert to array (no sorting as requested)
-                const itemsArray = Object.entries(listings).map(([id, listing]) => ({
-                    id,
-                    ...listing
-                }));
-
-                marketItems.innerHTML = '';
-
-                itemsArray.forEach(listing => {
-                    if (listing.status !== 'active') return;
-
-                    const itemElement = document.createElement('div');
-                    itemElement.className = 'market-item';
-
-                    // Format stats nicely
-                    let statsText = '';
-                    if (listing.item.stats) {
-                        const stats = Object.entries(listing.item.stats);
-                        if (stats.length > 0) {
-                            statsText = stats.map(([stat, value]) => {
-                                const icon = stat === 'attack' ? '⚔️' :
-                                    stat === 'defense' ? '🛡️' :
-                                        stat === 'criticalChance' ? '💥' : '✨';
-                                return `${icon} ${stat}: +${value}`;
-                            }).join(' • ');
-                        }
-                    }
-
-                    itemElement.innerHTML = `
-                            <div class="market-item-header">
-                                <div class="market-item-name">${listing.item.name}</div>
-                                <div class="market-item-price">${listing.price} <span class="currency-icon">🍃</span></div>
-                            </div>
-                            <div class="market-item-stats">
-                                ${statsText || 'No special stats'}
-                            </div>
-                            <div class="market-item-footer">
-                                <div class="market-item-seller">Seller: ${listing.sellerName || 'Anonymous'}</div>
-                                <button class="btn btn-success" onclick="buyMarketItem('${listing.id}')">
-                                    <span class="btn-icon">🛒</span> Buy Now
-                                </button>
-                            </div>
-                        `;
-
-                    marketItems.appendChild(itemElement);
-                });
-            } catch (error) {
-                console.error('Error loading market items:', error);
-                marketItems.innerHTML = '<div class="loading">Error loading market. Please try again.</div>';
-            }
-        }
-
-        // Load player's inventory for selling
-        function loadSellInventory() {
-            const sellInventory = document.getElementById('sell-inventory');
-            sellInventory.innerHTML = '';
-
-            gameState.inventory.forEach((item, index) => {
-                const itemElement = document.createElement('div');
-                itemElement.className = 'inventory-item';
-                itemElement.onclick = () => selectItemForSale(index);
-
-                itemElement.innerHTML = `
-                    <div class="inventory-item-name">${item.name}</div>
-                    <div class="inventory-item-stats">
-                        ${item.stats ? Object.entries(item.stats).map(([stat, value]) =>
-                    `${stat}: +${value}`).join('<br>') : ''}
-                    </div>
-                `;
-
-                sellInventory.appendChild(itemElement);
-            });
-
-            if (gameState.inventory.length === 0) {
-                sellInventory.innerHTML = '<div class="loading">No items to sell!</div>';
-            }
-        }
-
-        // Select item for sale
-        function selectItemForSale(index) {
-            selectedItemForSale = index;
-
-            // Update UI
-            document.querySelectorAll('.inventory-item').forEach((item, i) => {
-                item.classList.toggle('selected', i === index);
-            });
-
-            // Show sell form
-            const sellForm = document.getElementById('sell-form');
-            const sellItemInfo = document.getElementById('sell-item-info');
-            const item = gameState.inventory[index];
-
-            sellItemInfo.innerHTML = `
-                <div class="sell-item-name">${item.name}</div>
-                <div class="sell-item-stats">
-                    ${item.stats ? Object.entries(item.stats).map(([stat, value]) =>
-                `${stat}: +${value}`).join(', ') : 'No special stats'}
-                </div>
-                <div class="sell-item-value">Sell Value: ${item.sellValue || 0} Leaves</div>
-            `;
-
-            sellForm.style.display = 'block';
-        }
-
-        // Cancel selling
-        function cancelSell() {
-            selectedItemForSale = null;
-            document.querySelectorAll('.inventory-item').forEach(item => {
-                item.classList.remove('selected');
-            });
-            document.getElementById('sell-form').style.display = 'none';
-            document.getElementById('sell-price').value = '';
-        }
-
-        // Confirm sale and list item
-        function confirmSell() {
-            if (selectedItemForSale === null) return;
-
-            // Check if player already has a listing (only allow 1 item at a time)
-            const localListings = JSON.parse(localStorage.getItem('globalMarket') || '{}');
-            const userListings = Object.values(localListings).filter(listing =>
-                listing.sellerId === (window.currentUser?.uid || 'unknown') && listing.status === 'active'
-            );
-
-            if (userListings.length > 0) {
-                alert('You can only have 1 item listed for sale at a time.');
-                return;
-            }
-
-            const priceInput = document.getElementById('sell-price').value.trim();
-            const price = parseInt(priceInput);
-
-            if (!priceInput || isNaN(price) || price < 1) {
-                alert('Please enter a valid price (minimum 1 Leaf)!');
-                return;
-            }
-
-            if (price > 999999) {
-                alert('Maximum price is 999,999 Leaves!');
-                return;
-            }
-
-            const item = gameState.inventory[selectedItemForSale];
-
-            // Create listing
-            const listing = {
-                item: item,
-                price: price,
-                sellerId: window.currentUser?.uid || 'unknown',
-                sellerName: gameState.character?.name || 'Unknown Player',
-                timestamp: Date.now(),
-                status: 'active'
-            };
-
-            try {
-                // Use localStorage for market listings
-                const listingId = Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-                const localListings = JSON.parse(localStorage.getItem('globalMarket') || '{}');
-                localListings[listingId] = listing;
-                localStorage.setItem('globalMarket', JSON.stringify(localListings));
-
-                // Remove item from inventory
-                gameState.inventory.splice(selectedItemForSale, 1);
-
-                // Save game state
-                saveGameState();
-                updateInventoryDisplay();
-
-                // Reset form and go back to browse mode
-                cancelSell();
-                toggleSellMode();
-
-                // Refresh market
-                loadMarketItems();
-
-                alert('Item listed for sale successfully!');
-            } catch (error) {
-                console.error('Error creating listing:', error);
-                alert('Failed to list item. Please try again.');
-            }
-        }
-
-        // Buy market item
-        function buyMarketItem(listingId) {
-            if (!window.currentUser) {
-                alert('You must be logged in to buy items!');
-                return;
-            }
-
-            try {
-                const localListings = JSON.parse(localStorage.getItem('globalMarket') || '{}');
-                const listing = localListings[listingId];
-
-                if (!listing || listing.status !== 'active') {
-                    alert('This item is no longer available!');
-                    return;
-                }
-
-                // Check if buyer has enough money
-                if (gameState.currency < listing.price) {
-                    alert('You don\'t have enough Leaves!');
-                    return;
-                }
-
-                // Check if buyer is not the seller
-                if (window.currentUser && listing.sellerId === window.currentUser.uid) {
-                    alert('You cannot buy your own items!');
-                    return;
-                }
-
-                // Process purchase
-                gameState.currency -= listing.price;
-
-                // Add item to inventory
-                gameState.inventory.push(listing.item);
-
-                // Mark listing as sold
-                listing.status = 'sold';
-                localStorage.setItem('globalMarket', JSON.stringify(localListings));
-
-                // Save and update UI
-                saveGameState();
-                updateInventoryDisplay();
-                document.getElementById('currency-amount').textContent = gameState.currency;
-
-                // Refresh market
-                loadMarketItems();
-
-                alert(`Successfully purchased ${listing.item.name} for ${listing.price} Leaves!`);
-            } catch (error) {
-                console.error('Error processing purchase:', error);
-                alert('Failed to purchase item. Please try again.');
-            }
-        }
-
-        // Load player's listings
-        function loadMyListings() {
-            const myListings = document.getElementById('my-listings');
-
-            if (!window.firebaseReady || !window.currentUser) {
-                myListings.innerHTML = '<div class="loading">Please log in to view your listings.</div>';
-                return;
-            }
-
-            myListings.innerHTML = '<div class="loading">Loading your listings...</div>';
-
-            try {
-                const marketRef = ref(db, 'market');
-                onValue(marketRef, (snapshot) => {
-                    const listings = snapshot.val() || {};
-                    const myItems = Object.entries(listings).filter(([id, listing]) =>
-                        listing.sellerId === window.currentUser.uid && listing.status === 'active'
-                    );
-
-                    if (myItems.length === 0) {
-                        myListings.innerHTML = `
-                            <div class="empty-state">
-                                <div class="empty-icon">📦</div>
-                                <h3>No Active Listings</h3>
-                                <p>You haven't listed any items for sale yet. Go to the "Sell Items" tab to list your first item!</p>
-                            </div>
-                        `;
-                        return;
-                    }
-
-                    myListings.innerHTML = '';
-
-                    myItems.forEach(([id, listing]) => {
-                        const itemElement = document.createElement('div');
-                        itemElement.className = 'listing-item';
-
-                        // Format stats nicely
-                        let statsText = '';
-                        if (listing.item.stats) {
-                            const stats = Object.entries(listing.item.stats);
-                            if (stats.length > 0) {
-                                statsText = stats.map(([stat, value]) => {
-                                    const icon = stat === 'attack' ? '⚔️' :
-                                        stat === 'defense' ? '🛡️' :
-                                            stat === 'criticalChance' ? '💥' : '✨';
-                                    return `${icon} ${stat}: +${value}`;
-                                }).join(' • ');
-                            }
-                        }
-
-                        itemElement.innerHTML = `
-                        <div class="market-item-header">
-                            <div class="market-item-name">${listing.item.name}</div>
-                            <div class="market-item-price">${listing.price} <span class="currency-icon">🍃</span></div>
-                        </div>
-                        <div class="market-item-stats">
-                            ${statsText || 'No special stats'}
-                        </div>
-                        <div class="market-item-footer">
-                            <div class="market-item-seller">Listed for sale</div>
-                            <button class="btn btn-danger" onclick="cancelListing('${id}')">
-                                <span class="btn-icon">❌</span> Cancel Listing
-                            </button>
-                        </div>
-                    `;
-
-                        myListings.appendChild(itemElement);
-                    });
-                });
-            } catch (error) {
-                console.error('Error loading listings:', error);
-                myListings.innerHTML = '<div class="loading">Error loading listings.</div>';
-            }
-        }
-
-        // Cancel listing
-        function cancelListing(listingId) {
-            if (!confirm('Are you sure you want to cancel this listing? The item will be returned to your inventory.')) {
-                return;
-            }
-
-            try {
-                const listingRef = ref(db, `market/${listingId}`);
-                get(listingRef).then((snapshot) => {
-                    const listing = snapshot.val();
-
-                    // Return item to inventory
-                    gameState.inventory.push(listing.item);
-
-                    // Remove listing
-                    set(listingRef, { ...listing, status: 'cancelled' });
-
-                    // Save and update
-                    saveGameState();
-                    updateInventoryDisplay();
-                    loadMyListings();
-                    loadMarketItems();
-
-                    alert('Listing cancelled. Item returned to inventory.');
-                }).catch((error) => {
-                    console.error('Error cancelling listing:', error);
-                    alert('Failed to cancel listing.');
-                });
-            } catch (error) {
-                console.error('Error processing cancellation:', error);
-                alert('Failed to cancel listing.');
-            }
-        }
-
         // Get emoji for items and elements
         function getEmoji(type) {
             switch (type) {
@@ -8197,11 +6334,10 @@
                 case 'sprits cloak': return '🧥';
                 case 'soul armor': return '🧥';
                 case 'turncoat armor': return '🧥';
-                case 'glow suit': return '🧥';
                 case 'red gem': return '♦️';
                 case 'blue gem': return '🔷';
                 case 'shiny gem': return '💎';
-                case 'winter box': return '🧊';
+                case 'gli': return '🔶';
                 case 'exp': return '✨';
                 case 'parsal wristlet a': return '💍';
                 case 'parsal wristlet b': return '💍';
@@ -8465,570 +6601,6 @@
             saveGameState();
         }
 
-        // ========================================
-        // MARKET SYSTEM
-        // ========================================
-
-        let selectedSellItem = null;
-        let currentMarketMode = 'browse'; // 'browse', 'sell', or 'listings'
-
-        // Show market modal
-        function showMarket() {
-            const marketModal = document.getElementById('market-modal');
-            marketModal.style.display = 'flex';
-            currentMarketMode = 'browse';
-            showBrowseMode();
-            loadMarketItems();
-        }
-
-        // Show browse mode
-        function showBrowseMode() {
-            // Update tabs
-            document.getElementById('browse-tab-btn').style.backgroundColor = 'var(--accent-color)';
-            document.getElementById('sell-tab-btn').style.backgroundColor = 'var(--accent)';
-            document.getElementById('listings-tab-btn').style.backgroundColor = 'var(--accent)';
-
-            // Show/hide content
-            document.getElementById('market-browse').classList.add('active');
-            document.getElementById('market-sell').classList.remove('active');
-            document.getElementById('market-listings').classList.remove('active');
-
-            currentMarketMode = 'browse';
-            selectedSellItem = null;
-        }
-
-        // Show sell mode
-        function showSellMode() {
-            // Update tabs
-            document.getElementById('browse-tab-btn').style.backgroundColor = 'var(--accent)';
-            document.getElementById('sell-tab-btn').style.backgroundColor = 'var(--accent-color)';
-            document.getElementById('listings-tab-btn').style.backgroundColor = 'var(--accent)';
-
-            // Show/hide content
-            document.getElementById('market-browse').classList.remove('active');
-            document.getElementById('market-sell').classList.add('active');
-            document.getElementById('market-listings').classList.remove('active');
-
-            currentMarketMode = 'sell';
-            loadSellInventory();
-        }
-
-        // Show my listings mode
-        function showMyListingsMode() {
-            // Update tabs
-            document.getElementById('browse-tab-btn').style.backgroundColor = 'var(--accent)';
-            document.getElementById('sell-tab-btn').style.backgroundColor = 'var(--accent)';
-            document.getElementById('listings-tab-btn').style.backgroundColor = 'var(--accent-color)';
-
-            // Show/hide content
-            document.getElementById('market-browse').classList.remove('active');
-            document.getElementById('market-sell').classList.remove('active');
-            document.getElementById('market-listings').classList.add('active');
-
-            currentMarketMode = 'listings';
-        }
-
-        // Toggle between browse and sell modes
-        function toggleSellMode() {
-            if (currentMarketMode === 'sell') {
-                showBrowseMode();
-                loadMarketItems();
-            } else {
-                showSellMode();
-            }
-        }
-
-        // Load market items from Firebase
-        async function loadMarketItems() {
-            const marketItemsContainer = document.getElementById('market-items');
-            marketItemsContainer.innerHTML = '<div class="loading">Loading market items...</div>';
-
-            try {
-                const { ref, get } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js');
-                const marketRef = ref(db, 'marketListings');
-                const snapshot = await get(marketRef);
-
-                if (!snapshot.exists()) {
-                    marketItemsContainer.innerHTML = `
-                        <div class="empty-state">
-                            <div class="empty-icon">🏪</div>
-                            <h3>No Items Listed</h3>
-                            <p>Be the first to list an item on the market!</p>
-                        </div>
-                    `;
-                    return;
-                }
-
-                const listings = snapshot.val();
-                const currentUserId = window.currentUser?.uid;
-
-                // Filter out current user's listings
-                const otherPlayersListings = Object.entries(listings).filter(([id, listing]) =>
-                    listing.sellerId !== currentUserId
-                );
-
-                if (otherPlayersListings.length === 0) {
-                    marketItemsContainer.innerHTML = `
-                        <div class="empty-state">
-                            <div class="empty-icon">🏪</div>
-                            <h3>No Items Available</h3>
-                            <p>Check back later for new listings!</p>
-                        </div>
-                    `;
-                    return;
-                }
-
-                // Render market items
-                marketItemsContainer.innerHTML = '';
-                otherPlayersListings.forEach(([listingId, listing]) => {
-                    const itemEl = createMarketItemElement(listingId, listing);
-                    marketItemsContainer.appendChild(itemEl);
-                });
-
-            } catch (error) {
-                console.error('Error loading market items:', error);
-                marketItemsContainer.innerHTML = `
-                    <div class="empty-state">
-                        <div class="empty-icon">⚠️</div>
-                        <h3>Error Loading Market</h3>
-                        <p>Please try again later.</p>
-                    </div>
-                `;
-            }
-        }
-
-        // Create market item element
-        function createMarketItemElement(listingId, listing) {
-            const item = listing.item;
-            const div = document.createElement('div');
-            div.className = 'market-item';
-
-            // Build stats display
-            let statsHtml = '';
-            if (item.stats.attack) statsHtml += `ATK: ${item.stats.attack} `;
-            if (item.stats.defense) statsHtml += `DEF: ${item.stats.defense} `;
-            if (item.upgradeLevel > 0) statsHtml += `+${item.upgradeLevel} `;
-
-            div.innerHTML = `
-                <div class="market-item-header">
-                    <h4 class="market-item-name">${getEmoji(item.name.toLowerCase())} ${item.name}</h4>
-                    <div class="market-item-price">${listing.price} 🍃</div>
-                </div>
-                <div class="market-item-stats">${statsHtml}</div>
-                <div class="market-item-footer">
-                    <div class="market-item-seller">Sold by: ${listing.sellerName}</div>
-                    <button class="btn btn-success" onclick="buyMarketItem('${listingId}', ${JSON.stringify(listing).replace(/"/g, '&quot;')})">
-                        <span class="btn-icon">💰</span> Buy
-                    </button>
-                </div>
-            `;
-
-            return div;
-        }
-
-        // Buy market item
-        async function buyMarketItem(listingId, listing) {
-            const price = listing.price;
-
-            // Check if player has enough currency
-            if (gameState.currency < price) {
-                addToBattleLog('Not enough Leaves to buy this item!', 'warning');
-                return;
-            }
-
-            // Check inventory space
-            if (gameState.inventory.length >= 20) {
-                addToBattleLog('Inventory full! Cannot buy item.', 'warning');
-                return;
-            }
-
-            try {
-                const { ref, get, set, update, remove } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js');
-
-                // Deduct currency from buyer
-                gameState.currency -= price;
-                document.getElementById('currency-amount').textContent = gameState.currency;
-
-                // Add item to buyer's inventory
-                gameState.inventory.push(listing.item);
-                updateInventoryDisplay();
-
-
-                // Add currency to seller using Firebase transaction (atomic and safe)
-                const { runTransaction } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js');
-                const sellerDataRef = ref(db, `users/${listing.sellerId}`);
-
-                console.log(`🔍 Starting transaction for seller ${listing.sellerName} (${listing.sellerId})`);
-                console.log(`💰 Price to add: ${price}`);
-
-                try {
-                    const result = await runTransaction(sellerDataRef, (currentData) => {
-                        console.log('📊 Current seller data:', JSON.stringify(currentData, null, 2));
-
-                        if (currentData === null) {
-                            console.warn('⚠️ Seller data is null!');
-                            return currentData;
-                        }
-
-                        // Log the current structure
-                        console.log('🔍 Data structure check:');
-                        console.log('  - Has data property?', !!currentData.data);
-                        console.log('  - data.currency type:', typeof currentData.data?.currency);
-                        console.log('  - data.currency value:', currentData.data?.currency);
-                        console.log('  - root currency type:', typeof currentData.currency);
-                        console.log('  - root currency value:', currentData.currency);
-
-                        // Add price to seller's currency
-                        if (currentData.data && typeof currentData.data.currency === 'number') {
-                            console.log(`✅ Adding ${price} to data.currency (${currentData.data.currency})`);
-                            currentData.data.currency += price;
-                            console.log(`✅ New data.currency: ${currentData.data.currency}`);
-                        } else if (typeof currentData.currency === 'number') {
-                            console.log(`✅ Adding ${price} to root currency (${currentData.currency})`);
-                            currentData.currency += price;
-                            console.log(`✅ New root currency: ${currentData.currency}`);
-                        } else if (currentData.data) {
-                            console.log(`⚠️ Creating new data.currency with value ${price}`);
-                            currentData.data.currency = price;
-                        } else {
-                            console.log(`⚠️ Creating new data structure with currency ${price}`);
-                            currentData.data = { currency: price };
-                        }
-
-                        console.log('📤 Returning updated data:', JSON.stringify(currentData, null, 2));
-                        return currentData;
-                    });
-
-                    console.log('✅ Transaction result:', result);
-                    console.log(`✅ Seller ${listing.sellerName} received ${price} Leaves via transaction`);
-                    addToBattleLog(`Payment sent to ${listing.sellerName}`, 'info');
-                } catch (transactionError) {
-                    console.error('❌ Transaction failed for seller currency update:', transactionError);
-                    addToBattleLog('Warning: Seller may not have received payment. Please contact support.', 'warning');
-                }
-
-                // Remove listing from market
-                const listingRef = ref(db, `marketListings/${listingId}`);
-                await remove(listingRef);
-
-                // Save buyer's state
-                saveGameState();
-
-                addToBattleLog(`Purchased ${listing.item.name} for ${price} Leaves!`, 'success');
-
-                // Reload market items
-                loadMarketItems();
-
-            } catch (error) {
-                console.error('Error buying item:', error);
-                addToBattleLog('Failed to purchase item. Please try again.', 'warning');
-
-                // Refund currency on error
-                gameState.currency += price;
-                document.getElementById('currency-amount').textContent = gameState.currency;
-                gameState.inventory.pop();
-                updateInventoryDisplay();
-            }
-        }
-
-        // Load player's inventory for selling
-        function loadSellInventory() {
-            const sellInventory = document.getElementById('sell-inventory');
-            const sellForm = document.getElementById('sell-form');
-
-            sellInventory.innerHTML = '';
-            sellForm.style.display = 'none';
-            selectedSellItem = null;
-
-            // Get sellable items (exclude equipped items)
-            const sellableItems = gameState.inventory.filter(item => {
-                const char = gameState.character;
-                return item !== char.equipped.weapon &&
-                    item !== char.equipped.armor &&
-                    item !== char.equipped.accessory1 &&
-                    item !== char.equipped.accessory2 &&
-                    item !== char.equipped.wings;
-            });
-
-            if (sellableItems.length === 0) {
-                sellInventory.innerHTML = `
-                    <div class="empty-state">
-                        <div class="empty-icon">📦</div>
-                        <h3>No Items to Sell</h3>
-                        <p>You don't have any unequipped items to list on the market.</p>
-                    </div>
-                `;
-                return;
-            }
-
-            // Render inventory items
-            sellableItems.forEach(item => {
-                const itemEl = createSellInventoryItem(item);
-                sellInventory.appendChild(itemEl);
-            });
-        }
-
-        // Create sell inventory item element
-        function createSellInventoryItem(item) {
-            const div = document.createElement('div');
-            div.className = 'inventory-item';
-
-            let statsHtml = '';
-            if (item.stats.attack) statsHtml += `ATK: ${item.stats.attack}<br>`;
-            if (item.stats.defense) statsHtml += `DEF: ${item.stats.defense}<br>`;
-            if (item.upgradeLevel > 0) statsHtml += `+${item.upgradeLevel}`;
-
-            div.innerHTML = `
-                <div class="inventory-item-name">${getEmoji(item.name.toLowerCase())} ${item.name}</div>
-                <div class="inventory-item-stats">${statsHtml}</div>
-            `;
-
-            div.addEventListener('click', () => selectItemToSell(item, div));
-
-            return div;
-        }
-
-        // Select item to sell
-        function selectItemToSell(item, element) {
-            selectedSellItem = item;
-
-            // Update UI selection
-            document.querySelectorAll('.inventory-item').forEach(el => el.classList.remove('selected'));
-            element.classList.add('selected');
-
-            // Show sell form
-            const sellForm = document.getElementById('sell-form');
-            const sellItemInfo = document.getElementById('sell-item-info');
-
-            let statsHtml = '';
-            if (item.stats.attack) statsHtml += `ATK: ${item.stats.attack} `;
-            if (item.stats.defense) statsHtml += `DEF: ${item.stats.defense} `;
-            if (item.upgradeLevel > 0) statsHtml += `+${item.upgradeLevel}`;
-
-            sellItemInfo.innerHTML = `
-                <div style="text-align: center;">
-                    <div style="font-size: 1.2rem; font-weight: bold; color: var(--accent-color); margin-bottom: 0.5rem;">
-                        ${getEmoji(item.name.toLowerCase())} ${item.name}
-                    </div>
-                    <div style="color: var(--text);">${statsHtml}</div>
-                </div>
-            `;
-
-            sellForm.style.display = 'block';
-            document.getElementById('sell-price').value = '';
-            document.getElementById('sell-price').focus();
-        }
-
-        // Confirm sell
-        async function confirmSell() {
-            if (!selectedSellItem) {
-                addToBattleLog('Please select an item to sell!', 'warning');
-                return;
-            }
-
-            const priceInput = document.getElementById('sell-price');
-            const priceValue = priceInput.value.trim();
-
-            // Validate input is a number
-            if (!/^\d+$/.test(priceValue)) {
-                addToBattleLog('Price must be a number only (no symbols or decimals)!', 'warning');
-                return;
-            }
-
-            const price = parseInt(priceValue);
-
-            if (!price || price <= 0) {
-                addToBattleLog('Please enter a valid price!', 'warning');
-                return;
-            }
-
-            if (price > 999999) {
-                addToBattleLog('Price too high! Maximum is 999,999 Leaves.', 'warning');
-                return;
-            }
-
-            try {
-                const { ref, push } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js');
-
-                // Create listing
-                const listing = {
-                    sellerId: window.currentUser.uid,
-                    sellerName: gameState.character.name,
-                    item: selectedSellItem,
-                    price: price,
-                    listedAt: Date.now()
-                };
-
-                // Add to Firebase
-                const marketRef = ref(db, 'marketListings');
-                await push(marketRef, listing);
-
-                // Remove from inventory
-                const itemIndex = gameState.inventory.indexOf(selectedSellItem);
-                gameState.inventory.splice(itemIndex, 1);
-                updateInventoryDisplay();
-                saveGameState();
-
-                addToBattleLog(`Listed ${selectedSellItem.name} for ${price} Leaves!`, 'success');
-
-                // Return to browse mode
-                toggleSellMode();
-
-            } catch (error) {
-                console.error('Error listing item:', error);
-                addToBattleLog('Failed to list item. Please try again.', 'warning');
-            }
-        }
-
-        // Load player's listings
-        async function loadMyListings() {
-            const myListingsContainer = document.getElementById('my-listings');
-            myListingsContainer.innerHTML = '<div class="loading">Loading your listings...</div>';
-
-            try {
-                const { ref, get } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js');
-                const marketRef = ref(db, 'marketListings');
-                const snapshot = await get(marketRef);
-
-                if (!snapshot.exists()) {
-                    myListingsContainer.innerHTML = `
-                        <div class="empty-state">
-                            <div class="empty-icon">📋</div>
-                            <h3>No Active Listings</h3>
-                            <p>You haven't listed any items yet.</p>
-                        </div>
-                    `;
-                    return;
-                }
-
-                const listings = snapshot.val();
-                const currentUserId = window.currentUser?.uid;
-
-                // Filter current user's listings
-                const myListings = Object.entries(listings).filter(([id, listing]) =>
-                    listing.sellerId === currentUserId
-                );
-
-                if (myListings.length === 0) {
-                    myListingsContainer.innerHTML = `
-                        <div class="empty-state">
-                            <div class="empty-icon">📋</div>
-                            <h3>No Active Listings</h3>
-                            <p>You haven't listed any items yet.</p>
-                        </div>
-                    `;
-                    return;
-                }
-
-                // Render listings
-                myListingsContainer.innerHTML = '';
-                myListings.forEach(([listingId, listing]) => {
-                    const itemEl = createMyListingElement(listingId, listing);
-                    myListingsContainer.appendChild(itemEl);
-                });
-
-            } catch (error) {
-                console.error('Error loading my listings:', error);
-                myListingsContainer.innerHTML = `
-                    <div class="empty-state">
-                        <div class="empty-icon">⚠️</div>
-                        <h3>Error Loading Listings</h3>
-                        <p>Please try again later.</p>
-                    </div>
-                `;
-            }
-        }
-
-        // Create my listing element
-        function createMyListingElement(listingId, listing) {
-            const item = listing.item;
-            const div = document.createElement('div');
-            div.className = 'listing-item';
-
-            let statsHtml = '';
-            if (item.stats.attack) statsHtml += `ATK: ${item.stats.attack} `;
-            if (item.stats.defense) statsHtml += `DEF: ${item.stats.defense} `;
-            if (item.upgradeLevel > 0) statsHtml += `+${item.upgradeLevel}`;
-
-            div.innerHTML = `
-                <div class="market-item-header">
-                    <h4 class="listing-item-name">${getEmoji(item.name.toLowerCase())} ${item.name}</h4>
-                    <div class="listing-item-price">${listing.price} 🍃</div>
-                </div>
-                <div class="market-item-stats">${statsHtml}</div>
-                <div class="market-item-footer">
-                    <div style="font-size: 0.85rem; color: var(--text-dim);">Listed ${getTimeAgo(listing.listedAt)}</div>
-                    <button class="btn btn-danger btn-small" onclick="cancelListing('${listingId}', ${JSON.stringify(listing).replace(/"/g, '&quot;')})">
-                        <span class="btn-icon">✖</span> Cancel
-                    </button>
-                </div>
-            `;
-
-            return div;
-        }
-
-        // Cancel listing
-        async function cancelListing(listingId, listing) {
-            if (!confirm('Cancel this listing and return the item to your inventory?')) {
-                return;
-            }
-
-            // Check inventory space
-            if (gameState.inventory.length >= 20) {
-                addToBattleLog('Inventory full! Cannot cancel listing.', 'warning');
-                return;
-            }
-
-            try {
-                const { ref, remove } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js');
-
-                // Return item to inventory
-                gameState.inventory.push(listing.item);
-                updateInventoryDisplay();
-
-                // Remove listing from Firebase
-                const listingRef = ref(db, `marketListings/${listingId}`);
-                await remove(listingRef);
-
-                saveGameState();
-
-                addToBattleLog(`Cancelled listing for ${listing.item.name}`, 'info');
-
-                // Reload listings
-                loadMyListings();
-
-            } catch (error) {
-                console.error('Error cancelling listing:', error);
-                addToBattleLog('Failed to cancel listing. Please try again.', 'warning');
-
-                // Remove item from inventory on error
-                gameState.inventory.pop();
-                updateInventoryDisplay();
-            }
-        }
-
-        // Helper function to get time ago
-        function getTimeAgo(timestamp) {
-            const seconds = Math.floor((Date.now() - timestamp) / 1000);
-
-            if (seconds < 60) return 'just now';
-            if (seconds < 3600) return `${Math.floor(seconds / 60)}m ago`;
-            if (seconds < 86400) return `${Math.floor(seconds / 3600)}h ago`;
-            return `${Math.floor(seconds / 86400)}d ago`;
-        }
-
-        // Make functions globally accessible
-        window.showMarket = showMarket;
-        window.showBrowseMode = showBrowseMode;
-        window.showSellMode = showSellMode;
-        window.showMyListingsMode = showMyListingsMode;
-        window.toggleSellMode = toggleSellMode;
-        window.buyMarketItem = buyMarketItem;
-        window.confirmSell = confirmSell;
-        window.cancelListing = cancelListing;
-        window.loadMarketItems = loadMarketItems;
-        window.loadMyListings = loadMyListings;
-
         // Add message to battle log
         function addToBattleLog(message, type = 'info') {
             const now = new Date();
@@ -9073,7 +6645,7 @@
                 const oldMaxExp = char.maxExp;
 
                 // Recalculate maxExp based on current level using NEW formula
-                char.maxExp = Math.floor(50 * Math.pow(1.2, char.level - 1));
+                char.maxExp = 30 + (char.level * 45);
 
                 addToBattleLog(`🔧 Fixed EXP! Old maxExp: ${oldMaxExp}, New maxExp: ${char.maxExp}`, 'success');
                 addToBattleLog(`✨ You can now gain experience toward level ${char.level + 1}!`, 'level');
