@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,38 +24,7 @@
             --success: #4aff7a;
             --warning: #ffb84a;
             --exp-color: #ff9c4a;
-            --encounter-color: #ffaa00;
             --fp-color: #4a9cff;
-            --gem-color: #ff4a6a;
-            --equip-color: #9c4aff;
-        }
-
-        /* Custom Scrollbar Styling */
-        /* Webkit browsers (Chrome, Edge, Safari) */
-        ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: var(--accent);
-            border-radius: 4px;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: var(--highlight);
-            border-radius: 4px;
-            transition: background 0.2s ease;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--accent-color);
-        }
-
-        /* Firefox */
-        * {
-            scrollbar-width: thin;
-            scrollbar-color: var(--highlight) var(--accent);
         }
 
         * {
@@ -68,8 +38,116 @@
             background-color: var(--dark-bg);
             color: var(--text);
             min-height: 100vh;
+        }
+
+        .login-container {
             display: flex;
-            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .login-card {
+            background: var(--panel-bg);
+            border-radius: 12px;
+            padding: 2rem;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+        }
+
+        .login-title {
+            text-align: center;
+            color: var(--accent-color);
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .login-subtitle {
+            text-align: center;
+            color: var(--text-dim);
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text);
+            font-weight: 500;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.8rem;
+            background: var(--darker-bg);
+            border: 2px solid var(--accent);
+            border-radius: 6px;
+            color: var(--text);
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--accent-color);
+        }
+
+        .error-message {
+            color: var(--danger);
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+            min-height: 1.2rem;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 1rem;
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn:hover {
+            background: var(--accent-hover);
+        }
+
+        .btn:disabled {
+            background: var(--accent);
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .btn-secondary {
+            background: var(--accent);
+            margin-top: 0.5rem;
+        }
+
+        .btn-secondary:hover {
+            background: var(--highlight);
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .arena-view {
+            display: none;
         }
 
         header {
@@ -79,285 +157,34 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin: 0 215px;
-            flex-wrap: wrap;
         }
 
         .logo {
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: var(--accent-color);
-        }
-
-        nav ul {
-            display: flex;
-            list-style: none;
-            gap: 1rem;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-
-        nav a {
-            color: var(--text);
-            text-decoration: none;
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
-            transition: background-color 0.2s;
-        }
-
-        nav a:hover,
-        nav a.active {
-            background-color: var(--accent);
-            color: var(--accent-color);
-        }
-
-        .container {
-            display: flex;
-            flex: 1;
-            padding: 1rem;
-            gap: 1rem;
-            height: calc(100vh - 80px);
-            overflow: hidden;
-            margin: 0 200px;
-        }
-
-        .panel {
-            background-color: var(--panel-bg);
-            border-radius: 8px;
-            padding: 1.5rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .left-panel {
-            width: 25%;
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .center-panel {
-            width: 50%;
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-        }
-
-        .right-panel {
-            width: 25%;
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-            height: calc(100vh - 120px);
-            overflow-y: visible;
-        }
-
-        .panel-title {
-            font-size: 1.2rem;
-            margin-bottom: 1rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 1px solid var(--accent);
-            color: var(--accent-color);
-        }
-
-        .battle-log {
-            background-color: var(--darker-bg);
-            border-radius: 4px;
-            padding: 1rem;
-            height: 400px;
-            overflow-y: auto;
-            font-family: monospace;
-            font-size: 0.85rem;
-        }
-
-        .log-entry {
-            margin-bottom: 0.5rem;
-            line-height: 1.4;
-        }
-
-        .log-time {
-            color: var(--text-dim);
-        }
-
-        .log-damage {
-            color: #ff4a4a;
-        }
-
-        .log-player-damage {
-            color: #ff4a4a;
-        }
-
-        .log-heal {
-            color: var(--success);
-        }
-
-        .log-loot {
-            color: var(--warning);
-        }
-
-        .log-exp {
-            color: var(--exp-color);
-        }
-
-        .log-level {
-            color: var(--accent-color);
-        }
-
-        .log-encounter {
-            color: #dab600;
-            background-color: rgba(255, 170, 0, 0.1);
-            padding: 2px 4px;
-            border-radius: 3px;
-        }
-
-        .btn {
-            padding: 0.8rem 1.5rem;
-            border: none;
-            border-radius: 4px;
-            background-color: var(--accent-color);
-            color: white;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background-color 0.2s;
-            flex: 1;
-        }
-
-        .btn:hover {
-            background-color: var(--accent-hover);
-        }
-
-        .btn:disabled {
-            background-color: var(--accent);
-            color: var(--text-dim);
-            cursor: not-allowed;
-        }
-
-        .btn-success {
-            background-color: var(--success) !important;
-            color: white !important;
-        }
-
-        .btn-secondary {
-            background-color: var(--accent);
-        }
-
-        .btn-secondary:hover {
-            background-color: var(--highlight);
-        }
-
-        .close-modal {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            background: none;
-            border: none;
-            color: var(--text-dim);
-            font-size: 2rem;
-            cursor: pointer;
-            transition: color 0.3s ease;
-        }
-
-        .close-modal:hover {
-            color: var(--accent-color);
-        }
-
-        .modal,
-        .upgrade-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .modal-content {
-            position: relative;
-            background-color: var(--panel-bg);
-            border-radius: 8px;
-            padding: 2rem;
-            width: 90%;
-            max-width: 500px;
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-
-        .modal-title {
             font-size: 1.5rem;
-            margin-bottom: 1.5rem;
+            font-weight: bold;
             color: var(--accent-color);
         }
 
-        /* Arena-specific styles */
-        .arena-container {
-            display: flex;
-            height: 100vh;
-            background: var(--dark-bg);
+        .btn-logout {
+            padding: 0.5rem 1rem;
+            background: var(--danger);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
         }
 
-        .arena-left-panel {
-            width: 300px;
-            background: var(--panel-bg);
-            border-right: 1px solid var(--accent);
-            padding: 1rem;
-            overflow-y: auto;
-        }
-
-        .arena-center-panel {
-            flex: 1;
-            background: var(--dark-bg);
-            padding: 1rem;
-            overflow-y: auto;
-        }
-
-        .arena-right-panel {
-            width: 300px;
-            background: var(--panel-bg);
-            border-left: 1px solid var(--accent);
-            padding: 1rem;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .player-list-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0.5rem;
-            margin-bottom: 0.5rem;
-            background: var(--darker-bg);
-            border-radius: 4px;
-        }
-
-        .challenge-btn {
-            padding: 0.25rem 0.5rem;
-            font-size: 0.8rem;
-        }
-
-        .chat-messages {
-            flex: 1;
-            overflow-y: auto;
-            margin-bottom: 1rem;
-            padding: 0.5rem;
-            background: var(--darker-bg);
-            border-radius: 4px;
-            font-family: monospace;
-            font-size: 0.85rem;
-        }
-
-        .chat-input {
-            display: flex;
-            gap: 0.5rem;
+        .btn-logout:hover {
+            background: #ff6a6a;
         }
 
         .character-display {
-            background: var(--darker-bg);
+            background: var(--panel-bg);
             padding: 1rem;
-            border-radius: 4px;
-            margin-bottom: 1rem;
+            margin: 1rem 2rem;
+            border-radius: 8px;
         }
 
         .character-name {
@@ -369,7 +196,7 @@
 
         .character-stats {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
             gap: 0.5rem;
             font-size: 0.9rem;
         }
@@ -386,146 +213,396 @@
         .stat-value {
             font-weight: bold;
         }
-    </style>
-</head>
-<body>
-    <!-- Header matching main game -->
-    <header>
-        <div class="logo">RF Idle - Arena PVP</div>
-        <nav>
-            <ul>
-                <li><a href="main.html">← Back to Game</a></li>
-                <li><a href="#" id="logout-btn" style="display: none;">Logout</a></li>
-            </ul>
-        </nav>
-    </header>
 
-    <!-- Character Display -->
-    <div style="padding: 0 200px; margin-top: 1rem;">
-        <div class="character-display" id="character-display" style="display: none;">
-            <div class="character-name" id="character-name">Loading...</div>
-            <div class="character-stats" id="character-stats">
-                <!-- Character stats will be populated here -->
-            </div>
-        </div>
-    </div>
+        .container {
+            display: grid;
+            grid-template-columns: 300px 1fr 300px;
+            gap: 1rem;
+            padding: 1rem 2rem;
+            height: calc(100vh - 200px);
+        }
 
-    <!-- Main Arena Container -->
-    <div class="container">
-        <!-- Left Panel: Player List -->
-        <div class="left-panel panel">
-            <div class="panel-title">🏟️ Arena Players</div>
-            <div id="player-list">
-                <div style="text-align: center; color: var(--text-dim); padding: 2rem;">
-                    Loading players...
-                </div>
-            </div>
-        </div>
+        .panel {
+            background: var(--panel-bg);
+            border-radius: 8px;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+        }
 
-        <!-- Center Panel: Battle Logs -->
-        <div class="center-panel">
-            <div class="panel-title">⚔️ Arena Battle Logs</div>
-            <div class="battle-log" id="battle-logs">
-                <div class="log-entry">
-                    <span class="log-time">[00:00:00]</span> Welcome to the Arena PVP! Waiting for players...
-                </div>
-            </div>
-        </div>
+        .panel-title {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--accent);
+            color: var(--accent-color);
+        }
 
-        <!-- Right Panel: Chat -->
-        <div class="right-panel panel">
-            <div class="panel-title">💬 Arena Chat</div>
-            <div id="chat-messages" class="chat-messages">
-                <div class="log-entry">
-                    <span class="log-time">[00:00:00]</span> <strong>System:</strong> Welcome to Arena chat!
-                </div>
-            </div>
-            <div class="chat-input">
-                <input type="text" id="chat-input" placeholder="Type message..." maxlength="200">
-                <button id="send-chat" class="btn btn-primary">Send</button>
-            </div>
-        </div>
-    </div>
+        .player-list {
+            flex: 1;
+            overflow-y: auto;
+        }
 
-    <!-- Loading Modal -->
-    <div class="modal" id="loading-modal" style="display: flex;">
-        <div class="modal-content" style="text-align: center; max-width: 400px;">
-            <div class="modal-title">🏟️ Entering Arena</div>
-            <p>Loading your character data...</p>
-            <div style="margin: 2rem 0;">
-                <div style="display: inline-block; width: 40px; height: 40px; border: 4px solid var(--accent); border-radius: 50%; border-top-color: var(--accent-color); animation: spin 1s ease-in-out infinite;"></div>
-            </div>
-        </div>
-    </div>
+        .player-item {
+            background: var(--darker-bg);
+            padding: 0.8rem;
+            margin-bottom: 0.5rem;
+            border-radius: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-    <style>
-        @keyframes spin {
-            to { transform: rotate(360deg); }
+        .player-info {
+            flex: 1;
+        }
+
+        .player-name {
+            color: var(--accent-color);
+            font-weight: bold;
+        }
+
+        .player-level {
+            color: var(--text-dim);
+            font-size: 0.85rem;
+        }
+
+        .btn-challenge {
+            padding: 0.4rem 0.8rem;
+            font-size: 0.85rem;
+            background: var(--success);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-challenge:hover:not(:disabled) {
+            background: #6aff9a;
+        }
+
+        .btn-challenge:disabled {
+            background: var(--accent);
+            cursor: not-allowed;
+        }
+
+        .battle-log {
+            flex: 1;
+            overflow-y: auto;
+            background: var(--darker-bg);
+            border-radius: 4px;
+            padding: 1rem;
+            font-family: monospace;
+            font-size: 0.85rem;
+        }
+
+        .log-entry {
+            margin-bottom: 0.5rem;
+            line-height: 1.4;
+        }
+
+        .log-time {
+            color: var(--text-dim);
+        }
+
+        .log-system {
+            color: var(--warning);
+        }
+
+        .log-challenge {
+            color: var(--accent-color);
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            background: var(--darker-bg);
+            border-radius: 4px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            font-family: monospace;
+            font-size: 0.85rem;
+        }
+
+        .chat-input-container {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 0.8rem;
+            background: var(--darker-bg);
+            border: 2px solid var(--accent);
+            border-radius: 4px;
+            color: var(--text);
+            font-size: 0.9rem;
+        }
+
+        .chat-input:focus {
+            outline: none;
+            border-color: var(--accent-color);
+        }
+
+        .btn-send {
+            padding: 0.8rem 1.5rem;
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .btn-send:hover {
+            background: var(--accent-hover);
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--accent);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--highlight);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-color);
         }
     </style>
+</head>
+
+<body>
+    <!-- Login View -->
+    <div class="login-container" id="login-view">
+        <div class="login-card">
+            <div class="login-title">🏟️ Arena PVP</div>
+            <div class="login-subtitle">Login to enter the arena</div>
+
+            <div class="form-group">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-input" id="email" placeholder="your@email.com" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-input" id="password" placeholder="••••••••" required>
+            </div>
+
+            <div class="error-message" id="auth-error"></div>
+
+            <button class="btn" id="login-btn">Login</button>
+            <button class="btn btn-secondary" id="register-btn">Register</button>
+        </div>
+    </div>
+
+    <!-- Loading Screen -->
+    <div class="login-container" id="loading-screen" style="display: none;">
+        <div class="login-card">
+            <div class="login-title">🏟️ Arena PVP</div>
+            <div class="login-subtitle">Loading your character...</div>
+
+            <div style="text-align: center; padding: 2rem;">
+                <div
+                    style="display: inline-block; width: 50px; height: 50px; border: 4px solid var(--accent); border-radius: 50%; border-top-color: var(--accent-color); animation: spin 1s ease-in-out infinite;">
+                </div>
+                <div style="margin-top: 1rem; color: var(--text-dim);">Preparing arena...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Arena View -->
+    <div class="arena-view" id="arena-view">
+        <header>
+            <div class="logo">🏟️ RF Idle - Arena PVP</div>
+            <button id="logout-btn" class="btn-logout">Logout</button>
+        </header>
+
+        <div class="character-display" id="character-display">
+            <div class="character-name" id="character-name">Loading...</div>
+            <div class="character-stats" id="character-stats"></div>
+        </div>
+
+        <div class="container">
+            <!-- Left Panel: Player List -->
+            <div class="panel">
+                <div class="panel-title">👥 Arena Players</div>
+                <div class="player-list" id="player-list">
+                    <div style="text-align: center; color: var(--text-dim); padding: 2rem;">
+                        Loading players...
+                    </div>
+                </div>
+            </div>
+
+            <!-- Center Panel: Battle Logs -->
+            <div class="panel">
+                <div class="panel-title">⚔️ Arena Logs</div>
+                <div class="battle-log" id="battle-logs">
+                    <div class="log-entry">
+                        <span class="log-time">[00:00:00]</span> <span class="log-system">Welcome to the Arena!</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Panel: Chat -->
+            <div class="panel">
+                <div class="panel-title">💬 Arena Chat</div>
+                <div class="chat-messages" id="chat-messages">
+                    <div class="log-entry">
+                        <span class="log-time">[00:00:00]</span> <strong>System:</strong> Welcome to Arena chat!
+                    </div>
+                </div>
+                <div class="chat-input-container">
+                    <input type="text" id="chat-input" class="chat-input" placeholder="Type message..." maxlength="200">
+                    <button id="send-chat" class="btn-send">Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Firebase SDK -->
     <script type="module">
-        // Character data from localStorage
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+        import { getDatabase, ref, set, onValue, push, onDisconnect, remove, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js';
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBSmstVBMny75LIw8U8fde6Obz4nZgqTQk",
+            authDomain: "idle-crusade-1900b.firebaseapp.com",
+            projectId: "idle-crusade-1900b",
+            storageBucket: "idle-crusade-1900b.firebasestorage.app",
+            messagingSenderId: "1026876043394",
+            appId: "1:1026876043394:web:ee18a7b584b8359375849b",
+            databaseURL: "https://idle-crusade-1900b-default-rtdb.firebaseio.com"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const database = getDatabase(app);
+
         let playerCharacter = null;
-        let firebaseUser = null;
+        let currentUser = null;
 
-        // Initialize when page loads
-        document.addEventListener('DOMContentLoaded', async () => {
-            console.log('Arena PVP page loaded');
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('login-btn').addEventListener('click', handleLogin);
+            document.getElementById('register-btn').addEventListener('click', handleRegister);
+            document.getElementById('logout-btn').addEventListener('click', handleLogout);
+            document.getElementById('send-chat').addEventListener('click', sendChatMessage);
+            document.getElementById('chat-input').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') sendChatMessage();
+            });
 
-            try {
-                // Load character from localStorage
-                await loadCharacterData();
+            onAuthStateChanged(auth, async (user) => {
+                if (user) {
+                    currentUser = user;
+                    console.log('User signed in:', user.email);
 
-                // Hide loading modal
-                document.getElementById('loading-modal').style.display = 'none';
+                    document.getElementById('login-view').style.display = 'none';
+                    document.getElementById('loading-screen').style.display = 'flex';
 
-            } catch (error) {
-                console.error('Failed to load arena:', error);
-                alert('Failed to load character data. Please play the main game first.');
-                window.location.href = 'main.html';
-            }
+                    try {
+                        await loadCharacterData();
+                        await enterArena();
+                    } catch (error) {
+                        console.error('Failed to load character:', error);
+                        document.getElementById('loading-screen').style.display = 'none';
+                        document.getElementById('login-view').style.display = 'flex';
+                        showAuthError(error.message);
+                    }
+                } else {
+                    currentUser = null;
+                    document.getElementById('login-view').style.display = 'flex';
+                    document.getElementById('loading-screen').style.display = 'none';
+                    document.getElementById('arena-view').style.display = 'none';
+                }
+            });
         });
 
-        // Load character data from localStorage
+        async function handleLogin() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            if (!email || !password) {
+                showAuthError('Please enter email and password');
+                return;
+            }
+
+            try {
+                await signInWithEmailAndPassword(auth, email, password);
+            } catch (error) {
+                showAuthError(getAuthErrorMessage(error.code));
+            }
+        }
+
+        async function handleRegister() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            if (!email || !password) {
+                showAuthError('Please enter email and password');
+                return;
+            }
+
+            if (password.length < 6) {
+                showAuthError('Password must be at least 6 characters');
+                return;
+            }
+
+            try {
+                await createUserWithEmailAndPassword(auth, email, password);
+            } catch (error) {
+                showAuthError(getAuthErrorMessage(error.code));
+            }
+        }
+
+        async function handleLogout() {
+            try {
+                if (currentUser && playerCharacter) {
+                    const playerRef = ref(database, `arena/players/${currentUser.uid}`);
+                    await remove(playerRef);
+                    addLog(`${playerCharacter.name} has left the arena!`, 'system');
+                }
+                await signOut(auth);
+            } catch (error) {
+                console.error('Logout error:', error);
+            }
+        }
+
         async function loadCharacterData() {
-            const savedGame = localStorage.getItem('rfIdleGameState');
+            const savedGame = localStorage.getItem('rfOnlineGame');
 
             if (!savedGame) {
-                throw new Error('No game data found');
+                throw new Error('No game data found. Please play the main game first.');
             }
 
             const gameState = JSON.parse(savedGame);
+            const character = gameState.data?.character || gameState.character;
 
-            if (!gameState.character) {
-                throw new Error('No character data found');
+            if (!character) {
+                throw new Error('No character data found. Please create a character in the main game first.');
             }
 
-            playerCharacter = gameState.character;
-
-            // Display character info
-            displayCharacterInfo();
-
+            playerCharacter = character;
             console.log('Character loaded:', playerCharacter);
         }
 
-        // Display character information
-        function displayCharacterInfo() {
-            const display = document.getElementById('character-display');
-            const nameEl = document.getElementById('character-name');
-            const statsEl = document.getElementById('character-stats');
+        async function enterArena() {
+            document.getElementById('loading-screen').style.display = 'none';
+            document.getElementById('arena-view').style.display = 'block';
 
-            nameEl.textContent = `${playerCharacter.name} (Lv.${playerCharacter.level})`;
-
-            statsEl.innerHTML = `
+            document.getElementById('character-name').textContent = `${playerCharacter.name} (Lv.${playerCharacter.level})`;
+            document.getElementById('character-stats').innerHTML = `
                 <div class="stat-row">
                     <span class="stat-label">HP:</span>
                     <span class="stat-value" style="color: var(--danger);">${playerCharacter.hp}/${playerCharacter.maxHp}</span>
-                </div>
-                <div class="stat-row">
-                    <span class="stat-label">FP:</span>
-                    <span class="stat-value" style="color: var(--fp-color);">${playerCharacter.fp}/${playerCharacter.maxFp}</span>
                 </div>
                 <div class="stat-row">
                     <span class="stat-label">Attack:</span>
@@ -535,111 +612,157 @@
                     <span class="stat-label">Defense:</span>
                     <span class="stat-value" style="color: var(--success);">${playerCharacter.defense}</span>
                 </div>
-                <div class="stat-row">
-                    <span class="stat-label">EXP:</span>
-                    <span class="stat-value" style="color: var(--exp-color);">${playerCharacter.exp}/${playerCharacter.expToNext}</span>
-                </div>
-                <div class="stat-row">
-                    <span class="stat-label">Leaves:</span>
-                    <span class="stat-value" style="color: var(--success);">${playerCharacter.leaves}</span>
-                </div>
             `;
 
-            display.style.display = 'block';
-        }
-
-        // Add log entry to battle logs
-        function addBattleLog(message, type = '') {
-            const logsEl = document.getElementById('battle-logs');
-            const now = new Date();
-            const timeString = now.toLocaleTimeString('en-US', {
-                hour12: false,
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit'
+            const playerRef = ref(database, `arena/players/${currentUser.uid}`);
+            await set(playerRef, {
+                name: playerCharacter.name,
+                level: playerCharacter.level,
+                timestamp: serverTimestamp()
             });
 
-            const logEntry = document.createElement('div');
-            logEntry.className = `log-entry ${type ? `log-${type}` : ''}`;
-            logEntry.innerHTML = `<span class="log-time">[${timeString}]</span> ${message}`;
+            onDisconnect(playerRef).remove();
 
-            logsEl.appendChild(logEntry);
-            logsEl.scrollTop = logsEl.scrollHeight;
+            setupPlayerListListener();
+            setupChatListener();
+            setupLogsListener();
+
+            addLog(`${playerCharacter.name} has entered the arena!`, 'system');
         }
 
-        // Add chat message
-        function addChatMessage(sender, message, isSystem = false) {
-            const chatEl = document.getElementById('chat-messages');
-            const now = new Date();
-            const timeString = now.toLocaleTimeString('en-US', {
-                hour12: false,
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit'
+        function setupPlayerListListener() {
+            const playersRef = ref(database, 'arena/players');
+            onValue(playersRef, (snapshot) => {
+                const players = snapshot.val();
+                const playerListEl = document.getElementById('player-list');
+
+                if (!players) {
+                    playerListEl.innerHTML = '<div style="text-align: center; color: var(--text-dim); padding: 2rem;">No players online</div>';
+                    return;
+                }
+
+                playerListEl.innerHTML = '';
+                Object.entries(players).forEach(([uid, player]) => {
+                    if (uid === currentUser.uid) return;
+
+                    const playerItem = document.createElement('div');
+                    playerItem.className = 'player-item';
+                    playerItem.innerHTML = `
+                        <div class="player-info">
+                            <div class="player-name">${player.name}</div>
+                            <div class="player-level">Level ${player.level}</div>
+                        </div>
+                        <button class="btn-challenge" disabled>Challenge</button>
+                    `;
+                    playerListEl.appendChild(playerItem);
+                });
             });
-
-            const messageEl = document.createElement('div');
-            messageEl.className = 'log-entry';
-
-            if (isSystem) {
-                messageEl.innerHTML = `<span class="log-time">[${timeString}]</span> <strong>${sender}:</strong> ${message}`;
-            } else {
-                messageEl.innerHTML = `<span class="log-time">[${timeString}]</span> <strong style="color: var(--accent-color);">${sender}:</strong> ${message}`;
-            }
-
-            chatEl.appendChild(messageEl);
-            chatEl.scrollTop = chatEl.scrollHeight;
         }
 
-        // Chat functionality
-        document.getElementById('send-chat').addEventListener('click', sendChat);
-        document.getElementById('chat-input').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                sendChat();
-            }
-        });
+        function setupChatListener() {
+            const chatRef = ref(database, 'arena/chat');
+            onValue(chatRef, (snapshot) => {
+                const messages = snapshot.val();
+                const chatEl = document.getElementById('chat-messages');
 
-        function sendChat() {
+                if (!messages) return;
+
+                chatEl.innerHTML = '';
+                Object.values(messages).forEach(msg => {
+                    const time = new Date(msg.timestamp).toLocaleTimeString('en-US', {
+                        hour12: false,
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        second: '2-digit'
+                    });
+
+                    const messageEl = document.createElement('div');
+                    messageEl.className = 'log-entry';
+                    messageEl.innerHTML = `<span class="log-time">[${time}]</span> <strong style="color: var(--accent-color);">${msg.sender}:</strong> ${msg.message}`;
+                    chatEl.appendChild(messageEl);
+                });
+
+                chatEl.scrollTop = chatEl.scrollHeight;
+            });
+        }
+
+        function setupLogsListener() {
+            const logsRef = ref(database, 'arena/logs');
+            onValue(logsRef, (snapshot) => {
+                const logs = snapshot.val();
+                const logsEl = document.getElementById('battle-logs');
+
+                if (!logs) return;
+
+                logsEl.innerHTML = '';
+                Object.values(logs).forEach(log => {
+                    const time = new Date(log.timestamp).toLocaleTimeString('en-US', {
+                        hour12: false,
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        second: '2-digit'
+                    });
+
+                    const logEl = document.createElement('div');
+                    logEl.className = 'log-entry';
+                    logEl.innerHTML = `<span class="log-time">[${time}]</span> <span class="log-${log.type}">${log.message}</span>`;
+                    logsEl.appendChild(logEl);
+                });
+
+                logsEl.scrollTop = logsEl.scrollHeight;
+            });
+        }
+
+        function sendChatMessage() {
             const input = document.getElementById('chat-input');
             const message = input.value.trim();
 
-            if (message) {
-                addChatMessage(playerCharacter.name, message);
-                input.value = '';
-            }
+            if (!message || !playerCharacter) return;
+
+            const chatRef = ref(database, 'arena/chat');
+            push(chatRef, {
+                sender: playerCharacter.name,
+                message: message,
+                timestamp: Date.now()
+            });
+
+            input.value = '';
         }
 
-        // Back to game
-        document.querySelector('a[href="main.html"]').addEventListener('click', () => {
-            // Could save any arena progress here
-            window.location.href = 'main.html';
-        });
+        function addLog(message, type = 'system') {
+            const logsRef = ref(database, 'arena/logs');
+            push(logsRef, {
+                message: message,
+                type: type,
+                timestamp: Date.now()
+            });
+        }
 
-        // For now, add some demo players
-        setTimeout(() => {
-            const playerList = document.getElementById('player-list');
-            playerList.innerHTML = `
-                <div class="player-list-item">
-                    <div>
-                        <div style="font-weight: bold; color: var(--accent-color);">DemoPlayer1</div>
-                        <div style="font-size: 0.8rem; color: var(--text-dim);">Lv. 35 • Online</div>
-                    </div>
-                    <button class="btn challenge-btn btn-success" disabled>Challenge</button>
-                </div>
-                <div class="player-list-item">
-                    <div>
-                        <div style="font-weight: bold; color: var(--accent-color);">DemoPlayer2</div>
-                        <div style="font-size: 0.8rem; color: var(--text-dim);">Lv. 42 • Online</div>
-                    </div>
-                    <button class="btn challenge-btn btn-success" disabled>Challenge</button>
-                </div>
-                <div style="text-align: center; color: var(--text-dim); padding: 1rem; margin-top: 1rem; border-top: 1px solid var(--accent);">
-                    Firebase integration coming soon...
-                </div>
-            `;
+        function showAuthError(message) {
+            const errorEl = document.getElementById('auth-error');
+            errorEl.textContent = message;
+            setTimeout(() => {
+                errorEl.textContent = '';
+            }, 5000);
+        }
 
-            addBattleLog('Demo players loaded! Firebase integration will enable real PVP.', 'encounter');
-        }, 2000);
+        function getAuthErrorMessage(errorCode) {
+            switch (errorCode) {
+                case 'auth/user-not-found':
+                    return 'No account found with this email';
+                case 'auth/wrong-password':
+                    return 'Incorrect password';
+                case 'auth/email-already-in-use':
+                    return 'An account with this email already exists';
+                case 'auth/weak-password':
+                    return 'Password is too weak';
+                case 'auth/invalid-email':
+                    return 'Invalid email address';
+                default:
+                    return 'Authentication error. Please try again.';
+            }
+        }
     </script>
 </body>
+
 </html>
