@@ -8672,30 +8672,32 @@
 
                         // Log the current structure
                         console.log('🔍 Data structure check:');
-                        console.log('  - Has data property?', !!currentData.data);
-                        console.log('  - data.currency type:', typeof currentData.data?.currency);
-                        console.log('  - data.currency value:', currentData.data?.currency);
-                        console.log('  - root currency type:', typeof currentData.currency);
-                        console.log('  - root currency value:', currentData.currency);
+                        console.log('  - Has currency property?', !!currentData.currency);
+                        console.log('  - currency type:', typeof currentData.currency);
+                        console.log('  - currency value:', currentData.currency);
 
-                        // Add price to seller's currency
-                        if (currentData.data && typeof currentData.data.currency === 'number') {
-                            console.log(`✅ Adding ${price} to data.currency (${currentData.data.currency})`);
-                            currentData.data.currency += price;
-                            console.log(`✅ New data.currency: ${currentData.data.currency}`);
+                        // Handle the currency structure: {coins: 0, leaves: 30}
+                        if (currentData.currency && typeof currentData.currency === 'object') {
+                            if (typeof currentData.currency.leaves === 'number') {
+                                console.log(`✅ Adding ${price} to currency.leaves (${currentData.currency.leaves})`);
+                                currentData.currency.leaves += price;
+                                console.log(`✅ New currency.leaves: ${currentData.currency.leaves}`);
+                            } else {
+                                console.log(`⚠️ Creating currency.leaves with value ${price}`);
+                                currentData.currency.leaves = price;
+                            }
                         } else if (typeof currentData.currency === 'number') {
-                            console.log(`✅ Adding ${price} to root currency (${currentData.currency})`);
+                            // Legacy: currency is a simple number
+                            console.log(`✅ Adding ${price} to currency (${currentData.currency})`);
                             currentData.currency += price;
-                            console.log(`✅ New root currency: ${currentData.currency}`);
-                        } else if (currentData.data) {
-                            console.log(`⚠️ Creating new data.currency with value ${price}`);
-                            currentData.data.currency = price;
+                            console.log(`✅ New currency: ${currentData.currency}`);
                         } else {
-                            console.log(`⚠️ Creating new data structure with currency ${price}`);
-                            currentData.data = { currency: price };
+                            // No currency structure, create it
+                            console.log(`⚠️ Creating new currency structure with leaves: ${price}`);
+                            currentData.currency = { coins: 0, leaves: price };
                         }
 
-                        console.log('📤 Returning updated data:', JSON.stringify(currentData, null, 2));
+                        console.log('📤 Returning updated data');
                         return currentData;
                     });
 
