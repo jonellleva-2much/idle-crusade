@@ -1151,16 +1151,6 @@
                 text-align: right;
             }
 
-            /* Hide number input spinner arrows */
-            .sell-price-input input[type="number"]::-webkit-outer-spin-button,
-            .sell-price-input input[type="number"]::-webkit-inner-spin-button {
-                -webkit-appearance: none;
-                margin: 0;
-            }
-            .sell-price-input input[type="number"] {
-                -moz-appearance: textfield;
-            }
-
             .sell-price-input input:focus {
                 outline: none;
             }
@@ -2510,7 +2500,7 @@
                                 Set Price: Leaves 🍃
                             </label>
                             <div class="price-input-wrapper">
-                                <input type="number" id="sell-price" placeholder="0" min="1" max="999999"
+                                <input type="text" id="sell-price" placeholder="0"
                                     pattern="[0-9]*" oninput="this.value = this.value.replace(/[^0-9]/g, '')"
                                     style="flex: 1; width: 120px; height: 40px; padding: 0.75rem 1rem; background-color: var(--darker-bg); border: 1px solid var(--accent); border-radius: 6px; color: var(--text); font-size: 1rem; text-align: right;">
                             </div>
