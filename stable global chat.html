@@ -5,10 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RF Online - Text-Based MMORPG</title>
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300..800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --dark-bg: #121212;
@@ -62,9 +61,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Courier Prime', monospace;
-            font-size: 14px;
-            /* Classic terminal size */
+            font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
         }
 
         body {
@@ -88,34 +85,9 @@
         }
 
         .logo {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .logo-image {
-            height: 40px;
-            width: auto;
-            object-fit: contain;
-        }
-
-        .logo-text {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .logo-title {
             font-size: 1.8rem;
             font-weight: bold;
             color: var(--accent-color);
-            line-height: 1.2;
-        }
-
-        .logo-subtitle {
-            font-size: 0.75rem;
-            color: var(--text-dim);
-            font-weight: normal;
-            margin-top: 0rem;
         }
 
         nav ul {
@@ -1730,20 +1702,8 @@
 
             .logo {
                 margin-bottom: 0;
-                gap: 0.5rem;
-            }
-
-            .logo-image {
-                height: 35px;
-            }
-
-            .logo-title {
                 font-size: 1.2rem;
-            }
-
-            .logo-subtitle {
-                font-size: 0.75rem;
-                margin-top: 0.1rem;
+                text-align: left;
             }
 
             nav {
@@ -1939,6 +1899,48 @@
             color: var(--accent-color);
         }
 
+        /* Import Modal */
+        .import-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .import-content {
+            background-color: var(--panel-bg);
+            border-radius: 8px;
+            padding: 2rem;
+            width: 90%;
+            max-width: 500px;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .import-textarea {
+            width: 100%;
+            height: 150px;
+            background-color: var(--bg-color);
+            color: var(--text);
+            border: 1px solid var(--accent);
+            border-radius: 4px;
+            padding: 0.5rem;
+            resize: none;
+            font-family: monospace;
+        }
+
+        .import-buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+        }
 
         /* Encounter Tracker */
         .encounter-tracker {
@@ -2025,6 +2027,19 @@
             background: #ff6a6a;
             transform: translateY(-2px);
         }
+
+        .debug-info {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: var(--panel-bg);
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 0.85rem;
+            color: var(--text-dim);
+            max-width: 500px;
+            text-align: left;
+            display: none;
+        }
     </style>
 </head>
 
@@ -2036,19 +2051,30 @@
         <div class="loading-text" id="loading-text">Verifying authentication...</div>
         <button class="force-clear-btn" id="force-clear-btn" onclick="forceClearAndReload()">🧹 Force Clear All
             Data</button>
+        <div class="debug-info" id="debug-info"></div>
     </div>
     <header>
-        <div class="logo">
-            <img src="http://idlecrusade.x10.mx/logo.png" alt="RF Online Logo" class="logo-image">
-            <div class="logo-text">
-                <div class="logo-title">RF Online: Idle Crusade</div>
-                <div class="logo-subtitle">RF Online themed text-based multiplayer rpg game.</div>
-            </div>
-        </div>
+        <div class="logo">RF Online: Idle Crusade</div>
         <nav>
             <ul>
+                <li style="display: none;">
+                    <div class="dropdown">
+                        <button class="dropbtn">Debug Tools ▼</button>
+                        <div class="dropdown-content">
+                            <button id="add-leaves-btn" class="btn-add-leaves">+10k Leaves</button>
+                            <button id="add-gems-btn" class="btn-save">+100 Gems</button>
+                            <button id="add-gear-btn" class="btn-save">+Test Gear</button>
+                            <button id="kill-arghol-btn" class="btn-reset">Kill Arghol Wasp</button>
+
+                            <button id="reset-game-btn" class="btn-reset">Reset Game</button>
+                            <button id="export-save-btn" class="btn-save">Export Save</button>
+                            <button id="import-save-btn" class="btn-save">Import Save</button>
+                        </div>
+                    </div>
+                </li>
                 <li><a href="#" class="active">Game</a></li>
-                <li style="display: none;"><a href="#" id="maps-btn">Maps</a></li>
+                <li><a href="#" id="players-btn">Players</a></li>
+                <li><a href="#" id="maps-btn">Maps</a></li>
                 <li><a href="#" id="arena-btn">Arena</a></li>
                 <li><a href="#" id="market-btn">Market</a></li>
                 <li><a href="#" id="settings-btn">Settings</a></li>
@@ -2600,33 +2626,6 @@
 
             .arena-name {
                 font-weight: 500;
-                display: flex;
-                align-items: center;
-                gap: 0.5rem;
-            }
-
-            .arena-name-clickable {
-                cursor: pointer;
-                transition: all 0.2s;
-                position: relative;
-            }
-
-            .arena-name-clickable:hover {
-                color: var(--accent-color);
-                text-shadow: 0 0 10px rgba(255, 122, 47, 0.3);
-                transform: translateX(4px);
-            }
-
-            .arena-name-clickable::after {
-                content: '👁️';
-                font-size: 0.8rem;
-                opacity: 0;
-                transition: opacity 0.2s;
-                margin-left: 0.5rem;
-            }
-
-            .arena-name-clickable:hover::after {
-                opacity: 1;
             }
 
             .arena-level {
@@ -2690,13 +2689,8 @@
             }
         </style>
         <div class="modal-content" style="max-width: 1200px; max-height: 90vh; overflow-y: auto;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
-                <h2 class="modal-title" style="margin-bottom: 0;">⚔️ ARENA <span id="arena-reset-timer"
-                        style="font-size: 1rem; color: var(--text-dim); margin-left: 1rem; font-weight: normal;">Next
-                        Reset: --:--:--</span></h2>
-                <button class="close-modal" onclick="document.getElementById('arena-modal').style.display='none'"
-                    style="position: static;">×</button>
-            </div>
+            <button class="close-modal" onclick="document.getElementById('arena-modal').style.display='none'">×</button>
+            <h2 class="modal-title">⚔️ ARENA</h2>
 
             <div class="arena-container" id="arena-container">
                 <!-- Player Stats Panel -->
@@ -2738,146 +2732,6 @@
         </div>
     </div>
 
-    <!-- Inspection Modal -->
-    <div class="modal" id="inspect-modal" style="z-index: 2000;">
-        <style>
-            .inspect-content {
-                background: var(--panel-bg);
-                border: 1px solid var(--accent);
-                border-radius: 8px;
-                padding: 1.5rem;
-                max-width: 500px;
-                width: 90%;
-                position: relative;
-                box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-            }
-
-            .inspect-header {
-                text-align: center;
-                margin-bottom: 1.5rem;
-                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-                padding-bottom: 1rem;
-            }
-
-            .inspect-name {
-                font-size: 1.5rem;
-                font-weight: bold;
-                color: var(--accent-color);
-                margin-bottom: 0.5rem;
-            }
-
-            .inspect-subtitle {
-                color: var(--text-dim);
-                font-size: 0.9rem;
-            }
-
-            .inspect-stats-grid {
-                display: grid;
-                grid-template-columns: repeat(3, 1fr);
-                gap: 0.5rem;
-                margin-bottom: 1.5rem;
-                background: rgba(0, 0, 0, 0.2);
-                padding: 1rem;
-                border-radius: 6px;
-            }
-
-            .inspect-stat {
-                text-align: center;
-            }
-
-            .inspect-stat-label {
-                font-size: 0.75rem;
-                color: var(--text-dim);
-            }
-
-            .inspect-stat-value {
-                font-weight: bold;
-                color: var(--text);
-            }
-
-            .inspect-gear-list {
-                display: flex;
-                flex-direction: column;
-                gap: 0.8rem;
-            }
-
-            .inspect-gear-item {
-                display: flex;
-                align-items: center;
-                gap: 1rem;
-                background: rgba(255, 255, 255, 0.05);
-                padding: 0.8rem;
-                border-radius: 6px;
-                border: 1px solid transparent;
-            }
-
-            .inspect-gear-icon {
-                font-size: 1.5rem;
-                width: 40px;
-                text-align: center;
-            }
-
-            .inspect-gear-info {
-                flex: 1;
-            }
-
-            .inspect-gear-name {
-                font-weight: bold;
-                color: var(--text);
-                font-size: 0.95rem;
-            }
-
-            .inspect-gear-stats {
-                font-size: 0.8rem;
-                color: var(--text-dim);
-            }
-
-            .inspect-empty {
-                color: var(--text-dim);
-                font-style: italic;
-                font-size: 0.9rem;
-            }
-        </style>
-        <div class="modal-content inspect-content">
-            <button class="close-modal"
-                onclick="document.getElementById('inspect-modal').style.display='none'">×</button>
-
-            <div id="inspect-loading" style="text-align: center; padding: 2rem;">
-                <div class="arena-loading-spinner"></div>
-                <div>Fetching player data...</div>
-            </div>
-
-            <div id="inspect-data" style="display: none;">
-                <div class="inspect-header">
-                    <div class="inspect-name" id="inspect-name">Player Name</div>
-                    <div class="inspect-subtitle" id="inspect-details">Level 40 • Bellato • Warrior</div>
-                </div>
-
-                <div class="inspect-stats-grid">
-                    <div class="inspect-stat">
-                        <div class="inspect-stat-label">HP</div>
-                        <div class="inspect-stat-value" id="inspect-hp" style="color: var(--danger);">5000</div>
-                    </div>
-                    <div class="inspect-stat">
-                        <div class="inspect-stat-label">Attack</div>
-                        <div class="inspect-stat-value" id="inspect-atk" style="color: var(--warning);">250</div>
-                    </div>
-                    <div class="inspect-stat">
-                        <div class="inspect-stat-label">Defense</div>
-                        <div class="inspect-stat-value" id="inspect-def" style="color: var(--info);">150</div>
-                    </div>
-                </div>
-
-                <h3
-                    style="font-size: 0.9rem; color: var(--text-dim); margin-bottom: 0.8rem; text-transform: uppercase; letter-spacing: 1px;">
-                    Equipped Gear</h3>
-                <div class="inspect-gear-list" id="inspect-gear-list">
-                    <!-- Gear items will be added here -->
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- Upgrade Modal -->
     <div class="upgrade-modal" id="upgrade-modal">
         <div class="upgrade-content">
@@ -2907,6 +2761,18 @@
         </div>
     </div>
 
+    <!-- Import Modal -->
+    <div id="import-modal" class="import-modal">
+        <div class="import-content">
+            <h2 class="panel-title">Import Save Data</h2>
+            <p>Paste your save code below:</p>
+            <textarea id="import-textarea" class="import-textarea" placeholder="Paste save string here..."></textarea>
+            <div class="import-buttons">
+                <button class="btn btn-secondary" id="import-cancel-btn">Cancel</button>
+                <button class="btn" id="import-confirm-btn">Import</button>
+            </div>
+        </div>
+    </div>
 
     <!-- Firebase SDK -->
     <script type="module">
@@ -2918,6 +2784,12 @@
             localStorage.clear();
             sessionStorage.clear();
 
+            // Show confirmation
+            const debugInfo = document.getElementById('debug-info');
+            if (debugInfo) {
+                debugInfo.style.display = 'block';
+                debugInfo.innerHTML = '✅ All data cleared!<br>📍 Redirecting to login page...';
+            }
 
             // Redirect to index.html
             setTimeout(() => {
@@ -2928,8 +2800,13 @@
         // Show Force Clear button after 3 seconds if still loading
         setTimeout(() => {
             const forceClearBtn = document.getElementById('force-clear-btn');
+            const debugInfo = document.getElementById('debug-info');
             if (forceClearBtn && forceClearBtn.style.display !== 'block') {
                 forceClearBtn.style.display = 'block';
+                if (debugInfo) {
+                    debugInfo.style.display = 'block';
+                    debugInfo.innerHTML = '⚠️ Taking longer than expected...<br>📊 Current URL: ' + window.location.href + '<br>💾 localStorage: ' + (localStorage.getItem('rfOnlineGame') ? 'HAS DATA' : 'EMPTY');
+                }
             }
         }, 3000);
 
@@ -5663,9 +5540,7 @@
             stopBtn.addEventListener('click', stopExploration);
 
             // Players button
-            if (playersBtn) {
-                playersBtn.addEventListener('click', showPlayers);
-            }
+            playersBtn.addEventListener('click', showPlayers);
 
             // Maps button (navigation)
             mapsBtn.addEventListener('click', showMaps);
@@ -5787,6 +5662,161 @@
                 });
             }
 
+            // Reset game button
+            document.getElementById('reset-game-btn').addEventListener('click', function () {
+                if (confirm('Are you sure you want to reset your progress? This cannot be undone.')) {
+                    localStorage.removeItem('rfOnlineSave');
+                    location.reload();
+                }
+            });
+
+
+
+            // Add Leaves button
+            document.getElementById('add-leaves-btn').addEventListener('click', function () {
+                gameState.currency += 10000;
+                document.getElementById('currency-amount').textContent = gameState.currency;
+                addToBattleLog('Added 10,000 Leaves 🍃', 'success');
+                saveGameState();
+                // Refresh crafting modal if open to update requirements
+                if (document.getElementById('crafting-modal').style.display === 'flex') {
+                    renderRecipes();
+                }
+            });
+
+            // Add Gems button
+            document.getElementById('add-gems-btn').addEventListener('click', function () {
+                const redGem = gameState.materials.find(m => m.name === 'Red Gem');
+                const blueGem = gameState.materials.find(m => m.name === 'Blue Gem');
+
+                if (redGem) {
+                    redGem.quantity += 100;
+                } else {
+                    gameState.materials.push({ name: 'Red Gem', sellValue: 1, quantity: 100, type: 'material' });
+                }
+
+                if (blueGem) {
+                    blueGem.quantity += 100;
+                } else {
+                    gameState.materials.push({ name: 'Blue Gem', sellValue: 2, quantity: 100, type: 'material' });
+                }
+
+                updateInventoryDisplay();
+                addToBattleLog('Added 100 Red Gems and 100 Blue Gems! 💎', 'success');
+                saveGameState();
+            });
+
+            // Add Test Gear button
+            document.getElementById('add-gear-btn').addEventListener('click', function () {
+                const playerClass = gameState.character.class;
+                let weaponName = '';
+
+                // Determine weapon based on class
+                if (playerClass === 'Warrior') {
+                    weaponName = 'Turncoat Sword';
+                } else if (playerClass === 'Mystic') {
+                    weaponName = 'Turncoat Staff';
+                } else if (playerClass === 'Ranger') {
+                    weaponName = 'Turncoat Bow';
+                }
+
+                // Add weapon
+                gameState.inventory.push({
+                    name: weaponName,
+                    stats: { attack: 35 },
+                    sellValue: 75,
+                    quantity: 1,
+                    type: 'weapon',
+                    upgradeLevel: 0,
+                    rarity: 'common'
+                });
+
+                // Add armor
+                gameState.inventory.push({
+                    name: 'Turncoat Armor',
+                    stats: { defense: 35 },
+                    sellValue: 75,
+                    quantity: 1,
+                    type: 'armor',
+                    upgradeLevel: 0,
+                    rarity: 'common'
+                });
+
+                updateInventoryDisplay();
+                addToBattleLog(`Added ${weaponName} and Turncoat Armor! ⚔️🛡️`, 'success');
+                saveGameState();
+            });
+
+            // Kill Arghol Wasp Debug
+            document.getElementById('kill-arghol-btn').addEventListener('click', function () {
+                const boss = monsters["Arghol Wasp"];
+                if (boss) {
+                    checkDrops(boss);
+                    addToBattleLog('Debug: Arghol Wasp killed and looted! 🗡️', 'success');
+                } else {
+                    addToBattleLog('Debug: Arghol Wasp not found!', 'warning');
+                }
+            });
+
+            // Export Save
+            document.getElementById('export-save-btn').addEventListener('click', function () {
+                const saveData = localStorage.getItem('rfOnlineGame');
+                if (!saveData) {
+                    addToBattleLog('No save data found!', 'warning');
+                    return;
+                }
+                const encodedSave = btoa(saveData);
+
+                // Try to copy to clipboard
+                navigator.clipboard.writeText(encodedSave).then(() => {
+                    addToBattleLog('Save code copied to clipboard! 📋', 'success');
+                    alert('Save code copied to clipboard!');
+                }).catch(err => {
+                    console.error('Failed to copy: ', err);
+                    // Fallback
+                    prompt("Copy this code manually:", encodedSave);
+                });
+            });
+
+            // Import Save
+            const importModal = document.getElementById('import-modal');
+            const importTextarea = document.getElementById('import-textarea');
+            const importConfirmBtn = document.getElementById('import-confirm-btn');
+            const importCancelBtn = document.getElementById('import-cancel-btn');
+
+            document.getElementById('import-save-btn').addEventListener('click', function () {
+                importModal.style.display = 'flex';
+                importTextarea.value = '';
+                importTextarea.focus();
+            });
+
+            importCancelBtn.addEventListener('click', function () {
+                importModal.style.display = 'none';
+            });
+
+            importConfirmBtn.addEventListener('click', function () {
+                const encodedSave = importTextarea.value.trim();
+                if (!encodedSave) return;
+
+                try {
+                    const decodedSave = atob(encodedSave);
+                    const parsed = JSON.parse(decodedSave);
+
+                    // Basic validation
+                    if (!parsed.character || !parsed.inventory) {
+                        throw new Error("Invalid save file format");
+                    }
+
+                    if (confirm("This will overwrite your current progress. Are you sure?")) {
+                        localStorage.setItem('rfOnlineGame', decodedSave);
+                        alert("Save imported successfully! Reloading...");
+                        location.reload();
+                    }
+                } catch (e) {
+                    alert("Invalid save code! Please check and try again.");
+                    console.error(e);
+                }
+            });
 
             // Instant finish button
             // Instant finish button - REMOVED (Element missing)
@@ -8045,32 +8075,19 @@
             "Steel Guardian", "Dark Avenger", "Lightning Strike", "Frost Reaper",
             "Flame Bringer", "Storm Breaker", "Void Hunter", "Chaos Knight",
             "Blood Raven", "Death Stalker", "War Machine", "Battle Titan",
-            "Savage Berserker", "Silent Assassin", "Mystic Phantom", "Eternal Champion",
-            "Void Walker", "Solar Flare", "Lunar Knight", "Terra Guard", "Wind Dancer",
-            "Ocean Fury", "Mountain King", "Forest Ranger", "Desert Scorpion", "Jungle Beast",
-            "Arctic Wolf", "Volcanic Dragon", "Storm Caller", "Shadow Hunter", "Light Bringer",
-            "Dark Soul", "Blood Thirster", "Bone Breaker", "Soul Eater", "Mind Flayer",
-            "Spirit Guide", "Ghost Walker", "Phantom Lancer", "Crystal Maiden", "Iron Golem",
-            "Steel Titan", "Golden Knight", "Silver Samurai", "Bronze Bomber", "Copper Crusader"
+            "Savage Berserker", "Silent Assassin", "Mystic Phantom", "Eternal Champion"
         ];
 
         // Generate random bot with level 40 and random stats
         function generateArenaBot(rank) {
             const name = botNames[rank - 1] || `Bot ${rank}`;
 
-            // Scaled stats based on rank (Rank 1 = Strongest, Rank 50 = Weakest)
-            // Base stat range: 20 (Rank 50) to ~120 (Rank 1)
-            const rankMultiplier = (50 - rank) * 2; // 0 to 98
-            const baseStat = 20 + rankMultiplier;
-
-            // Add some randomness (+/- 5)
-            const variance = () => Math.floor(Math.random() * 11) - 5;
-
-            const str = Math.max(20, baseStat + variance());
-            const agi = Math.max(20, baseStat + variance());
-            const vit = Math.max(20, baseStat + variance());
-            const int = Math.max(20, baseStat + variance());
-            const luk = Math.max(20, baseStat + variance());
+            // Random stats between 20-40 (more balanced for level 40)
+            const str = Math.floor(Math.random() * 21) + 20;
+            const agi = Math.floor(Math.random() * 21) + 20;
+            const vit = Math.floor(Math.random() * 21) + 20;
+            const int = Math.floor(Math.random() * 21) + 20;
+            const luk = Math.floor(Math.random() * 21) + 20;
 
             // Calculate HP, ATK, DEF based on stats (similar to player calculation)
             const hp = Math.floor(vit * 10 + 300);
@@ -8098,40 +8115,22 @@
                 const arenaRef = ref(db, 'arena');
                 const snapshot = await get(arenaRef);
 
-                // Check if we need to migrate to 50 bots
-                const currentData = snapshot.val();
-                const currentBotCount = currentData && currentData.rankings ? Object.keys(currentData.rankings).length : 0;
+                if (!snapshot.exists() || !snapshot.val().initialized) {
+                    console.log('Initializing arena for the first time...');
 
-                // Check if daily reset is needed
-                const needsReset = await checkAndPerformDailyReset(currentData, arenaRef, set);
-
-                if (!snapshot.exists() || !currentData.initialized || currentBotCount < 50) {
-                    console.log('Initializing or updating arena to 50 bots...');
-
-                    // Generate 50 bots
+                    // Generate 20 bots
                     const rankings = {};
-                    for (let i = 1; i <= 50; i++) {
+                    for (let i = 1; i <= 20; i++) {
                         rankings[i] = generateArenaBot(i);
                     }
-
-                    // Set next reset time to tomorrow at 12 PM GMT+8
-                    const nextReset = getNextResetTime();
 
                     await set(arenaRef, {
                         initialized: true,
                         rankings: rankings,
-                        playerStats: (currentData && currentData.playerStats) ? currentData.playerStats : {},
-                        lastResetTime: Date.now(),
-                        nextResetTime: nextReset
+                        playerStats: {}
                     });
 
-                    console.log('Arena initialized with 50 bots');
-                } else if (!currentData.nextResetTime) {
-                    // If arena is initialized but missing reset time (e.g. from update), set it
-                    const nextReset = getNextResetTime();
-                    await set(ref(db, 'arena/nextResetTime'), nextReset);
-                    await set(ref(db, 'arena/lastResetTime'), Date.now());
-                    console.log('Arena reset time initialized');
+                    console.log('Arena initialized with 20 bots');
                 }
             } catch (error) {
                 console.error('Error initializing arena:', error);
@@ -8157,134 +8156,6 @@
                 }
             } catch (error) {
                 console.error('Error initializing player arena stats:', error);
-            }
-        }
-
-        // Get next reset time (tomorrow at 12 PM GMT+8)
-        function getNextResetTime() {
-            const now = new Date();
-            const gmt8Offset = 8 * 60; // GMT+8 in minutes
-            const localOffset = now.getTimezoneOffset(); // Local offset in minutes
-            const offsetDiff = gmt8Offset + localOffset; // Difference to GMT+8
-
-            // Create date in GMT+8
-            const gmt8Now = new Date(now.getTime() + offsetDiff * 60000);
-
-            // Set to 12 PM today
-            const resetToday = new Date(gmt8Now);
-            resetToday.setHours(12, 0, 0, 0);
-
-            // If it's already past 12 PM, set to tomorrow
-            if (gmt8Now >= resetToday) {
-                resetToday.setDate(resetToday.getDate() + 1);
-            }
-
-            // Convert back to UTC timestamp
-            return resetToday.getTime() - (offsetDiff * 60000);
-        }
-
-        // Update reset countdown timer
-        function updateResetTimer(nextResetTime) {
-            const timerElement = document.getElementById('arena-reset-timer');
-            if (!timerElement) return;
-
-            function update() {
-                const now = Date.now();
-                const diff = nextResetTime - now;
-
-                if (diff <= 0) {
-                    timerElement.textContent = 'Resetting...';
-                    return;
-                }
-
-                const hours = Math.floor(diff / (1000 * 60 * 60));
-                const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
-                timerElement.textContent = `${hours}h ${minutes}m ${seconds}s`;
-            }
-
-            // Update immediately
-            update();
-
-            // Update every second
-            if (window.arenaTimerInterval) {
-                clearInterval(window.arenaTimerInterval);
-            }
-            window.arenaTimerInterval = setInterval(update, 1000);
-        }
-
-        // Check if daily reset is needed and perform it
-        async function checkAndPerformDailyReset(currentData, arenaRef, set) {
-            if (!currentData || !currentData.nextResetTime) {
-                return false;
-            }
-
-            const now = Date.now();
-            if (now >= currentData.nextResetTime) {
-                console.log('Performing daily Arena reset...');
-
-                // Generate new 50 bots
-                const rankings = {};
-                for (let i = 1; i <= 50; i++) {
-                    rankings[i] = generateArenaBot(i);
-                }
-
-                // Reset all player ranks and win/loss records, but keep PVP points
-                const playerStats = currentData.playerStats || {};
-                Object.keys(playerStats).forEach(uid => {
-                    playerStats[uid].currentRank = null;
-                    playerStats[uid].totalWins = 0;
-                    playerStats[uid].totalLosses = 0;
-                    // Keep pvpPoints and highestRank
-                });
-
-                // Calculate next reset time
-                const nextReset = getNextResetTime();
-
-                await set(arenaRef, {
-                    initialized: true,
-                    rankings: rankings,
-                    playerStats: playerStats,
-                    lastResetTime: now,
-                    nextResetTime: nextReset
-                });
-
-                console.log('Arena reset complete. Next reset:', new Date(nextReset));
-                return true;
-            }
-
-            return false;
-        }
-
-        // Force regenerate arena with 50 bots
-        async function forceRegenerateArena() {
-            if (!confirm('This will reset the entire Arena ladder with 50 new bots. Continue?')) {
-                return;
-            }
-
-            try {
-                const { ref, set } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js');
-
-                const arenaRef = ref(db, 'arena');
-                const rankings = {};
-
-                // Generate 50 bots
-                for (let i = 1; i <= 50; i++) {
-                    rankings[i] = generateArenaBot(i);
-                }
-
-                await set(arenaRef, {
-                    initialized: true,
-                    rankings: rankings,
-                    playerStats: {}
-                });
-
-                alert('Arena regenerated with 50 bots! Reloading...');
-                await loadArenaData();
-            } catch (error) {
-                console.error('Error regenerating arena:', error);
-                alert('Failed to regenerate arena. Check console for details.');
             }
         }
 
@@ -8338,17 +8209,12 @@
                             `${playerStats.totalWins || 0}W - ${playerStats.totalLosses || 0}L`;
                     }
 
-                    // Update countdown timer
-                    if (arenaData.nextResetTime) {
-                        updateResetTimer(arenaData.nextResetTime);
-                    }
-
                     // Display ladder
                     const ladderContent = document.getElementById('arena-ladder-content');
                     ladderContent.innerHTML = '';
 
                     const rankings = arenaData.rankings;
-                    for (let rank = 1; rank <= 50; rank++) {
+                    for (let rank = 1; rank <= 20; rank++) {
                         const holder = rankings[rank];
                         if (!holder) continue;
 
@@ -8361,33 +8227,17 @@
                         }
 
                         const isBot = holder.type === 'bot';
-
-                        // Challenge Logic
-                        let canChallenge = false;
-
-                        if (playerStats && playerStats.currentRank) {
-                            // Ranked player: Can challenge up to 3 ranks ahead (numerically lower)
-                            // e.g. Rank 20 can challenge 19, 18, 17
-                            const diff = playerStats.currentRank - rank;
-                            canChallenge = (diff > 0 && diff <= 3);
-                        } else {
-                            // Unranked player: Can challenge bottom 4 ranks (47-50) to enter ladder
-                            canChallenge = (rank >= 47);
-                        }
+                        const canChallenge = !playerStats || !playerStats.currentRank || rank < playerStats.currentRank;
 
                         row.innerHTML = `
                             <div class="arena-rank">#${rank}</div>
-                            <div class="arena-name ${!isBot ? 'arena-name-clickable' : ''}" 
-                                 ${!isBot ? `onclick="inspectPlayer(${rank})"` : ''} 
-                                 title="${!isBot ? 'Click to inspect' : ''}">
-                                ${isBot ? '🤖 ' : ''}${holder.name}
-                            </div>
+                            <div class="arena-name">${isBot ? '🤖 ' : '👤 '}${holder.name}</div>
                             <div class="arena-level">Lv ${holder.level}</div>
                             <div class="arena-stats-preview">ATK: ${holder.attack} | DEF: ${holder.defense}</div>
                             <div class="arena-action">
                                 ${canChallenge ?
                                 `<button class="btn-challenge" onclick="challengeArenaOpponent(${rank})">Fight</button>` :
-                                `<button class="btn-challenge" disabled style="opacity: 0.5; cursor: not-allowed;">—</button>`
+                                `<button class="btn-challenge" disabled>—</button>`
                             }
                             </div>
                         `;
@@ -8627,123 +8477,15 @@
                         Math.min(playerStats.highestRank, targetRank) : targetRank;
 
                     arenaData.playerStats[uid] = playerStats;
+
                     return arenaData;
                 });
 
-                addToBattleLog(`📈 +10 PVP Points! You are now Rank #${targetRank} !`, 'success');
+                addToBattleLog(`📈 +10 PVP Points! You are now Rank #${targetRank}!`, 'success');
 
             } catch (error) {
                 console.error('Error processing arena victory:', error);
                 addToBattleLog('⚠️ Error updating arena rankings. Please try again.', 'warning');
-            }
-        }
-
-        // Inspect Player
-        async function inspectPlayer(rank) {
-            const modal = document.getElementById('inspect-modal');
-            const loading = document.getElementById('inspect-loading');
-            const content = document.getElementById('inspect-data');
-
-            modal.style.display = 'flex';
-            loading.style.display = 'block';
-            content.style.display = 'none';
-
-            try {
-                const { ref, get } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js');
-
-                // Get arena data for basic info
-                const arenaRef = ref(db, 'arena/rankings/' + rank);
-                const snapshot = await get(arenaRef);
-                const playerData = snapshot.val();
-
-                if (!playerData) {
-                    throw new Error('Player not found');
-                }
-
-                // If it's a bot, we can't inspect (UI shouldn't allow this anyway)
-                if (playerData.type === 'bot') {
-                    alert('Cannot inspect bots.');
-                    modal.style.display = 'none';
-                    return;
-                }
-
-                // Fetch detailed profile and equipment from user node
-                // This ensures we get the latest live data
-                const userProfileRef = ref(db, `users / ${playerData.uid}/profile`);
-                const userStatsRef = ref(db, `users/${playerData.uid}/stats`);
-                const userEquipRef = ref(db, `users/${playerData.uid}/equipment`);
-
-                const [profileSnap, statsSnap, equipSnap] = await Promise.all([
-                    get(userProfileRef),
-                    get(userStatsRef),
-                    get(userEquipRef)
-                ]);
-
-                const profile = profileSnap.val() || {};
-                const stats = statsSnap.val() || {};
-                const equipment = equipSnap.val() || {};
-
-                // Populate Modal
-                document.getElementById('inspect-name').textContent = playerData.name;
-                document.getElementById('inspect-details').textContent =
-                    `Level ${playerData.level} • ${profile.race || 'Unknown'} • ${profile.class || 'Unknown'}`;
-
-                document.getElementById('inspect-hp').textContent = stats.maxHp || playerData.maxHp;
-                document.getElementById('inspect-atk').textContent = stats.attack || playerData.attack;
-                document.getElementById('inspect-def').textContent = stats.defense || playerData.defense;
-
-                // Populate Gear
-                const gearList = document.getElementById('inspect-gear-list');
-                gearList.innerHTML = '';
-
-                const gearSlots = [
-                    { key: 'weapon', icon: '⚔️', label: 'Weapon' },
-                    { key: 'armor', icon: '🛡️', label: 'Armor' },
-                    { key: 'accessory1', icon: '💍', label: 'Accessory 1' },
-                    { key: 'accessory2', icon: '💍', label: 'Accessory 2' },
-                    { key: 'wings', icon: '🪽', label: 'Wings' }
-                ];
-
-                let hasGear = false;
-                gearSlots.forEach(slot => {
-                    const item = equipment[slot.key];
-                    if (item) {
-                        hasGear = true;
-                        let statsText = '';
-                        if (item.stats) {
-                            statsText = Object.entries(item.stats)
-                                .map(([key, val]) => `${key.toUpperCase()}: +${val}`)
-                                .join(' | ');
-                        }
-                        if (item.isWings && item.movementSpeed) {
-                            statsText += ` | SPD: +${Math.round((item.movementSpeed - 1) * 100)}%`;
-                        }
-
-                        const gearHtml = `
-                            <div class="inspect-gear-item">
-                                <div class="inspect-gear-icon">${slot.icon}</div>
-                                <div class="inspect-gear-info">
-                                    <div class="inspect-gear-name">${item.name} <span style="color: var(--accent-color); font-size: 0.8rem;">+${item.level || 0}</span></div>
-                                    <div class="inspect-gear-stats">${statsText}</div>
-                                </div>
-                            </div>
-                        `;
-                        gearList.innerHTML += gearHtml;
-                    }
-                });
-
-                if (!hasGear) {
-                    gearList.innerHTML = '<div class="inspect-empty">No equipment found.</div>';
-                }
-
-                // Show Content
-                loading.style.display = 'none';
-                content.style.display = 'block';
-
-            } catch (error) {
-                console.error('Error inspecting player:', error);
-                alert('Failed to load player details.');
-                modal.style.display = 'none';
             }
         }
 
@@ -9245,7 +8987,6 @@
                 case 'dual bow': return '🏹';
                 case 'beam bow': return '🏹';
                 case 'siege bow': return '🏹';
-                case 'beam siege bow': return '🏹';
                 case 'turncoat bow': return '🏹';
                 case 't1 turncoat sword': return '🗡️';
                 case 't1 turncoat staff': return '🪄';
