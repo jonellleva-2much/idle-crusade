@@ -8658,7 +8658,7 @@
 
                 // Fetch detailed profile and equipment from user node
                 // This ensures we get the latest live data
-                const userProfileRef = ref(db, `users / ${playerData.uid}/profile`);
+                const userProfileRef = ref(db, `users/${playerData.uid}/profile`);
                 const userStatsRef = ref(db, `users/${playerData.uid}/stats`);
                 const userEquipRef = ref(db, `users/${playerData.uid}/equipment`);
 
