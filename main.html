@@ -1840,7 +1840,9 @@
             width: 90%;
             max-width: 600px;
             max-height: 90vh;
-            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
         }
 
         .recipe-list {
@@ -1848,6 +1850,9 @@
             flex-direction: column;
             gap: 1rem;
             margin-bottom: 1.5rem;
+            overflow-y: auto;
+            flex: 1;
+            min-height: 0;
         }
 
         .recipe-item {
@@ -2829,6 +2834,21 @@
                 color: var(--text-dim);
                 font-style: italic;
                 font-size: 0.9rem;
+            }
+
+            /* Mobile Responsiveness for Battle Log */
+            @media (max-width: 768px) {
+                .battle-log {
+                    height: 250px;
+                    /* Mobile height */
+                }
+            }
+
+            @media (min-width: 769px) {
+                .battle-log {
+                    height: 400px;
+                    /* Desktop height */
+                }
             }
         </style>
         <div class="modal-content inspect-content">
@@ -10564,6 +10584,21 @@
 
         #chat-send-btn:hover {
             background-color: var(--accent-hover);
+        }
+
+        /* Mobile Responsiveness for Chatbox */
+        @media (max-width: 768px) {
+            .chatbox-content {
+                height: 300px;
+                /* Mobile height */
+            }
+        }
+
+        @media (min-width: 769px) {
+            .chatbox-content {
+                height: 500px;
+                /* Desktop height */
+            }
         }
     </style>
 
