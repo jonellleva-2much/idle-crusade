@@ -7499,7 +7499,16 @@
                         item.name.toLowerCase().includes('core') ||
                         item.name.toLowerCase().includes('suit');
 
-                    const isAccessory = item.name.toLowerCase().includes('wristlet') || item.isWings || item.name.toLowerCase().includes('wings');
+                    const isAccessory = item.name.toLowerCase().includes('wristlet') || 
+                        item.name.toLowerCase().includes('ring') || 
+                        item.name.toLowerCase().includes('novice') || 
+                        item.name.toLowerCase().includes('mild') || 
+                        item.name.toLowerCase().includes('normal') || 
+                        item.name.toLowerCase().includes('power') || 
+                        item.name.toLowerCase().includes('mighty') || 
+                        item.name.toLowerCase().includes('cosmic') || 
+                        item.isWings || 
+                        item.name.toLowerCase().includes('wings');
 
                     let statDisplay = '';
                     if (isArmor) {
