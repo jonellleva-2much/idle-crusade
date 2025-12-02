@@ -2063,7 +2063,13 @@
     <div class="container">
         <!-- Left Panel - Character Details -->
         <div class="panel left-panel">
-            <h2 class="panel-title">CHARACTER</h2>
+            <div class="panel-header">
+                <h2 class="panel-title">CHARACTER</h2>
+                <label
+                    style="font-size: 0.75rem; display: flex; align-items: center; cursor: pointer; color: var(--text-dim); white-space: nowrap;">
+                    <input type="checkbox" id="auto-potion-toggle" checked style="margin-right: 4px;"> Auto Potion
+                </label>
+            </div>
 
             <!-- 1. HP and FP Bars -->
             <div class="stat-bars-container">
@@ -2240,13 +2246,11 @@
                 <div class="panel-header">
                     <h2 class="panel-title">INVENTORY</h2>
                     <div style="display: flex; gap: 0.5rem; align-items: center;">
-                        <label
-                            style="font-size: 0.75rem; display: flex; align-items: center; cursor: pointer; color: var(--text-dim); white-space: nowrap;">
-                            <input type="checkbox" id="auto-potion-toggle" checked style="margin-right: 4px;"> Auto
-                            Potion
-                        </label>
                         <button class="btn btn-secondary" id="craft-btn"
                             style="background-color: #2ecc71; padding: 4px 12px; font-size: 0.8rem; width: auto; min-width: auto; flex: none;">Craft</button>
+                        <button class="btn btn-secondary" id="sell-all-btn"
+                            style="background-color: #e74c3c; padding: 4px 12px; font-size: 0.8rem; width: auto; min-width: auto; flex: none;">Sell
+                            All</button>
                     </div>
                 </div>
                 <div class="currency">
@@ -5860,6 +5864,13 @@
                 }
             });
 
+            // Sell All button
+            const sellAllBtn = document.getElementById('sell-all-btn');
+            if (sellAllBtn) {
+                sellAllBtn.addEventListener('click', sellAllUnequippedItems);
+            }
+
+
             // Upgrade buttons
             upgradeConfirmBtn.addEventListener('click', async () => {
                 // 1. Add pulsing class and disable
@@ -7499,15 +7510,15 @@
                         item.name.toLowerCase().includes('core') ||
                         item.name.toLowerCase().includes('suit');
 
-                    const isAccessory = item.name.toLowerCase().includes('wristlet') || 
-                        item.name.toLowerCase().includes('ring') || 
-                        item.name.toLowerCase().includes('novice') || 
-                        item.name.toLowerCase().includes('mild') || 
-                        item.name.toLowerCase().includes('normal') || 
-                        item.name.toLowerCase().includes('power') || 
-                        item.name.toLowerCase().includes('mighty') || 
-                        item.name.toLowerCase().includes('cosmic') || 
-                        item.isWings || 
+                    const isAccessory = item.name.toLowerCase().includes('wristlet') ||
+                        item.name.toLowerCase().includes('ring') ||
+                        item.name.toLowerCase().includes('novice') ||
+                        item.name.toLowerCase().includes('mild') ||
+                        item.name.toLowerCase().includes('normal') ||
+                        item.name.toLowerCase().includes('power') ||
+                        item.name.toLowerCase().includes('mighty') ||
+                        item.name.toLowerCase().includes('cosmic') ||
+                        item.isWings ||
                         item.name.toLowerCase().includes('wings');
 
                     let statDisplay = '';
@@ -7873,6 +7884,55 @@
             document.getElementById('coins-amount').textContent = gameState.coins;
             saveGameState();
         }
+
+        // Sell all unequipped items
+        function sellAllUnequippedItems() {
+            const equipped = gameState.character.equipped;
+            let totalSold = 0;
+            let totalValue = 0;
+
+            // Filter out equipped items
+            const unequippedItems = gameState.inventory.filter(item => {
+                return item !== equipped.weapon &&
+                    item !== equipped.armor &&
+                    item !== equipped.accessory1 &&
+                    item !== equipped.accessory2 &&
+                    item !== equipped.wings;
+            });
+
+            if (unequippedItems.length === 0) {
+                addToBattleLog('No unequipped items to sell.', 'warning');
+                return;
+            }
+
+            // Calculate total value and count
+            unequippedItems.forEach(item => {
+                totalValue += item.sellValue;
+                totalSold++;
+            });
+
+            // Remove all unequipped items from inventory
+            gameState.inventory = gameState.inventory.filter(item => {
+                return item === equipped.weapon ||
+                    item === equipped.armor ||
+                    item === equipped.accessory1 ||
+                    item === equipped.accessory2 ||
+                    item === equipped.wings;
+            });
+
+            // Add currency
+            gameState.currency += totalValue;
+
+            // Log the sale
+            addToBattleLog(`Sold ${totalSold} unequipped item${totalSold > 1 ? 's' : ''} for ${totalValue} 🍃.`);
+
+            // Update displays
+            updateInventoryDisplay();
+            document.getElementById('currency-amount').textContent = gameState.currency;
+            document.getElementById('coins-amount').textContent = gameState.coins;
+            saveGameState();
+        }
+
 
         // Toggle item equip/unequip
         function toggleEquipItem(item, index) {
@@ -10351,14 +10411,14 @@
     <!-- Chatbox -->
     <div id="chatbox" class="chatbox minimized">
         <div class="chatbox-header" onclick="toggleChatbox()">
-            <span class="chatbox-title">💬 Global Chat</span>
+            <span class="chatbox-title">💬 World Chat</span>
             <span class="chatbox-toggle">▲</span>
         </div>
         <div class="chatbox-content">
             <div id="chat-messages" class="chat-messages">
                 <!-- Messages will appear here -->
                 <div class="chat-message system">
-                    <span class="msg-time">System:</span> Welcome to Global Chat!
+                    <span class="msg-time">System:</span> Welcome to World Chat!
                 </div>
             </div>
             <div class="chat-input-area">
@@ -10425,7 +10485,7 @@
         }
 
         .chatbox-content {
-            height: 600px;
+            height: 500px;
             display: flex;
             flex-direction: column;
             background-color: var(--darker-bg);
@@ -10523,13 +10583,13 @@
 
                         const chatTitle = document.querySelector('.chatbox-title');
                         if (chatTitle) {
-                            chatTitle.textContent = `💬 Global Chat (${onlineUsers})`;
+                            chatTitle.textContent = `💬 World Chat (${onlineUsers})`;
                         }
                     } catch (error) {
                         console.error('Error updating online count:', error);
                         const chatTitle = document.querySelector('.chatbox-title');
                         if (chatTitle) {
-                            chatTitle.textContent = '💬 Global Chat';
+                            chatTitle.textContent = '💬 World Chat';
                         }
                     }
                 });
