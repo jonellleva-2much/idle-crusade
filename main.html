@@ -325,6 +325,16 @@
             border-radius: 3px;
         }
 
+        /* Exploring animation */
+        .log-exploring {
+            color: var(--text-dim);
+            font-style: italic;
+            position: sticky;
+            bottom: 0;
+            background-color: var(--darker-bg);
+            padding: 0.5rem 0;
+        }
+
         /* Boss monster encounters - increased specificity */
         .log-entry span.log-boss-encounter {
             color: #ffaa00;
@@ -2199,6 +2209,9 @@
                 <div class="log-entry">
                     <span class="log-time">[00:00:00]</span> Welcome to RF Online! Start exploring to battle monsters
                     and gain experience.
+                </div>
+                <div class="log-entry log-exploring" id="exploring-animation" style="display: none;">
+                    <span id="exploring-text">Exploring</span>
                 </div>
             </div>
 
@@ -6828,6 +6841,62 @@
             }, interval);
         }
 
+        // Exploring animation functions
+        let exploringAnimationInterval = null;
+        let exploringAnimationDotCount = 0;
+
+        function startExploringAnimation() {
+            const exploringElement = document.getElementById('exploring-animation');
+            const exploringText = document.getElementById('exploring-text');
+
+            if (!exploringElement || !gameState.isExploring) return;
+
+            exploringElement.style.display = 'block';
+            exploringAnimationDotCount = 0;
+
+            // Clear any existing animation
+            if (exploringAnimationInterval) {
+                clearInterval(exploringAnimationInterval);
+            }
+
+            // Start cycling animation
+            exploringAnimationInterval = setInterval(() => {
+                if (!gameState.isExploring) {
+                    stopExploringAnimation();
+                    return;
+                }
+
+                exploringAnimationDotCount = (exploringAnimationDotCount + 1) % 4;
+                const dots = '.'.repeat(exploringAnimationDotCount);
+                exploringText.textContent = `Exploring${dots}`;
+            }, 500); // Change every 500ms
+        }
+
+        function pauseExploringAnimation() {
+            const exploringElement = document.getElementById('exploring-animation');
+            if (exploringElement) {
+                exploringElement.style.display = 'none';
+            }
+        }
+
+        function resumeExploringAnimation() {
+            const exploringElement = document.getElementById('exploring-animation');
+            if (exploringElement && gameState.isExploring) {
+                exploringElement.style.display = 'block';
+            }
+        }
+
+        function stopExploringAnimation() {
+            if (exploringAnimationInterval) {
+                clearInterval(exploringAnimationInterval);
+                exploringAnimationInterval = null;
+            }
+            const exploringElement = document.getElementById('exploring-animation');
+            if (exploringElement) {
+                exploringElement.style.display = 'none';
+            }
+        }
+
         // Stop exploration immediately
         function stopExploration() {
             if (!gameState.isExploring) return;
@@ -6857,6 +6926,9 @@
             gameState.bossEncountered = false;
             gameState.encounterStats = {};
             updateEncounterDisplay();
+
+            // Stop exploring animation
+            stopExploringAnimation();
 
             gameState.isExploring = false;
 
@@ -7140,6 +7212,14 @@
                 addToBattleLog(`<span class="log-encounter">You encounter a ${selectedMonsterName} Lv.${selectedMonster.level}!</span>`, 'encounter');
             }
 
+            // Show exploring animation after first encounter
+            if (gameState.isExploring && Object.keys(gameState.encounterStats).length === 0) {
+                startExploringAnimation();
+            }
+
+            // Pause exploring animation during battle
+            pauseExploringAnimation();
+
             // Track encounter
             if (!gameState.encounterStats[selectedMonsterName]) {
                 gameState.encounterStats[selectedMonsterName] = 0;
@@ -7331,6 +7411,7 @@
                     gameState.bossEncounterQueued = false;
                     gameState.bossEncountered = false;
                     gameState.encounterStats = {};
+                    stopExploringAnimation();
                     console.log('EXPLORATION STATE RESET - isExploring now:', gameState.isExploring);
 
                     updateCharacterDisplay();
@@ -7347,6 +7428,9 @@
             char.hp = charHp;
             updateCharacterDisplay();
             saveGameState();
+
+            // Resume exploring animation after battle
+            resumeExploringAnimation();
         }
 
         // Check for monster drops
@@ -10377,7 +10461,13 @@
                 <span class="log-time">${timeString}</span> ${message}
             `;
 
-            battleLog.appendChild(logEntry);
+            // Insert before the exploring animation to keep it at the bottom
+            const exploringAnimation = document.getElementById('exploring-animation');
+            if (exploringAnimation) {
+                battleLog.insertBefore(logEntry, exploringAnimation);
+            } else {
+                battleLog.appendChild(logEntry);
+            }
             battleLog.scrollTop = battleLog.scrollHeight;
 
             const entries = battleLog.querySelectorAll('.log-entry');
