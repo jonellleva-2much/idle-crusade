@@ -3656,8 +3656,8 @@
                     level: 15,
                     maxHp: 5000,
                     currentHp: 5000,
-                    attack: 150,
-                    defense: 80,
+                    attack: 300,
+                    defense: 100,
                     isAlive: true,
                     lastDefeated: null
                 },
@@ -3666,18 +3666,18 @@
                     level: 30,
                     maxHp: 10000,
                     currentHp: 10000,
-                    attack: 400,
-                    defense: 250,
+                    attack: 350,
+                    defense: 150,
                     isAlive: true,
                     lastDefeated: null
                 },
                 "Calliana Princess": {
                     name: "Calliana Princess",
                     level: 50,
-                    maxHp: 60000,
-                    currentHp: 60000,
-                    attack: 700,
-                    defense: 400,
+                    maxHp: 15000,
+                    currentHp: 15000,
+                    attack: 400,
+                    defense: 200,
                     isAlive: true,
                     lastDefeated: null
                 }
@@ -3741,13 +3741,16 @@
                 map: "HQ",
                 drops: [
                     { type: "currency", amount: 1, chance: 1.0 },
-                    { type: "item", name: "Novice Sword", stats: { attack: 2 }, sellValue: 1, chance: 0.50 },
-                    { type: "item", name: "Novice Wand", stats: { attack: 2 }, sellValue: 1, chance: 0.30 },
-                    { type: "item", name: "Novice Bow", stats: { attack: 2 }, sellValue: 1, chance: 0.30 },
-                    { type: "item", name: "Novice Armor", stats: { defense: 2 }, sellValue: 1, chance: 0.40 },
-                    { type: "item", name: "Basic Wings", stats: { attack: 5, defense: 5 }, movementSpeed: 1.0, isWings: true, sellValue: 10, chance: 1.0 },
-                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.30 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 2, chance: 0.30 }
+                    { type: "item", name: "Novice Sword", stats: { attack: 2 }, sellValue: 5, chance: 0.30 },
+                    { type: "item", name: "Novice Wand", stats: { attack: 2 }, sellValue: 5, chance: 0.30 },
+                    { type: "item", name: "Novice Bow", stats: { attack: 2 }, sellValue: 5, chance: 0.30 },
+                    { type: "item", name: "Novice Armor", stats: { defense: 2 }, sellValue: 5, chance: 0.40 },
+                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 10, chance: 0.10 },
+                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 10, chance: 0.08 },
+                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 10, chance: 0.06 },
+                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 10, chance: 0.04 },
+                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.20 },
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.20 }
                 ]
             },
             "Wing": {
@@ -3759,12 +3762,16 @@
                 map: "HQ",
                 drops: [
                     { type: "currency", amount: 1, chance: 1.0 },
-                    { type: "item", name: "Novice Sword", stats: { attack: 2 }, sellValue: 1, chance: 0.50 },
-                    { type: "item", name: "Novice Wand", stats: { attack: 2 }, sellValue: 1, chance: 0.30 },
-                    { type: "item", name: "Novice Bow", stats: { attack: 2 }, sellValue: 1, chance: 0.30 },
-                    { type: "item", name: "Novice Armor", stats: { defense: 2 }, sellValue: 1, chance: 0.40 },
-                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.30 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 2, chance: 0.30 }
+                    { type: "item", name: "Novice Sword", stats: { attack: 2 }, sellValue: 5, chance: 0.30 },
+                    { type: "item", name: "Novice Wand", stats: { attack: 2 }, sellValue: 5, chance: 0.30 },
+                    { type: "item", name: "Novice Bow", stats: { attack: 2 }, sellValue: 5, chance: 0.30 },
+                    { type: "item", name: "Novice Armor", stats: { defense: 2 }, sellValue: 5, chance: 0.40 },
+                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 10, chance: 0.10 },
+                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 10, chance: 0.08 },
+                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 10, chance: 0.06 },
+                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 10, chance: 0.04 },
+                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.20 },
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.20 }
                 ]
             },
             "Flym": {
@@ -3776,12 +3783,16 @@
                 map: "HQ",
                 drops: [
                     { type: "currency", amount: 1, chance: 1.0 },
-                    { type: "item", name: "Novice Sword", stats: { attack: 2 }, sellValue: 1, chance: 0.50 },
-                    { type: "item", name: "Novice Wand", stats: { attack: 2 }, sellValue: 1, chance: 0.30 },
-                    { type: "item", name: "Novice Bow", stats: { attack: 2 }, sellValue: 1, chance: 0.30 },
-                    { type: "item", name: "Novice Armor", stats: { defense: 2 }, sellValue: 1, chance: 0.40 },
-                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.30 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 2, chance: 0.30 }
+                    { type: "item", name: "Novice Sword", stats: { attack: 2 }, sellValue: 5, chance: 0.30 },
+                    { type: "item", name: "Novice Wand", stats: { attack: 2 }, sellValue: 5, chance: 0.30 },
+                    { type: "item", name: "Novice Bow", stats: { attack: 2 }, sellValue: 5, chance: 0.30 },
+                    { type: "item", name: "Novice Armor", stats: { defense: 2 }, sellValue: 5, chance: 0.40 },
+                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 10, chance: 0.10 },
+                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 10, chance: 0.08 },
+                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 10, chance: 0.06 },
+                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 10, chance: 0.04 },
+                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.20 },
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.20 }
                 ]
             },
 
@@ -3795,12 +3806,16 @@
                 map: "HQ",
                 drops: [
                     { type: "currency", amount: 2, chance: 1.0 },
-                    { type: "item", name: "Sword Breaker", stats: { attack: 5 }, sellValue: 4, chance: 0.50 },
-                    { type: "item", name: "Battle Staff", stats: { attack: 5 }, sellValue: 4, chance: 0.30 },
-                    { type: "item", name: "Assemble Bow", stats: { attack: 5 }, sellValue: 4, chance: 0.30 },
-                    { type: "item", name: "Leather Shirt", stats: { defense: 5 }, sellValue: 4, chance: 0.40 },
-                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.30 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 2, chance: 0.30 }
+                    { type: "item", name: "Sword Breaker", stats: { attack: 5 }, sellValue: 5, chance: 0.30 },
+                    { type: "item", name: "Battle Staff", stats: { attack: 5 }, sellValue: 5, chance: 0.30 },
+                    { type: "item", name: "Assemble Bow", stats: { attack: 5 }, sellValue: 5, chance: 0.30 },
+                    { type: "item", name: "Leather Shirt", stats: { defense: 5 }, sellValue: 5, chance: 0.40 },
+                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 10, chance: 0.10 },
+                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 10, chance: 0.08 },
+                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 10, chance: 0.06 },
+                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 10, chance: 0.04 },
+                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.20 },
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.20 }
                 ]
             },
             "Desert Klan": {
@@ -3812,12 +3827,16 @@
                 map: "HQ",
                 drops: [
                     { type: "currency", amount: 2, chance: 1.0 },
-                    { type: "item", name: "Sword Breaker", stats: { attack: 5 }, sellValue: 4, chance: 0.50 },
-                    { type: "item", name: "Battle Staff", stats: { attack: 5 }, sellValue: 4, chance: 0.30 },
-                    { type: "item", name: "Assemble Bow", stats: { attack: 5 }, sellValue: 4, chance: 0.30 },
-                    { type: "item", name: "Leather Shirt", stats: { defense: 5 }, sellValue: 4, chance: 0.40 },
-                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.30 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 2, chance: 0.30 }
+                    { type: "item", name: "Sword Breaker", stats: { attack: 5 }, sellValue: 5, chance: 0.30 },
+                    { type: "item", name: "Battle Staff", stats: { attack: 5 }, sellValue: 5, chance: 0.30 },
+                    { type: "item", name: "Assemble Bow", stats: { attack: 5 }, sellValue: 5, chance: 0.30 },
+                    { type: "item", name: "Leather Shirt", stats: { defense: 5 }, sellValue: 5, chance: 0.40 },
+                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 10, chance: 0.10 },
+                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 10, chance: 0.08 },
+                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 10, chance: 0.06 },
+                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 10, chance: 0.04 },
+                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.20 },
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.20 }
                 ]
             },
             "Demolis": {
@@ -3829,12 +3848,16 @@
                 map: "HQ",
                 drops: [
                     { type: "currency", amount: 2, chance: 1.0 },
-                    { type: "item", name: "Sword Breaker", stats: { attack: 5 }, sellValue: 4, chance: 0.50 },
-                    { type: "item", name: "Battle Staff", stats: { attack: 5 }, sellValue: 4, chance: 0.30 },
-                    { type: "item", name: "Assemble Bow", stats: { attack: 5 }, sellValue: 4, chance: 0.30 },
-                    { type: "item", name: "Leather Shirt", stats: { defense: 5 }, sellValue: 4, chance: 0.40 },
-                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.30 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 2, chance: 0.30 }
+                    { type: "item", name: "Sword Breaker", stats: { attack: 5 }, sellValue: 5, chance: 0.30 },
+                    { type: "item", name: "Battle Staff", stats: { attack: 5 }, sellValue: 5, chance: 0.30 },
+                    { type: "item", name: "Assemble Bow", stats: { attack: 5 }, sellValue: 5, chance: 0.30 },
+                    { type: "item", name: "Leather Shirt", stats: { defense: 5 }, sellValue: 5, chance: 0.40 },
+                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 10, chance: 0.10 },
+                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 10, chance: 0.08 },
+                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 10, chance: 0.06 },
+                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 10, chance: 0.04 },
+                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.20 },
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.20 }
                 ]
             },
 
@@ -3848,12 +3871,16 @@
                 map: "HQ",
                 drops: [
                     { type: "currency", amount: 3, chance: 1.0 },
-                    { type: "item", name: "Valkyrie Sword", stats: { attack: 8 }, sellValue: 7, chance: 0.50 },
-                    { type: "item", name: "War Wand", stats: { attack: 8 }, sellValue: 7, chance: 0.30 },
-                    { type: "item", name: "Tower Bow", stats: { attack: 8 }, sellValue: 7, chance: 0.30 },
-                    { type: "item", name: "Hora Tunic", stats: { defense: 8 }, sellValue: 7, chance: 0.40 },
-                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.30 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 2, chance: 0.30 }
+                    { type: "item", name: "Valkyrie Sword", stats: { attack: 8 }, sellValue: 5, chance: 0.30 },
+                    { type: "item", name: "War Wand", stats: { attack: 8 }, sellValue: 5, chance: 0.30 },
+                    { type: "item", name: "Tower Bow", stats: { attack: 8 }, sellValue: 5, chance: 0.30 },
+                    { type: "item", name: "Hora Tunic", stats: { defense: 8 }, sellValue: 5, chance: 0.40 },
+                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 10, chance: 0.10 },
+                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 10, chance: 0.08 },
+                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 10, chance: 0.06 },
+                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 10, chance: 0.04 },
+                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.20 },
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.20 }
                 ]
             },
             "Lunker": {
@@ -3865,12 +3892,16 @@
                 map: "HQ",
                 drops: [
                     { type: "currency", amount: 3, chance: 1.0 },
-                    { type: "item", name: "Valkyrie Sword", stats: { attack: 8 }, sellValue: 7, chance: 0.50 },
-                    { type: "item", name: "War Wand", stats: { attack: 8 }, sellValue: 7, chance: 0.30 },
-                    { type: "item", name: "Tower Bow", stats: { attack: 8 }, sellValue: 7, chance: 0.30 },
-                    { type: "item", name: "Hora Tunic", stats: { defense: 8 }, sellValue: 7, chance: 0.40 },
-                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.30 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 2, chance: 0.30 }
+                    { type: "item", name: "Valkyrie Sword", stats: { attack: 8 }, sellValue: 5, chance: 0.30 },
+                    { type: "item", name: "War Wand", stats: { attack: 8 }, sellValue: 5, chance: 0.30 },
+                    { type: "item", name: "Tower Bow", stats: { attack: 8 }, sellValue: 5, chance: 0.30 },
+                    { type: "item", name: "Hora Tunic", stats: { defense: 8 }, sellValue: 5, chance: 0.40 },
+                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 10, chance: 0.10 },
+                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 10, chance: 0.08 },
+                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 10, chance: 0.06 },
+                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 10, chance: 0.04 },
+                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.20 },
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.20 }
                 ]
             },
             "Warbeast": {
@@ -3882,12 +3913,16 @@
                 map: "HQ",
                 drops: [
                     { type: "currency", amount: 3, chance: 1.0 },
-                    { type: "item", name: "Valkyrie Sword", stats: { attack: 8 }, sellValue: 7, chance: 0.50 },
-                    { type: "item", name: "War Wand", stats: { attack: 8 }, sellValue: 7, chance: 0.30 },
-                    { type: "item", name: "Tower Bow", stats: { attack: 8 }, sellValue: 7, chance: 0.30 },
-                    { type: "item", name: "Hora Tunic", stats: { defense: 8 }, sellValue: 7, chance: 0.40 },
-                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.30 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 2, chance: 0.30 }
+                    { type: "item", name: "Valkyrie Sword", stats: { attack: 8 }, sellValue: 5, chance: 0.30 },
+                    { type: "item", name: "War Wand", stats: { attack: 8 }, sellValue: 5, chance: 0.30 },
+                    { type: "item", name: "Tower Bow", stats: { attack: 8 }, sellValue: 5, chance: 0.30 },
+                    { type: "item", name: "Hora Tunic", stats: { defense: 8 }, sellValue: 5, chance: 0.40 },
+                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 10, chance: 0.10 },
+                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 10, chance: 0.08 },
+                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 10, chance: 0.06 },
+                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 10, chance: 0.04 },
+                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.20 },
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.20 }
                 ]
             },
 
@@ -3901,12 +3936,16 @@
                 map: "HQ",
                 drops: [
                     { type: "currency", amount: 4, chance: 1.0 },
-                    { type: "item", name: "Zweihander", stats: { attack: 12 }, sellValue: 12, chance: 0.50 },
-                    { type: "item", name: "Red Bead", stats: { attack: 12 }, sellValue: 12, chance: 0.30 },
-                    { type: "item", name: "Beam Cross-Bow", stats: { attack: 12 }, sellValue: 12, chance: 0.30 },
-                    { type: "item", name: "Coil Armor", stats: { defense: 12 }, sellValue: 12, chance: 0.40 },
-                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.30 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 2, chance: 0.30 }
+                    { type: "item", name: "Zweihander", stats: { attack: 12 }, sellValue: 5, chance: 0.30 },
+                    { type: "item", name: "Red Bead", stats: { attack: 12 }, sellValue: 5, chance: 0.30 },
+                    { type: "item", name: "Beam Cross-Bow", stats: { attack: 12 }, sellValue: 5, chance: 0.30 },
+                    { type: "item", name: "Coil Armor", stats: { defense: 12 }, sellValue: 5, chance: 0.40 },
+                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 10, chance: 0.10 },
+                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 10, chance: 0.08 },
+                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 10, chance: 0.06 },
+                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 10, chance: 0.04 },
+                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.20 },
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.20 }
                 ]
             },
             "Snatcher Cheat": {
@@ -3918,12 +3957,16 @@
                 map: "HQ",
                 drops: [
                     { type: "currency", amount: 4, chance: 1.0 },
-                    { type: "item", name: "Zweihander", stats: { attack: 12 }, sellValue: 12, chance: 0.50 },
-                    { type: "item", name: "Red Bead", stats: { attack: 12 }, sellValue: 12, chance: 0.30 },
-                    { type: "item", name: "Beam Cross-Bow", stats: { attack: 12 }, sellValue: 12, chance: 0.30 },
-                    { type: "item", name: "Coil Armor", stats: { defense: 12 }, sellValue: 12, chance: 0.40 },
-                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.30 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 2, chance: 0.30 }
+                    { type: "item", name: "Zweihander", stats: { attack: 12 }, sellValue: 5, chance: 0.30 },
+                    { type: "item", name: "Red Bead", stats: { attack: 12 }, sellValue: 5, chance: 0.30 },
+                    { type: "item", name: "Beam Cross-Bow", stats: { attack: 12 }, sellValue: 5, chance: 0.30 },
+                    { type: "item", name: "Coil Armor", stats: { defense: 12 }, sellValue: 5, chance: 0.40 },
+                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 10, chance: 0.10 },
+                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 10, chance: 0.08 },
+                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 10, chance: 0.06 },
+                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 10, chance: 0.04 },
+                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.20 },
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.20 }
                 ]
             },
             "Splinter": {
@@ -3935,12 +3978,16 @@
                 map: "HQ",
                 drops: [
                     { type: "currency", amount: 4, chance: 1.0 },
-                    { type: "item", name: "Zweihander", stats: { attack: 12 }, sellValue: 12, chance: 0.50 },
-                    { type: "item", name: "Red Bead", stats: { attack: 12 }, sellValue: 12, chance: 0.30 },
-                    { type: "item", name: "Beam Cross-Bow", stats: { attack: 12 }, sellValue: 12, chance: 0.30 },
-                    { type: "item", name: "Coil Armor", stats: { defense: 12 }, sellValue: 12, chance: 0.40 },
-                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.30 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 2, chance: 0.30 }
+                    { type: "item", name: "Zweihander", stats: { attack: 12 }, sellValue: 5, chance: 0.30 },
+                    { type: "item", name: "Red Bead", stats: { attack: 12 }, sellValue: 5, chance: 0.30 },
+                    { type: "item", name: "Beam Cross-Bow", stats: { attack: 12 }, sellValue: 5, chance: 0.30 },
+                    { type: "item", name: "Coil Armor", stats: { defense: 12 }, sellValue: 5, chance: 0.40 },
+                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 10, chance: 0.10 },
+                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 10, chance: 0.08 },
+                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 10, chance: 0.06 },
+                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 10, chance: 0.04 },
+                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.20 },
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.20 }
                 ]
             },
 
@@ -3948,23 +3995,27 @@
             "Arghol Wasp": {
                 level: 15,
                 hp: 5000,
-                attack: 150,
-                defense: 80,
+                attack: 300,
+                defense: 100,
                 explorationTime: 720,
                 map: "HQ",
                 isBoss: true,
                 drops: [
-                    { type: "currency", amount: 50, chance: 1.0 },
-                    { type: "item", name: "Arghol Blade", stats: { attack: 15 }, sellValue: 50, chance: 0.5 },
-                    { type: "item", name: "Arghol Staff", stats: { attack: 15 }, sellValue: 50, chance: 0.5 },
-                    { type: "item", name: "Arghol Bow", stats: { attack: 15 }, sellValue: 50, chance: 0.5 },
-                    { type: "item", name: "Arghol Armor", stats: { defense: 15 }, sellValue: 50, chance: 0.5, quantity: 2 },
-                    { type: "item", name: "Parsal Wristlet A", stats: { attack: 15, defense: 15 }, sellValue: 50, chance: 0.15 },
-                    { type: "item", name: "Parsal Wristlet B", stats: { attack: 20, defense: 20 }, sellValue: 75, chance: 0.12 },
-                    { type: "item", name: "Parsal Wristlet C", stats: { attack: 25, defense: 25 }, sellValue: 100, chance: 0.10 },
-                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 1.0, quantity: 5 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 2, chance: 1.0, quantity: 5 },
-                    { type: "material", name: "Shiny Gem", stats: {}, sellValue: 10, chance: 1.0, quantity: 1 }
+                    { type: "currency", amount: 100, chance: 1.0 },
+                    { type: "item", name: "Arghol Blade", stats: { attack: 15 }, sellValue: 20, chance: 0.5 },
+                    { type: "item", name: "Arghol Staff", stats: { attack: 15 }, sellValue: 20, chance: 0.5 },
+                    { type: "item", name: "Arghol Bow", stats: { attack: 15 }, sellValue: 20, chance: 0.5 },
+                    { type: "item", name: "Arghol Armor", stats: { defense: 15 }, sellValue: 20, chance: 0.5, quantity: 2 },
+                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 10, chance: 0.25 },
+                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 10, chance: 0.20 },
+                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 10, chance: 0.15 },
+                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 10, chance: 0.10 },
+                    { type: "item", name: "Mighty Ring", stats: { attack: 25, defense: 25 }, sellValue: 10, chance: 0.07 },
+                    { type: "item", name: "Cosmic Ring", stats: { attack: 30, defense: 30 }, sellValue: 10, chance: 0.05 },
+                    { type: "item", name: "Basic Wings", stats: { attack: 5, defense: 5 }, movementSpeed: 1.0, isWings: true, sellValue: 5, chance: 0.5 },
+                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 1.0, quantity: 10 },
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 1.0, quantity: 10 },
+                    { type: "material", name: "Shiny Gem", stats: {}, sellValue: 5, chance: 1.0, quantity: 2 }
                 ]
             },
 
@@ -3978,14 +4029,17 @@
                 map: "Sette Desert",
                 skill: "Wind Blast",
                 drops: [
-                    { type: "currency", amount: 15, chance: 1.0 },
-                    { type: "item", name: "Bastard Sword", stats: { attack: 20 }, sellValue: 20, chance: 0.05 },
-                    { type: "item", name: "Black Wand", stats: { attack: 20 }, sellValue: 20, chance: 0.03 },
-                    { type: "item", name: "Long Bow", stats: { attack: 20 }, sellValue: 20, chance: 0.03 },
-                    { type: "item", name: "Iron Tunic", stats: { defense: 20 }, sellValue: 20, chance: 0.04 },
-                    { type: "item", name: "Parsal Wristlet A", stats: { attack: 15, defense: 15 }, sellValue: 50, chance: 0.02 },
-                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.35 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 2, chance: 0.35 }
+                    { type: "currency", amount: 5, chance: 1.0 },
+                    { type: "item", name: "Bastard Sword", stats: { attack: 20 }, sellValue: 10, chance: 0.3 },
+                    { type: "item", name: "Black Wand", stats: { attack: 20 }, sellValue: 10, chance: 0.3 },
+                    { type: "item", name: "Long Bow", stats: { attack: 20 }, sellValue: 10, chance: 0.3 },
+                    { type: "item", name: "Iron Tunic", stats: { defense: 20 }, sellValue: 10, chance: 0.4 },
+                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 10, chance: 0.12 },
+                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 10, chance: 0.10 },
+                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 10, chance: 0.08 },
+                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 10, chance: 0.06 },
+                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.25 },
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.25 }
                 ]
             },
             "Ghost": {
@@ -3997,14 +4051,17 @@
                 map: "Sette Desert",
                 skill: "Wind Blast",
                 drops: [
-                    { type: "currency", amount: 12, chance: 1.0 },
-                    { type: "item", name: "Claymore", stats: { attack: 22 }, sellValue: 22, chance: 0.05 },
-                    { type: "item", name: "Field Staff", stats: { attack: 22 }, sellValue: 22, chance: 0.03 },
-                    { type: "item", name: "Battle Bow", stats: { attack: 22 }, sellValue: 22, chance: 0.03 },
-                    { type: "item", name: "Steel Core", stats: { defense: 22 }, sellValue: 22, chance: 0.04 },
-                    { type: "item", name: "Parsal Wristlet A", stats: { attack: 15, defense: 15 }, sellValue: 50, chance: 0.02 },
-                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.35 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 2, chance: 0.35 }
+                    { type: "currency", amount: 5, chance: 1.0 },
+                    { type: "item", name: "Claymore", stats: { attack: 22 }, sellValue: 10, chance: 0.3 },
+                    { type: "item", name: "Field Staff", stats: { attack: 22 }, sellValue: 10, chance: 0.3 },
+                    { type: "item", name: "Battle Bow", stats: { attack: 22 }, sellValue: 10, chance: 0.3 },
+                    { type: "item", name: "Steel Core", stats: { defense: 22 }, sellValue: 10, chance: 0.4 },
+                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 10, chance: 0.12 },
+                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 10, chance: 0.10 },
+                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 10, chance: 0.08 },
+                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 10, chance: 0.06 },
+                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.25 },
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.25 }
                 ]
             },
             "Ghost II": { // Hack for 1 hour
@@ -4016,15 +4073,17 @@
                 map: "Sette Desert",
                 skill: "Wind Blast",
                 drops: [
-                    { type: "currency", amount: 15, chance: 1.0 },
-                    { type: "item", name: "Claymore", stats: { attack: 22 }, sellValue: 22, chance: 0.05 },
-                    { type: "item", name: "Field Staff", stats: { attack: 22 }, sellValue: 22, chance: 0.03 },
-                    { type: "item", name: "Battle Bow", stats: { attack: 22 }, sellValue: 22, chance: 0.03 },
-                    { type: "item", name: "Steel Core", stats: { defense: 22 }, sellValue: 22, chance: 0.04 },
-                    { type: "item", name: "Parsal Wristlet A", stats: { attack: 15, defense: 15 }, sellValue: 50, chance: 0.02 },
-                    { type: "item", name: "Parsal Wristlet B", stats: { attack: 20, defense: 20 }, sellValue: 75, chance: 0.01 },
-                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.35 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 2, chance: 0.35 }
+                    { type: "currency", amount: 6, chance: 1.0 },
+                    { type: "item", name: "Claymore", stats: { attack: 22 }, sellValue: 10, chance: 0.3 },
+                    { type: "item", name: "Field Staff", stats: { attack: 22 }, sellValue: 10, chance: 0.3 },
+                    { type: "item", name: "Battle Bow", stats: { attack: 22 }, sellValue: 10, chance: 0.3 },
+                    { type: "item", name: "Steel Core", stats: { defense: 22 }, sellValue: 10, chance: 0.4 },
+                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 10, chance: 0.12 },
+                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 10, chance: 0.10 },
+                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 10, chance: 0.08 },
+                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 10, chance: 0.06 },
+                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.25 },
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.25 }
                 ]
             },
             "Rigor Lapis": {
@@ -4036,16 +4095,17 @@
                 map: "Sette Desert",
                 skill: "Raging Wave",
                 drops: [
-                    { type: "currency", amount: 18, chance: 1.0 },
-                    { type: "item", name: "Big Breaker", stats: { attack: 25 }, sellValue: 25, chance: 0.05 },
-                    { type: "item", name: "Dual Wand", stats: { attack: 25 }, sellValue: 25, chance: 0.03 },
-                    { type: "item", name: "Dual Bow", stats: { attack: 25 }, sellValue: 25, chance: 0.03 },
-                    { type: "item", name: "Duple Armor", stats: { defense: 25 }, sellValue: 25, chance: 0.04 },
-                    { type: "item", name: "Parsal Wristlet A", stats: { attack: 15, defense: 15 }, sellValue: 50, chance: 0.02 },
-                    { type: "item", name: "Parsal Wristlet B", stats: { attack: 20, defense: 20 }, sellValue: 75, chance: 0.02 },
-                    { type: "item", name: "Parsal Wristlet C", stats: { attack: 25, defense: 25 }, sellValue: 100, chance: 0.01 },
-                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.35 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 2, chance: 0.35 }
+                    { type: "currency", amount: 6, chance: 1.0 },
+                    { type: "item", name: "Big Breaker", stats: { attack: 25 }, sellValue: 10, chance: 0.3 },
+                    { type: "item", name: "Dual Wand", stats: { attack: 25 }, sellValue: 10, chance: 0.3 },
+                    { type: "item", name: "Dual Bow", stats: { attack: 25 }, sellValue: 10, chance: 0.3 },
+                    { type: "item", name: "Duple Armor", stats: { defense: 25 }, sellValue: 10, chance: 0.4 },
+                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 10, chance: 0.12 },
+                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 10, chance: 0.10 },
+                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 10, chance: 0.08 },
+                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 10, chance: 0.06 },
+                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.25 },
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.25 }
                 ]
             },
             "Rigor Lapis II": { // Hack for 6 hours
@@ -4057,15 +4117,17 @@
                 map: "Sette Desert",
                 skill: "Raging Wave",
                 drops: [
-                    { type: "currency", amount: 25, chance: 1.0 },
-                    { type: "item", name: "Big Breaker", stats: { attack: 25 }, sellValue: 25, chance: 0.05 },
-                    { type: "item", name: "Dual Wand", stats: { attack: 25 }, sellValue: 25, chance: 0.03 },
-                    { type: "item", name: "Dual Bow", stats: { attack: 25 }, sellValue: 25, chance: 0.03 },
-                    { type: "item", name: "Duple Armor", stats: { defense: 25 }, sellValue: 25, chance: 0.04 },
-                    { type: "item", name: "Parsal Wristlet A", stats: { attack: 15, defense: 15 }, sellValue: 50, chance: 0.02 },
-                    { type: "item", name: "Parsal Wristlet B", stats: { attack: 20, defense: 20 }, sellValue: 75, chance: 0.01 },
-                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.35 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 2, chance: 0.35 }
+                    { type: "currency", amount: 7, chance: 1.0 },
+                    { type: "item", name: "Big Breaker", stats: { attack: 25 }, sellValue: 10, chance: 0.3 },
+                    { type: "item", name: "Dual Wand", stats: { attack: 25 }, sellValue: 10, chance: 0.3 },
+                    { type: "item", name: "Dual Bow", stats: { attack: 25 }, sellValue: 10, chance: 0.3 },
+                    { type: "item", name: "Duple Armor", stats: { defense: 25 }, sellValue: 10, chance: 0.4 },
+                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 10, chance: 0.12 },
+                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 10, chance: 0.10 },
+                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 10, chance: 0.08 },
+                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 10, chance: 0.06 },
+                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.25 },
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.25 }
                 ]
             },
             "Grumble Hook": {
@@ -4077,15 +4139,17 @@
                 map: "Sette Desert",
                 skill: "Wind Blast",
                 drops: [
-                    { type: "currency", amount: 20, chance: 1.0 },
-                    { type: "item", name: "Beam Sword", stats: { attack: 28 }, sellValue: 27, chance: 0.05 },
-                    { type: "item", name: "Beam Bead", stats: { attack: 28 }, sellValue: 27, chance: 0.03 },
-                    { type: "item", name: "Beam Bow", stats: { attack: 28 }, sellValue: 27, chance: 0.03 },
-                    { type: "item", name: "Sprits Cloak", stats: { defense: 28 }, sellValue: 27, chance: 0.04 },
-                    { type: "item", name: "Parsal Wristlet A", stats: { attack: 15, defense: 15 }, sellValue: 50, chance: 0.02 },
-                    { type: "item", name: "Parsal Wristlet B", stats: { attack: 20, defense: 20 }, sellValue: 75, chance: 0.01 },
-                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.35 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 2, chance: 0.35 }
+                    { type: "currency", amount: 7, chance: 1.0 },
+                    { type: "item", name: "Beam Sword", stats: { attack: 28 }, sellValue: 10, chance: 0.3 },
+                    { type: "item", name: "Beam Bead", stats: { attack: 28 }, sellValue: 10, chance: 0.3 },
+                    { type: "item", name: "Beam Bow", stats: { attack: 28 }, sellValue: 10, chance: 0.3 },
+                    { type: "item", name: "Sprits Cloak", stats: { defense: 28 }, sellValue: 10, chance: 0.4 },
+                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 10, chance: 0.12 },
+                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 10, chance: 0.10 },
+                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 10, chance: 0.08 },
+                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 10, chance: 0.06 },
+                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.25 },
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.25 }
                 ]
             },
             "Grumble Hook II": { // Hack for 6 hours
@@ -4097,16 +4161,17 @@
                 map: "Sette Desert",
                 skill: "Wind Blast",
                 drops: [
-                    { type: "currency", amount: 30, chance: 1.0 },
-                    { type: "item", name: "Beam Sword", stats: { attack: 28 }, sellValue: 27, chance: 0.05 },
-                    { type: "item", name: "Beam Bead", stats: { attack: 28 }, sellValue: 27, chance: 0.03 },
-                    { type: "item", name: "Beam Bow", stats: { attack: 28 }, sellValue: 27, chance: 0.03 },
-                    { type: "item", name: "Sprits Cloak", stats: { defense: 28 }, sellValue: 27, chance: 0.04 },
-                    { type: "item", name: "Parsal Wristlet A", stats: { attack: 15, defense: 15 }, sellValue: 50, chance: 0.02 },
-                    { type: "item", name: "Parsal Wristlet B", stats: { attack: 20, defense: 20 }, sellValue: 75, chance: 0.01 },
-                    { type: "item", name: "Parsal Wristlet C", stats: { attack: 25, defense: 25 }, sellValue: 100, chance: 0.01 },
-                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.35 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 2, chance: 0.35 }
+                    { type: "currency", amount: 8, chance: 1.0 },
+                    { type: "item", name: "Beam Sword", stats: { attack: 28 }, sellValue: 10, chance: 0.3 },
+                    { type: "item", name: "Beam Bead", stats: { attack: 28 }, sellValue: 10, chance: 0.3 },
+                    { type: "item", name: "Beam Bow", stats: { attack: 28 }, sellValue: 10, chance: 0.3 },
+                    { type: "item", name: "Sprits Cloak", stats: { defense: 28 }, sellValue: 10, chance: 0.4 },
+                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 10, chance: 0.12 },
+                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 10, chance: 0.10 },
+                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 10, chance: 0.08 },
+                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 10, chance: 0.06 },
+                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.25 },
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.25 }
                 ]
             },
             "Turncoat": {
@@ -4117,16 +4182,17 @@
                 explorationTime: 60,
                 map: "Sette Desert",
                 drops: [
-                    { type: "currency", amount: 25, chance: 1.0 },
-                    { type: "item", name: "Scale Sword", stats: { attack: 32 }, sellValue: 30, chance: 0.05 },
-                    { type: "item", name: "Blue Wand", stats: { attack: 32 }, sellValue: 30, chance: 0.03 },
-                    { type: "item", name: "Siege Bow", stats: { attack: 32 }, sellValue: 30, chance: 0.03 },
-                    { type: "item", name: "Soul Armor", stats: { defense: 32 }, sellValue: 30, chance: 0.04 },
-                    { type: "item", name: "Parsal Wristlet A", stats: { attack: 15, defense: 15 }, sellValue: 50, chance: 0.02 },
-                    { type: "item", name: "Parsal Wristlet B", stats: { attack: 20, defense: 20 }, sellValue: 75, chance: 0.01 },
-                    { type: "item", name: "Parsal Wristlet C", stats: { attack: 25, defense: 25 }, sellValue: 100, chance: 0.01 },
-                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.35 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 2, chance: 0.35 }
+                    { type: "currency", amount: 8, chance: 1.0 },
+                    { type: "item", name: "Scale Sword", stats: { attack: 32 }, sellValue: 10, chance: 0.3 },
+                    { type: "item", name: "Blue Wand", stats: { attack: 32 }, sellValue: 10, chance: 0.3 },
+                    { type: "item", name: "Siege Bow", stats: { attack: 32 }, sellValue: 10, chance: 0.3 },
+                    { type: "item", name: "Soul Armor", stats: { defense: 32 }, sellValue: 10, chance: 0.4 },
+                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 10, chance: 0.12 },
+                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 10, chance: 0.10 },
+                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 10, chance: 0.08 },
+                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 10, chance: 0.06 },
+                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.25 },
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.25 }
                 ]
             },
             "Turncoat II": { // Hack for 6 hours
@@ -4137,16 +4203,17 @@
                 explorationTime: 360,
                 map: "Sette Desert",
                 drops: [
-                    { type: "currency", amount: 35, chance: 1.0 },
-                    { type: "item", name: "Scale Sword", stats: { attack: 32 }, sellValue: 30, chance: 0.05 },
-                    { type: "item", name: "Blue Wand", stats: { attack: 32 }, sellValue: 30, chance: 0.03 },
-                    { type: "item", name: "Siege Bow", stats: { attack: 32 }, sellValue: 30, chance: 0.03 },
-                    { type: "item", name: "Soul Armor", stats: { defense: 32 }, sellValue: 30, chance: 0.04 },
-                    { type: "item", name: "Parsal Wristlet A", stats: { attack: 15, defense: 15 }, sellValue: 50, chance: 0.02 },
-                    { type: "item", name: "Parsal Wristlet B", stats: { attack: 20, defense: 20 }, sellValue: 75, chance: 0.01 },
-                    { type: "item", name: "Parsal Wristlet C", stats: { attack: 25, defense: 25 }, sellValue: 100, chance: 0.01 },
-                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.35 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 2, chance: 0.35 }
+                    { type: "currency", amount: 9, chance: 1.0 },
+                    { type: "item", name: "Scale Sword", stats: { attack: 32 }, sellValue: 10, chance: 0.3 },
+                    { type: "item", name: "Blue Wand", stats: { attack: 32 }, sellValue: 10, chance: 0.3 },
+                    { type: "item", name: "Siege Bow", stats: { attack: 32 }, sellValue: 10, chance: 0.3 },
+                    { type: "item", name: "Soul Armor", stats: { defense: 32 }, sellValue: 10, chance: 0.4 },
+                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 10, chance: 0.12 },
+                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 10, chance: 0.10 },
+                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 10, chance: 0.08 },
+                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 10, chance: 0.06 },
+                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.25 },
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.25 }
                 ]
             },
             "Turncoat III": { // Hack for 12 hours
@@ -4157,16 +4224,17 @@
                 explorationTime: 720,
                 map: "Sette Desert",
                 drops: [
-                    { type: "currency", amount: 45, chance: 1.0 },
-                    { type: "item", name: "Scale Sword", stats: { attack: 32 }, sellValue: 30, chance: 0.05 },
-                    { type: "item", name: "Blue Wand", stats: { attack: 32 }, sellValue: 30, chance: 0.03 },
-                    { type: "item", name: "Siege Bow", stats: { attack: 32 }, sellValue: 30, chance: 0.03 },
-                    { type: "item", name: "Soul Armor", stats: { defense: 32 }, sellValue: 30, chance: 0.04 },
-                    { type: "item", name: "Parsal Wristlet A", stats: { attack: 15, defense: 15 }, sellValue: 50, chance: 0.02 },
-                    { type: "item", name: "Parsal Wristlet B", stats: { attack: 20, defense: 20 }, sellValue: 75, chance: 0.01 },
-                    { type: "item", name: "Parsal Wristlet C", stats: { attack: 25, defense: 25 }, sellValue: 100, chance: 0.01 },
-                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.35 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 2, chance: 0.35 }
+                    { type: "currency", amount: 10, chance: 1.0 },
+                    { type: "item", name: "Scale Sword", stats: { attack: 32 }, sellValue: 10, chance: 0.3 },
+                    { type: "item", name: "Blue Wand", stats: { attack: 32 }, sellValue: 10, chance: 0.3 },
+                    { type: "item", name: "Siege Bow", stats: { attack: 32 }, sellValue: 10, chance: 0.3 },
+                    { type: "item", name: "Soul Armor", stats: { defense: 32 }, sellValue: 10, chance: 0.4 },
+                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 10, chance: 0.12 },
+                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 10, chance: 0.10 },
+                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 10, chance: 0.08 },
+                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 10, chance: 0.06 },
+                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.25 },
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.25 }
                 ]
             },
 
@@ -4174,23 +4242,27 @@
             "Turncoat Knight": {
                 level: 30,
                 hp: 10000,
-                attack: 400,
-                defense: 250,
+                attack: 350,
+                defense: 150,
                 explorationTime: 720,
                 map: "Sette Desert",
                 isBoss: true,
                 drops: [
-                    { type: "currency", amount: 200, chance: 1.0 },
-                    { type: "item", name: "Turncoat Sword", stats: { attack: 35 }, sellValue: 75, chance: 0.5 },
-                    { type: "item", name: "Turncoat Staff", stats: { attack: 35 }, sellValue: 75, chance: 0.5 },
-                    { type: "item", name: "Turncoat Bow", stats: { attack: 35 }, sellValue: 75, chance: 0.5 },
-                    { type: "item", name: "Turncoat Armor", stats: { defense: 35 }, sellValue: 75, chance: 0.5, quantity: 2 },
-                    { type: "item", name: "Parsal Wristlet A", stats: { attack: 15, defense: 15 }, sellValue: 50, chance: 0.15 },
-                    { type: "item", name: "Parsal Wristlet B", stats: { attack: 20, defense: 20 }, sellValue: 75, chance: 0.12 },
-                    { type: "item", name: "Parsal Wristlet C", stats: { attack: 25, defense: 25 }, sellValue: 100, chance: 0.10 },
-                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 1.0, quantity: 10 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 2, chance: 1.0, quantity: 10 },
-                    { type: "material", name: "Shiny Gem", stats: {}, sellValue: 10, chance: 1.0, quantity: 2 }
+                    { type: "currency", amount: 150, chance: 1.0 },
+                    { type: "item", name: "Turncoat Sword", stats: { attack: 35 }, sellValue: 25, chance: 0.5 },
+                    { type: "item", name: "Turncoat Staff", stats: { attack: 35 }, sellValue: 25, chance: 0.5 },
+                    { type: "item", name: "Turncoat Bow", stats: { attack: 35 }, sellValue: 25, chance: 0.5 },
+                    { type: "item", name: "Turncoat Armor", stats: { defense: 35 }, sellValue: 25, chance: 0.5, quantity: 2 },
+                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 10, chance: 0.25 },
+                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 10, chance: 0.20 },
+                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 10, chance: 0.15 },
+                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 10, chance: 0.10 },
+                    { type: "item", name: "Mighty Ring", stats: { attack: 25, defense: 25 }, sellValue: 10, chance: 0.07 },
+                    { type: "item", name: "Cosmic Ring", stats: { attack: 30, defense: 30 }, sellValue: 10, chance: 0.05 },
+                    { type: "item", name: "Basic Wings", stats: { attack: 5, defense: 5 }, movementSpeed: 1.0, isWings: true, sellValue: 5, chance: 0.5 },
+                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 1.0, quantity: 15 },
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 1.0, quantity: 15 },
+                    { type: "material", name: "Shiny Gem", stats: {}, sellValue: 10, chance: 1.0, quantity: 4 }
 
                 ]
             },
@@ -4199,276 +4271,336 @@
             // Wharf Area
             "Chooty": {
                 level: 40,
-                hp: 1600,
-                attack: 200,
-                defense: 140,
+                hp: 900,
+                attack: 170,
+                defense: 130,
                 area: "Wharf",
                 map: "Ether Platform",
                 drops: [
-                    { type: "currency", amount: 50, chance: 1.0 },
+                    { type: "currency", amount: 11, chance: 1.0 },
                     { type: "material", name: "Winter Box", sellValue: 100, chance: 0.20 },
-                    { type: "item", name: "Estoc", stats: { attack: 45 }, sellValue: 45, chance: 0.03 },
-                    { type: "item", name: "Black Stick Bead", stats: { attack: 45 }, sellValue: 45, chance: 0.03 },
-                    { type: "item", name: "Beam Siege Bow", stats: { attack: 45 }, sellValue: 45, chance: 0.03 },
-                    { type: "item", name: "Glow Suit", stats: { defense: 45 }, sellValue: 45, chance: 0.03 },
+                    { type: "item", name: "Estoc", stats: { attack: 45 }, sellValue: 20, chance: 0.3 },
+                    { type: "item", name: "Black Stick Bead", stats: { attack: 45 }, sellValue: 20, chance: 0.3 },
+                    { type: "item", name: "Beam Siege Bow", stats: { attack: 45 }, sellValue: 20, chance: 0.3 },
+                    { type: "item", name: "Glow Suit", stats: { defense: 45 }, sellValue: 20, chance: 0.4 },
+                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 10, chance: 0.14 },
+                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 10, chance: 0.12 },
+                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 10, chance: 0.10 },
+                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 10, chance: 0.08 },
                     { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.35 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 2, chance: 0.35 }
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.35 }
                 ]
             },
             "Hobo Mite": {
                 level: 41,
-                hp: 1700,
-                attack: 210,
-                defense: 145,
+                hp: 910,
+                attack: 175,
+                defense: 135,
                 area: "Wharf",
                 map: "Ether Platform",
                 drops: [
-                    { type: "currency", amount: 52, chance: 1.0 },
+                    { type: "currency", amount: 11, chance: 1.0 },
                     { type: "material", name: "Winter Box", sellValue: 100, chance: 0.20 },
-                    { type: "item", name: "Estoc", stats: { attack: 45 }, sellValue: 45, chance: 0.04 },
-                    { type: "item", name: "Black Stick Bead", stats: { attack: 45 }, sellValue: 45, chance: 0.04 },
-                    { type: "item", name: "Beam Siege Bow", stats: { attack: 45 }, sellValue: 45, chance: 0.04 },
-                    { type: "item", name: "Glow Suit", stats: { defense: 45 }, sellValue: 45, chance: 0.04 },
-                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.37 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 2, chance: 0.37 }
+                    { type: "item", name: "Estoc", stats: { attack: 45 }, sellValue: 20, chance: 0.3 },
+                    { type: "item", name: "Black Stick Bead", stats: { attack: 45 }, sellValue: 20, chance: 0.3 },
+                    { type: "item", name: "Beam Siege Bow", stats: { attack: 45 }, sellValue: 20, chance: 0.3 },
+                    { type: "item", name: "Glow Suit", stats: { defense: 45 }, sellValue: 20, chance: 0.4 },
+                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 10, chance: 0.14 },
+                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 10, chance: 0.12 },
+                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 10, chance: 0.10 },
+                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 10, chance: 0.08 },
+                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.35 },
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.35 }
                 ]
             },
             "Hobo Sword": {
                 level: 41,
-                hp: 1700,
-                attack: 210,
-                defense: 145,
+                hp: 920,
+                attack: 180,
+                defense: 140,
                 area: "Wharf",
                 map: "Ether Platform",
                 drops: [
-                    { type: "currency", amount: 52, chance: 1.0 },
+                    { type: "currency", amount: 11, chance: 1.0 },
                     { type: "material", name: "Winter Box", sellValue: 100, chance: 0.20 },
-                    { type: "item", name: "Estoc", stats: { attack: 45 }, sellValue: 45, chance: 0.04 },
-                    { type: "item", name: "Black Stick Bead", stats: { attack: 45 }, sellValue: 45, chance: 0.04 },
-                    { type: "item", name: "Beam Siege Bow", stats: { attack: 45 }, sellValue: 45, chance: 0.04 },
-                    { type: "item", name: "Glow Suit", stats: { defense: 45 }, sellValue: 45, chance: 0.04 },
-                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.37 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 2, chance: 0.37 }
+                    { type: "item", name: "Estoc", stats: { attack: 45 }, sellValue: 20, chance: 0.3 },
+                    { type: "item", name: "Black Stick Bead", stats: { attack: 45 }, sellValue: 20, chance: 0.3 },
+                    { type: "item", name: "Beam Siege Bow", stats: { attack: 45 }, sellValue: 20, chance: 0.3 },
+                    { type: "item", name: "Glow Suit", stats: { defense: 45 }, sellValue: 20, chance: 0.4 },
+                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 10, chance: 0.14 },
+                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 10, chance: 0.12 },
+                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 10, chance: 0.10 },
+                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 10, chance: 0.08 },
+                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.35 },
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.35 }
                 ]
             },
             "Hobo Turnpike": {
                 level: 41,
-                hp: 1700,
-                attack: 210,
+                hp: 930,
+                attack: 185,
                 defense: 145,
                 area: "Wharf",
                 map: "Ether Platform",
                 drops: [
-                    { type: "currency", amount: 52, chance: 1.0 },
+                    { type: "currency", amount: 11, chance: 1.0 },
                     { type: "material", name: "Winter Box", sellValue: 100, chance: 0.20 },
-                    { type: "item", name: "Estoc", stats: { attack: 45 }, sellValue: 45, chance: 0.04 },
-                    { type: "item", name: "Black Stick Bead", stats: { attack: 45 }, sellValue: 45, chance: 0.04 },
-                    { type: "item", name: "Beam Siege Bow", stats: { attack: 45 }, sellValue: 45, chance: 0.04 },
-                    { type: "item", name: "Glow Suit", stats: { defense: 45 }, sellValue: 45, chance: 0.04 },
-                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.37 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 2, chance: 0.37 }
+                    { type: "item", name: "Estoc", stats: { attack: 45 }, sellValue: 20, chance: 0.3 },
+                    { type: "item", name: "Black Stick Bead", stats: { attack: 45 }, sellValue: 20, chance: 0.3 },
+                    { type: "item", name: "Beam Siege Bow", stats: { attack: 45 }, sellValue: 20, chance: 0.3 },
+                    { type: "item", name: "Glow Suit", stats: { defense: 45 }, sellValue: 20, chance: 0.4 },
+                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 10, chance: 0.14 },
+                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 10, chance: 0.12 },
+                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 10, chance: 0.10 },
+                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 10, chance: 0.08 },
+                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.35 },
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.35 }
                 ]
             },
             "Hobo Cutter": {
                 level: 41,
-                hp: 1700,
-                attack: 210,
-                defense: 145,
+                hp: 940,
+                attack: 190,
+                defense: 150,
                 area: "Wharf",
                 map: "Ether Platform",
                 drops: [
-                    { type: "currency", amount: 52, chance: 1.0 },
+                    { type: "currency", amount: 11, chance: 1.0 },
                     { type: "material", name: "Winter Box", sellValue: 100, chance: 0.20 },
-                    { type: "item", name: "Estoc", stats: { attack: 45 }, sellValue: 45, chance: 0.04 },
-                    { type: "item", name: "Black Stick Bead", stats: { attack: 45 }, sellValue: 45, chance: 0.04 },
-                    { type: "item", name: "Beam Siege Bow", stats: { attack: 45 }, sellValue: 45, chance: 0.04 },
-                    { type: "item", name: "Glow Suit", stats: { defense: 45 }, sellValue: 45, chance: 0.04 },
-                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.37 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 2, chance: 0.37 }
+                    { type: "item", name: "Estoc", stats: { attack: 45 }, sellValue: 20, chance: 0.3 },
+                    { type: "item", name: "Black Stick Bead", stats: { attack: 45 }, sellValue: 20, chance: 0.3 },
+                    { type: "item", name: "Beam Siege Bow", stats: { attack: 45 }, sellValue: 20, chance: 0.3 },
+                    { type: "item", name: "Glow Suit", stats: { defense: 45 }, sellValue: 20, chance: 0.4 },
+                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 10, chance: 0.14 },
+                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 10, chance: 0.12 },
+                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 10, chance: 0.10 },
+                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 10, chance: 0.08 },
+                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.35 },
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.35 }
                 ]
             },
             "Passer Alpha": {
                 level: 44,
-                hp: 2000,
-                attack: 240,
-                defense: 160,
+                hp: 950,
+                attack: 200,
+                defense: 155,
                 area: "Wharf",
                 map: "Ether Platform",
                 drops: [
-                    { type: "currency", amount: 58, chance: 1.0 },
+                    { type: "currency", amount: 11, chance: 1.0 },
                     { type: "material", name: "Winter Box", sellValue: 100, chance: 0.20 },
-                    { type: "item", name: "Estoc", stats: { attack: 45 }, sellValue: 45, chance: 0.05 },
-                    { type: "item", name: "Black Stick Bead", stats: { attack: 45 }, sellValue: 45, chance: 0.05 },
-                    { type: "item", name: "Beam Siege Bow", stats: { attack: 45 }, sellValue: 45, chance: 0.05 },
-                    { type: "item", name: "Glow Suit", stats: { defense: 45 }, sellValue: 45, chance: 0.05 },
-                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.40 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 2, chance: 0.40 }
+                    { type: "item", name: "Estoc", stats: { attack: 45 }, sellValue: 20, chance: 0.3 },
+                    { type: "item", name: "Black Stick Bead", stats: { attack: 45 }, sellValue: 20, chance: 0.3 },
+                    { type: "item", name: "Beam Siege Bow", stats: { attack: 45 }, sellValue: 20, chance: 0.3 },
+                    { type: "item", name: "Glow Suit", stats: { defense: 45 }, sellValue: 20, chance: 0.4 },
+                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 10, chance: 0.14 },
+                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 10, chance: 0.12 },
+                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 10, chance: 0.10 },
+                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 10, chance: 0.08 },
+                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.35 },
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.35 }
                 ]
             },
 
             // White Hole Area
             "Hobo Robber": {
                 level: 45,
-                hp: 2100,
-                attack: 250,
-                defense: 165,
+                hp: 960,
+                attack: 205,
+                defense: 160,
                 area: "White Hole",
                 map: "Ether Platform",
                 drops: [
-                    { type: "currency", amount: 60, chance: 1.0 },
+                    { type: "currency", amount: 12, chance: 1.0 },
                     { type: "material", name: "Winter Box", sellValue: 100, chance: 0.20 },
-                    { type: "item", name: "Estoc", stats: { attack: 45 }, sellValue: 45, chance: 0.06 },
-                    { type: "item", name: "Black Stick Bead", stats: { attack: 45 }, sellValue: 45, chance: 0.06 },
-                    { type: "item", name: "Beam Siege Bow", stats: { attack: 45 }, sellValue: 45, chance: 0.06 },
-                    { type: "item", name: "Glow Suit", stats: { defense: 45 }, sellValue: 45, chance: 0.06 },
-                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.40 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 2, chance: 0.40 }
+                    { type: "item", name: "Estoc", stats: { attack: 45 }, sellValue: 20, chance: 0.3 },
+                    { type: "item", name: "Black Stick Bead", stats: { attack: 45 }, sellValue: 20, chance: 0.3 },
+                    { type: "item", name: "Beam Siege Bow", stats: { attack: 45 }, sellValue: 20, chance: 0.3 },
+                    { type: "item", name: "Glow Suit", stats: { defense: 45 }, sellValue: 20, chance: 0.4 },
+                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 10, chance: 0.14 },
+                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 10, chance: 0.12 },
+                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 10, chance: 0.10 },
+                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 10, chance: 0.08 },
+                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.35 },
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.35 }
                 ]
             },
             "Hobo Blade": {
                 level: 45,
-                hp: 2100,
-                attack: 250,
+                hp: 970,
+                attack: 210,
                 defense: 165,
                 area: "White Hole",
                 map: "Ether Platform",
                 drops: [
-                    { type: "currency", amount: 60, chance: 1.0 },
+                    { type: "currency", amount: 12, chance: 1.0 },
                     { type: "material", name: "Winter Box", sellValue: 100, chance: 0.20 },
-                    { type: "item", name: "Estoc", stats: { attack: 45 }, sellValue: 45, chance: 0.06 },
-                    { type: "item", name: "Black Stick Bead", stats: { attack: 45 }, sellValue: 45, chance: 0.06 },
-                    { type: "item", name: "Beam Siege Bow", stats: { attack: 45 }, sellValue: 45, chance: 0.06 },
-                    { type: "item", name: "Glow Suit", stats: { defense: 45 }, sellValue: 45, chance: 0.06 },
-                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.40 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 2, chance: 0.40 }
+                    { type: "item", name: "Estoc", stats: { attack: 45 }, sellValue: 20, chance: 0.3 },
+                    { type: "item", name: "Black Stick Bead", stats: { attack: 45 }, sellValue: 20, chance: 0.3 },
+                    { type: "item", name: "Beam Siege Bow", stats: { attack: 45 }, sellValue: 20, chance: 0.3 },
+                    { type: "item", name: "Glow Suit", stats: { defense: 45 }, sellValue: 20, chance: 0.3 },
+                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 10, chance: 0.14 },
+                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 10, chance: 0.12 },
+                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 10, chance: 0.10 },
+                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 10, chance: 0.08 },
+                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.35 },
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.35 }
                 ]
             },
             "Passer Beta": {
                 level: 46,
-                hp: 2200,
-                attack: 260,
+                hp: 980,
+                attack: 215,
                 defense: 170,
                 area: "White Hole",
                 map: "Ether Platform",
                 drops: [
-                    { type: "currency", amount: 62, chance: 1.0 },
+                    { type: "currency", amount: 12, chance: 1.0 },
                     { type: "material", name: "Winter Box", sellValue: 100, chance: 0.20 },
-                    { type: "item", name: "Estoc", stats: { attack: 45 }, sellValue: 45, chance: 0.06 },
-                    { type: "item", name: "Black Stick Bead", stats: { attack: 45 }, sellValue: 45, chance: 0.06 },
-                    { type: "item", name: "Beam Siege Bow", stats: { attack: 45 }, sellValue: 45, chance: 0.06 },
-                    { type: "item", name: "Glow Suit", stats: { defense: 45 }, sellValue: 45, chance: 0.06 },
-                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.42 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 2, chance: 0.42 }
+                    { type: "item", name: "Estoc", stats: { attack: 45 }, sellValue: 20, chance: 0.3 },
+                    { type: "item", name: "Black Stick Bead", stats: { attack: 45 }, sellValue: 20, chance: 0.3 },
+                    { type: "item", name: "Beam Siege Bow", stats: { attack: 45 }, sellValue: 20, chance: 0.3 },
+                    { type: "item", name: "Glow Suit", stats: { defense: 45 }, sellValue: 20, chance: 0.4 },
+                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 10, chance: 0.14 },
+                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 10, chance: 0.12 },
+                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 10, chance: 0.10 },
+                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 10, chance: 0.08 },
+                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.35 },
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.35 }
                 ]
             },
             "Calliana Atroc": {
                 level: 47,
-                hp: 2300,
-                attack: 270,
+                hp: 990,
+                attack: 220,
                 defense: 175,
                 area: "White Hole",
                 map: "Ether Platform",
                 drops: [
-                    { type: "currency", amount: 64, chance: 1.0 },
+                    { type: "currency", amount: 12, chance: 1.0 },
                     { type: "material", name: "Winter Box", sellValue: 100, chance: 0.20 },
-                    { type: "item", name: "Estoc", stats: { attack: 45 }, sellValue: 45, chance: 0.07 },
-                    { type: "item", name: "Black Stick Bead", stats: { attack: 45 }, sellValue: 45, chance: 0.07 },
-                    { type: "item", name: "Beam Siege Bow", stats: { attack: 45 }, sellValue: 45, chance: 0.07 },
-                    { type: "item", name: "Glow Suit", stats: { defense: 45 }, sellValue: 45, chance: 0.07 },
-                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.42 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 2, chance: 0.42 }
+                    { type: "item", name: "Estoc", stats: { attack: 45 }, sellValue: 20, chance: 0.3 },
+                    { type: "item", name: "Black Stick Bead", stats: { attack: 45 }, sellValue: 20, chance: 0.3 },
+                    { type: "item", name: "Beam Siege Bow", stats: { attack: 45 }, sellValue: 20, chance: 0.3 },
+                    { type: "item", name: "Glow Suit", stats: { defense: 45 }, sellValue: 20, chance: 0.4 },
+                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 10, chance: 0.14 },
+                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 10, chance: 0.12 },
+                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 10, chance: 0.10 },
+                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 10, chance: 0.08 },
+                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.35 },
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.35 }
                 ]
             },
             "Calliana Crew": {
                 level: 47,
-                hp: 2300,
-                attack: 270,
-                defense: 175,
+                hp: 990,
+                attack: 225,
+                defense: 180,
                 area: "White Hole",
                 map: "Ether Platform",
                 drops: [
-                    { type: "currency", amount: 64, chance: 1.0 },
+                    { type: "currency", amount: 12, chance: 1.0 },
                     { type: "material", name: "Winter Box", sellValue: 100, chance: 0.20 },
-                    { type: "item", name: "Estoc", stats: { attack: 45 }, sellValue: 45, chance: 0.07 },
-                    { type: "item", name: "Black Stick Bead", stats: { attack: 45 }, sellValue: 45, chance: 0.07 },
-                    { type: "item", name: "Beam Siege Bow", stats: { attack: 45 }, sellValue: 45, chance: 0.07 },
-                    { type: "item", name: "Glow Suit", stats: { defense: 45 }, sellValue: 45, chance: 0.07 },
-                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.42 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 2, chance: 0.42 }
+                    { type: "item", name: "Estoc", stats: { attack: 45 }, sellValue: 20, chance: 0.3 },
+                    { type: "item", name: "Black Stick Bead", stats: { attack: 45 }, sellValue: 20, chance: 0.3 },
+                    { type: "item", name: "Beam Siege Bow", stats: { attack: 45 }, sellValue: 20, chance: 0.3 },
+                    { type: "item", name: "Glow Suit", stats: { defense: 45 }, sellValue: 20, chance: 0.4 },
+                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 10, chance: 0.14 },
+                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 10, chance: 0.12 },
+                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 10, chance: 0.10 },
+                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 10, chance: 0.08 },
+                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.35 },
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.35 }
                 ]
             },
 
             // Lures Lot Area
             "Calliana Atroc II": { // Duplicate for Lures Lot
                 level: 47,
-                hp: 2300,
-                attack: 270,
-                defense: 175,
-                area: "Lures Lot",
-                map: "Ether Platform",
-                drops: [
-                    { type: "currency", amount: 64, chance: 1.0 },
-                    { type: "material", name: "Winter Box", sellValue: 100, chance: 0.20 },
-                    { type: "item", name: "Estoc", stats: { attack: 45 }, sellValue: 45, chance: 0.07 },
-                    { type: "item", name: "Black Stick Bead", stats: { attack: 45 }, sellValue: 45, chance: 0.07 },
-                    { type: "item", name: "Beam Siege Bow", stats: { attack: 45 }, sellValue: 45, chance: 0.07 },
-                    { type: "item", name: "Glow Suit", stats: { defense: 45 }, sellValue: 45, chance: 0.07 },
-                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.42 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 2, chance: 0.42 }
-                ]
-            },
-            "Calliana Crew II": { // Duplicate for Lures Lot
-                level: 47,
-                hp: 2300,
-                attack: 270,
-                defense: 175,
-                area: "Lures Lot",
-                map: "Ether Platform",
-                drops: [
-                    { type: "currency", amount: 64, chance: 1.0 },
-                    { type: "material", name: "Winter Box", sellValue: 100, chance: 0.20 },
-                    { type: "item", name: "Estoc", stats: { attack: 45 }, sellValue: 45, chance: 0.07 },
-                    { type: "item", name: "Black Stick Bead", stats: { attack: 45 }, sellValue: 45, chance: 0.07 },
-                    { type: "item", name: "Beam Siege Bow", stats: { attack: 45 }, sellValue: 45, chance: 0.07 },
-                    { type: "item", name: "Glow Suit", stats: { defense: 45 }, sellValue: 45, chance: 0.07 },
-                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.42 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 2, chance: 0.42 }
-                ]
-            },
-            "Calliana Archer": {
-                level: 49,
-                hp: 2500,
-                attack: 290,
+                hp: 995,
+                attack: 230,
                 defense: 185,
                 area: "Lures Lot",
                 map: "Ether Platform",
                 drops: [
-                    { type: "currency", amount: 68, chance: 1.0 },
+                    { type: "currency", amount: 13, chance: 1.0 },
                     { type: "material", name: "Winter Box", sellValue: 100, chance: 0.20 },
-                    { type: "item", name: "Estoc", stats: { attack: 45 }, sellValue: 45, chance: 0.08 },
-                    { type: "item", name: "Black Stick Bead", stats: { attack: 45 }, sellValue: 45, chance: 0.08 },
-                    { type: "item", name: "Beam Siege Bow", stats: { attack: 45 }, sellValue: 45, chance: 0.08 },
-                    { type: "item", name: "Glow Suit", stats: { defense: 45 }, sellValue: 45, chance: 0.08 },
-                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.45 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 2, chance: 0.45 }
+                    { type: "item", name: "Estoc", stats: { attack: 45 }, sellValue: 20, chance: 0.3 },
+                    { type: "item", name: "Black Stick Bead", stats: { attack: 45 }, sellValue: 20, chance: 0.3 },
+                    { type: "item", name: "Beam Siege Bow", stats: { attack: 45 }, sellValue: 20, chance: 0.3 },
+                    { type: "item", name: "Glow Suit", stats: { defense: 45 }, sellValue: 20, chance: 0.4 },
+                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 10, chance: 0.14 },
+                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 10, chance: 0.12 },
+                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 10, chance: 0.10 },
+                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 10, chance: 0.08 },
+                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.35 },
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.35 }
                 ]
             },
-            "Assassin Builder B": {
-                level: 50,
-                hp: 2600,
-                attack: 300,
+            "Calliana Crew II": { // Duplicate for Lures Lot
+                level: 47,
+                hp: 995,
+                attack: 235,
                 defense: 190,
                 area: "Lures Lot",
                 map: "Ether Platform",
                 drops: [
-                    { type: "currency", amount: 70, chance: 1.0 },
+                    { type: "currency", amount: 13, chance: 1.0 },
                     { type: "material", name: "Winter Box", sellValue: 100, chance: 0.20 },
-                    { type: "item", name: "Estoc", stats: { attack: 45 }, sellValue: 45, chance: 0.08 },
-                    { type: "item", name: "Black Stick Bead", stats: { attack: 45 }, sellValue: 45, chance: 0.08 },
-                    { type: "item", name: "Beam Siege Bow", stats: { attack: 45 }, sellValue: 45, chance: 0.08 },
-                    { type: "item", name: "Glow Suit", stats: { defense: 45 }, sellValue: 45, chance: 0.08 },
-                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.45 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 2, chance: 0.45 }
+                    { type: "item", name: "Estoc", stats: { attack: 45 }, sellValue: 20, chance: 0.3 },
+                    { type: "item", name: "Black Stick Bead", stats: { attack: 45 }, sellValue: 20, chance: 0.3 },
+                    { type: "item", name: "Beam Siege Bow", stats: { attack: 45 }, sellValue: 20, chance: 0.3 },
+                    { type: "item", name: "Glow Suit", stats: { defense: 45 }, sellValue: 20, chance: 0.4 },
+                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 10, chance: 0.14 },
+                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 10, chance: 0.12 },
+                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 10, chance: 0.10 },
+                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 10, chance: 0.08 },
+                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.35 },
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.35 }
+                ]
+            },
+            "Calliana Archer": {
+                level: 49,
+                hp: 1000,
+                attack: 240,
+                defense: 195,
+                area: "Lures Lot",
+                map: "Ether Platform",
+                drops: [
+                    { type: "currency", amount: 13, chance: 1.0 },
+                    { type: "material", name: "Winter Box", sellValue: 100, chance: 0.20 },
+                    { type: "item", name: "Estoc", stats: { attack: 45 }, sellValue: 20, chance: 0.3 },
+                    { type: "item", name: "Black Stick Bead", stats: { attack: 45 }, sellValue: 20, chance: 0.3 },
+                    { type: "item", name: "Beam Siege Bow", stats: { attack: 45 }, sellValue: 20, chance: 0.3 },
+                    { type: "item", name: "Glow Suit", stats: { defense: 45 }, sellValue: 20, chance: 0.4 },
+                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 10, chance: 0.14 },
+                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 10, chance: 0.12 },
+                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 10, chance: 0.10 },
+                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 10, chance: 0.08 },
+                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.35 },
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.35 }
+                ]
+            },
+            "Assassin Builder B": {
+                level: 50,
+                hp: 1010,
+                attack: 245,
+                defense: 200,
+                area: "Lures Lot",
+                map: "Ether Platform",
+                drops: [
+                    { type: "currency", amount: 13, chance: 1.0 },
+                    { type: "material", name: "Winter Box", sellValue: 100, chance: 0.20 },
+                    { type: "item", name: "Estoc", stats: { attack: 45 }, sellValue: 20, chance: 0.3 },
+                    { type: "item", name: "Black Stick Bead", stats: { attack: 45 }, sellValue: 20, chance: 0.3 },
+                    { type: "item", name: "Beam Siege Bow", stats: { attack: 45 }, sellValue: 20, chance: 0.3 },
+                    { type: "item", name: "Glow Suit", stats: { defense: 45 }, sellValue: 20, chance: 0.4 },
+                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 10, chance: 0.14 },
+                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 10, chance: 0.12 },
+                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 10, chance: 0.10 },
+                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 10, chance: 0.08 },
+                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.35 },
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.35 }
                 ]
             },
 
@@ -4476,22 +4608,29 @@
             "Calliana Princess": {
                 level: 50,
                 hp: 15000,
-                attack: 700,
-                defense: 400,
+                attack: 400,
+                defense: 200,
                 area: "Lures Lot",
                 map: "Ether Platform",
                 isBoss: true,
                 drops: [
-                    { type: "currency", amount: 500, chance: 1.0 },
-                    { type: "material", name: "Winter Box", sellValue: 100, chance: 0.20 },
-                    { type: "material", name: "Snowflake", emoji: "❄️", sellValue: 50, chance: 1.0, quantity: 3 },
-                    { type: "item", name: "Estoc", stats: { attack: 45 }, sellValue: 45, chance: 0.60 },
-                    { type: "item", name: "Black Stick Bead", stats: { attack: 45 }, sellValue: 45, chance: 0.60 },
-                    { type: "item", name: "Beam Siege Bow", stats: { attack: 45 }, sellValue: 45, chance: 0.60 },
-                    { type: "item", name: "Glow Suit", stats: { defense: 45 }, sellValue: 45, chance: 0.60 },
-                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 1.0, quantity: 15 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 2, chance: 1.0, quantity: 15 },
-                    { type: "material", name: "Shiny Gem", stats: {}, sellValue: 10, chance: 1.0, quantity: 3 }
+                    { type: "currency", amount: 200, chance: 1.0 },
+                    { type: "material", name: "Winter Box", sellValue: 100, chance: 1.0, quantity: 10 },
+                    { type: "material", name: "Snowflake", sellValue: 50, chance: 1.0, quantity: 1 },
+                    { type: "item", name: "Calliana Sword", stats: { attack: 45 }, sellValue: 30, chance: 0.5 },
+                    { type: "item", name: "Calliana Staff", stats: { attack: 45 }, sellValue: 30, chance: 0.5 },
+                    { type: "item", name: "Calliana Bow", stats: { attack: 45 }, sellValue: 30, chance: 0.5 },
+                    { type: "item", name: "Calliana Armor", stats: { defense: 45 }, sellValue: 30, chance: 0.5 },
+                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 10, chance: 0.25 },
+                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 10, chance: 0.20 },
+                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 10, chance: 0.15 },
+                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 10, chance: 0.10 },
+                    { type: "item", name: "Mighty Ring", stats: { attack: 25, defense: 25 }, sellValue: 10, chance: 0.7 },
+                    { type: "item", name: "Cosmic Ring", stats: { attack: 30, defense: 30 }, sellValue: 10, chance: 0.5 },
+                    { type: "item", name: "Basic Wings", stats: { attack: 5, defense: 5 }, movementSpeed: 1.0, isWings: true, sellValue: 5, chance: 1.0 },
+                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 1.0, quantity: 20 },
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 1.0, quantity: 20 },
+                    { type: "material", name: "Shiny Gem", stats: {}, sellValue: 10, chance: 1.0, quantity: 6 }
                 ]
             }
         };
@@ -4504,7 +4643,7 @@
                 type: "weapon",
                 stats: { attack: 50 },
                 lifesteal: { chance: 0.20, multiplier: 0.50 },
-                sellValue: 100,
+                sellValue: 30,
                 rarity: "t1",
                 requirements: {
                     item: { name: "Arghol Blade", upgradeLevel: 5 },
@@ -4517,7 +4656,7 @@
                 type: "weapon",
                 stats: { attack: 50 },
                 lifesteal: { chance: 0.20, multiplier: 0.50 },
-                sellValue: 100,
+                sellValue: 30,
                 rarity: "t1",
                 requirements: {
                     item: { name: "Arghol Staff", upgradeLevel: 5 },
@@ -4530,7 +4669,7 @@
                 type: "weapon",
                 stats: { attack: 50 },
                 lifesteal: { chance: 0.20, multiplier: 0.50 },
-                sellValue: 100,
+                sellValue: 30,
                 rarity: "t1",
                 requirements: {
                     item: { name: "Arghol Bow", upgradeLevel: 5 },
@@ -4543,7 +4682,7 @@
                 type: "armor",
                 stats: { defense: 50 },
                 damageReduction: 0.10,
-                sellValue: 100,
+                sellValue: 30,
                 rarity: "t1",
                 requirements: {
                     item: { name: "Arghol Armor", upgradeLevel: 5 },
@@ -4556,123 +4695,107 @@
             "T1 Turncoat Sword": {
                 name: "T1 Turncoat Sword",
                 type: "weapon",
-                stats: { attack: 80 },
+                stats: { attack: 70 },
                 lifesteal: { chance: 0.20, multiplier: 0.50 },
-                sellValue: 200,
+                sellValue: 35,
                 rarity: "t1",
                 requirements: {
                     item: { name: "Turncoat Sword", upgradeLevel: 5 },
-                    materials: { "Red Gem": 8, "Blue Gem": 8, "Shiny Gem": 3 },
+                    materials: { "Red Gem": 8, "Blue Gem": 8, "Shiny Gem": 2 },
                     currency: 500
                 }
             },
             "T1 Turncoat Staff": {
                 name: "T1 Turncoat Staff",
                 type: "weapon",
-                stats: { attack: 80 },
+                stats: { attack: 70 },
                 lifesteal: { chance: 0.20, multiplier: 0.50 },
-                sellValue: 200,
+                sellValue: 35,
                 rarity: "t1",
                 requirements: {
                     item: { name: "Turncoat Staff", upgradeLevel: 5 },
-                    materials: { "Red Gem": 8, "Blue Gem": 8, "Shiny Gem": 3 },
+                    materials: { "Red Gem": 8, "Blue Gem": 8, "Shiny Gem": 2 },
                     currency: 500
                 }
             },
             "T1 Turncoat Bow": {
                 name: "T1 Turncoat Bow",
                 type: "weapon",
-                stats: { attack: 80 },
+                stats: { attack: 70 },
                 lifesteal: { chance: 0.20, multiplier: 0.50 },
-                sellValue: 200,
+                sellValue: 35,
                 rarity: "t1",
                 requirements: {
                     item: { name: "Turncoat Bow", upgradeLevel: 5 },
-                    materials: { "Red Gem": 8, "Blue Gem": 8, "Shiny Gem": 3 },
+                    materials: { "Red Gem": 8, "Blue Gem": 8, "Shiny Gem": 2 },
                     currency: 500
                 }
             },
             "T1 Turncoat Armor": {
                 name: "T1 Turncoat Armor",
                 type: "armor",
-                stats: { defense: 80 },
+                stats: { defense: 70 },
                 damageReduction: 0.15,
-                sellValue: 200,
+                sellValue: 35,
                 rarity: "t1",
                 requirements: {
                     item: { name: "Turncoat Armor", upgradeLevel: 5 },
-                    materials: { "Red Gem": 8, "Blue Gem": 8, "Shiny Gem": 3 },
+                    materials: { "Red Gem": 8, "Blue Gem": 8, "Shiny Gem": 2 },
                     currency: 500
                 }
             },
-
-            // Intense Series (From Turncoat Knight & Calliana Princess) - Removed for now
-            /*
-            "T1 Intense Sword": {
-                name: "T1 Intense Sword",
+            "T1 Calliana Sword": {
+                name: "T1 Calliana Sword",
                 type: "weapon",
-                stats: { attack: 120 },
-                lifesteal: { chance: 0.15, multiplier: 0.20 },
-                sellValue: 500,
+                stats: { attack: 90 },
+                lifesteal: { chance: 0.20, multiplier: 0.50 },
+                sellValue: 40,
                 rarity: "t1",
                 requirements: {
-                    item: { name: "Intense Sword", upgradeLevel: 5 },
-                    materials: { "Red Gem": 10, "Blue Gem": 10, "Shiny Gem": 5 },
-                    currency: 2000
+                    item: { name: "Calliana Sword", upgradeLevel: 5 },
+                    materials: { "Red Gem": 11, "Blue Gem": 11, "Shiny Gem": 3 },
+                    currency: 500
                 }
             },
-            "T1 Intense Staff": {
-                name: "T1 Intense Staff",
+            "T1 Calliana Staff": {
+                name: "T1 Calliana Staff",
                 type: "weapon",
-                stats: { attack: 120 },
-                lifesteal: { chance: 0.15, multiplier: 0.20 },
-                sellValue: 500,
+                stats: { attack: 90 },
+                lifesteal: { chance: 0.20, multiplier: 0.50 },
+                sellValue: 40,
                 rarity: "t1",
                 requirements: {
-                    item: { name: "Intense Staff", upgradeLevel: 5 },
-                    materials: { "Red Gem": 10, "Blue Gem": 10, "Shiny Gem": 5 },
-                    currency: 2000
+                    item: { name: "Calliana Staff", upgradeLevel: 5 },
+                    materials: { "Red Gem": 11, "Blue Gem": 11, "Shiny Gem": 3 },
+                    currency: 500
                 }
             },
-            "T1 Intense Bow": {
-                name: "T1 Intense Bow",
+            "T1 Calliana Bow": {
+                name: "T1 Calliana Bow",
                 type: "weapon",
-                stats: { attack: 120 },
-                lifesteal: { chance: 0.15, multiplier: 0.20 },
-                sellValue: 500,
+                stats: { attack: 90 },
+                lifesteal: { chance: 0.20, multiplier: 0.50 },
+                sellValue: 40,
                 rarity: "t1",
                 requirements: {
-                    item: { name: "Intense Bow", upgradeLevel: 5 },
-                    materials: { "Red Gem": 10, "Blue Gem": 10, "Shiny Gem": 5 },
-                    currency: 2000
+                    item: { name: "Calliana Bow", upgradeLevel: 5 },
+                    materials: { "Red Gem": 11, "Blue Gem": 11, "Shiny Gem": 3 },
+                    currency: 500
                 }
             },
-            "T1 Intense Armor": {
-                name: "T1 Intense Armor",
+            "T1 Calliana Armor": {
+                name: "T1 Calliana Armor",
                 type: "armor",
-                stats: { defense: 120 },
-                sellValue: 500,
+                stats: { defense: 90 },
+                damageReduction: 0.20,
+                sellValue: 40,
                 rarity: "t1",
                 requirements: {
-                    item: { name: "Intense Armor", upgradeLevel: 5 },
-                    materials: { "Red Gem": 10, "Blue Gem": 10, "Shiny Gem": 5 },
-                    currency: 2000
+                    item: { name: "Calliana Armor", upgradeLevel: 5 },
+                    materials: { "Red Gem": 11, "Blue Gem": 11, "Shiny Gem": 3 },
+                    currency: 500
                 }
             },
-            "T1 Intense Greatsword": {
-                name: "T1 Intense Greatsword",
-                type: "weapon",
-                stats: { attack: 150 },
-                lifesteal: { chance: 0.15, multiplier: 0.20 },
-                sellValue: 800,
-                rarity: "t1",
-                requirements: {
-                    item: { name: "Intense Greatsword", upgradeLevel: 5 },
-                    materials: { "Red Gem": 15, "Blue Gem": 15, "Shiny Gem": 8 },
-                    currency: 3000
-                }
-            }
-            */
         };
 
         // Upgrade system
@@ -9213,10 +9336,13 @@
                 case 'shiny gem': return '💎';
                 case 'winter box': return '🧊';
                 case 'exp': return '✨';
-                case 'parsal wristlet a': return '💍';
-                case 'parsal wristlet b': return '💍';
-                case 'parsal wristlet c': return '💍';
-                case 'parsal wristlet d': return '💍';
+                case 'novice ring': return '💍';
+                case 'mild ring': return '💍';
+                case 'normal ring': return '💍';
+                case 'power ring': return '💍';
+                case 'mighty ring': return '💍';
+                case 'cosmic ring': return '💍';
+                case 'basic wings': return '🪽';
                 case 'bastard sword': return '🗡️';
                 case 'claymore': return '🗡️';
                 case 'big breaker': return '🗡️';
@@ -9228,7 +9354,7 @@
                 case 'dual wand': return '🪄';
                 case 'beam bead': return '🪄';
                 case 'blue wand': return '🪄';
-                case 'turncoat staff': return '🪄';
+                case 'turncoat staff': return '🪄'
                 case 'long bow': return '🏹';
                 case 'battle bow': return '🏹';
                 case 'dual bow': return '🏹';
@@ -9239,9 +9365,20 @@
                 case 't1 turncoat sword': return '🗡️';
                 case 't1 turncoat staff': return '🪄';
                 case 't1 turncoat bow': return '🏹';
-                case 't1 scale sword': return '🗡️';
-                case 't1 blue wand': return '🪄';
-                case 't1 siege bow': return '🏹';
+                case 't1 turncoat armor': return '🧥';
+                case 't1 arghol sword': return '🗡️';
+                case 't1 arghol staff': return '🪄';
+                case 't1 arghol bow': return '🏹';
+                case 't1 arghol armor': return '🧥';
+                case 'calliana sword': return '🗡️';
+                case 'calliana staff': return '🪄';
+                case 'calliana bow': return '🏹';
+                case 'calliana armor': return '🧥';
+                case 't1 calliana sword': return '🗡️';
+                case 't1 calliana staff': return '🪄';
+                case 't1 calliana bow': return '🏹';
+                case 't1 calliana armor': return '🧥';
+                case 'snowflake': return '❄️';
                 default: return '';
             }
         }
