@@ -7338,7 +7338,7 @@
                         let itemType = 'weapon';
                         if (drop.name.toLowerCase().includes('armor') || drop.name.toLowerCase().includes('core') || drop.name.toLowerCase().includes('tunic') || drop.name.toLowerCase().includes('cloak')) {
                             itemType = 'armor';
-                        } else if (drop.name.toLowerCase().includes('wristlet')) {
+                        } else if (drop.name.toLowerCase().includes('ring')) {
                             itemType = 'accessory';
                         }
 
@@ -7926,7 +7926,7 @@
 
             // Class Weapon Restrictions Check
             const playerClass = gameState.character.class;
-            if (!isArmor && !name.includes('wristlet') && !item.isWings && !name.includes('wings')) { // It's a weapon
+            if (!isArmor && !name.includes('ring') && !item.isWings && !name.includes('wings')) { // It's a weapon
                 const isSword = name.includes('sword') || name.includes('blade') || name.includes('claymore') || name.includes('breaker') || name.includes('zweihander');
                 const isStaff = name.includes('staff') || name.includes('wand') || name.includes('bead');
                 const isBow = name.includes('bow');
@@ -7943,7 +7943,7 @@
                 }
             }
 
-            const isAccessory = name.includes('wristlet') || item.isWings || name.includes('wings');
+            const isAccessory = name.includes('ring') || item.isWings || name.includes('wings');
 
             let statType = 'attack';
             let equippedSlot = 'weapon';
