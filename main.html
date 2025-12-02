@@ -2617,17 +2617,6 @@
                 transform: translateX(4px);
             }
 
-            .arena-name-clickable::after {
-                content: '👁️';
-                font-size: 0.8rem;
-                opacity: 0;
-                transition: opacity 0.2s;
-                margin-left: 0.5rem;
-            }
-
-            .arena-name-clickable:hover::after {
-                opacity: 1;
-            }
 
             .arena-level {
                 color: var(--text-dim);
@@ -8380,7 +8369,7 @@
                             <div class="arena-name ${!isBot ? 'arena-name-clickable' : ''}" 
                                  ${!isBot ? `onclick="inspectPlayer(${rank})"` : ''} 
                                  title="${!isBot ? 'Click to inspect' : ''}">
-                                ${isBot ? '🤖 ' : ''}${holder.name}
+                                ${isBot ? '🔹' : '🔸'} ${holder.name}
                             </div>
                             <div class="arena-level">Lv ${holder.level}</div>
                             <div class="arena-stats-preview">ATK: ${holder.attack} | DEF: ${holder.defense}</div>
