@@ -740,12 +740,6 @@
             color: var(--text-dim);
         }
 
-        #explore-map-players {
-            text-align: center;
-            font-weight: normal;
-            color: var(--text-primary);
-            flex: 1;
-        }
 
         .progress-bar {
             height: 8px;
@@ -2066,7 +2060,7 @@
                 <li style="display: none;"><a href="#" id="maps-btn">Maps</a></li>
                 <li><a href="#" id="arena-btn">Arena</a></li>
                 <li><a href="#" id="market-btn">Market</a></li>
-                <li><a href="#" id="settings-btn">Settings</a></li>
+                <li><a href="#" id="shop-btn">Shop</a></li>
                 <li>
                     <button id="auth-btn" class="btn"
                         style="background-color: var(--accent); font-size: 0.9rem;">Logout</button>
@@ -2202,7 +2196,6 @@
             </div>
             <div class="explore-status" id="explore-status" style="display: flex;">
                 <span id="explore-selected-time">AFK</span>
-                <span id="explore-map-players">Map Players: 0</span>
                 <span id="explore-timer"></span>
             </div>
             <div class="battle-log" id="battle-log">
@@ -2899,6 +2892,206 @@
                     Equipped Gear</h3>
                 <div class="inspect-gear-list" id="inspect-gear-list">
                     <!-- Gear items will be added here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Shop Modal -->
+    <div class="modal" id="shop-modal">
+        <style>
+            .shop-container {
+                max-width: 1000px;
+                margin: 0 auto;
+                padding: 1rem;
+            }
+
+            .shop-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 1.5rem;
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+
+            .shop-title {
+                font-size: 1.5rem;
+                color: var(--text);
+                margin: 0;
+            }
+
+            .shop-currency-info {
+                display: flex;
+                gap: 1.5rem;
+                flex-wrap: wrap;
+            }
+
+            .currency-item {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                background: var(--panel-bg);
+                padding: 0.5rem 0.75rem;
+                border-radius: 6px;
+                border: 1px solid rgba(255, 255, 255, 0.1);
+            }
+
+            .currency-label {
+                color: var(--text-dim);
+                font-size: 0.8rem;
+                font-weight: 500;
+            }
+
+            .currency-value {
+                font-size: 1rem;
+                font-weight: bold;
+            }
+
+            .currency-value.leaves { color: var(--success); }
+            .currency-value.pvp { color: var(--accent-color); }
+            .currency-value.coins { color: #f39c12; }
+
+            .shop-content {
+                background: var(--panel-bg);
+                border-radius: 6px;
+                padding: 1rem;
+                border: 1px solid rgba(255, 255, 255, 0.1);
+            }
+
+            .shop-items-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 1rem;
+            }
+
+            .shop-item {
+                background: var(--bg);
+                border-radius: 6px;
+                padding: 1rem;
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                transition: border-color 0.2s ease;
+            }
+
+            .shop-item:hover {
+                border-color: var(--accent);
+            }
+
+            .shop-item-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 0.5rem;
+            }
+
+            .shop-item-left {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+            }
+
+            .shop-item-icon {
+                font-size: 1.2rem;
+                width: 25px;
+                text-align: center;
+            }
+
+            .shop-item-name {
+                font-weight: 600;
+                color: var(--text);
+                font-size: 0.9rem;
+            }
+
+            .shop-item-price {
+                color: var(--accent-color);
+                font-size: 0.85rem;
+                font-weight: 600;
+            }
+
+            .shop-item-stats {
+                color: var(--text-dim);
+                font-size: 0.8rem;
+                margin-bottom: 0.75rem;
+                text-align: left;
+            }
+
+            .shop-item-stats {
+                color: var(--text-dim);
+                font-size: 0.8rem;
+                margin-bottom: 0.75rem;
+            }
+
+            .shop-buy-btn {
+                background: var(--success);
+                color: white;
+                border: none;
+                padding: 0.5rem 1rem;
+                border-radius: 4px;
+                font-weight: 500;
+                cursor: pointer;
+                width: 100%;
+                transition: background-color 0.2s ease;
+                font-size: 0.85rem;
+            }
+
+            .shop-buy-btn:hover:not(:disabled) {
+                background: #27ae60;
+            }
+
+            .shop-buy-btn:disabled {
+                cursor: not-allowed;
+                opacity: 0.4;
+            }
+
+            .shop-buy-btn.leaves:disabled {
+                background: rgba(39, 174, 96, 0.3);
+                border: 1px solid rgba(39, 174, 96, 0.5);
+            }
+
+            .shop-buy-btn.pvp:disabled {
+                background: rgba(52, 152, 219, 0.3);
+                border: 1px solid rgba(52, 152, 219, 0.5);
+            }
+
+            .shop-buy-btn.coins:disabled {
+                background: rgba(243, 156, 18, 0.3);
+                border: 1px solid rgba(243, 156, 18, 0.5);
+            }
+
+            .shop-buy-btn.pvp { background: var(--accent); }
+            .shop-buy-btn.pvp:hover:not(:disabled) { background: #2980b9; }
+            .shop-buy-btn.coins { background: #f39c12; }
+            .shop-buy-btn.coins:hover:not(:disabled) { background: #e67e22; }
+        </style>
+        <div class="modal-content" style="max-width: 1300px;">
+            <button class="close-modal" onclick="document.getElementById('shop-modal').style.display='none'"
+                style="top: 1.5rem; right: 1.5rem;">×</button>
+
+            <div class="shop-container">
+                <!-- Header with title and currencies -->
+                <div class="shop-header">
+                    <h2 class="shop-title">🏪 Shop</h2>
+                    <div class="shop-currency-info">
+                        <div class="currency-item">
+                            <div class="currency-label">🍃 Leaves:</div>
+                            <div class="currency-value leaves" id="shop-leaves">0</div>
+                        </div>
+                        <div class="currency-item">
+                            <div class="currency-label">⚔️ PVP:</div>
+                            <div class="currency-value pvp" id="shop-pvp-points">100</div>
+                        </div>
+                        <div class="currency-item">
+                            <div class="currency-label">🪙 Coins:</div>
+                            <div class="currency-value coins" id="shop-coins">0</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Shop Content - All items in one grid -->
+                <div class="shop-content">
+                    <div class="shop-items-grid" id="shop-items-container">
+                        <!-- All items will be loaded here -->
+                    </div>
                 </div>
             </div>
         </div>
@@ -5309,11 +5502,9 @@
                 }
 
                 // Show player count immediately
-                updateMapPlayersDisplay();
 
                 // Start real-time map player updates
                 setTimeout(() => {
-                    startMapPlayerUpdates();
                 }, 2500);
 
                 // Fix UI if exploration finished but UI wasn't reset
@@ -5533,9 +5724,9 @@
                 });
             }
 
-            // 4. EXTREME inventory jump (50+ items at once = console cheat)
+            // 4. EXTREME inventory jump (100+ items at once = console cheat)
             const invDiff = data.inventory.length - previousData.inventory.length;
-            if (invDiff >= 50) {
+            if (invDiff >= 100) {
                 violations.push({
                     type: 'extreme_inventory_jump',
                     before: previousData.inventory.length,
@@ -5831,6 +6022,12 @@
                 arenaBtn.addEventListener('click', showArena);
             }
 
+            // Shop button
+            const shopBtn = document.getElementById('shop-btn');
+            if (shopBtn) {
+                shopBtn.addEventListener('click', showShop);
+            }
+
             // Market confirm sell button
             const confirmSellBtn = document.getElementById('confirm-sell-btn');
             if (confirmSellBtn) {
@@ -6070,8 +6267,10 @@
             document.getElementById('char-level').textContent = char.level;
             document.getElementById('char-hp').textContent = char.hp;
             document.getElementById('char-fp').textContent = char.fp;
-            document.getElementById('char-attack').textContent = char.attack;
-            document.getElementById('char-defense').textContent = char.defense;
+            // Use effective stats including accessory bonuses
+            const effectiveStats = calculateEffectiveStats();
+            document.getElementById('char-attack').textContent = effectiveStats.attack;
+            document.getElementById('char-defense').textContent = effectiveStats.defense;
             document.getElementById('char-crit').textContent = Math.floor((char.criticalChance || 0.05) * 100) + '%';
 
             // Update EXP text display
@@ -6182,38 +6381,6 @@
             updateMapsAccessibility();
         }
 
-        function updateMapPlayersDisplay() {
-            const currentMap = gameState.currentMap;
-            const element = document.getElementById('explore-map-players');
-
-            if (!element) {
-                console.error('explore-map-players element not found!');
-                return;
-            }
-
-            // Get online players count from localStorage
-            getOnlinePlayersCount(currentMap).then(count => {
-                element.textContent = `Map Players: ${count}`;
-            }).catch(error => {
-                console.error('Error getting online players count:', error);
-                element.textContent = `Map Players: 1`;
-            });
-        }
-
-        // Start listening for real-time map player updates
-        function startMapPlayerUpdates() {
-            const currentMap = gameState.currentMap;
-
-            // First, update the display immediately
-            updateMapPlayersDisplay();
-
-            // Set up periodic updates for player count
-            if (typeof listenForMapPlayerUpdates === 'function') {
-                listenForMapPlayerUpdates(currentMap, (count) => {
-                    document.getElementById('explore-map-players').textContent = `Map Players: ${count}`;
-                });
-            }
-        }
 
         // Update maps accessibility based on level
         // Update maps accessibility based on level
@@ -7633,11 +7800,26 @@
                             statDisplay += ` | DMG Red. ${Math.round(item.damageReduction * 100)}%`;
                         }
                     } else if (isAccessory) {
-                        // Accessories usually don't have upgrades in this simple system yet, or we assume base stats
-                        // Parsal Wristlets have both Attack and Defense
-                        const atk = item.stats.attack || 0;
-                        const def = item.stats.defense || 0;
-                        statDisplay = `⚔️ +${atk}  🛡️ +${def}`;
+                        // Check if accessory has percentage bonuses
+                        if (item.bonusPercent) {
+                            const atkPercent = item.bonusPercent.attack || 0;
+                            const defPercent = item.bonusPercent.defense || 0;
+
+                            if (atkPercent > 0 && defPercent > 0) {
+                                statDisplay = `⚔️ +${Math.round(atkPercent * 100)}%  🛡️ +${Math.round(defPercent * 100)}%`;
+                            } else if (atkPercent > 0) {
+                                statDisplay = `⚔️ +${Math.round(atkPercent * 100)}% ATK`;
+                            } else if (defPercent > 0) {
+                                statDisplay = `🛡️ +${Math.round(defPercent * 100)}% DEF`;
+                            } else {
+                                statDisplay = 'Accessory';
+                            }
+                        } else {
+                            // Fallback for accessories with flat stats (like Parsal Wristlets)
+                            const atk = item.stats?.attack || 0;
+                            const def = item.stats?.defense || 0;
+                            statDisplay = `⚔️ +${atk}  🛡️ +${def}`;
+                        }
 
                         // Add Movement Speed display for Wings
                         if (item.movementSpeed) {
@@ -7660,7 +7842,7 @@
 
                     if (!isArmor && !isAccessory) { // It's a weapon
                         const name = item.name.toLowerCase();
-                        const isSword = name.includes('sword') || name.includes('blade') || name.includes('claymore') || name.includes('breaker') || name.includes('zweihander');
+                        const isSword = name.includes('sword') || name.includes('blade') || name.includes('claymore') || name.includes('breaker') || name.includes('zweihander') || name.includes('man eater') || name.includes('eater');
                         const isStaff = name.includes('staff') || name.includes('wand') || name.includes('bead');
                         const isBow = name.includes('bow');
 
@@ -8091,7 +8273,7 @@
             // Class Weapon Restrictions Check
             const playerClass = gameState.character.class;
             if (!isArmor && !name.includes('ring') && !item.isWings && !name.includes('wings')) { // It's a weapon
-                const isSword = name.includes('sword') || name.includes('blade') || name.includes('claymore') || name.includes('breaker') || name.includes('zweihander');
+                const isSword = name.includes('sword') || name.includes('blade') || name.includes('claymore') || name.includes('breaker') || name.includes('zweihander') || name.includes('man eater') || name.includes('eater');
                 const isStaff = name.includes('staff') || name.includes('wand') || name.includes('bead');
                 const isBow = name.includes('bow');
 
@@ -8156,30 +8338,42 @@
                         }
                     }
 
-                    // Equip logic
+                    // Equip logic for accessories
                     // Try slot 1
                     if (!char.equipped.accessory1) {
                         char.equipped.accessory1 = item;
-                        char.attack += item.stats.attack || 0;
-                        char.defense += item.stats.defense || 0;
+                        // Only add flat stats if the accessory doesn't have percentage bonuses
+                        if (!item.bonusPercent) {
+                            char.attack += item.stats?.attack || 0;
+                            char.defense += item.stats?.defense || 0;
+                        }
                         addToBattleLog(`You equipped ${getEmoji(item.name.toLowerCase())} ${item.name} (Slot 1)!`);
                     }
                     // Try slot 2
                     else if (!char.equipped.accessory2) {
                         char.equipped.accessory2 = item;
-                        char.attack += item.stats.attack || 0;
-                        char.defense += item.stats.defense || 0;
+                        // Only add flat stats if the accessory doesn't have percentage bonuses
+                        if (!item.bonusPercent) {
+                            char.attack += item.stats?.attack || 0;
+                            char.defense += item.stats?.defense || 0;
+                        }
                         addToBattleLog(`You equipped ${getEmoji(item.name.toLowerCase())} ${item.name} (Slot 2)!`);
                     }
                     // Replace slot 1 if both full
                     else {
                         const oldItem = char.equipped.accessory1;
-                        char.attack -= oldItem.stats.attack || 0;
-                        char.defense -= oldItem.stats.defense || 0;
+                        // Only remove flat stats if the old accessory doesn't have percentage bonuses
+                        if (!oldItem.bonusPercent) {
+                            char.attack -= oldItem.stats?.attack || 0;
+                            char.defense -= oldItem.stats?.defense || 0;
+                        }
 
                         char.equipped.accessory1 = item;
-                        char.attack += item.stats.attack || 0;
-                        char.defense += item.stats.defense || 0;
+                        // Only add flat stats if the new accessory doesn't have percentage bonuses
+                        if (!item.bonusPercent) {
+                            char.attack += item.stats?.attack || 0;
+                            char.defense += item.stats?.defense || 0;
+                        }
                         addToBattleLog(`You replaced ${oldItem.name} with ${item.name} (Slot 1)!`);
                     }
                 }
@@ -8573,6 +8767,572 @@
             }
         }
 
+        // ========================================
+        // UNIVERSAL SHOP SYSTEM
+        // ========================================
+
+        // Shop items data
+        const shopItems = {
+            leaves: [
+                {
+                    id: 'arghol_sword_1',
+                    name: 'Arghol Blade',
+                    icon: '⚔️',
+                    type: 'weapon',
+                    stats: '+15 Attack',
+                    price: 10000,
+                    currency: 'leaves',
+                    itemData: {
+                        name: 'Arghol Blade',
+                        type: 'weapon',
+                        stats: { attack: 15, defense: 0 },
+                        rarity: 'rare',
+                        sellValue: 99
+                    }
+                },
+                {
+                    id: 'arghol_staff_1',
+                    name: 'Arghol Staff',
+                    icon: '🪄',
+                    type: 'weapon',
+                    stats: '+15 Attack',
+                    price: 10000,
+                    currency: 'leaves',
+                    itemData: {
+                        name: 'Arghol Greatsword',
+                        type: 'weapon',
+                        stats: { attack: 15, defense: 0 },
+                        rarity: 'epic',
+                        sellValue: 99
+                    }
+                },
+                {
+                    id: 'arghol_bow_1',
+                    name: 'Arghol Bow',
+                    icon: '🏹',
+                    type: 'weapon',
+                    stats: '+15 Attack',
+                    price: 10000,
+                    currency: 'leaves',
+                    itemData: {
+                        name: 'Arghol Bow',
+                        type: 'weapon',
+                        stats: { attack: 15, defense: 0 },
+                        rarity: 'epic',
+                        sellValue: 99
+                    }
+                },
+                {
+                    id: 'arghol_armor_1',
+                    name: 'Arghol Armor',
+                    icon: '🥋',
+                    type: 'armor',
+                    stats: '+15 Defense',
+                    price: 10000,
+                    currency: 'leaves',
+                    itemData: {
+                        name: 'Arghol Armor',
+                        type: 'armor',
+                        stats: { attack: 0, defense: 15 },
+                        rarity: 'epic',
+                        sellValue: 99
+                    }
+                }
+            ],
+            accessories: [
+                {
+                    id: 'ashforge_ring',
+                    name: 'Ashforge Ring',
+                    icon: '💍',
+                    type: 'accessory',
+                    rarity: 'legendary',
+                    stats: '+30% ATK/DEF',
+                    price: 50000,
+                    currency: 'leaves',
+                    itemData: {
+                        name: 'Ashforge Ring',
+                        type: 'accessory',
+                        slot: 'ring',
+                        bonusPercent: { attack: 0.3, defense: 0.3 },
+                        rarity: 'legendary',
+                        sellValue: 25000
+                    }
+                },
+                
+            ],
+            pvp: [
+                {
+                    id: 'relic_man_eater',
+                    name: 'Man Eater',
+                    icon: '⚔️',
+                    type: 'weapon',
+                    stats: '+150 Attack',
+                    price: 10000,
+                    currency: 'pvp',
+                    itemData: {
+                        name: 'Man Eater',
+                        type: 'weapon',
+                        stats: { attack: 150, defense: 0 },
+                        rarity: 'legendary',
+                        sellValue: 99
+                    }
+                },
+                {
+                    id: 'relic_accelleon',
+                    name: 'Accelleon',
+                    icon: '🪄',
+                    type: 'weapon',
+                    stats: '+140 Attack',
+                    price: 10000,
+                    currency: 'pvp',
+                    itemData: {
+                        name: 'Accelleon',
+                        type: 'weapon',
+                        stats: { attack: 140, defense: 0 },
+                        rarity: 'legendary',
+                        sellValue: 99
+                    }
+                },
+                {
+                    id: 'relic_valkyrie',
+                    name: 'Valkyrie',
+                    icon: '🏹',
+                    type: 'weapon',
+                    stats: '+145 Attack',
+                    price: 10000,
+                    currency: 'pvp',
+                    itemData: {
+                        name: 'Valkyrie',
+                        type: 'weapon',
+                        stats: { attack: 145, defense: 0 },
+                        rarity: 'legendary',
+                        sellValue: 99
+                    }
+                }
+            ],
+            coins: [
+                {
+                    id: 'coin_relic_man_eater',
+                    name: 'Man Eater',
+                    icon: '⚔️',
+                    type: 'weapon',
+                    stats: '+150 Attack',
+                    price: 100,
+                    currency: 'coins',
+                    originalTab: 'pvp',
+                    itemData: {
+                        name: 'Man Eater',
+                        type: 'weapon',
+                        stats: { attack: 150, defense: 0 },
+                        rarity: 'legendary',
+                        sellValue: 99
+                    }
+                },
+                {
+                    id: 'coin_relic_accelleon',
+                    name: 'Accelleon',
+                    icon: '🪄',
+                    type: 'weapon',
+                    stats: '+140 Attack',
+                    price: 100,
+                    currency: 'coins',
+                    originalTab: 'pvp',
+                    itemData: {
+                        name: 'Accelleon',
+                        type: 'weapon',
+                        stats: { attack: 140, defense: 0 },
+                        rarity: 'legendary',
+                        sellValue: 99
+                    }
+                },
+                {
+                    id: 'coin_relic_valkyrie',
+                    name: 'Valkyrie',
+                    icon: '🏹',
+                    type: 'weapon',
+                    stats: '+145 Attack',
+                    price: 100,
+                    currency: 'coins',
+                    originalTab: 'pvp',
+                    itemData: {
+                        name: 'Valkyrie',
+                        type: 'weapon',
+                        stats: { attack: 145, defense: 0 },
+                        rarity: 'legendary',
+                        sellValue: 99
+                    }
+                }
+            ]
+        };
+
+
+        // Show Shop modal
+        async function showShop() {
+            const shopModal = document.getElementById('shop-modal');
+            shopModal.style.display = 'flex';
+
+            // Load player currencies
+            await loadPlayerCurrencies();
+
+            // Load all shop items
+            loadAllShopItems();
+        }
+
+        // Load all shop items (no tabs)
+        function loadAllShopItems() {
+            const container = document.getElementById('shop-items-container');
+            if (!container) return;
+
+            container.innerHTML = '';
+
+            // Load items in order: leaves first, then accessories, then PVP, then coins
+            const allItems = [
+                ...shopItems.leaves.map(item => ({ ...item, tabType: 'leaves' })),
+                ...shopItems.accessories.map(item => ({ ...item, tabType: 'leaves' })),
+                ...shopItems.pvp.map(item => ({ ...item, tabType: 'pvp' })),
+                ...shopItems.coins.map(item => ({ ...item, tabType: 'coins' }))
+            ];
+
+            allItems.forEach(item => {
+                const itemElement = createShopItemElement(item);
+                container.appendChild(itemElement);
+            });
+        }
+
+        // Load player currencies
+        async function loadPlayerCurrencies() {
+            try {
+                // Load leaves (from gameState.currency)
+                const leaves = gameState.currency || 0;
+                document.getElementById('shop-leaves').textContent = leaves.toLocaleString();
+
+                // Load PVP points
+                if (window.currentUser) {
+                    const { ref, get, set } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js');
+                    const playerStatsRef = ref(db, `arena/playerStats/${window.currentUser.uid}`);
+                    let snapshot = await get(playerStatsRef);
+
+                    // Initialize player stats if they don't exist
+                    if (!snapshot.exists()) {
+                        await set(playerStatsRef, {
+                            pvpPoints: 100,
+                            currentRank: null,
+                            totalWins: 0,
+                            totalLosses: 0,
+                            highestRank: null
+                        });
+                        // Get the snapshot again after initialization
+                        snapshot = await get(playerStatsRef);
+                    }
+
+                    if (snapshot.exists()) {
+                        const playerStats = snapshot.val();
+                        const pvpPoints = playerStats.pvpPoints || 100;
+                        document.getElementById('shop-pvp-points').textContent = pvpPoints;
+                    } else {
+                        document.getElementById('shop-pvp-points').textContent = '100';
+                    }
+                }
+
+                // Load coins (from gameState.coins)
+                const coins = gameState.coins || 0;
+                document.getElementById('shop-coins').textContent = coins.toLocaleString();
+
+            } catch (error) {
+                console.error('Error loading currencies:', error);
+                document.getElementById('shop-leaves').textContent = '0';
+                document.getElementById('shop-pvp-points').textContent = '100';
+                document.getElementById('shop-coins').textContent = '0';
+            }
+        }
+
+
+        // Create shop item element
+        function createShopItemElement(item) {
+            const itemDiv = document.createElement('div');
+            itemDiv.className = 'shop-item';
+
+            // Check if player can afford the item
+            let canAfford = false;
+            let currencyElement;
+
+            switch (item.currency) {
+                case 'leaves':
+                    currencyElement = document.getElementById('shop-leaves');
+                    const leaves = parseInt(currencyElement.textContent.replace(/,/g, '')) || 0;
+                    canAfford = leaves >= item.price;
+                    break;
+                case 'pvp':
+                    currencyElement = document.getElementById('shop-pvp-points');
+                    const pvpPoints = parseInt(currencyElement.textContent) || 0;
+                    canAfford = pvpPoints >= item.price;
+                    break;
+                case 'coins':
+                    currencyElement = document.getElementById('shop-coins');
+                    const coins = parseInt(currencyElement.textContent.replace(/,/g, '')) || 0;
+                    canAfford = coins >= item.price;
+                    break;
+            }
+
+            itemDiv.innerHTML = `
+                <div class="shop-item-header">
+                    <div class="shop-item-left">
+                        <div class="shop-item-icon">${item.icon}</div>
+                        <div class="shop-item-name">${item.name}</div>
+                    </div>
+                    <div class="shop-item-price">${item.price.toLocaleString()} ${getCurrencyIcon(item.currency)}</div>
+                </div>
+                <div class="shop-item-stats">${item.stats}</div>
+                <button class="shop-buy-btn ${item.currency}" onclick="buyShopItem('${item.id}')" ${canAfford ? '' : 'disabled'}>
+                    ${canAfford ? 'Purchase' : 'Cannot Afford'}
+                </button>
+            `;
+
+            return itemDiv;
+        }
+
+        // Get currency icon
+        function getCurrencyIcon(currency) {
+            switch (currency) {
+                case 'leaves': return '🍃';
+                case 'pvp': return '⚔️';
+                case 'coins': return '🪙';
+                default: return '';
+            }
+        }
+
+        // Buy shop item
+        async function buyShopItem(itemId) {
+            try {
+                // Find the item across all tabs
+                let item = null;
+
+                for (const [tab, items] of Object.entries(shopItems)) {
+                    const foundItem = items.find(i => i.id === itemId);
+                    if (foundItem) {
+                        item = foundItem;
+                        break;
+                    }
+                }
+
+                if (!item) {
+                    alert('Item not found!');
+                    return;
+                }
+
+                if (!window.currentUser) {
+                    alert('You must be logged in to purchase items.');
+                    return;
+                }
+
+                // Process purchase based on currency
+                let success = false;
+
+                switch (item.currency) {
+                    case 'leaves':
+                        success = await processLeavesPurchase(item.price);
+                        break;
+                    case 'pvp':
+                        success = await processPVPPurchase(item.price);
+                        break;
+                    case 'coins':
+                        success = await processCoinsPurchase(item.price);
+                        break;
+                }
+
+                if (success) {
+                    try {
+                        // Add item to player's inventory
+                        await addItemToInventory(item.itemData);
+
+                        // Show success message
+                        addToBattleLog(`🏪 Purchased ${item.name} for ${item.price.toLocaleString()} ${getCurrencyIcon(item.currency)}!`, 'success');
+
+                    // Update currency displays and reload all items
+                    await loadPlayerCurrencies();
+                    loadAllShopItems();
+
+                        // Refresh inventory display
+                        updateInventoryDisplay();
+                    } catch (inventoryError) {
+                        console.error('Error adding item to inventory:', inventoryError);
+                        alert('Purchase successful but failed to add item to inventory. Please contact support.');
+                        // Note: Currency was already deducted, so we don't refund it here
+                    }
+                }
+
+            } catch (error) {
+                console.error('Error buying shop item:', error);
+                alert('Failed to purchase item. Please try again.');
+            }
+        }
+
+        // Process leaves purchase
+        async function processLeavesPurchase(price) {
+            try {
+                const currentLeaves = gameState.currency || 0;
+
+                if (currentLeaves < price) {
+                    alert('Not enough leaves!');
+                    return false;
+                }
+
+                // Deduct leaves
+                gameState.currency = currentLeaves - price;
+
+                // Update the main UI display
+                document.getElementById('currency-amount').textContent = gameState.currency;
+
+                // Save game state
+                await saveGameState();
+
+                return true;
+            } catch (error) {
+                console.error('Error processing leaves purchase:', error);
+                return false;
+            }
+        }
+
+        // Process PVP purchase
+        async function processPVPPurchase(price) {
+            try {
+                const { ref, runTransaction } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js');
+                const playerStatsRef = ref(db, `arena/playerStats/${window.currentUser.uid}`);
+
+                let success = false;
+
+                await runTransaction(playerStatsRef, (playerStats) => {
+                    if (!playerStats) {
+                        playerStats = {
+                            pvpPoints: 100,
+                            currentRank: null,
+                            totalWins: 0,
+                            totalLosses: 0,
+                            highestRank: null
+                        };
+                    }
+
+                    if ((playerStats.pvpPoints || 100) < price) {
+                        alert('Not enough PVP points!');
+                        return; // Cancel transaction
+                    }
+
+                    // Deduct points
+                    playerStats.pvpPoints = (playerStats.pvpPoints || 100) - price;
+                    success = true;
+
+                    return playerStats;
+                });
+
+                return success;
+            } catch (error) {
+                console.error('Error processing PVP purchase:', error);
+                return false;
+            }
+        }
+
+        // Process coins purchase
+        async function processCoinsPurchase(price) {
+            try {
+                const currentCoins = gameState.coins || 0;
+
+                if (currentCoins < price) {
+                    alert('Not enough coins!');
+                    return false;
+                }
+
+                // Deduct coins
+                gameState.coins = currentCoins - price;
+
+                // Update the main UI display
+                document.getElementById('coins-amount').textContent = gameState.coins;
+
+                // Save game state
+                await saveGameState();
+
+                return true;
+            } catch (error) {
+                console.error('Error processing coins purchase:', error);
+                return false;
+            }
+        }
+
+        // Add item to player's inventory
+        async function addItemToInventory(itemData) {
+            try {
+                if (!gameState.character) {
+                    alert('No character found!');
+                    return;
+                }
+
+                // Add to inventory
+                gameState.inventory = gameState.inventory || [];
+                gameState.inventory.push(itemData);
+
+                // Save game state
+                await saveGameState();
+
+            } catch (error) {
+                console.error('Error adding item to inventory:', error);
+                throw error;
+            }
+        }
+
+        // Make shop functions globally accessible
+        window.showShop = showShop;
+        window.buyShopItem = buyShopItem;
+
+        // ========================================
+        // ACCESSORY BONUS SYSTEM
+        // ========================================
+
+        // Calculate effective stats including accessory percentage bonuses
+        function calculateEffectiveStats() {
+            const char = gameState.character;
+            if (!char) return { attack: 0, defense: 0 };
+
+            // Base stats
+            let effectiveAttack = char.attack || 0;
+            let effectiveDefense = char.defense || 0;
+
+            // Calculate percentage bonuses from accessories
+            let attackMultiplier = 1.0;
+            let defenseMultiplier = 1.0;
+
+            // Check all equipped accessories for percentage bonuses
+            const accessorySlots = ['accessory1', 'accessory2', 'ring', 'necklace', 'wrist'];
+            accessorySlots.forEach(slot => {
+                const accessory = char.equipped?.[slot];
+                if (accessory && accessory.bonusPercent) {
+                    if (accessory.bonusPercent.attack) {
+                        attackMultiplier += accessory.bonusPercent.attack;
+                    }
+                    if (accessory.bonusPercent.defense) {
+                        defenseMultiplier += accessory.bonusPercent.defense;
+                    }
+                }
+            });
+
+            // Apply multipliers
+            effectiveAttack = Math.floor(effectiveAttack * attackMultiplier);
+            effectiveDefense = Math.floor(effectiveDefense * defenseMultiplier);
+
+            return {
+                attack: effectiveAttack,
+                defense: effectiveDefense,
+                attackMultiplier: attackMultiplier,
+                defenseMultiplier: defenseMultiplier
+            };
+        }
+
+        // ========================================
+        // END ACCESSORY BONUS SYSTEM
+        // ========================================
+
+        // ========================================
+        // END UNIVERSAL SHOP SYSTEM
+        // ========================================
+
         // Show Arena modal
         async function showArena() {
             const arenaModal = document.getElementById('arena-modal');
@@ -8772,7 +9532,13 @@
                 entry.classList.add(className);
             }
 
-            battleLog.appendChild(entry);
+            // Insert before the exploring animation to keep it at the bottom, same as addToBattleLog
+            const exploringAnimation = document.getElementById('exploring-animation');
+            if (exploringAnimation) {
+                battleLog.insertBefore(entry, exploringAnimation);
+            } else {
+                battleLog.appendChild(entry);
+            }
             battleLog.scrollTop = battleLog.scrollHeight;
 
             // Limit logs
