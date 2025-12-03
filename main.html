@@ -273,8 +273,7 @@
         .battle-log {
             background-color: var(--darker-bg);
             border-radius: 4px;
-            padding: 1rem;
-            padding: 1rem;
+            padding: 1rem 1rem 0.25rem;
             height: 400px;
             /* Default desktop height */
             overflow-y: auto;
@@ -285,6 +284,10 @@
         .log-entry {
             margin-bottom: 0.5rem;
             line-height: 1.4;
+        }
+
+        .battle-log .log-entry:last-child {
+            margin-bottom: 0;
         }
 
         .log-time {
@@ -328,11 +331,18 @@
         /* Exploring animation */
         .log-exploring {
             color: var(--text-dim);
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+            padding: 0.25rem 0;
+        }
+
+        #exploring-text {
             font-style: italic;
-            position: sticky;
-            bottom: 0;
-            background-color: var(--darker-bg);
-            padding: 0.5rem 0;
+        }
+
+        .log-exploring .log-time {
+            font-style: normal;
         }
 
         /* Boss monster encounters - increased specificity */
@@ -2204,6 +2214,7 @@
                     and gain experience.
                 </div>
                 <div class="log-entry log-exploring" id="exploring-animation" style="display: none;">
+                    <span class="log-time" id="exploring-time">[00:00:00]</span>
                     <span id="exploring-text">Exploring</span>
                 </div>
             </div>
@@ -2620,6 +2631,10 @@
                 gap: 0.5rem;
             }
 
+            .arena-rank-inline {
+                display: none;
+            }
+
             .arena-name-clickable {
                 cursor: pointer;
                 transition: all 0.2s;
@@ -2632,10 +2647,15 @@
                 transform: translateX(4px);
             }
 
-
             .arena-level {
                 color: var(--text-dim);
                 font-size: 0.9rem;
+            }
+
+            .arena-level-inline {
+                display: none;
+                color: var(--text-dim);
+                font-size: 0.85rem;
             }
 
             .arena-stats-preview {
@@ -2690,6 +2710,71 @@
             @keyframes spin {
                 to {
                     transform: rotate(360deg);
+                }
+            }
+
+            @media (max-width: 768px) {
+                .arena-container {
+                    max-height: none;
+                }
+
+                .arena-ladder {
+                    overflow-x: hidden;
+                }
+
+                .arena-ladder-header {
+                    display: none;
+                }
+
+                .arena-ladder-row {
+                    grid-template-columns: 60px 1fr;
+                    grid-template-rows: auto auto auto;
+                    gap: 0.4rem 0.8rem;
+                    padding: 0.8rem;
+                }
+
+                .arena-rank {
+                    display: none;
+                }
+
+                .arena-name {
+                    grid-column: 2;
+                    grid-row: 1;
+                    flex-wrap: wrap;
+                }
+
+                .arena-rank-inline {
+                    display: inline-flex;
+                    font-weight: bold;
+                    color: var(--accent-color);
+                }
+
+                .arena-level {
+                    display: none;
+                }
+
+                .arena-level-inline {
+                    display: inline-flex;
+                    font-size: 0.85rem;
+                    color: var(--text-dim);
+                }
+
+                .arena-stats-preview {
+                    grid-column: 1 / -1;
+                    grid-row: 2;
+                    white-space: normal;
+                    font-size: 0.8rem;
+                    text-align: center;
+                }
+
+                .arena-action {
+                    grid-column: 1 / -1;
+                    grid-row: 3;
+                    text-align: left;
+                }
+
+                .btn-challenge {
+                    width: 100%;
                 }
             }
         </style>
@@ -2948,9 +3033,17 @@
                 font-weight: bold;
             }
 
-            .currency-value.leaves { color: var(--success); }
-            .currency-value.pvp { color: var(--accent-color); }
-            .currency-value.coins { color: #f39c12; }
+            .currency-value.leaves {
+                color: var(--success);
+            }
+
+            .currency-value.pvp {
+                color: var(--accent-color);
+            }
+
+            .currency-value.coins {
+                color: #f39c12;
+            }
 
             .shop-content {
                 background: var(--panel-bg);
@@ -3058,10 +3151,21 @@
                 border: 1px solid rgba(243, 156, 18, 0.5);
             }
 
-            .shop-buy-btn.pvp { background: var(--accent); }
-            .shop-buy-btn.pvp:hover:not(:disabled) { background: #2980b9; }
-            .shop-buy-btn.coins { background: #f39c12; }
-            .shop-buy-btn.coins:hover:not(:disabled) { background: #e67e22; }
+            .shop-buy-btn.pvp {
+                background: var(--accent);
+            }
+
+            .shop-buy-btn.pvp:hover:not(:disabled) {
+                background: #2980b9;
+            }
+
+            .shop-buy-btn.coins {
+                background: #f39c12;
+            }
+
+            .shop-buy-btn.coins:hover:not(:disabled) {
+                background: #e67e22;
+            }
         </style>
         <div class="modal-content" style="max-width: 1300px;">
             <button class="close-modal" onclick="document.getElementById('shop-modal').style.display='none'"
@@ -7012,14 +7116,25 @@
         let exploringAnimationInterval = null;
         let exploringAnimationDotCount = 0;
 
+        function updateExploringTimestamp() {
+            const exploringTime = document.getElementById('exploring-time');
+            if (exploringTime) {
+                const timeString = new Date().toLocaleTimeString('en-US', { hour12: false });
+                exploringTime.textContent = `[${timeString}]`;
+            }
+        }
+
         function startExploringAnimation() {
             const exploringElement = document.getElementById('exploring-animation');
             const exploringText = document.getElementById('exploring-text');
-
             if (!exploringElement || !gameState.isExploring) return;
 
-            exploringElement.style.display = 'block';
+            exploringElement.style.display = 'flex';
             exploringAnimationDotCount = 0;
+            updateExploringTimestamp();
+            if (exploringText) {
+                exploringText.textContent = 'Exploring';
+            }
 
             // Clear any existing animation
             if (exploringAnimationInterval) {
@@ -7035,7 +7150,10 @@
 
                 exploringAnimationDotCount = (exploringAnimationDotCount + 1) % 4;
                 const dots = '.'.repeat(exploringAnimationDotCount);
-                exploringText.textContent = `Exploring${dots}`;
+                const exploringTextEl = document.getElementById('exploring-text');
+                if (exploringTextEl) {
+                    exploringTextEl.textContent = `Exploring${dots}`;
+                }
             }, 500); // Change every 500ms
         }
 
@@ -7049,7 +7167,8 @@
         function resumeExploringAnimation() {
             const exploringElement = document.getElementById('exploring-animation');
             if (exploringElement && gameState.isExploring) {
-                exploringElement.style.display = 'block';
+                exploringElement.style.display = 'flex';
+                updateExploringTimestamp();
             }
         }
 
@@ -7061,6 +7180,10 @@
             const exploringElement = document.getElementById('exploring-animation');
             if (exploringElement) {
                 exploringElement.style.display = 'none';
+            }
+            const exploringText = document.getElementById('exploring-text');
+            if (exploringText) {
+                exploringText.textContent = 'Exploring';
             }
         }
 
@@ -8858,7 +8981,7 @@
                         sellValue: 25000
                     }
                 },
-                
+
             ],
             pvp: [
                 {
@@ -9148,9 +9271,9 @@
                         // Show success message
                         addToBattleLog(`🏪 Purchased ${item.name} for ${item.price.toLocaleString()} ${getCurrencyIcon(item.currency)}!`, 'success');
 
-                    // Update currency displays and reload all items
-                    await loadPlayerCurrencies();
-                    loadAllShopItems();
+                        // Update currency displays and reload all items
+                        await loadPlayerCurrencies();
+                        loadAllShopItems();
 
                         // Refresh inventory display
                         updateInventoryDisplay();
@@ -9425,7 +9548,9 @@
                             <div class="arena-name ${!isBot ? 'arena-name-clickable' : ''}" 
                                  ${!isBot ? `onclick="inspectPlayer(${rank})"` : ''} 
                                  title="${!isBot ? 'Click to inspect' : ''}">
+                                <span class="arena-rank-inline">#${rank}</span>
                                 ${isBot ? '🔹' : '🔸'} ${holder.name}
+                                <span class="arena-level-inline">• Lv ${holder.level}</span>
                             </div>
                             <div class="arena-level">Lv ${holder.level}</div>
                             <div class="arena-stats-preview">ATK: ${holder.attack} | DEF: ${holder.defense}</div>
@@ -9539,7 +9664,13 @@
             } else {
                 battleLog.appendChild(entry);
             }
-            battleLog.scrollTop = battleLog.scrollHeight;
+            requestAnimationFrame(() => {
+                const target = exploringAnimation && exploringAnimation.style.display !== 'none'
+                    ? exploringAnimation
+                    : entry;
+                target.scrollIntoView({ block: 'end' });
+                battleLog.scrollTop = battleLog.scrollHeight;
+            });
 
             // Limit logs
             while (battleLog.children.length > 50) {
@@ -11234,7 +11365,13 @@
             } else {
                 battleLog.appendChild(logEntry);
             }
-            battleLog.scrollTop = battleLog.scrollHeight;
+            requestAnimationFrame(() => {
+                const target = exploringAnimation && exploringAnimation.style.display !== 'none'
+                    ? exploringAnimation
+                    : logEntry;
+                target.scrollIntoView({ block: 'end' });
+                battleLog.scrollTop = battleLog.scrollHeight;
+            });
 
             const entries = battleLog.querySelectorAll('.log-entry');
             if (entries.length > 100) {
