@@ -4951,10 +4951,10 @@
                     { type: "currency", amount: 200, chance: 1.0 },
                     { type: "material", name: "Winter Box", sellValue: 100, chance: 1.0, quantity: 10 },
                     { type: "material", name: "Snowflake", sellValue: 50, chance: 1.0, quantity: 1 },
-                    { type: "item", name: "Calliana Sword", stats: { attack: 45 }, sellValue: 30, chance: 0.5 },
-                    { type: "item", name: "Calliana Staff", stats: { attack: 45 }, sellValue: 30, chance: 0.5 },
-                    { type: "item", name: "Calliana Bow", stats: { attack: 45 }, sellValue: 30, chance: 0.5 },
-                    { type: "item", name: "Calliana Armor", stats: { defense: 45 }, sellValue: 30, chance: 0.5 },
+                    { type: "item", name: "Calliana Sword", stats: { attack: 55 }, sellValue: 30, chance: 0.5 },
+                    { type: "item", name: "Calliana Staff", stats: { attack: 55 }, sellValue: 30, chance: 0.5 },
+                    { type: "item", name: "Calliana Bow", stats: { attack: 55 }, sellValue: 30, chance: 0.5 },
+                    { type: "item", name: "Calliana Armor", stats: { defense: 55 }, sellValue: 30, chance: 0.5 },
                     { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 10, chance: 0.25 },
                     { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 10, chance: 0.20 },
                     { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 10, chance: 0.15 },
@@ -5036,7 +5036,7 @@
                 requirements: {
                     item: { name: "Turncoat Sword", upgradeLevel: 5 },
                     materials: { "Red Gem": 8, "Blue Gem": 8, "Shiny Gem": 2 },
-                    currency: 500
+                    currency: 700
                 }
             },
             "T1 Turncoat Staff": {
@@ -5049,7 +5049,7 @@
                 requirements: {
                     item: { name: "Turncoat Staff", upgradeLevel: 5 },
                     materials: { "Red Gem": 8, "Blue Gem": 8, "Shiny Gem": 2 },
-                    currency: 500
+                    currency: 700
                 }
             },
             "T1 Turncoat Bow": {
@@ -5062,7 +5062,7 @@
                 requirements: {
                     item: { name: "Turncoat Bow", upgradeLevel: 5 },
                     materials: { "Red Gem": 8, "Blue Gem": 8, "Shiny Gem": 2 },
-                    currency: 500
+                    currency: 700
                 }
             },
             "T1 Turncoat Armor": {
@@ -5075,7 +5075,7 @@
                 requirements: {
                     item: { name: "Turncoat Armor", upgradeLevel: 5 },
                     materials: { "Red Gem": 8, "Blue Gem": 8, "Shiny Gem": 2 },
-                    currency: 500
+                    currency: 700
                 }
             },
             "T1 Calliana Sword": {
@@ -5088,7 +5088,7 @@
                 requirements: {
                     item: { name: "Calliana Sword", upgradeLevel: 5 },
                     materials: { "Red Gem": 11, "Blue Gem": 11, "Shiny Gem": 3 },
-                    currency: 500
+                    currency: 900
                 }
             },
             "T1 Calliana Staff": {
@@ -5101,7 +5101,7 @@
                 requirements: {
                     item: { name: "Calliana Staff", upgradeLevel: 5 },
                     materials: { "Red Gem": 11, "Blue Gem": 11, "Shiny Gem": 3 },
-                    currency: 500
+                    currency: 900
                 }
             },
             "T1 Calliana Bow": {
@@ -5114,7 +5114,7 @@
                 requirements: {
                     item: { name: "Calliana Bow", upgradeLevel: 5 },
                     materials: { "Red Gem": 11, "Blue Gem": 11, "Shiny Gem": 3 },
-                    currency: 500
+                    currency: 900
                 }
             },
             "T1 Calliana Armor": {
@@ -5127,7 +5127,7 @@
                 requirements: {
                     item: { name: "Calliana Armor", upgradeLevel: 5 },
                     materials: { "Red Gem": 11, "Blue Gem": 11, "Shiny Gem": 3 },
-                    currency: 500
+                    currency: 900
                 }
             },
         };
@@ -5151,18 +5151,18 @@
                 3: 0.8,  // 80%
                 4: 0.7,  // 70%
                 5: 0.6,  // 60%
-                6: 0.5,  // 50%
-                7: 0.4   // 40%
+                6: 0.4,  // 40%
+                7: 0.2   // 20%
             },
             // Cost per level - Weapons use Red Gems, Armors use Blue Gems
             costs: {
-                1: { "Red Gem": 1, "Blue Gem": 1, "currency": 50 },
-                2: { "Red Gem": 2, "Blue Gem": 2, "currency": 50 },
-                3: { "Red Gem": 3, "Blue Gem": 3, "currency": 50 },
-                4: { "Red Gem": 4, "Blue Gem": 4, "currency": 50 },
+                1: { "Red Gem": 1, "Blue Gem": 1, "currency": 10 },
+                2: { "Red Gem": 2, "Blue Gem": 2, "currency": 20 },
+                3: { "Red Gem": 3, "Blue Gem": 3, "currency": 30 },
+                4: { "Red Gem": 4, "Blue Gem": 4, "currency": 40 },
                 5: { "Red Gem": 5, "Blue Gem": 5, "currency": 50 },
-                6: { "Red Gem": 6, "Blue Gem": 6, "currency": 50 },
-                7: { "Red Gem": 7, "Blue Gem": 7, "currency": 50 }
+                6: { "Red Gem": 6, "Blue Gem": 6, "currency": 60 },
+                7: { "Red Gem": 7, "Blue Gem": 7, "currency": 70 }
             },
             // Destroy on +5, +6, +7 failure
             destroyOnFailure: [5, 6, 7]
@@ -6632,52 +6632,53 @@
 
         // Flat EXP system for balanced monster rewards
         function getMonsterExpGain(monsterName, monster) {
-            // HQ Monsters: 10-300 EXP (current values)
+            // HQ Monsters: 10-100 EXP (current values)
             const hqExpValues = {
-                'Young Flym': 15,
+                'Young Flym': 10,
                 'Wing': 20,
-                'Flym': 26,
-                'Stinkbug': 34,
-                'Desert Klan': 44,
-                'Demolis': 57,
-                'Splinter Brat': 74,
-                'Lunker': 94,
-                'Warbeast': 122,
-                'Ratmoth': 163,
-                'Snatcher Cheat': 212,
-                'Splinter': 276,
-                'Arghol Wasp': 300
+                'Flym': 25,
+                'Stinkbug': 30,
+                'Desert Klan': 35,
+                'Demolis': 40,
+                'Splinter Brat': 45,
+                'Lunker': 50,
+                'Warbeast': 55,
+                'Ratmoth': 60,
+                'Snatcher Cheat': 65,
+                'Splinter': 70,
+                'Arghol Wasp': 90
             };
 
-            // Sette Desert Monsters: 200-500 EXP
+            // Sette Desert Monsters: 100-200 EXP
             const setteExpValues = {
-                'Bulky Lunker': 220,
-                'Ghost': 240,
-                'Ghost II': 250,
-                'Rigor Lapis': 280,
-                'Rigor Lapis II': 300,
-                'Grumble Hook': 350,
-                'Grumble Hook II': 370,
-                'Turncoat': 420,
-                'Turncoat II': 450,
-                'Turncoat III': 480,
-                'Turncoat Knight': 500
+                'Bulky Lunker': 100,
+                'Ghost': 120,
+                'Ghost II': 125,
+                'Rigor Lapis': 130,
+                'Rigor Lapis II': 135,
+                'Grumble Hook': 140,
+                'Grumble Hook II': 145,
+                'Turncoat': 150,
+                'Turncoat II': 155,
+                'Turncoat III': 160,
+                'Turncoat Knight': 180
             };
 
-            // Ether Platform Monsters: 500-1,000 EXP
+            // Ether Platform Monsters: 200-400 EXP
             const etherExpValues = {
-                'Chooty': 520,
-                'Hobo Mite': 550,
-                'Hobo Sword': 560,
-                'Hobo Turnpike': 570,
-                'Hobo Cutter': 580,
-                'Passer Alpha': 650,
-                'Hobo Robber': 700,
-                'Hobo Blade': 720,
-                'Passer Beta': 780,
-                'Calliana Atroc': 850,
-                'Calliana Crew': 880,
-                'Calliana Princess': 1000
+                'Chooty': 180,
+                'Hobo Mite': 185,
+                'Hobo Sword': 190,
+                'Hobo Turnpike': 195,
+                'Hobo Cutter': 200,
+                'Passer Alpha': 205,
+                'Hobo Robber': 210,
+                'Hobo Blade': 210,
+                'Passer Beta': 220,
+                'Calliana Atroc': 230,
+                'Calliana Crew': 230,
+                'Assassin Builder B': 250,
+                'Calliana Princess': 300
             };
 
             // Return EXP based on monster name (works for all maps)
@@ -7811,7 +7812,7 @@
                         saveGameState();
                     }
                 }
-            }, 10000);
+            }, 5000);
         }
 
         // Level up character
@@ -8106,9 +8107,11 @@
             const chance = upgradeSystem.chances[nextLevel];
 
             // Check if it's armor or weapon
-            const isArmor = item.name.toLowerCase().includes('armor') ||
-                item.name.toLowerCase().includes('shirt') ||
-                item.name.toLowerCase().includes('tunic');
+            const lowerName = item.name.toLowerCase();
+            const isArmor = lowerName.includes('armor') ||
+                lowerName.includes('shirt') ||
+                lowerName.includes('tunic') ||
+                lowerName.includes('suit');
 
             const statType = isArmor ? 'defense' : 'attack';
             const currentStat = item.stats[statType] + (upgradeSystem.bonuses[itemLevel]?.[statType] || 0);
@@ -8148,9 +8151,11 @@
             const chance = upgradeSystem.chances[nextLevel];
 
             // Check if it's armor or weapon
-            const isArmor = item.name.toLowerCase().includes('armor') ||
-                item.name.toLowerCase().includes('shirt') ||
-                item.name.toLowerCase().includes('tunic');
+            const lowerName = item.name.toLowerCase();
+            const isArmor = lowerName.includes('armor') ||
+                lowerName.includes('shirt') ||
+                lowerName.includes('tunic') ||
+                lowerName.includes('suit');
 
             const statType = isArmor ? 'defense' : 'attack';
             const gemType = isArmor ? "Blue Gem" : "Red Gem";
@@ -8922,7 +8927,7 @@
                     price: 10000,
                     currency: 'leaves',
                     itemData: {
-                        name: 'Arghol Greatsword',
+                        name: 'Arghol Staff',
                         type: 'weapon',
                         stats: { attack: 15, defense: 0 },
                         rarity: 'epic',
@@ -8970,7 +8975,7 @@
                     type: 'accessory',
                     rarity: 'legendary',
                     stats: '+30% ATK/DEF',
-                    price: 50000,
+                    price: 20000,
                     currency: 'leaves',
                     itemData: {
                         name: 'Ashforge Ring',
@@ -8978,7 +8983,7 @@
                         slot: 'ring',
                         bonusPercent: { attack: 0.3, defense: 0.3 },
                         rarity: 'legendary',
-                        sellValue: 25000
+                        sellValue: 99
                     }
                 },
 
@@ -8990,7 +8995,7 @@
                     icon: '⚔️',
                     type: 'weapon',
                     stats: '+150 Attack',
-                    price: 10000,
+                    price: 5000,
                     currency: 'pvp',
                     itemData: {
                         name: 'Man Eater',
@@ -9006,7 +9011,7 @@
                     icon: '🪄',
                     type: 'weapon',
                     stats: '+140 Attack',
-                    price: 10000,
+                    price: 5000,
                     currency: 'pvp',
                     itemData: {
                         name: 'Accelleon',
@@ -9022,7 +9027,7 @@
                     icon: '🏹',
                     type: 'weapon',
                     stats: '+145 Attack',
-                    price: 10000,
+                    price: 5000,
                     currency: 'pvp',
                     itemData: {
                         name: 'Valkyrie',
@@ -10419,6 +10424,7 @@
                 case 'beam sword': return '🗡️';
                 case 'scale sword': return '🗡️';
                 case 'turncoat sword': return '🗡️';
+                case 'estoc': return '🗡️';
                 case 'black wand': return '🪄';
                 case 'field staff': return '🪄';
                 case 'dual wand': return '🪄';
@@ -10436,7 +10442,7 @@
                 case 't1 turncoat staff': return '🪄';
                 case 't1 turncoat bow': return '🏹';
                 case 't1 turncoat armor': return '🧥';
-                case 't1 arghol sword': return '🗡️';
+                case 't1 arghol blade': return '🗡️';
                 case 't1 arghol staff': return '🪄';
                 case 't1 arghol bow': return '🏹';
                 case 't1 arghol armor': return '🧥';
