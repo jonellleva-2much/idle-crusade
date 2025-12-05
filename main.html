@@ -151,6 +151,33 @@
             margin: 0 200px;
         }
 
+        .mobile-tabs {
+            display: none;
+            gap: 0.5rem;
+            margin: 0 200px 1rem;
+        }
+
+        .mobile-tab-btn {
+            flex: 1;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            background: var(--panel-bg);
+            color: var(--text);
+            padding: 0.6rem 0.8rem;
+            border-radius: 6px;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+        }
+
+        .mobile-tab-btn.active {
+            background: var(--accent);
+            border-color: var(--accent-color);
+            color: var(--accent-color);
+        }
+
         .panel {
             background-color: var(--panel-bg);
             border-radius: 8px;
@@ -697,8 +724,8 @@
         }
 
         .btn-small {
-            padding: 0.2rem 0.5rem;
-            font-size: 0.8rem;
+            padding: 0.3rem 0.5rem;
+            font-size: 0.85rem;
             flex: 1;
         }
 
@@ -1775,6 +1802,11 @@
                 min-width: 200px;
             }
 
+            .mobile-tabs {
+                display: flex;
+                margin: 0 0 0.5rem;
+            }
+
             .container {
                 margin: 0;
                 flex-direction: column;
@@ -1795,14 +1827,31 @@
                 /* Reduce padding slightly */
             }
 
+            .mobile-tab-panel {
+                display: none;
+            }
+
+            .mobile-tab-panel.active-mobile {
+                display: block;
+            }
+
             .right-panel {
                 height: auto;
-                max-height: 500px;
+                max-height: none;
+                overflow: visible;
+            }
+
+            .inventory {
+                height: auto;
+            }
+
+            .inventory-scrollable {
+                max-height: 60vh;
                 overflow-y: auto;
             }
 
             .battle-log {
-                height: 600px;
+                height: 400px;
                 /* Larger log on mobile as requested */
             }
 
@@ -1831,6 +1880,21 @@
                 padding: 0.8rem 0.5rem;
                 /* Adjust padding */
                 font-size: 0.9rem;
+            }
+
+            .explore-options {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 0.75rem;
+            }
+
+            .explore-option {
+                flex: 1 1 calc(50% - 0.75rem);
+                max-width: calc(50% - 0.75rem);
+            }
+
+            .explore-option .btn {
+                width: 100%;
             }
         }
 
@@ -2081,7 +2145,14 @@
 
     <div class="container">
         <!-- Left Panel - Character Details -->
-        <div class="panel left-panel">
+        <div class="mobile-tabs" id="mobile-tabs">
+            <button class="mobile-tab-btn active" data-tab="character">Character</button>
+            <button class="mobile-tab-btn" data-tab="battle">Battle Log</button>
+            <button class="mobile-tab-btn" data-tab="inventory">Inventory</button>
+        </div>
+
+        <!-- Left Panel - Character Details -->
+        <div class="panel left-panel mobile-tab-panel" id="panel-character">
             <div class="panel-header">
                 <h2 class="panel-title">CHARACTER</h2>
                 <label
@@ -2200,7 +2271,7 @@
         </div>
 
         <!-- Center Panel - Battle Logs and Actions -->
-        <div class="panel center-panel">
+        <div class="panel center-panel mobile-tab-panel" id="panel-battle">
             <div class="panel-header">
                 <h2 class="panel-title">BATTLE LOG</h2>
             </div>
@@ -2263,7 +2334,7 @@
         </div>
 
         <!-- Right Panel - Inventory -->
-        <div class="panel right-panel">
+        <div class="panel right-panel mobile-tab-panel" id="panel-inventory">
             <div class="inventory">
                 <div class="panel-header">
                     <h2 class="panel-title">INVENTORY</h2>
@@ -2930,7 +3001,7 @@
             /* Mobile Responsiveness for Battle Log */
             @media (max-width: 768px) {
                 .battle-log {
-                    height: 250px;
+                    height: 400px;
                     /* Mobile height */
                 }
             }
@@ -3230,6 +3301,62 @@
         </div>
     </div>
 
+
+    <!-- Mobile Tabs Script -->
+    <script>
+        (function () {
+            const tabContainer = document.getElementById('mobile-tabs');
+            if (!tabContainer) return;
+
+            const buttons = Array.from(tabContainer.querySelectorAll('.mobile-tab-btn'));
+            const panels = {
+                character: document.getElementById('panel-character'),
+                battle: document.getElementById('panel-battle'),
+                inventory: document.getElementById('panel-inventory')
+            };
+
+            const mediaQuery = window.matchMedia('(max-width: 720px)');
+            let activeTab = 'character';
+
+            function setActiveTab(tabName) {
+                activeTab = tabName;
+                const isMobile = mediaQuery.matches;
+
+                buttons.forEach(button => {
+                    button.classList.toggle('active', isMobile && button.dataset.tab === tabName);
+                });
+
+                Object.entries(panels).forEach(([name, panel]) => {
+                    if (!panel) return;
+                    panel.classList.toggle('active-mobile', isMobile && name === tabName);
+                });
+            }
+
+            buttons.forEach(button => {
+                button.addEventListener('click', () => {
+                    if (!mediaQuery.matches) return;
+                    setActiveTab(button.dataset.tab);
+                });
+            });
+
+            function handleViewportChange() {
+                if (mediaQuery.matches) {
+                    setActiveTab(activeTab);
+                } else {
+                    buttons.forEach(button => button.classList.remove('active'));
+                    Object.values(panels).forEach(panel => panel?.classList.remove('active-mobile'));
+                }
+            }
+
+            handleViewportChange();
+
+            if (mediaQuery.addEventListener) {
+                mediaQuery.addEventListener('change', handleViewportChange);
+            } else if (mediaQuery.addListener) {
+                mediaQuery.addListener(handleViewportChange);
+            }
+        })();
+    </script>
 
     <!-- Firebase SDK -->
     <script type="module">
@@ -11578,7 +11705,7 @@
         /* Mobile Responsiveness for Chatbox */
         @media (max-width: 768px) {
             .chatbox-content {
-                height: 300px;
+                height: 500px;
                 /* Mobile height */
             }
         }
