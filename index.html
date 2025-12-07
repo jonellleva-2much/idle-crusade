@@ -139,12 +139,13 @@
             height: 35px;
             color: var(--text);
             text-decoration: none;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
+            transition: all 0.2s ease;
+            background: transparent;
         }
 
         .discord-btn:hover {
-            transform: translateY(-2px);
+            transform: scale(1.1);
+            filter: drop-shadow(0 0 8px #5865F2);
         }
 
         /* Hero Section */
@@ -296,7 +297,6 @@
             z-index: 1000;
             justify-content: center;
             align-items: center;
-            backdrop-filter: blur(10px);
         }
 
         .modal-content {
@@ -490,7 +490,7 @@
             <img src="logo.png" alt="RF Online Logo" class="logo-image">
             <div class="logo-text">
                 <div class="logo-title">RF Online: Idle Crusade</div>
-                <div class="logo-subtitle">RF Online themed text-based multiplayer rpg game.</div>
+                <div class="logo-subtitle">RF Online themed semi idle text based rpg game.</div>
             </div>
         </div>
         <a href="https://discord.gg/PeBMG59g" target="_blank" class="discord-btn" title="Join our Discord">
@@ -501,7 +501,8 @@
     <section class="hero">
         <h1>RF Online: Idle Crusade</h1>
         <p class="subtitle">RF Online themed. Dark Woods MMO inspired.</p>
-        <p class="tagline">A modern semi-idle text-based RPG where you move through turn based combat, resource hunting, crafting, and PvP.</p>
+        <p class="tagline">A modern semi idle text based RPG where you move through turn based combat, resource hunting,
+            crafting, and PvP.</p>
         <div class="cta-buttons">
             <button class="btn-primary" onclick="openRegisterModal()">Start Your Journey</button>
             <button class="btn-secondary" onclick="openLoginModal()">Login</button>
@@ -514,7 +515,7 @@
             <div class="feature-card">
                 <div class="feature-icon">⚔️</div>
                 <h3>Turn-Based Combat</h3>
-                <p>Engage in strategic text-based battles with monsters, bosses, and other players in turn-based combat.
+                <p>Engage in strategic text based battles with monsters, bosses, and other players in turn-based combat.
                 </p>
             </div>
             <div class="feature-card">

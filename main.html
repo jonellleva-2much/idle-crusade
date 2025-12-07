@@ -700,7 +700,6 @@
         }
 
         .item-compact-name {
-            font-weight: bold;
             line-height: 1.2;
             font-size: 0.80rem;
         }
@@ -708,13 +707,13 @@
         .item-compact-stats {
             font-size: 0.8rem;
             color: var(--text);
-            line-height: 1.2;
+            line-height: 1.1;
         }
 
         .item-compact-sell {
             font-size: 0.7rem;
             color: var(--warning);
-            line-height: 1.2;
+            line-height: 1.1;
         }
 
         .item-compact-actions {
@@ -1751,9 +1750,21 @@
         }
 
         .item-rarity-t1 {
-            color: #ffd700 !important;
+            color: #27ae60 !important;
             /* Yellow */
             text-shadow: 0 0 5px rgba(255, 215, 0, 0.3);
+        }
+
+        .item-rarity-intense {
+            color: #f1c40f !important;
+            /* Gold/Yellow */
+            text-shadow: 0 0 5px rgba(241, 196, 15, 0.3);
+        }
+
+        .item-rarity-relic {
+            color: #2980b9 !important;
+            /* Blue */
+            text-shadow: 0 0 5px rgba(41, 128, 185, 0.3);
         }
 
         /* Mobile Optimization */
@@ -1770,7 +1781,7 @@
             }
 
             .logo {
-                margin-bottom: 0;
+                margin-bottom: 1rem;
                 gap: 0.5rem;
             }
 
@@ -1882,6 +1893,14 @@
                 font-size: 0.9rem;
             }
 
+            #auth-btn {
+                min-width: auto;
+                flex: none;
+                width: auto;
+                padding: 0.5rem 0.8rem;
+                font-size: 0.8rem !important;
+            }
+
             .explore-options {
                 display: flex;
                 flex-wrap: wrap;
@@ -1895,6 +1914,12 @@
 
             .explore-option .btn {
                 width: 100%;
+            }
+
+            .explore-status {
+                margin-top: 0 !important;
+                margin-bottom: 0.5rem !important;
+                padding: 0 0.5rem;
             }
         }
 
@@ -2125,13 +2150,14 @@
             <img src="logo.png" alt="RF Online Logo" class="logo-image">
             <div class="logo-text">
                 <div class="logo-title">RF Online: Idle Crusade</div>
-                <div class="logo-subtitle">RF Online themed text-based multiplayer rpg game.</div>
+                <div class="logo-subtitle">RF Online themed semi idle text based rpg game.</div>
             </div>
         </div>
         <nav>
             <ul>
                 <li><a href="#" class="active">Game</a></li>
                 <li style="display: none;"><a href="#" id="maps-btn">Maps</a></li>
+                <li><a href="#" id="chip-war-btn">Chip War</a></li>
                 <li><a href="#" id="arena-btn">Arena</a></li>
                 <li><a href="#" id="market-btn">Market</a></li>
                 <li><a href="#" id="shop-btn">Shop</a></li>
@@ -2572,14 +2598,14 @@
                             </label>
                             <div class="price-input-wrapper">
                                 <input type="text" id="sell-price" class="form-input" placeholder="Enter price..."
-                                    inputmode="numeric" pattern="[0-9]*" maxlength="6"
+                                    inputmode="numeric" pattern="[0-9]*" maxlength="5"
                                     style="width: 200px; padding: 0.8rem; background: var(--bg); border: 1px solid var(--accent); color: var(--text); border-radius: 4px;">
 
                                 <!-- Tax Calculation Display -->
                                 <div id="sell-tax-display"
                                     style="margin-top: 0.8rem; font-size: 0.9rem; color: var(--text-dim); display: none; background: rgba(0,0,0,0.2); padding: 0.8rem; border-radius: 4px;">
                                     <div style="display: flex; justify-content: space-between; margin-bottom: 0.3rem;">
-                                        <span>Market Tax (5%):</span>
+                                        <span>Market Tax (20%):</span>
                                         <span id="sell-tax-amount" style="color: var(--warning);">-0</span>
                                     </div>
                                     <div
@@ -2851,9 +2877,9 @@
         </style>
         <div class="modal-content" style="max-width: 1200px; max-height: 90vh; overflow-y: auto;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
-                <h2 class="modal-title" style="margin-bottom: 0;">⚔️ ARENA <span id="arena-reset-timer"
+                <h2 class="modal-title" style="margin-bottom: 0;">⚔️ ARENA <span
                         style="font-size: 1rem; color: var(--text-dim); margin-left: 1rem; font-weight: normal;">Next
-                        Reset: --:--:--</span></h2>
+                        Reset: <span id="arena-reset-timer">--:--:--</span></span></h2>
                 <button class="close-modal" onclick="document.getElementById('arena-modal').style.display='none'"
                     style="position: static;">×</button>
             </div>
@@ -3048,6 +3074,41 @@
                     Equipped Gear</h3>
                 <div class="inspect-gear-list" id="inspect-gear-list">
                     <!-- Gear items will be added here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chip War Modal -->
+    <div class="modal" id="chip-war-modal">
+        <div class="modal-content" style="max-width: 800px;">
+            <button class="close-modal"
+                onclick="document.getElementById('chip-war-modal').style.display='none'">×</button>
+            <h2 class="modal-title">⚔️ CHIP WAR <span id="chip-war-reset-timer"
+                    style="font-size: 0.7em; color: var(--text-dim); font-weight: normal; margin-left: 0.5rem;"></span>
+            </h2>
+
+            <div
+                style="margin-bottom: 1.5rem; padding: 1rem; background: var(--accent); border-radius: 6px; border-left: 3px solid var(--accent-color);">
+                <div style="color: var(--text-dim); font-size: 0.9rem; margin-bottom: 0.5rem;">Your Race: <span
+                        id="player-race-display" style="color: var(--accent-color); font-weight: bold;">-</span></div>
+                <div style="color: var(--text-dim); font-size: 0.85rem;">Attack enemy chips to deal damage! Each race
+                    has different travel times.</div>
+            </div>
+
+            <div id="chip-list" style="display: flex; flex-direction: column; gap: 1rem;">
+                <!-- Chips will be dynamically added here -->
+            </div>
+
+            <div id="active-attack-display"
+                style="display: none; margin-top: 1.5rem; padding: 1rem; background: var(--darker-bg); border-radius: 6px; border: 2px solid var(--warning);">
+                <div style="font-weight: bold; color: var(--warning); margin-bottom: 0.5rem;">🗡️ ATTACKING</div>
+                <div id="attack-status-text" style="color: var(--text); margin-bottom: 0.5rem;">Traveling to <span
+                        id="attack-target-name">-</span>...</div>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <span style="color: var(--text-dim); font-size: 0.9rem;">Time Remaining:</span>
+                    <span id="attack-timer-display"
+                        style="color: var(--accent-color); font-weight: bold; font-size: 1.1rem;">--</span>
                 </div>
             </div>
         </div>
@@ -4143,7 +4204,36 @@
                     lastDefeated: null
                 }
             },
-            currentMap: "HQ" // Default map
+            currentMap: "HQ", // Default map
+            // CHIP WAR STATE
+            chips: {
+                Accretia: {
+                    race: "Accretia",
+                    maxHp: 30000,
+                    currentHp: 30000
+                },
+                Bellato: {
+                    race: "Bellato",
+                    maxHp: 30000,
+                    currentHp: 30000
+                },
+                Cora: {
+                    race: "Cora",
+                    maxHp: 30000,
+                    currentHp: 30000
+                }
+            },
+            chipAttack: {
+                isAttacking: false,
+                targetRace: null,
+                startTime: null,
+                travelTime: 0, // in seconds
+                damage: 0
+            },
+            chipNuke: {
+                lastNukeTime: 0, // for 180-second cooldown
+                lastNukeTimestamp: 0 // timestamp of last nuke use
+            }
         };
 
         // Class base stats and level up system (Nerfed by ~35% total)
@@ -4176,10 +4266,10 @@
                 { name: "Bash Explosion", level: 30, damageMult: 2.5, fpCost: 60, type: "Ultimate" }
             ],
             Mystic: [
-                { name: "Prism Shard", level: 15, damageMult: 1.3, fpCost: 15, type: "Basic" },
-                { name: "Flame Arrow", level: 20, damageMult: 1.6, fpCost: 25, type: "Expert" },
-                { name: "Blaze Pearl", level: 25, damageMult: 2.0, fpCost: 40, type: "Elite" },
-                { name: "Force Impact", level: 30, damageMult: 2.5, fpCost: 60, type: "Ultimate" }
+                { name: "Prism Shard", level: 15, damageMult: 1.4, fpCost: 15, type: "Basic" },
+                { name: "Flame Arrow", level: 20, damageMult: 1.7, fpCost: 25, type: "Expert" },
+                { name: "Blaze Pearl", level: 25, damageMult: 2.2, fpCost: 40, type: "Elite" },
+                { name: "Force Impact", level: 30, damageMult: 2.7, fpCost: 60, type: "Ultimate" }
             ],
             Ranger: [
                 { name: "Fast Shot", level: 15, damageMult: 1.3, fpCost: 15, type: "Basic" },
@@ -4202,16 +4292,15 @@
                 map: "HQ",
                 drops: [
                     { type: "currency", amount: 1, chance: 1.0 },
-                    { type: "item", name: "Novice Sword", stats: { attack: 2 }, sellValue: 5, chance: 0.30 },
-                    { type: "item", name: "Novice Wand", stats: { attack: 2 }, sellValue: 5, chance: 0.30 },
-                    { type: "item", name: "Novice Bow", stats: { attack: 2 }, sellValue: 5, chance: 0.30 },
-                    { type: "item", name: "Novice Armor", stats: { defense: 2 }, sellValue: 5, chance: 0.40 },
-                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 10, chance: 0.10 },
-                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 10, chance: 0.08 },
-                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 10, chance: 0.06 },
-                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 10, chance: 0.04 },
-                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.20 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.20 }
+                    { type: "item", name: "Rusty Sword", stats: { attack: 2 }, sellValue: 1, chance: 0.05 },
+                    { type: "item", name: "Rusty Wand", stats: { attack: 2 }, sellValue: 1, chance: 0.05 },
+                    { type: "item", name: "Rusty Bow", stats: { attack: 2 }, sellValue: 1, chance: 0.05 },
+                    { type: "item", name: "Rusty Armor", stats: { defense: 2 }, sellValue: 5, chance: 0.05 },
+                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 2, chance: 0.03 },
+                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 2, chance: 0.02 },
+                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 2, chance: 0.01 },
+                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.05 },
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.05 }
                 ]
             },
             "Wing": {
@@ -4223,16 +4312,15 @@
                 map: "HQ",
                 drops: [
                     { type: "currency", amount: 1, chance: 1.0 },
-                    { type: "item", name: "Novice Sword", stats: { attack: 2 }, sellValue: 5, chance: 0.30 },
-                    { type: "item", name: "Novice Wand", stats: { attack: 2 }, sellValue: 5, chance: 0.30 },
-                    { type: "item", name: "Novice Bow", stats: { attack: 2 }, sellValue: 5, chance: 0.30 },
-                    { type: "item", name: "Novice Armor", stats: { defense: 2 }, sellValue: 5, chance: 0.40 },
-                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 10, chance: 0.10 },
-                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 10, chance: 0.08 },
-                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 10, chance: 0.06 },
-                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 10, chance: 0.04 },
-                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.20 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.20 }
+                    { type: "item", name: "Rusty Sword", stats: { attack: 2 }, sellValue: 1, chance: 0.05 },
+                    { type: "item", name: "Rusty Wand", stats: { attack: 2 }, sellValue: 1, chance: 0.05 },
+                    { type: "item", name: "Rusty Bow", stats: { attack: 2 }, sellValue: 1, chance: 0.05 },
+                    { type: "item", name: "Rusty Armor", stats: { defense: 2 }, sellValue: 5, chance: 0.05 },
+                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 2, chance: 0.03 },
+                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 2, chance: 0.02 },
+                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 2, chance: 0.01 },
+                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.05 },
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.05 }
                 ]
             },
             "Flym": {
@@ -4244,16 +4332,15 @@
                 map: "HQ",
                 drops: [
                     { type: "currency", amount: 1, chance: 1.0 },
-                    { type: "item", name: "Novice Sword", stats: { attack: 2 }, sellValue: 5, chance: 0.30 },
-                    { type: "item", name: "Novice Wand", stats: { attack: 2 }, sellValue: 5, chance: 0.30 },
-                    { type: "item", name: "Novice Bow", stats: { attack: 2 }, sellValue: 5, chance: 0.30 },
-                    { type: "item", name: "Novice Armor", stats: { defense: 2 }, sellValue: 5, chance: 0.40 },
-                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 10, chance: 0.10 },
-                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 10, chance: 0.08 },
-                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 10, chance: 0.06 },
-                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 10, chance: 0.04 },
-                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.20 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.20 }
+                    { type: "item", name: "Rusty Sword", stats: { attack: 2 }, sellValue: 1, chance: 0.05 },
+                    { type: "item", name: "Rusty Wand", stats: { attack: 2 }, sellValue: 1, chance: 0.05 },
+                    { type: "item", name: "Rusty Bow", stats: { attack: 2 }, sellValue: 1, chance: 0.05 },
+                    { type: "item", name: "Rusty Armor", stats: { defense: 2 }, sellValue: 5, chance: 0.05 },
+                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 2, chance: 0.03 },
+                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 2, chance: 0.02 },
+                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 2, chance: 0.01 },
+                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.05 },
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.05 }
                 ]
             },
 
@@ -4267,16 +4354,15 @@
                 map: "HQ",
                 drops: [
                     { type: "currency", amount: 2, chance: 1.0 },
-                    { type: "item", name: "Sword Breaker", stats: { attack: 5 }, sellValue: 5, chance: 0.30 },
-                    { type: "item", name: "Battle Staff", stats: { attack: 5 }, sellValue: 5, chance: 0.30 },
-                    { type: "item", name: "Assemble Bow", stats: { attack: 5 }, sellValue: 5, chance: 0.30 },
-                    { type: "item", name: "Leather Shirt", stats: { defense: 5 }, sellValue: 5, chance: 0.40 },
-                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 10, chance: 0.10 },
-                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 10, chance: 0.08 },
-                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 10, chance: 0.06 },
-                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 10, chance: 0.04 },
-                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.20 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.20 }
+                    { type: "item", name: "Sword Breaker", stats: { attack: 5 }, sellValue: 1, chance: 0.05 },
+                    { type: "item", name: "Battle Staff", stats: { attack: 5 }, sellValue: 1, chance: 0.05 },
+                    { type: "item", name: "Assemble Bow", stats: { attack: 5 }, sellValue: 1, chance: 0.05 },
+                    { type: "item", name: "Leather Shirt", stats: { defense: 5 }, sellValue: 5, chance: 0.05 },
+                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 2, chance: 0.03 },
+                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 2, chance: 0.02 },
+                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 2, chance: 0.01 },
+                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.05 },
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.05 }
                 ]
             },
             "Desert Klan": {
@@ -4288,16 +4374,15 @@
                 map: "HQ",
                 drops: [
                     { type: "currency", amount: 2, chance: 1.0 },
-                    { type: "item", name: "Sword Breaker", stats: { attack: 5 }, sellValue: 5, chance: 0.30 },
-                    { type: "item", name: "Battle Staff", stats: { attack: 5 }, sellValue: 5, chance: 0.30 },
-                    { type: "item", name: "Assemble Bow", stats: { attack: 5 }, sellValue: 5, chance: 0.30 },
-                    { type: "item", name: "Leather Shirt", stats: { defense: 5 }, sellValue: 5, chance: 0.40 },
-                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 10, chance: 0.10 },
-                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 10, chance: 0.08 },
-                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 10, chance: 0.06 },
-                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 10, chance: 0.04 },
-                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.20 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.20 }
+                    { type: "item", name: "Sword Breaker", stats: { attack: 5 }, sellValue: 1, chance: 0.05 },
+                    { type: "item", name: "Battle Staff", stats: { attack: 5 }, sellValue: 1, chance: 0.05 },
+                    { type: "item", name: "Assemble Bow", stats: { attack: 5 }, sellValue: 1, chance: 0.05 },
+                    { type: "item", name: "Leather Shirt", stats: { defense: 5 }, sellValue: 5, chance: 0.05 },
+                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 2, chance: 0.03 },
+                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 2, chance: 0.02 },
+                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 2, chance: 0.01 },
+                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.05 },
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.05 }
                 ]
             },
             "Demolis": {
@@ -4309,16 +4394,15 @@
                 map: "HQ",
                 drops: [
                     { type: "currency", amount: 2, chance: 1.0 },
-                    { type: "item", name: "Sword Breaker", stats: { attack: 5 }, sellValue: 5, chance: 0.30 },
-                    { type: "item", name: "Battle Staff", stats: { attack: 5 }, sellValue: 5, chance: 0.30 },
-                    { type: "item", name: "Assemble Bow", stats: { attack: 5 }, sellValue: 5, chance: 0.30 },
-                    { type: "item", name: "Leather Shirt", stats: { defense: 5 }, sellValue: 5, chance: 0.40 },
-                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 10, chance: 0.10 },
-                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 10, chance: 0.08 },
-                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 10, chance: 0.06 },
-                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 10, chance: 0.04 },
-                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.20 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.20 }
+                    { type: "item", name: "Sword Breaker", stats: { attack: 5 }, sellValue: 1, chance: 0.05 },
+                    { type: "item", name: "Battle Staff", stats: { attack: 5 }, sellValue: 1, chance: 0.05 },
+                    { type: "item", name: "Assemble Bow", stats: { attack: 5 }, sellValue: 1, chance: 0.05 },
+                    { type: "item", name: "Leather Shirt", stats: { defense: 5 }, sellValue: 5, chance: 0.05 },
+                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 2, chance: 0.03 },
+                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 2, chance: 0.02 },
+                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 2, chance: 0.01 },
+                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.05 },
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.05 }
                 ]
             },
 
@@ -4332,16 +4416,15 @@
                 map: "HQ",
                 drops: [
                     { type: "currency", amount: 3, chance: 1.0 },
-                    { type: "item", name: "Valkyrie Sword", stats: { attack: 8 }, sellValue: 5, chance: 0.30 },
-                    { type: "item", name: "War Wand", stats: { attack: 8 }, sellValue: 5, chance: 0.30 },
-                    { type: "item", name: "Tower Bow", stats: { attack: 8 }, sellValue: 5, chance: 0.30 },
-                    { type: "item", name: "Hora Tunic", stats: { defense: 8 }, sellValue: 5, chance: 0.40 },
-                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 10, chance: 0.10 },
-                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 10, chance: 0.08 },
-                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 10, chance: 0.06 },
-                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 10, chance: 0.04 },
-                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.20 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.20 }
+                    { type: "item", name: "Valkyrie Sword", stats: { attack: 8 }, sellValue: 1, chance: 0.05 },
+                    { type: "item", name: "War Wand", stats: { attack: 8 }, sellValue: 1, chance: 0.05 },
+                    { type: "item", name: "Tower Bow", stats: { attack: 8 }, sellValue: 1, chance: 0.05 },
+                    { type: "item", name: "Hora Tunic", stats: { defense: 8 }, sellValue: 1, chance: 0.05 },
+                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 2, chance: 0.03 },
+                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 2, chance: 0.02 },
+                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 2, chance: 0.01 },
+                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.05 },
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.05 }
                 ]
             },
             "Lunker": {
@@ -4353,16 +4436,15 @@
                 map: "HQ",
                 drops: [
                     { type: "currency", amount: 3, chance: 1.0 },
-                    { type: "item", name: "Valkyrie Sword", stats: { attack: 8 }, sellValue: 5, chance: 0.30 },
-                    { type: "item", name: "War Wand", stats: { attack: 8 }, sellValue: 5, chance: 0.30 },
-                    { type: "item", name: "Tower Bow", stats: { attack: 8 }, sellValue: 5, chance: 0.30 },
-                    { type: "item", name: "Hora Tunic", stats: { defense: 8 }, sellValue: 5, chance: 0.40 },
-                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 10, chance: 0.10 },
-                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 10, chance: 0.08 },
-                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 10, chance: 0.06 },
-                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 10, chance: 0.04 },
-                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.20 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.20 }
+                    { type: "item", name: "Valkyrie Sword", stats: { attack: 8 }, sellValue: 1, chance: 0.05 },
+                    { type: "item", name: "War Wand", stats: { attack: 8 }, sellValue: 1, chance: 0.05 },
+                    { type: "item", name: "Tower Bow", stats: { attack: 8 }, sellValue: 1, chance: 0.05 },
+                    { type: "item", name: "Hora Tunic", stats: { defense: 8 }, sellValue: 1, chance: 0.05 },
+                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 2, chance: 0.03 },
+                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 2, chance: 0.02 },
+                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 2, chance: 0.01 },
+                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.05 },
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.05 }
                 ]
             },
             "Warbeast": {
@@ -4374,16 +4456,15 @@
                 map: "HQ",
                 drops: [
                     { type: "currency", amount: 3, chance: 1.0 },
-                    { type: "item", name: "Valkyrie Sword", stats: { attack: 8 }, sellValue: 5, chance: 0.30 },
-                    { type: "item", name: "War Wand", stats: { attack: 8 }, sellValue: 5, chance: 0.30 },
-                    { type: "item", name: "Tower Bow", stats: { attack: 8 }, sellValue: 5, chance: 0.30 },
-                    { type: "item", name: "Hora Tunic", stats: { defense: 8 }, sellValue: 5, chance: 0.40 },
-                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 10, chance: 0.10 },
-                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 10, chance: 0.08 },
-                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 10, chance: 0.06 },
-                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 10, chance: 0.04 },
-                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.20 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.20 }
+                    { type: "item", name: "Valkyrie Sword", stats: { attack: 8 }, sellValue: 1, chance: 0.05 },
+                    { type: "item", name: "War Wand", stats: { attack: 8 }, sellValue: 1, chance: 0.05 },
+                    { type: "item", name: "Tower Bow", stats: { attack: 8 }, sellValue: 1, chance: 0.05 },
+                    { type: "item", name: "Hora Tunic", stats: { defense: 8 }, sellValue: 1, chance: 0.05 },
+                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 2, chance: 0.03 },
+                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 2, chance: 0.02 },
+                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 2, chance: 0.01 },
+                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.05 },
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.05 }
                 ]
             },
 
@@ -4397,16 +4478,15 @@
                 map: "HQ",
                 drops: [
                     { type: "currency", amount: 4, chance: 1.0 },
-                    { type: "item", name: "Zweihander", stats: { attack: 12 }, sellValue: 5, chance: 0.30 },
-                    { type: "item", name: "Red Bead", stats: { attack: 12 }, sellValue: 5, chance: 0.30 },
-                    { type: "item", name: "Beam Cross-Bow", stats: { attack: 12 }, sellValue: 5, chance: 0.30 },
-                    { type: "item", name: "Coil Armor", stats: { defense: 12 }, sellValue: 5, chance: 0.40 },
-                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 10, chance: 0.10 },
-                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 10, chance: 0.08 },
-                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 10, chance: 0.06 },
-                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 10, chance: 0.04 },
-                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.20 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.20 }
+                    { type: "item", name: "Zweihander", stats: { attack: 12 }, sellValue: 1, chance: 0.05 },
+                    { type: "item", name: "Red Bead", stats: { attack: 12 }, sellValue: 1, chance: 0.05 },
+                    { type: "item", name: "Beam Cross-Bow", stats: { attack: 12 }, sellValue: 1, chance: 0.05 },
+                    { type: "item", name: "Coil Armor", stats: { defense: 12 }, sellValue: 1, chance: 0.05 },
+                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 2, chance: 0.03 },
+                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 2, chance: 0.02 },
+                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 2, chance: 0.01 },
+                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.05 },
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.05 }
                 ]
             },
             "Snatcher Cheat": {
@@ -4418,16 +4498,15 @@
                 map: "HQ",
                 drops: [
                     { type: "currency", amount: 4, chance: 1.0 },
-                    { type: "item", name: "Zweihander", stats: { attack: 12 }, sellValue: 5, chance: 0.30 },
-                    { type: "item", name: "Red Bead", stats: { attack: 12 }, sellValue: 5, chance: 0.30 },
-                    { type: "item", name: "Beam Cross-Bow", stats: { attack: 12 }, sellValue: 5, chance: 0.30 },
-                    { type: "item", name: "Coil Armor", stats: { defense: 12 }, sellValue: 5, chance: 0.40 },
-                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 10, chance: 0.10 },
-                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 10, chance: 0.08 },
-                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 10, chance: 0.06 },
-                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 10, chance: 0.04 },
-                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.20 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.20 }
+                    { type: "item", name: "Zweihander", stats: { attack: 12 }, sellValue: 1, chance: 0.05 },
+                    { type: "item", name: "Red Bead", stats: { attack: 12 }, sellValue: 1, chance: 0.05 },
+                    { type: "item", name: "Beam Cross-Bow", stats: { attack: 12 }, sellValue: 1, chance: 0.05 },
+                    { type: "item", name: "Coil Armor", stats: { defense: 12 }, sellValue: 1, chance: 0.05 },
+                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 2, chance: 0.03 },
+                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 2, chance: 0.02 },
+                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 2, chance: 0.01 },
+                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.05 },
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.05 }
                 ]
             },
             "Splinter": {
@@ -4439,16 +4518,15 @@
                 map: "HQ",
                 drops: [
                     { type: "currency", amount: 4, chance: 1.0 },
-                    { type: "item", name: "Zweihander", stats: { attack: 12 }, sellValue: 5, chance: 0.30 },
-                    { type: "item", name: "Red Bead", stats: { attack: 12 }, sellValue: 5, chance: 0.30 },
-                    { type: "item", name: "Beam Cross-Bow", stats: { attack: 12 }, sellValue: 5, chance: 0.30 },
-                    { type: "item", name: "Coil Armor", stats: { defense: 12 }, sellValue: 5, chance: 0.40 },
-                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 10, chance: 0.10 },
-                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 10, chance: 0.08 },
-                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 10, chance: 0.06 },
-                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 10, chance: 0.04 },
-                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.20 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.20 }
+                    { type: "item", name: "Zweihander", stats: { attack: 12 }, sellValue: 1, chance: 0.05 },
+                    { type: "item", name: "Red Bead", stats: { attack: 12 }, sellValue: 1, chance: 0.05 },
+                    { type: "item", name: "Beam Cross-Bow", stats: { attack: 12 }, sellValue: 1, chance: 0.05 },
+                    { type: "item", name: "Coil Armor", stats: { defense: 12 }, sellValue: 1, chance: 0.05 },
+                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 2, chance: 0.03 },
+                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 2, chance: 0.02 },
+                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 2, chance: 0.01 },
+                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.05 },
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.05 }
                 ]
             },
 
@@ -4463,17 +4541,17 @@
                 isBoss: true,
                 drops: [
                     { type: "currency", amount: 100, chance: 1.0 },
-                    { type: "item", name: "Arghol Blade", stats: { attack: 15 }, sellValue: 20, chance: 0.5 },
-                    { type: "item", name: "Arghol Staff", stats: { attack: 15 }, sellValue: 20, chance: 0.5 },
-                    { type: "item", name: "Arghol Bow", stats: { attack: 15 }, sellValue: 20, chance: 0.5 },
-                    { type: "item", name: "Arghol Armor", stats: { defense: 15 }, sellValue: 20, chance: 0.5, quantity: 2 },
-                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 10, chance: 0.25 },
-                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 10, chance: 0.20 },
-                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 10, chance: 0.15 },
-                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 10, chance: 0.10 },
-                    { type: "item", name: "Mighty Ring", stats: { attack: 25, defense: 25 }, sellValue: 10, chance: 0.07 },
-                    { type: "item", name: "Cosmic Ring", stats: { attack: 30, defense: 30 }, sellValue: 10, chance: 0.05 },
-                    { type: "item", name: "Basic Wings", stats: { attack: 5, defense: 5 }, movementSpeed: 1.0, isWings: true, sellValue: 5, chance: 0.5 },
+                    { type: "item", name: "Arghol Blade", stats: { attack: 15 }, sellValue: 10, chance: 0.9 },
+                    { type: "item", name: "Arghol Staff", stats: { attack: 15 }, sellValue: 10, chance: 0.9 },
+                    { type: "item", name: "Arghol Bow", stats: { attack: 15 }, sellValue: 10, chance: 0.9 },
+                    { type: "item", name: "Arghol Armor", stats: { defense: 15 }, sellValue: 10, chance: 0.9, quantity: 2 },
+                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 2, chance: 0.10 },
+                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 2, chance: 0.09 },
+                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 2, chance: 0.08 },
+                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 2, chance: 0.07 },
+                    { type: "item", name: "Mighty Ring", stats: { attack: 25, defense: 25 }, sellValue: 2, chance: 0.02 },
+                    { type: "item", name: "Cosmic Ring", stats: { attack: 30, defense: 30 }, sellValue: 2, chance: 0.01 },
+                    { type: "item", name: "Basic Wings", stats: { attack: 5, defense: 5 }, movementSpeed: 1.0, isWings: true, sellValue: 5, chance: 0.9 },
                     { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 1.0, quantity: 10 },
                     { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 1.0, quantity: 10 },
                     { type: "material", name: "Shiny Gem", stats: {}, sellValue: 5, chance: 1.0, quantity: 2 }
@@ -4491,16 +4569,16 @@
                 skill: "Wind Blast",
                 drops: [
                     { type: "currency", amount: 5, chance: 1.0 },
-                    { type: "item", name: "Bastard Sword", stats: { attack: 20 }, sellValue: 10, chance: 0.3 },
-                    { type: "item", name: "Black Wand", stats: { attack: 20 }, sellValue: 10, chance: 0.3 },
-                    { type: "item", name: "Long Bow", stats: { attack: 20 }, sellValue: 10, chance: 0.3 },
-                    { type: "item", name: "Iron Tunic", stats: { defense: 20 }, sellValue: 10, chance: 0.4 },
-                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 10, chance: 0.12 },
-                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 10, chance: 0.10 },
-                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 10, chance: 0.08 },
-                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 10, chance: 0.06 },
-                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.25 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.25 }
+                    { type: "item", name: "Bastard Sword", stats: { attack: 20 }, sellValue: 2, chance: 0.06 },
+                    { type: "item", name: "Black Wand", stats: { attack: 20 }, sellValue: 2, chance: 0.06 },
+                    { type: "item", name: "Long Bow", stats: { attack: 20 }, sellValue: 2, chance: 0.06 },
+                    { type: "item", name: "Iron Tunic", stats: { defense: 20 }, sellValue: 2, chance: 0.06 },
+                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 2, chance: 0.05 },
+                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 2, chance: 0.04 },
+                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 2, chance: 0.03 },
+                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 2, chance: 0.02 },
+                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.06 },
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.06 }
                 ]
             },
             "Ghost": {
@@ -4513,16 +4591,16 @@
                 skill: "Wind Blast",
                 drops: [
                     { type: "currency", amount: 5, chance: 1.0 },
-                    { type: "item", name: "Claymore", stats: { attack: 22 }, sellValue: 10, chance: 0.3 },
-                    { type: "item", name: "Field Staff", stats: { attack: 22 }, sellValue: 10, chance: 0.3 },
-                    { type: "item", name: "Battle Bow", stats: { attack: 22 }, sellValue: 10, chance: 0.3 },
-                    { type: "item", name: "Steel Core", stats: { defense: 22 }, sellValue: 10, chance: 0.4 },
-                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 10, chance: 0.12 },
-                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 10, chance: 0.10 },
-                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 10, chance: 0.08 },
-                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 10, chance: 0.06 },
-                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.25 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.25 }
+                    { type: "item", name: "Claymore", stats: { attack: 22 }, sellValue: 2, chance: 0.06 },
+                    { type: "item", name: "Field Staff", stats: { attack: 22 }, sellValue: 2, chance: 0.06 },
+                    { type: "item", name: "Battle Bow", stats: { attack: 22 }, sellValue: 2, chance: 0.06 },
+                    { type: "item", name: "Steel Core", stats: { defense: 22 }, sellValue: 2, chance: 0.06 },
+                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 2, chance: 0.05 },
+                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 2, chance: 0.04 },
+                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 2, chance: 0.03 },
+                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 2, chance: 0.02 },
+                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.06 },
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.06 }
                 ]
             },
             "Ghost II": { // Hack for 1 hour
@@ -4535,16 +4613,16 @@
                 skill: "Wind Blast",
                 drops: [
                     { type: "currency", amount: 6, chance: 1.0 },
-                    { type: "item", name: "Claymore", stats: { attack: 22 }, sellValue: 10, chance: 0.3 },
-                    { type: "item", name: "Field Staff", stats: { attack: 22 }, sellValue: 10, chance: 0.3 },
-                    { type: "item", name: "Battle Bow", stats: { attack: 22 }, sellValue: 10, chance: 0.3 },
-                    { type: "item", name: "Steel Core", stats: { defense: 22 }, sellValue: 10, chance: 0.4 },
-                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 10, chance: 0.12 },
-                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 10, chance: 0.10 },
-                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 10, chance: 0.08 },
-                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 10, chance: 0.06 },
-                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.25 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.25 }
+                    { type: "item", name: "Claymore", stats: { attack: 22 }, sellValue: 2, chance: 0.06 },
+                    { type: "item", name: "Field Staff", stats: { attack: 22 }, sellValue: 2, chance: 0.06 },
+                    { type: "item", name: "Battle Bow", stats: { attack: 22 }, sellValue: 2, chance: 0.06 },
+                    { type: "item", name: "Steel Core", stats: { defense: 22 }, sellValue: 2, chance: 0.06 },
+                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 2, chance: 0.05 },
+                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 2, chance: 0.04 },
+                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 2, chance: 0.03 },
+                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 2, chance: 0.02 },
+                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.06 },
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.06 }
                 ]
             },
             "Rigor Lapis": {
@@ -4557,16 +4635,16 @@
                 skill: "Raging Wave",
                 drops: [
                     { type: "currency", amount: 6, chance: 1.0 },
-                    { type: "item", name: "Big Breaker", stats: { attack: 25 }, sellValue: 10, chance: 0.3 },
-                    { type: "item", name: "Dual Wand", stats: { attack: 25 }, sellValue: 10, chance: 0.3 },
-                    { type: "item", name: "Dual Bow", stats: { attack: 25 }, sellValue: 10, chance: 0.3 },
-                    { type: "item", name: "Duple Armor", stats: { defense: 25 }, sellValue: 10, chance: 0.4 },
-                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 10, chance: 0.12 },
-                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 10, chance: 0.10 },
-                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 10, chance: 0.08 },
-                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 10, chance: 0.06 },
-                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.25 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.25 }
+                    { type: "item", name: "Big Breaker", stats: { attack: 25 }, sellValue: 2, chance: 0.06 },
+                    { type: "item", name: "Dual Wand", stats: { attack: 25 }, sellValue: 2, chance: 0.06 },
+                    { type: "item", name: "Dual Bow", stats: { attack: 25 }, sellValue: 2, chance: 0.06 },
+                    { type: "item", name: "Duple Armor", stats: { defense: 25 }, sellValue: 2, chance: 0.06 },
+                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 2, chance: 0.05 },
+                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 2, chance: 0.04 },
+                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 2, chance: 0.03 },
+                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 2, chance: 0.02 },
+                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.06 },
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.06 }
                 ]
             },
             "Rigor Lapis II": { // Hack for 6 hours
@@ -4579,16 +4657,16 @@
                 skill: "Raging Wave",
                 drops: [
                     { type: "currency", amount: 7, chance: 1.0 },
-                    { type: "item", name: "Big Breaker", stats: { attack: 25 }, sellValue: 10, chance: 0.3 },
-                    { type: "item", name: "Dual Wand", stats: { attack: 25 }, sellValue: 10, chance: 0.3 },
-                    { type: "item", name: "Dual Bow", stats: { attack: 25 }, sellValue: 10, chance: 0.3 },
-                    { type: "item", name: "Duple Armor", stats: { defense: 25 }, sellValue: 10, chance: 0.4 },
-                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 10, chance: 0.12 },
-                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 10, chance: 0.10 },
-                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 10, chance: 0.08 },
-                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 10, chance: 0.06 },
-                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.25 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.25 }
+                    { type: "item", name: "Big Breaker", stats: { attack: 25 }, sellValue: 2, chance: 0.06 },
+                    { type: "item", name: "Dual Wand", stats: { attack: 25 }, sellValue: 2, chance: 0.06 },
+                    { type: "item", name: "Dual Bow", stats: { attack: 25 }, sellValue: 2, chance: 0.06 },
+                    { type: "item", name: "Duple Armor", stats: { defense: 25 }, sellValue: 2, chance: 0.06 },
+                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 2, chance: 0.05 },
+                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 2, chance: 0.04 },
+                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 2, chance: 0.03 },
+                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 2, chance: 0.02 },
+                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.06 },
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.06 }
                 ]
             },
             "Grumble Hook": {
@@ -4601,16 +4679,16 @@
                 skill: "Wind Blast",
                 drops: [
                     { type: "currency", amount: 7, chance: 1.0 },
-                    { type: "item", name: "Beam Sword", stats: { attack: 28 }, sellValue: 10, chance: 0.3 },
-                    { type: "item", name: "Beam Bead", stats: { attack: 28 }, sellValue: 10, chance: 0.3 },
-                    { type: "item", name: "Beam Bow", stats: { attack: 28 }, sellValue: 10, chance: 0.3 },
-                    { type: "item", name: "Sprits Cloak", stats: { defense: 28 }, sellValue: 10, chance: 0.4 },
-                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 10, chance: 0.12 },
-                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 10, chance: 0.10 },
-                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 10, chance: 0.08 },
-                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 10, chance: 0.06 },
-                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.25 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.25 }
+                    { type: "item", name: "Beam Sword", stats: { attack: 28 }, sellValue: 2, chance: 0.06 },
+                    { type: "item", name: "Beam Bead", stats: { attack: 28 }, sellValue: 2, chance: 0.06 },
+                    { type: "item", name: "Beam Bow", stats: { attack: 28 }, sellValue: 2, chance: 0.06 },
+                    { type: "item", name: "Sprits Cloak", stats: { defense: 28 }, sellValue: 2, chance: 0.06 },
+                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 2, chance: 0.05 },
+                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 2, chance: 0.04 },
+                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 2, chance: 0.03 },
+                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 2, chance: 0.02 },
+                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.06 },
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.06 }
                 ]
             },
             "Grumble Hook II": { // Hack for 6 hours
@@ -4623,16 +4701,16 @@
                 skill: "Wind Blast",
                 drops: [
                     { type: "currency", amount: 8, chance: 1.0 },
-                    { type: "item", name: "Beam Sword", stats: { attack: 28 }, sellValue: 10, chance: 0.3 },
-                    { type: "item", name: "Beam Bead", stats: { attack: 28 }, sellValue: 10, chance: 0.3 },
-                    { type: "item", name: "Beam Bow", stats: { attack: 28 }, sellValue: 10, chance: 0.3 },
-                    { type: "item", name: "Sprits Cloak", stats: { defense: 28 }, sellValue: 10, chance: 0.4 },
-                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 10, chance: 0.12 },
-                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 10, chance: 0.10 },
-                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 10, chance: 0.08 },
-                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 10, chance: 0.06 },
-                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.25 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.25 }
+                    { type: "item", name: "Beam Sword", stats: { attack: 28 }, sellValue: 2, chance: 0.06 },
+                    { type: "item", name: "Beam Bead", stats: { attack: 28 }, sellValue: 2, chance: 0.06 },
+                    { type: "item", name: "Beam Bow", stats: { attack: 28 }, sellValue: 2, chance: 0.06 },
+                    { type: "item", name: "Sprits Cloak", stats: { defense: 28 }, sellValue: 2, chance: 0.06 },
+                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 2, chance: 0.05 },
+                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 2, chance: 0.04 },
+                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 2, chance: 0.03 },
+                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 2, chance: 0.02 },
+                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.06 },
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.06 }
                 ]
             },
             "Turncoat": {
@@ -4644,16 +4722,16 @@
                 map: "Sette Desert",
                 drops: [
                     { type: "currency", amount: 8, chance: 1.0 },
-                    { type: "item", name: "Scale Sword", stats: { attack: 32 }, sellValue: 10, chance: 0.3 },
-                    { type: "item", name: "Blue Wand", stats: { attack: 32 }, sellValue: 10, chance: 0.3 },
-                    { type: "item", name: "Siege Bow", stats: { attack: 32 }, sellValue: 10, chance: 0.3 },
-                    { type: "item", name: "Soul Armor", stats: { defense: 32 }, sellValue: 10, chance: 0.4 },
-                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 10, chance: 0.12 },
-                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 10, chance: 0.10 },
-                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 10, chance: 0.08 },
-                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 10, chance: 0.06 },
-                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.25 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.25 }
+                    { type: "item", name: "Scale Sword", stats: { attack: 32 }, sellValue: 2, chance: 0.06 },
+                    { type: "item", name: "Blue Wand", stats: { attack: 32 }, sellValue: 2, chance: 0.06 },
+                    { type: "item", name: "Siege Bow", stats: { attack: 32 }, sellValue: 2, chance: 0.06 },
+                    { type: "item", name: "Soul Armor", stats: { defense: 32 }, sellValue: 2, chance: 0.06 },
+                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 2, chance: 0.05 },
+                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 2, chance: 0.04 },
+                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 2, chance: 0.03 },
+                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 2, chance: 0.02 },
+                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.06 },
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.06 }
                 ]
             },
             "Turncoat II": { // Hack for 6 hours
@@ -4665,16 +4743,16 @@
                 map: "Sette Desert",
                 drops: [
                     { type: "currency", amount: 9, chance: 1.0 },
-                    { type: "item", name: "Scale Sword", stats: { attack: 32 }, sellValue: 10, chance: 0.3 },
-                    { type: "item", name: "Blue Wand", stats: { attack: 32 }, sellValue: 10, chance: 0.3 },
-                    { type: "item", name: "Siege Bow", stats: { attack: 32 }, sellValue: 10, chance: 0.3 },
-                    { type: "item", name: "Soul Armor", stats: { defense: 32 }, sellValue: 10, chance: 0.4 },
-                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 10, chance: 0.12 },
-                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 10, chance: 0.10 },
-                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 10, chance: 0.08 },
-                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 10, chance: 0.06 },
-                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.25 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.25 }
+                    { type: "item", name: "Scale Sword", stats: { attack: 32 }, sellValue: 2, chance: 0.06 },
+                    { type: "item", name: "Blue Wand", stats: { attack: 32 }, sellValue: 2, chance: 0.06 },
+                    { type: "item", name: "Siege Bow", stats: { attack: 32 }, sellValue: 2, chance: 0.06 },
+                    { type: "item", name: "Soul Armor", stats: { defense: 32 }, sellValue: 2, chance: 0.06 },
+                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 2, chance: 0.05 },
+                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 2, chance: 0.04 },
+                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 2, chance: 0.03 },
+                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 2, chance: 0.02 },
+                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.06 },
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.06 }
                 ]
             },
             "Turncoat III": { // Hack for 12 hours
@@ -4686,16 +4764,16 @@
                 map: "Sette Desert",
                 drops: [
                     { type: "currency", amount: 10, chance: 1.0 },
-                    { type: "item", name: "Scale Sword", stats: { attack: 32 }, sellValue: 10, chance: 0.3 },
-                    { type: "item", name: "Blue Wand", stats: { attack: 32 }, sellValue: 10, chance: 0.3 },
-                    { type: "item", name: "Siege Bow", stats: { attack: 32 }, sellValue: 10, chance: 0.3 },
-                    { type: "item", name: "Soul Armor", stats: { defense: 32 }, sellValue: 10, chance: 0.4 },
-                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 10, chance: 0.12 },
-                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 10, chance: 0.10 },
-                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 10, chance: 0.08 },
-                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 10, chance: 0.06 },
-                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.25 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.25 }
+                    { type: "item", name: "Scale Sword", stats: { attack: 32 }, sellValue: 2, chance: 0.06 },
+                    { type: "item", name: "Blue Wand", stats: { attack: 32 }, sellValue: 2, chance: 0.06 },
+                    { type: "item", name: "Siege Bow", stats: { attack: 32 }, sellValue: 2, chance: 0.06 },
+                    { type: "item", name: "Soul Armor", stats: { defense: 32 }, sellValue: 2, chance: 0.06 },
+                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 2, chance: 0.05 },
+                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 2, chance: 0.04 },
+                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 2, chance: 0.03 },
+                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 2, chance: 0.02 },
+                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.06 },
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.06 }
                 ]
             },
 
@@ -4710,17 +4788,17 @@
                 isBoss: true,
                 drops: [
                     { type: "currency", amount: 150, chance: 1.0 },
-                    { type: "item", name: "Turncoat Sword", stats: { attack: 35 }, sellValue: 25, chance: 0.5 },
-                    { type: "item", name: "Turncoat Staff", stats: { attack: 35 }, sellValue: 25, chance: 0.5 },
-                    { type: "item", name: "Turncoat Bow", stats: { attack: 35 }, sellValue: 25, chance: 0.5 },
-                    { type: "item", name: "Turncoat Armor", stats: { defense: 35 }, sellValue: 25, chance: 0.5, quantity: 2 },
-                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 10, chance: 0.25 },
-                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 10, chance: 0.20 },
-                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 10, chance: 0.15 },
-                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 10, chance: 0.10 },
-                    { type: "item", name: "Mighty Ring", stats: { attack: 25, defense: 25 }, sellValue: 10, chance: 0.07 },
-                    { type: "item", name: "Cosmic Ring", stats: { attack: 30, defense: 30 }, sellValue: 10, chance: 0.05 },
-                    { type: "item", name: "Basic Wings", stats: { attack: 5, defense: 5 }, movementSpeed: 1.0, isWings: true, sellValue: 5, chance: 0.5 },
+                    { type: "item", name: "Turncoat Sword", stats: { attack: 35 }, sellValue: 15, chance: 0.9 },
+                    { type: "item", name: "Turncoat Staff", stats: { attack: 35 }, sellValue: 15, chance: 0.9 },
+                    { type: "item", name: "Turncoat Bow", stats: { attack: 35 }, sellValue: 15, chance: 0.9 },
+                    { type: "item", name: "Turncoat Armor", stats: { defense: 35 }, sellValue: 25, chance: 0.9, quantity: 2 },
+                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 2, chance: 0.11 },
+                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 2, chance: 0.10 },
+                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 2, chance: 0.09 },
+                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 2, chance: 0.08 },
+                    { type: "item", name: "Mighty Ring", stats: { attack: 25, defense: 25 }, sellValue: 2, chance: 0.02 },
+                    { type: "item", name: "Cosmic Ring", stats: { attack: 30, defense: 30 }, sellValue: 2, chance: 0.01 },
+                    { type: "item", name: "Basic Wings", stats: { attack: 5, defense: 5 }, movementSpeed: 1.0, isWings: true, sellValue: 5, chance: 0.9 },
                     { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 1.0, quantity: 15 },
                     { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 1.0, quantity: 15 },
                     { type: "material", name: "Shiny Gem", stats: {}, sellValue: 10, chance: 1.0, quantity: 4 }
@@ -4739,17 +4817,17 @@
                 map: "Ether Platform",
                 drops: [
                     { type: "currency", amount: 11, chance: 1.0 },
-                    { type: "material", name: "Winter Box", sellValue: 100, chance: 0.20 },
-                    { type: "item", name: "Estoc", stats: { attack: 45 }, sellValue: 20, chance: 0.3 },
-                    { type: "item", name: "Black Stick Bead", stats: { attack: 45 }, sellValue: 20, chance: 0.3 },
-                    { type: "item", name: "Beam Siege Bow", stats: { attack: 45 }, sellValue: 20, chance: 0.3 },
-                    { type: "item", name: "Glow Suit", stats: { defense: 45 }, sellValue: 20, chance: 0.4 },
-                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 10, chance: 0.14 },
-                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 10, chance: 0.12 },
-                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 10, chance: 0.10 },
-                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 10, chance: 0.08 },
-                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.35 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.35 }
+                    { type: "material", name: "Winter Box", sellValue: 20, chance: 0.05 },
+                    { type: "item", name: "Estoc", stats: { attack: 45 }, sellValue: 3, chance: 0.07 },
+                    { type: "item", name: "Black Stick Bead", stats: { attack: 45 }, sellValue: 3, chance: 0.07 },
+                    { type: "item", name: "Beam Siege Bow", stats: { attack: 45 }, sellValue: 3, chance: 0.07 },
+                    { type: "item", name: "Glow Suit", stats: { defense: 45 }, sellValue: 3, chance: 0.07 },
+                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 2, chance: 0.06 },
+                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 2, chance: 0.05 },
+                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 2, chance: 0.04 },
+                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 2, chance: 0.03 },
+                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.07 },
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.07 }
                 ]
             },
             "Hobo Mite": {
@@ -4761,17 +4839,17 @@
                 map: "Ether Platform",
                 drops: [
                     { type: "currency", amount: 11, chance: 1.0 },
-                    { type: "material", name: "Winter Box", sellValue: 100, chance: 0.20 },
-                    { type: "item", name: "Estoc", stats: { attack: 45 }, sellValue: 20, chance: 0.3 },
-                    { type: "item", name: "Black Stick Bead", stats: { attack: 45 }, sellValue: 20, chance: 0.3 },
-                    { type: "item", name: "Beam Siege Bow", stats: { attack: 45 }, sellValue: 20, chance: 0.3 },
-                    { type: "item", name: "Glow Suit", stats: { defense: 45 }, sellValue: 20, chance: 0.4 },
-                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 10, chance: 0.14 },
-                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 10, chance: 0.12 },
-                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 10, chance: 0.10 },
-                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 10, chance: 0.08 },
-                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.35 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.35 }
+                    { type: "material", name: "Winter Box", sellValue: 20, chance: 0.05 },
+                    { type: "item", name: "Estoc", stats: { attack: 45 }, sellValue: 3, chance: 0.07 },
+                    { type: "item", name: "Black Stick Bead", stats: { attack: 45 }, sellValue: 3, chance: 0.07 },
+                    { type: "item", name: "Beam Siege Bow", stats: { attack: 45 }, sellValue: 3, chance: 0.07 },
+                    { type: "item", name: "Glow Suit", stats: { defense: 45 }, sellValue: 3, chance: 0.07 },
+                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 2, chance: 0.06 },
+                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 2, chance: 0.05 },
+                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 2, chance: 0.04 },
+                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 2, chance: 0.03 },
+                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.07 },
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.07 }
                 ]
             },
             "Hobo Sword": {
@@ -4783,17 +4861,17 @@
                 map: "Ether Platform",
                 drops: [
                     { type: "currency", amount: 11, chance: 1.0 },
-                    { type: "material", name: "Winter Box", sellValue: 100, chance: 0.20 },
-                    { type: "item", name: "Estoc", stats: { attack: 45 }, sellValue: 20, chance: 0.3 },
-                    { type: "item", name: "Black Stick Bead", stats: { attack: 45 }, sellValue: 20, chance: 0.3 },
-                    { type: "item", name: "Beam Siege Bow", stats: { attack: 45 }, sellValue: 20, chance: 0.3 },
-                    { type: "item", name: "Glow Suit", stats: { defense: 45 }, sellValue: 20, chance: 0.4 },
-                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 10, chance: 0.14 },
-                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 10, chance: 0.12 },
-                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 10, chance: 0.10 },
-                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 10, chance: 0.08 },
-                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.35 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.35 }
+                    { type: "material", name: "Winter Box", sellValue: 20, chance: 0.05 },
+                    { type: "item", name: "Estoc", stats: { attack: 45 }, sellValue: 3, chance: 0.07 },
+                    { type: "item", name: "Black Stick Bead", stats: { attack: 45 }, sellValue: 3, chance: 0.07 },
+                    { type: "item", name: "Beam Siege Bow", stats: { attack: 45 }, sellValue: 3, chance: 0.07 },
+                    { type: "item", name: "Glow Suit", stats: { defense: 45 }, sellValue: 3, chance: 0.07 },
+                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 2, chance: 0.06 },
+                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 2, chance: 0.05 },
+                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 2, chance: 0.04 },
+                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 2, chance: 0.03 },
+                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.07 },
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.07 }
                 ]
             },
             "Hobo Turnpike": {
@@ -4805,17 +4883,17 @@
                 map: "Ether Platform",
                 drops: [
                     { type: "currency", amount: 11, chance: 1.0 },
-                    { type: "material", name: "Winter Box", sellValue: 100, chance: 0.20 },
-                    { type: "item", name: "Estoc", stats: { attack: 45 }, sellValue: 20, chance: 0.3 },
-                    { type: "item", name: "Black Stick Bead", stats: { attack: 45 }, sellValue: 20, chance: 0.3 },
-                    { type: "item", name: "Beam Siege Bow", stats: { attack: 45 }, sellValue: 20, chance: 0.3 },
-                    { type: "item", name: "Glow Suit", stats: { defense: 45 }, sellValue: 20, chance: 0.4 },
-                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 10, chance: 0.14 },
-                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 10, chance: 0.12 },
-                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 10, chance: 0.10 },
-                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 10, chance: 0.08 },
-                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.35 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.35 }
+                    { type: "material", name: "Winter Box", sellValue: 20, chance: 0.05 },
+                    { type: "item", name: "Estoc", stats: { attack: 45 }, sellValue: 3, chance: 0.07 },
+                    { type: "item", name: "Black Stick Bead", stats: { attack: 45 }, sellValue: 3, chance: 0.07 },
+                    { type: "item", name: "Beam Siege Bow", stats: { attack: 45 }, sellValue: 3, chance: 0.07 },
+                    { type: "item", name: "Glow Suit", stats: { defense: 45 }, sellValue: 3, chance: 0.07 },
+                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 2, chance: 0.06 },
+                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 2, chance: 0.05 },
+                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 2, chance: 0.04 },
+                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 2, chance: 0.03 },
+                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.07 },
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.07 }
                 ]
             },
             "Hobo Cutter": {
@@ -4827,17 +4905,17 @@
                 map: "Ether Platform",
                 drops: [
                     { type: "currency", amount: 11, chance: 1.0 },
-                    { type: "material", name: "Winter Box", sellValue: 100, chance: 0.20 },
-                    { type: "item", name: "Estoc", stats: { attack: 45 }, sellValue: 20, chance: 0.3 },
-                    { type: "item", name: "Black Stick Bead", stats: { attack: 45 }, sellValue: 20, chance: 0.3 },
-                    { type: "item", name: "Beam Siege Bow", stats: { attack: 45 }, sellValue: 20, chance: 0.3 },
-                    { type: "item", name: "Glow Suit", stats: { defense: 45 }, sellValue: 20, chance: 0.4 },
-                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 10, chance: 0.14 },
-                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 10, chance: 0.12 },
-                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 10, chance: 0.10 },
-                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 10, chance: 0.08 },
-                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.35 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.35 }
+                    { type: "material", name: "Winter Box", sellValue: 20, chance: 0.05 },
+                    { type: "item", name: "Estoc", stats: { attack: 45 }, sellValue: 3, chance: 0.07 },
+                    { type: "item", name: "Black Stick Bead", stats: { attack: 45 }, sellValue: 3, chance: 0.07 },
+                    { type: "item", name: "Beam Siege Bow", stats: { attack: 45 }, sellValue: 3, chance: 0.07 },
+                    { type: "item", name: "Glow Suit", stats: { defense: 45 }, sellValue: 3, chance: 0.07 },
+                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 2, chance: 0.06 },
+                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 2, chance: 0.05 },
+                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 2, chance: 0.04 },
+                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 2, chance: 0.03 },
+                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.07 },
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.07 }
                 ]
             },
             "Passer Alpha": {
@@ -4849,17 +4927,17 @@
                 map: "Ether Platform",
                 drops: [
                     { type: "currency", amount: 11, chance: 1.0 },
-                    { type: "material", name: "Winter Box", sellValue: 100, chance: 0.20 },
-                    { type: "item", name: "Estoc", stats: { attack: 45 }, sellValue: 20, chance: 0.3 },
-                    { type: "item", name: "Black Stick Bead", stats: { attack: 45 }, sellValue: 20, chance: 0.3 },
-                    { type: "item", name: "Beam Siege Bow", stats: { attack: 45 }, sellValue: 20, chance: 0.3 },
-                    { type: "item", name: "Glow Suit", stats: { defense: 45 }, sellValue: 20, chance: 0.4 },
-                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 10, chance: 0.14 },
-                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 10, chance: 0.12 },
-                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 10, chance: 0.10 },
-                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 10, chance: 0.08 },
-                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.35 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.35 }
+                    { type: "material", name: "Winter Box", sellValue: 20, chance: 0.05 },
+                    { type: "item", name: "Estoc", stats: { attack: 45 }, sellValue: 3, chance: 0.07 },
+                    { type: "item", name: "Black Stick Bead", stats: { attack: 45 }, sellValue: 3, chance: 0.07 },
+                    { type: "item", name: "Beam Siege Bow", stats: { attack: 45 }, sellValue: 3, chance: 0.07 },
+                    { type: "item", name: "Glow Suit", stats: { defense: 45 }, sellValue: 3, chance: 0.07 },
+                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 2, chance: 0.06 },
+                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 2, chance: 0.05 },
+                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 2, chance: 0.04 },
+                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 2, chance: 0.03 },
+                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.07 },
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.07 }
                 ]
             },
 
@@ -4873,17 +4951,17 @@
                 map: "Ether Platform",
                 drops: [
                     { type: "currency", amount: 12, chance: 1.0 },
-                    { type: "material", name: "Winter Box", sellValue: 100, chance: 0.20 },
-                    { type: "item", name: "Estoc", stats: { attack: 45 }, sellValue: 20, chance: 0.3 },
-                    { type: "item", name: "Black Stick Bead", stats: { attack: 45 }, sellValue: 20, chance: 0.3 },
-                    { type: "item", name: "Beam Siege Bow", stats: { attack: 45 }, sellValue: 20, chance: 0.3 },
-                    { type: "item", name: "Glow Suit", stats: { defense: 45 }, sellValue: 20, chance: 0.4 },
-                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 10, chance: 0.14 },
-                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 10, chance: 0.12 },
-                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 10, chance: 0.10 },
-                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 10, chance: 0.08 },
-                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.35 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.35 }
+                    { type: "material", name: "Winter Box", sellValue: 20, chance: 0.05 },
+                    { type: "item", name: "Estoc", stats: { attack: 45 }, sellValue: 3, chance: 0.07 },
+                    { type: "item", name: "Black Stick Bead", stats: { attack: 45 }, sellValue: 3, chance: 0.07 },
+                    { type: "item", name: "Beam Siege Bow", stats: { attack: 45 }, sellValue: 3, chance: 0.07 },
+                    { type: "item", name: "Glow Suit", stats: { defense: 45 }, sellValue: 3, chance: 0.07 },
+                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 2, chance: 0.06 },
+                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 2, chance: 0.05 },
+                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 2, chance: 0.04 },
+                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 2, chance: 0.03 },
+                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.07 },
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.07 }
                 ]
             },
             "Hobo Blade": {
@@ -4895,17 +4973,17 @@
                 map: "Ether Platform",
                 drops: [
                     { type: "currency", amount: 12, chance: 1.0 },
-                    { type: "material", name: "Winter Box", sellValue: 100, chance: 0.20 },
-                    { type: "item", name: "Estoc", stats: { attack: 45 }, sellValue: 20, chance: 0.3 },
-                    { type: "item", name: "Black Stick Bead", stats: { attack: 45 }, sellValue: 20, chance: 0.3 },
-                    { type: "item", name: "Beam Siege Bow", stats: { attack: 45 }, sellValue: 20, chance: 0.3 },
-                    { type: "item", name: "Glow Suit", stats: { defense: 45 }, sellValue: 20, chance: 0.3 },
-                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 10, chance: 0.14 },
-                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 10, chance: 0.12 },
-                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 10, chance: 0.10 },
-                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 10, chance: 0.08 },
-                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.35 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.35 }
+                    { type: "material", name: "Winter Box", sellValue: 20, chance: 0.05 },
+                    { type: "item", name: "Estoc", stats: { attack: 45 }, sellValue: 3, chance: 0.07 },
+                    { type: "item", name: "Black Stick Bead", stats: { attack: 45 }, sellValue: 3, chance: 0.07 },
+                    { type: "item", name: "Beam Siege Bow", stats: { attack: 45 }, sellValue: 3, chance: 0.07 },
+                    { type: "item", name: "Glow Suit", stats: { defense: 45 }, sellValue: 3, chance: 0.07 },
+                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 2, chance: 0.06 },
+                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 2, chance: 0.05 },
+                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 2, chance: 0.04 },
+                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 2, chance: 0.03 },
+                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.07 },
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.07 }
                 ]
             },
             "Passer Beta": {
@@ -4917,17 +4995,17 @@
                 map: "Ether Platform",
                 drops: [
                     { type: "currency", amount: 12, chance: 1.0 },
-                    { type: "material", name: "Winter Box", sellValue: 100, chance: 0.20 },
-                    { type: "item", name: "Estoc", stats: { attack: 45 }, sellValue: 20, chance: 0.3 },
-                    { type: "item", name: "Black Stick Bead", stats: { attack: 45 }, sellValue: 20, chance: 0.3 },
-                    { type: "item", name: "Beam Siege Bow", stats: { attack: 45 }, sellValue: 20, chance: 0.3 },
-                    { type: "item", name: "Glow Suit", stats: { defense: 45 }, sellValue: 20, chance: 0.4 },
-                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 10, chance: 0.14 },
-                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 10, chance: 0.12 },
-                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 10, chance: 0.10 },
-                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 10, chance: 0.08 },
-                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.35 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.35 }
+                    { type: "material", name: "Winter Box", sellValue: 20, chance: 0.05 },
+                    { type: "item", name: "Estoc", stats: { attack: 45 }, sellValue: 3, chance: 0.07 },
+                    { type: "item", name: "Black Stick Bead", stats: { attack: 45 }, sellValue: 3, chance: 0.07 },
+                    { type: "item", name: "Beam Siege Bow", stats: { attack: 45 }, sellValue: 3, chance: 0.07 },
+                    { type: "item", name: "Glow Suit", stats: { defense: 45 }, sellValue: 3, chance: 0.07 },
+                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 2, chance: 0.06 },
+                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 2, chance: 0.05 },
+                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 2, chance: 0.04 },
+                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 2, chance: 0.03 },
+                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.07 },
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.07 }
                 ]
             },
             "Calliana Atroc": {
@@ -4939,17 +5017,17 @@
                 map: "Ether Platform",
                 drops: [
                     { type: "currency", amount: 12, chance: 1.0 },
-                    { type: "material", name: "Winter Box", sellValue: 100, chance: 0.20 },
-                    { type: "item", name: "Estoc", stats: { attack: 45 }, sellValue: 20, chance: 0.3 },
-                    { type: "item", name: "Black Stick Bead", stats: { attack: 45 }, sellValue: 20, chance: 0.3 },
-                    { type: "item", name: "Beam Siege Bow", stats: { attack: 45 }, sellValue: 20, chance: 0.3 },
-                    { type: "item", name: "Glow Suit", stats: { defense: 45 }, sellValue: 20, chance: 0.4 },
-                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 10, chance: 0.14 },
-                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 10, chance: 0.12 },
-                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 10, chance: 0.10 },
-                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 10, chance: 0.08 },
-                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.35 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.35 }
+                    { type: "material", name: "Winter Box", sellValue: 20, chance: 0.05 },
+                    { type: "item", name: "Estoc", stats: { attack: 45 }, sellValue: 3, chance: 0.07 },
+                    { type: "item", name: "Black Stick Bead", stats: { attack: 45 }, sellValue: 3, chance: 0.07 },
+                    { type: "item", name: "Beam Siege Bow", stats: { attack: 45 }, sellValue: 3, chance: 0.07 },
+                    { type: "item", name: "Glow Suit", stats: { defense: 45 }, sellValue: 3, chance: 0.07 },
+                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 2, chance: 0.06 },
+                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 2, chance: 0.05 },
+                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 2, chance: 0.04 },
+                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 2, chance: 0.03 },
+                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.07 },
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.07 }
                 ]
             },
             "Calliana Crew": {
@@ -4961,17 +5039,17 @@
                 map: "Ether Platform",
                 drops: [
                     { type: "currency", amount: 12, chance: 1.0 },
-                    { type: "material", name: "Winter Box", sellValue: 100, chance: 0.20 },
-                    { type: "item", name: "Estoc", stats: { attack: 45 }, sellValue: 20, chance: 0.3 },
-                    { type: "item", name: "Black Stick Bead", stats: { attack: 45 }, sellValue: 20, chance: 0.3 },
-                    { type: "item", name: "Beam Siege Bow", stats: { attack: 45 }, sellValue: 20, chance: 0.3 },
-                    { type: "item", name: "Glow Suit", stats: { defense: 45 }, sellValue: 20, chance: 0.4 },
-                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 10, chance: 0.14 },
-                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 10, chance: 0.12 },
-                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 10, chance: 0.10 },
-                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 10, chance: 0.08 },
-                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.35 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.35 }
+                    { type: "material", name: "Winter Box", sellValue: 20, chance: 0.05 },
+                    { type: "item", name: "Estoc", stats: { attack: 45 }, sellValue: 3, chance: 0.07 },
+                    { type: "item", name: "Black Stick Bead", stats: { attack: 45 }, sellValue: 3, chance: 0.07 },
+                    { type: "item", name: "Beam Siege Bow", stats: { attack: 45 }, sellValue: 3, chance: 0.07 },
+                    { type: "item", name: "Glow Suit", stats: { defense: 45 }, sellValue: 3, chance: 0.07 },
+                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 2, chance: 0.06 },
+                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 2, chance: 0.05 },
+                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 2, chance: 0.04 },
+                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 2, chance: 0.03 },
+                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.07 },
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.07 }
                 ]
             },
 
@@ -4985,17 +5063,17 @@
                 map: "Ether Platform",
                 drops: [
                     { type: "currency", amount: 13, chance: 1.0 },
-                    { type: "material", name: "Winter Box", sellValue: 100, chance: 0.20 },
-                    { type: "item", name: "Estoc", stats: { attack: 45 }, sellValue: 20, chance: 0.3 },
-                    { type: "item", name: "Black Stick Bead", stats: { attack: 45 }, sellValue: 20, chance: 0.3 },
-                    { type: "item", name: "Beam Siege Bow", stats: { attack: 45 }, sellValue: 20, chance: 0.3 },
-                    { type: "item", name: "Glow Suit", stats: { defense: 45 }, sellValue: 20, chance: 0.4 },
-                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 10, chance: 0.14 },
-                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 10, chance: 0.12 },
-                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 10, chance: 0.10 },
-                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 10, chance: 0.08 },
-                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.35 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.35 }
+                    { type: "material", name: "Winter Box", sellValue: 20, chance: 0.05 },
+                    { type: "item", name: "Estoc", stats: { attack: 45 }, sellValue: 3, chance: 0.07 },
+                    { type: "item", name: "Black Stick Bead", stats: { attack: 45 }, sellValue: 3, chance: 0.07 },
+                    { type: "item", name: "Beam Siege Bow", stats: { attack: 45 }, sellValue: 3, chance: 0.07 },
+                    { type: "item", name: "Glow Suit", stats: { defense: 45 }, sellValue: 3, chance: 0.07 },
+                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 2, chance: 0.06 },
+                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 2, chance: 0.05 },
+                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 2, chance: 0.04 },
+                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 2, chance: 0.03 },
+                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.07 },
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.07 }
                 ]
             },
             "Calliana Crew II": { // Duplicate for Lures Lot
@@ -5007,17 +5085,17 @@
                 map: "Ether Platform",
                 drops: [
                     { type: "currency", amount: 13, chance: 1.0 },
-                    { type: "material", name: "Winter Box", sellValue: 100, chance: 0.20 },
-                    { type: "item", name: "Estoc", stats: { attack: 45 }, sellValue: 20, chance: 0.3 },
-                    { type: "item", name: "Black Stick Bead", stats: { attack: 45 }, sellValue: 20, chance: 0.3 },
-                    { type: "item", name: "Beam Siege Bow", stats: { attack: 45 }, sellValue: 20, chance: 0.3 },
-                    { type: "item", name: "Glow Suit", stats: { defense: 45 }, sellValue: 20, chance: 0.4 },
-                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 10, chance: 0.14 },
-                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 10, chance: 0.12 },
-                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 10, chance: 0.10 },
-                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 10, chance: 0.08 },
-                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.35 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.35 }
+                    { type: "material", name: "Winter Box", sellValue: 20, chance: 0.05 },
+                    { type: "item", name: "Estoc", stats: { attack: 45 }, sellValue: 3, chance: 0.07 },
+                    { type: "item", name: "Black Stick Bead", stats: { attack: 45 }, sellValue: 3, chance: 0.07 },
+                    { type: "item", name: "Beam Siege Bow", stats: { attack: 45 }, sellValue: 3, chance: 0.07 },
+                    { type: "item", name: "Glow Suit", stats: { defense: 45 }, sellValue: 3, chance: 0.07 },
+                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 2, chance: 0.06 },
+                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 2, chance: 0.05 },
+                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 2, chance: 0.04 },
+                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 2, chance: 0.03 },
+                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.07 },
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.07 }
                 ]
             },
             "Calliana Archer": {
@@ -5029,17 +5107,17 @@
                 map: "Ether Platform",
                 drops: [
                     { type: "currency", amount: 13, chance: 1.0 },
-                    { type: "material", name: "Winter Box", sellValue: 100, chance: 0.20 },
-                    { type: "item", name: "Estoc", stats: { attack: 45 }, sellValue: 20, chance: 0.3 },
-                    { type: "item", name: "Black Stick Bead", stats: { attack: 45 }, sellValue: 20, chance: 0.3 },
-                    { type: "item", name: "Beam Siege Bow", stats: { attack: 45 }, sellValue: 20, chance: 0.3 },
-                    { type: "item", name: "Glow Suit", stats: { defense: 45 }, sellValue: 20, chance: 0.4 },
-                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 10, chance: 0.14 },
-                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 10, chance: 0.12 },
-                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 10, chance: 0.10 },
-                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 10, chance: 0.08 },
-                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.35 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.35 }
+                    { type: "material", name: "Winter Box", sellValue: 20, chance: 0.05 },
+                    { type: "item", name: "Estoc", stats: { attack: 45 }, sellValue: 3, chance: 0.07 },
+                    { type: "item", name: "Black Stick Bead", stats: { attack: 45 }, sellValue: 3, chance: 0.07 },
+                    { type: "item", name: "Beam Siege Bow", stats: { attack: 45 }, sellValue: 3, chance: 0.07 },
+                    { type: "item", name: "Glow Suit", stats: { defense: 45 }, sellValue: 3, chance: 0.07 },
+                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 2, chance: 0.06 },
+                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 2, chance: 0.05 },
+                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 2, chance: 0.04 },
+                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 2, chance: 0.03 },
+                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.07 },
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.07 }
                 ]
             },
             "Assassin Builder B": {
@@ -5051,17 +5129,17 @@
                 map: "Ether Platform",
                 drops: [
                     { type: "currency", amount: 13, chance: 1.0 },
-                    { type: "material", name: "Winter Box", sellValue: 100, chance: 0.20 },
-                    { type: "item", name: "Estoc", stats: { attack: 45 }, sellValue: 20, chance: 0.3 },
-                    { type: "item", name: "Black Stick Bead", stats: { attack: 45 }, sellValue: 20, chance: 0.3 },
-                    { type: "item", name: "Beam Siege Bow", stats: { attack: 45 }, sellValue: 20, chance: 0.3 },
-                    { type: "item", name: "Glow Suit", stats: { defense: 45 }, sellValue: 20, chance: 0.4 },
-                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 10, chance: 0.14 },
-                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 10, chance: 0.12 },
-                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 10, chance: 0.10 },
-                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 10, chance: 0.08 },
-                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.35 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.35 }
+                    { type: "material", name: "Winter Box", sellValue: 20, chance: 0.05 },
+                    { type: "item", name: "Estoc", stats: { attack: 45 }, sellValue: 3, chance: 0.07 },
+                    { type: "item", name: "Black Stick Bead", stats: { attack: 45 }, sellValue: 3, chance: 0.07 },
+                    { type: "item", name: "Beam Siege Bow", stats: { attack: 45 }, sellValue: 3, chance: 0.07 },
+                    { type: "item", name: "Glow Suit", stats: { defense: 45 }, sellValue: 3, chance: 0.07 },
+                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 2, chance: 0.06 },
+                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 2, chance: 0.05 },
+                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 2, chance: 0.04 },
+                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 2, chance: 0.03 },
+                    { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.07 },
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.07 }
                 ]
             },
 
@@ -5076,19 +5154,19 @@
                 isBoss: true,
                 drops: [
                     { type: "currency", amount: 200, chance: 1.0 },
-                    { type: "material", name: "Winter Box", sellValue: 100, chance: 1.0, quantity: 10 },
-                    { type: "material", name: "Snowflake", sellValue: 50, chance: 1.0, quantity: 1 },
-                    { type: "item", name: "Calliana Sword", stats: { attack: 55 }, sellValue: 30, chance: 0.5 },
-                    { type: "item", name: "Calliana Staff", stats: { attack: 55 }, sellValue: 30, chance: 0.5 },
-                    { type: "item", name: "Calliana Bow", stats: { attack: 55 }, sellValue: 30, chance: 0.5 },
-                    { type: "item", name: "Calliana Armor", stats: { defense: 55 }, sellValue: 30, chance: 0.5 },
-                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 10, chance: 0.25 },
-                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 10, chance: 0.20 },
-                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 10, chance: 0.15 },
-                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 10, chance: 0.10 },
-                    { type: "item", name: "Mighty Ring", stats: { attack: 25, defense: 25 }, sellValue: 10, chance: 0.7 },
-                    { type: "item", name: "Cosmic Ring", stats: { attack: 30, defense: 30 }, sellValue: 10, chance: 0.5 },
-                    { type: "item", name: "Basic Wings", stats: { attack: 5, defense: 5 }, movementSpeed: 1.0, isWings: true, sellValue: 5, chance: 1.0 },
+                    { type: "material", name: "Winter Box", sellValue: 20, chance: 0.05 },
+                    { type: "material", name: "Snowflake", sellValue: 15, chance: 1.0, quantity: 1 },
+                    { type: "item", name: "Calliana Sword", stats: { attack: 55 }, sellValue: 20, chance: 0.9 },
+                    { type: "item", name: "Calliana Staff", stats: { attack: 55 }, sellValue: 20, chance: 0.9 },
+                    { type: "item", name: "Calliana Bow", stats: { attack: 55 }, sellValue: 20, chance: 0.9 },
+                    { type: "item", name: "Calliana Armor", stats: { defense: 55 }, sellValue: 20, chance: 0.9, quantity: 2 },
+                    { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 2, chance: 0.12 },
+                    { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 2, chance: 0.11 },
+                    { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 2, chance: 0.10 },
+                    { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 2, chance: 0.09 },
+                    { type: "item", name: "Mighty Ring", stats: { attack: 25, defense: 25 }, sellValue: 2, chance: 0.02 },
+                    { type: "item", name: "Cosmic Ring", stats: { attack: 30, defense: 30 }, sellValue: 2, chance: 0.01 },
+                    { type: "item", name: "Basic Wings", stats: { attack: 5, defense: 5 }, movementSpeed: 1.0, isWings: true, sellValue: 5, chance: 0.9 },
                     { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 1.0, quantity: 20 },
                     { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 1.0, quantity: 20 },
                     { type: "material", name: "Shiny Gem", stats: {}, sellValue: 10, chance: 1.0, quantity: 6 }
@@ -5921,7 +5999,7 @@
 
             // 1. EXTREME level jump (5+ levels at once = console cheat)
             const levelDiff = char.level - prevChar.level;
-            if (levelDiff >= 3) {
+            if (levelDiff >= 2) {
                 violations.push({
                     type: 'extreme_level_jump',
                     before: prevChar.level,
@@ -5933,7 +6011,7 @@
 
             // 2. EXTREME currency jump (100k+ at once = console cheat)
             const currencyDiff = data.currency - previousData.currency;
-            if (currencyDiff >= 999) {
+            if (currencyDiff >= 99999) {
                 violations.push({
                     type: 'extreme_currency_jump',
                     before: previousData.currency,
@@ -5945,7 +6023,7 @@
 
             // 3. EXTREME coins jump (10k+ at once = console cheat)
             const coinsDiff = data.coins - previousData.coins;
-            if (coinsDiff >= 500) {
+            if (coinsDiff >= 5) {
                 violations.push({
                     type: 'extreme_coins_jump',
                     before: previousData.coins,
@@ -5957,7 +6035,7 @@
 
             // 4. EXTREME inventory jump (100+ items at once = console cheat)
             const invDiff = data.inventory.length - previousData.inventory.length;
-            if (invDiff >= 100) {
+            if (invDiff >= 30) {
                 violations.push({
                     type: 'extreme_inventory_jump',
                     before: previousData.inventory.length,
@@ -8086,6 +8164,7 @@
                         }
                     }
 
+
                     // Class Weapon Restrictions
                     const playerClass = gameState.character.class;
                     let canEquip = true;
@@ -8093,7 +8172,7 @@
 
                     if (!isArmor && !isAccessory) { // It's a weapon
                         const name = item.name.toLowerCase();
-                        const isSword = name.includes('sword') || name.includes('blade') || name.includes('claymore') || name.includes('breaker') || name.includes('zweihander') || name.includes('man eater') || name.includes('eater');
+                        const isSword = name.includes('sword') || name.includes('blade') || name.includes('claymore') || name.includes('breaker') || name.includes('zweihander') || name.includes('man eater') || name.includes('eater') || name.includes('spadona');
                         const isStaff = name.includes('staff') || name.includes('wand') || name.includes('bead');
                         const isBow = name.includes('bow');
 
@@ -8110,7 +8189,7 @@
 
                     itemElement.innerHTML = `
                 <div class="item-compact-info">
-                    <div class="item-compact-name ${item.rarity === 't1' ? 'item-rarity-t1' : ''}" style="display: flex; justify-content: space-between;">
+                    <div class="item-compact-name ${item.rarity === 't1' ? 'item-rarity-t1' : (item.rarity === 'intense' ? 'item-rarity-intense' : (item.rarity === 'relic' ? 'item-rarity-relic' : ''))}" style="display: flex; justify-content: space-between;">
                         <span>${displayName}</span>
                         <span style="font-size: 0.8rem; color: var(--text-dim); font-weight: normal;">Price ${item.sellValue} 🍃</span>
                     </div>
@@ -9030,6 +9109,70 @@
         const shopItems = {
             leaves: [
                 {
+                    id: 'intense_spadona',
+                    name: 'Intense Spadona',
+                    icon: '⚔️',
+                    type: 'weapon',
+                    stats: '+50 Attack',
+                    price: 10000,
+                    currency: 'leaves',
+                    itemData: {
+                        name: 'Intense Spadona',
+                        type: 'weapon',
+                        stats: { attack: 50, defense: 0 },
+                        rarity: 'intense',
+                        sellValue: 99
+                    }
+                },
+                {
+                    id: 'intense_sickle_staff',
+                    name: 'Intense Sickle Staff',
+                    icon: '🪄',
+                    type: 'weapon',
+                    stats: '+50 Attack',
+                    price: 10000,
+                    currency: 'leaves',
+                    itemData: {
+                        name: 'Intense Sickle Staff',
+                        type: 'weapon',
+                        stats: { attack: 50, defense: 0 },
+                        rarity: 'intense',
+                        sellValue: 99
+                    }
+                },
+                {
+                    id: 'intense_sickle_bow',
+                    name: 'Intense Sickle Bow',
+                    icon: '🏹',
+                    type: 'weapon',
+                    stats: '+50 Attack',
+                    price: 10000,
+                    currency: 'leaves',
+                    itemData: {
+                        name: 'Intense Sickle Bow',
+                        type: 'weapon',
+                        stats: { attack: 50, defense: 0 },
+                        rarity: 'intense',
+                        sellValue: 99
+                    }
+                },
+                {
+                    id: 'intense_elixir_robe',
+                    name: 'Intense Elixir Robe',
+                    icon: '🥋',
+                    type: 'armor',
+                    stats: '+50 Attack',
+                    price: 10000,
+                    currency: 'leaves',
+                    itemData: {
+                        name: 'Intense Elixir Robe',
+                        type: 'armor',
+                        stats: { attack: 0, defense: 50 },
+                        rarity: 'intense',
+                        sellValue: 99
+                    }
+                },
+                {
                     id: 'arghol_sword_1',
                     name: 'Arghol Blade',
                     icon: '⚔️',
@@ -9071,7 +9214,6 @@
                         name: 'Arghol Bow',
                         type: 'weapon',
                         stats: { attack: 15, defense: 0 },
-                        rarity: 'epic',
                         sellValue: 99
                     }
                 },
@@ -9124,6 +9266,7 @@
                         name: 'Man Eater',
                         type: 'weapon',
                         stats: { attack: 150, defense: 0 },
+                        rarity: 'relic',
                         sellValue: 99
                     }
                 },
@@ -9139,6 +9282,7 @@
                         name: 'Accelleon',
                         type: 'weapon',
                         stats: { attack: 140, defense: 0 },
+                        rarity: 'relic',
                         sellValue: 99
                     }
                 },
@@ -9154,6 +9298,7 @@
                         name: 'Valkyrie',
                         type: 'weapon',
                         stats: { attack: 145, defense: 0 },
+                        rarity: 'relic',
                         sellValue: 99
                     }
                 }
@@ -9172,6 +9317,7 @@
                         name: 'Man Eater',
                         type: 'weapon',
                         stats: { attack: 150, defense: 0 },
+                        rarity: 'relic',
                         sellValue: 99
                     }
                 },
@@ -9188,6 +9334,7 @@
                         name: 'Accelleon',
                         type: 'weapon',
                         stats: { attack: 140, defense: 0 },
+                        rarity: 'relic',
                         sellValue: 99
                     }
                 },
@@ -9204,6 +9351,7 @@
                         name: 'Valkyrie',
                         type: 'weapon',
                         stats: { attack: 145, defense: 0 },
+                        rarity: 'relic',
                         sellValue: 99
                     }
                 }
@@ -9319,11 +9467,18 @@
                     break;
             }
 
+            let rarityClass = '';
+            if (item.itemData) {
+                if (item.itemData.rarity === 'intense') rarityClass = 'item-rarity-intense';
+                else if (item.itemData.rarity === 't1') rarityClass = 'item-rarity-t1';
+                else if (item.itemData.rarity === 'relic') rarityClass = 'item-rarity-relic';
+            }
+
             itemDiv.innerHTML = `
                 <div class="shop-item-header">
                     <div class="shop-item-left">
                         <div class="shop-item-icon">${item.icon}</div>
-                        <div class="shop-item-name">${item.name}</div>
+                        <div class="shop-item-name ${rarityClass}">${item.name}</div>
                     </div>
                     <div class="shop-item-price">${item.price.toLocaleString()} ${getCurrencyIcon(item.currency)}</div>
                 </div>
@@ -10496,22 +10651,22 @@
         function getEmoji(type) {
             switch (type) {
                 case 'currency': return '🍃';
-                case 'novice sword': return '🗡️';
+                case 'rusty sword': return '🗡️';
                 case 'sword breaker': return '🗡️';
                 case 'valkyrie sword': return '🗡️';
                 case 'zweihander': return '🗡️';
                 case 'arghol blade': return '🗡️';
-                case 'novice wand': return '🪄';
+                case 'rusty wand': return '🪄';
                 case 'battle staff': return '🪄';
                 case 'war wand': return '🪄';
                 case 'red bead': return '🪄';
                 case 'arghol staff': return '🪄';
-                case 'novice bow': return '🏹';
+                case 'rusty bow': return '🏹';
                 case 'assemble bow': return '🏹';
                 case 'tower bow': return '🏹';
                 case 'beam cross-bow': return '🏹';
                 case 'arghol bow': return '🏹';
-                case 'novice armor': return '🧥';
+                case 'rusty armor': return '🧥';
                 case 'leather shirt': return '🧥';
                 case 'hora tunic': return '🧥';
                 case 'coil armor': return '🧥';
@@ -11077,8 +11232,8 @@
 
                         // Handle the currency structure: {coins: 0, leaves: 30}
                         if (currentData.currency && typeof currentData.currency === 'object') {
-                            // Calculate tax (5%)
-                            const tax = Math.floor(price * 0.05);
+                            // Calculate tax (20%)
+                            const tax = Math.floor(price * 0.20);
                             const netEarnings = price - tax;
                             console.log(`💰 Price: ${price}, Tax: ${tax}, Net: ${netEarnings}`);
 
@@ -11092,7 +11247,7 @@
                             }
                         } else if (typeof currentData.currency === 'number') {
                             // Legacy: currency is a simple number
-                            const tax = Math.floor(price * 0.05);
+                            const tax = Math.floor(price * 0.20);
                             const netEarnings = price - tax;
 
                             console.log(`✅ Adding ${netEarnings} to currency (${currentData.currency})`);
@@ -11100,7 +11255,7 @@
                             console.log(`✅ New currency: ${currentData.currency}`);
                         } else {
                             // No currency structure, create it
-                            const tax = Math.floor(price * 0.05);
+                            const tax = Math.floor(price * 0.20);
                             const netEarnings = price - tax;
 
                             console.log(`⚠️ Creating new currency structure with leaves: ${netEarnings}`);
@@ -11249,7 +11404,7 @@
 
                 const price = parseInt(this.value) || 0;
                 if (price > 0 && taxDisplay) {
-                    const tax = Math.floor(price * 0.05);
+                    const tax = Math.floor(price * 0.20);
                     const net = price - tax;
 
                     if (taxAmountEl) taxAmountEl.textContent = `-${tax}`;
@@ -11543,6 +11698,1082 @@
         //     console.log('Window load event fired, calling initGame');
         //     initGame();
         // });
+
+        // ============================================
+        // CHIP WAR FUNCTIONS
+        // ============================================
+
+        // Get travel time based on player race and target chip
+        function getChipTravelTime(playerRace, targetRace) {
+            const travelTimes = {
+                'Accretia': {
+                    'Cora': 30,
+                    'Bellato': 50
+                },
+                'Bellato': {
+                    'Accretia': 50,
+                    'Cora': 45
+                },
+                'Cora': {
+                    'Accretia': 30,
+                    'Bellato': 45
+                }
+            };
+
+            return travelTimes[playerRace]?.[targetRace] || 50; // Default to 50 if not found
+        }
+
+        // Show Chip War modal
+        async function showChipWar() {
+            // Check if player is at HQ
+            if (gameState.currentMap !== 'HQ') {
+                addToBattleLog('⚠️ You must be at HQ to participate in Chip War!', 'warning');
+                alert('You must be at HQ to participate in Chip War!\nReturn to HQ first.');
+                return;
+            }
+
+            // Check if player is level 30 or above
+            const playerLevel = gameState.character?.level || 0;
+            if (playerLevel < 30) {
+                addToBattleLog('⚠️ Chip War is only available to players level 30 and above!', 'warning');
+                return;
+            }
+
+            const modal = document.getElementById('chip-war-modal');
+            modal.style.display = 'flex';
+
+            // Update player race display
+            const playerRaceDisplay = document.getElementById('player-race-display');
+            const playerRace = gameState.character?.race || 'Unknown';
+            playerRaceDisplay.textContent = playerRace;
+
+            // Check and reset chips if needed (12pm GMT+8 daily reset)
+            await checkAndResetChips();
+
+            // Load global chips from Firebase
+            await loadGlobalChips();
+            await loadLastHitters();
+            await loadNukeStates();
+
+            // Set up real-time listener for chip updates
+            setupChipListener();
+            setupLastHitterListener();
+            setupNukeListener();
+
+            // Start countdown timer
+            startChipWarResetTimer();
+
+            // Render chip list
+            renderChipList();
+
+            // Update UI if there's an active attack
+            if (gameState.chipAttack.isAttacking) {
+                updateChipAttackUI();
+            }
+        }
+
+        // Load last hitters from Firebase
+        async function loadLastHitters() {
+            try {
+                const { ref, get } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js');
+                const lastHitterRef = ref(db, 'chipLastHitter');
+                const snapshot = await get(lastHitterRef);
+
+                if (snapshot.exists()) {
+                    gameState.lastHitters = snapshot.val();
+                } else {
+                    gameState.lastHitters = {};
+                }
+            } catch (error) {
+                console.error('Error loading last hitters:', error);
+                gameState.lastHitters = {};
+            }
+        }
+
+        // Load nuke states from Firebase
+        async function loadNukeStates() {
+            try {
+                const { ref, get } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js');
+                const nukeRef = ref(db, 'chipNuke');
+                const snapshot = await get(nukeRef);
+
+                if (snapshot.exists()) {
+                    const nukeData = snapshot.val();
+                    // Update local nuke cooldown based on current race
+                    const playerRace = gameState.character?.race;
+                    if (playerRace && nukeData[playerRace]) {
+                        const raceNuke = nukeData[playerRace];
+                        gameState.chipNuke.lastNukeTime = raceNuke.lastNukeTime || 0;
+                        gameState.chipNuke.lastNukeTimestamp = raceNuke.lastNukeTimestamp || 0;
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading nuke states:', error);
+            }
+        }
+
+        // Setup listener for last hitters
+        async function setupLastHitterListener() {
+            try {
+                const { ref, onValue } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js');
+                const lastHitterRef = ref(db, 'chipLastHitter');
+
+                onValue(lastHitterRef, (snapshot) => {
+                    if (snapshot.exists()) {
+                        gameState.lastHitters = snapshot.val();
+                        if (document.getElementById('chip-war-modal').style.display === 'flex') {
+                            renderChipList();
+                        }
+                    }
+                });
+            } catch (error) {
+                console.error('Error setting up last hitter listener:', error);
+            }
+        }
+
+        // Setup listener for nuke states
+        async function setupNukeListener() {
+            try {
+                const { ref, onValue } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js');
+                const nukeRef = ref(db, 'chipNuke');
+
+                onValue(nukeRef, (snapshot) => {
+                    if (snapshot.exists()) {
+                        const nukeData = snapshot.val();
+                        const playerRace = gameState.character?.race;
+
+                        if (playerRace && nukeData[playerRace]) {
+                            const raceNuke = nukeData[playerRace];
+                            gameState.chipNuke.lastNukeTime = raceNuke.lastNukeTime || 0;
+                            gameState.chipNuke.lastNukeTimestamp = raceNuke.lastNukeTimestamp || 0;
+
+                            if (document.getElementById('chip-war-modal').style.display === 'flex') {
+                                renderChipList();
+                            }
+                        }
+                    }
+                });
+            } catch (error) {
+                console.error('Error setting up nuke listener:', error);
+            }
+        }
+
+        // Load global chips from Firebase
+        async function loadGlobalChips() {
+            try {
+                const { ref, get } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js');
+                const chipsRef = ref(db, 'globalChips');
+                const snapshot = await get(chipsRef);
+
+                if (snapshot.exists()) {
+                    gameState.chips = snapshot.val();
+                } else {
+                    // Initialize global chips if they don't exist
+                    await initializeGlobalChips();
+                }
+            } catch (error) {
+                console.error('Error loading global chips:', error);
+                // Use local chips as fallback
+            }
+        }
+
+        // Initialize global chips in Firebase
+        async function initializeGlobalChips() {
+            try {
+                const { ref, set } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js');
+                const chipsRef = ref(db, 'globalChips');
+
+                const initialChips = {
+                    Accretia: {
+                        race: "Accretia",
+                        maxHp: 30000,
+                        currentHp: 30000
+                    },
+                    Bellato: {
+                        race: "Bellato",
+                        maxHp: 30000,
+                        currentHp: 30000
+                    },
+                    Cora: {
+                        race: "Cora",
+                        maxHp: 30000,
+                        currentHp: 30000
+                    }
+                };
+
+                await set(chipsRef, initialChips);
+                gameState.chips = initialChips;
+                console.log('✅ Initialized global chips in Firebase');
+            } catch (error) {
+                console.error('Error initializing global chips:', error);
+            }
+        }
+
+        // Check and reset chips at 12pm GMT+8 daily
+        async function checkAndResetChips() {
+            try {
+                const { ref, get, set } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js');
+                const resetTimeRef = ref(db, 'chipWarLastReset');
+                const resetSnapshot = await get(resetTimeRef);
+
+                // Get current time in GMT+8
+                const now = new Date();
+                const gmt8Time = new Date(now.toLocaleString("en-US", { timeZone: "Asia/Singapore" }));
+                const currentHour = gmt8Time.getHours();
+                const currentDate = gmt8Time.toDateString();
+
+                // Check if it's past 12pm GMT+8 today
+                const shouldReset = currentHour >= 12;
+
+                if (resetSnapshot.exists()) {
+                    const lastReset = resetSnapshot.val();
+                    const lastResetDate = new Date(lastReset.timestamp).toDateString();
+
+                    // Reset if it's past 12pm and hasn't been reset today
+                    if (shouldReset && lastResetDate !== currentDate) {
+                        await resetChipHP();
+                        await set(resetTimeRef, { timestamp: Date.now() });
+                    }
+                } else {
+                    // First time - reset if past 12pm
+                    if (shouldReset) {
+                        await resetChipHP();
+                        await set(resetTimeRef, { timestamp: Date.now() });
+                    }
+                }
+            } catch (error) {
+                console.error('Error checking chip reset:', error);
+            }
+        }
+
+        // Reset all chip HP to full
+        async function resetChipHP() {
+            try {
+                const { ref, update } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js');
+                const chipsRef = ref(db, 'globalChips');
+
+                await update(chipsRef, {
+                    'Accretia/currentHp': 30000,
+                    'Bellato/currentHp': 30000,
+                    'Cora/currentHp': 30000
+                });
+
+                console.log('✅ Chip HP reset to full (12pm GMT+8 reset)');
+            } catch (error) {
+                console.error('Error resetting chip HP:', error);
+            }
+        }
+
+        // Start countdown timer for next reset (12pm GMT+8)
+        function startChipWarResetTimer() {
+            const timerElement = document.getElementById('chip-war-reset-timer');
+            if (!timerElement) return;
+
+            function updateTimer() {
+                const now = new Date();
+                const gmt8Time = new Date(now.toLocaleString("en-US", { timeZone: "Asia/Singapore" }));
+                const currentHour = gmt8Time.getHours();
+                const currentMinute = gmt8Time.getMinutes();
+                const currentSecond = gmt8Time.getSeconds();
+
+                // Calculate time until next 12pm GMT+8
+                let hoursUntilReset = 12 - currentHour;
+                let minutesUntilReset = 0 - currentMinute;
+                let secondsUntilReset = 0 - currentSecond;
+
+                if (hoursUntilReset < 0 || (hoursUntilReset === 0 && minutesUntilReset < 0)) {
+                    // Already past 12pm, reset is tomorrow
+                    hoursUntilReset = 24 + hoursUntilReset;
+                }
+
+                if (minutesUntilReset < 0) {
+                    minutesUntilReset = 60 + minutesUntilReset;
+                    hoursUntilReset--;
+                }
+
+                if (secondsUntilReset < 0) {
+                    secondsUntilReset = 60 + secondsUntilReset;
+                    minutesUntilReset--;
+                }
+
+                const hours = String(hoursUntilReset).padStart(2, '0');
+                const minutes = String(minutesUntilReset).padStart(2, '0');
+                const seconds = String(secondsUntilReset).padStart(2, '0');
+
+                timerElement.textContent = `Next Reset: ${hours}:${minutes}:${seconds}`;
+            }
+
+            updateTimer();
+            setInterval(updateTimer, 1000);
+        }
+
+        // Restore all chips to full HP (call from console: restoreAllChips())
+        window.restoreAllChips = async function () {
+            try {
+                const { ref, set } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js');
+                const chipsRef = ref(db, 'globalChips');
+
+                const restoredChips = {
+                    Accretia: {
+                        race: "Accretia",
+                        maxHp: 30000,
+                        currentHp: 30000
+                    },
+                    Bellato: {
+                        race: "Bellato",
+                        maxHp: 30000,
+                        currentHp: 30000
+                    },
+                    Cora: {
+                        race: "Cora",
+                        maxHp: 30000,
+                        currentHp: 30000
+                    }
+                };
+
+                await set(chipsRef, restoredChips);
+                gameState.chips = restoredChips;
+                console.log('✅ All chips restored to 30,000 HP!');
+                alert('All chips have been restored!');
+
+                // Refresh the modal if it's open
+                if (document.getElementById('chip-war-modal').style.display === 'flex') {
+                    await loadGlobalChips();
+                    renderChipList();
+                }
+                return 'Success!';
+            } catch (error) {
+                console.error('Error restoring chips:', error);
+                return 'Error: ' + error.message;
+            }
+        };
+
+        // Set up real-time listener for chip updates
+        let chipListenerUnsubscribe = null;
+        function setupChipListener() {
+            // Remove existing listener if any
+            if (chipListenerUnsubscribe) {
+                chipListenerUnsubscribe();
+            }
+
+            try {
+                const chipsRef = ref(db, 'globalChips');
+                chipListenerUnsubscribe = onValue(chipsRef, (snapshot) => {
+                    if (snapshot.exists()) {
+                        const newChipsData = snapshot.val();
+
+                        // Validate that we have complete chip data
+                        const requiredRaces = ['Accretia', 'Bellato', 'Cora'];
+                        const hasAllChips = requiredRaces.every(race =>
+                            newChipsData[race] &&
+                            typeof newChipsData[race].currentHp === 'number' &&
+                            typeof newChipsData[race].maxHp === 'number'
+                        );
+
+                        if (!hasAllChips) {
+                            console.warn('Received incomplete chip data from Firebase, ignoring update');
+                            return;
+                        }
+
+                        // Only update if data actually changed and we're not in the middle of an attack
+                        if (JSON.stringify(gameState.chips) !== JSON.stringify(newChipsData)) {
+                            gameState.chips = newChipsData;
+
+                            // Update UI if modal is open and we're not currently attacking
+                            const modal = document.getElementById('chip-war-modal');
+                            if (modal && modal.style.display === 'flex' && !gameState.chipAttack?.isAttacking) {
+                                renderChipList();
+                            }
+                        }
+                    } else {
+                        console.warn('No chip data in Firebase snapshot');
+                    }
+                });
+            } catch (error) {
+                console.error('Error setting up chip listener:', error);
+            }
+        }
+
+        // Render chip list
+        function renderChipList() {
+            const chipList = document.getElementById('chip-list');
+            const playerRace = gameState.character?.race;
+
+            if (!playerRace) {
+                chipList.innerHTML = '<div style="color: var(--text-dim); text-align: center; padding: 2rem;">No character found.</div>';
+                return;
+            }
+
+            chipList.innerHTML = '';
+
+            // Ensure chips data exists
+            if (!gameState.chips) {
+                console.error('No chips data found, initializing...');
+                gameState.chips = {
+                    Accretia: { race: "Accretia", maxHp: 30000, currentHp: 30000 },
+                    Bellato: { race: "Bellato", maxHp: 30000, currentHp: 30000 },
+                    Cora: { race: "Cora", maxHp: 30000, currentHp: 30000 }
+                };
+            }
+
+            // Get all chips in order
+            const races = ['Accretia', 'Bellato', 'Cora'];
+            const isAttacking = gameState.chipAttack.isAttacking;
+            const attackingRace = gameState.chipAttack.targetRace;
+
+            // Check if ANY chip is destroyed (chip war is over)
+            const anyChipDestroyed = races.some(r => gameState.chips[r] && gameState.chips[r].currentHp <= 0);
+
+            races.forEach(race => {
+                const chip = gameState.chips[race];
+                const isOwnChip = race === playerRace;
+
+                // Safely calculate HP percentage with fallbacks
+                let hpPercentage = 0;
+                let displayChip = chip;
+
+                if (chip && chip.maxHp && chip.maxHp > 0) {
+                    hpPercentage = Math.max(0, Math.min(100, Math.round((chip.currentHp / chip.maxHp) * 100)));
+                } else {
+                    console.warn(`Invalid chip data for ${race}, using defaults`);
+                    // Create a fallback chip object
+                    displayChip = {
+                        race: race,
+                        maxHp: 30000,
+                        currentHp: 30000
+                    };
+                    hpPercentage = 100;
+                }
+                const isAttackingThisChip = isAttacking && attackingRace === race;
+
+                // Determine HP bar gradient based on percentage
+                let hpGradient;
+                if (hpPercentage > 75) {
+                    hpGradient = 'linear-gradient(90deg, #28a745, #5cb85c)'; // Green
+                } else if (hpPercentage > 50) {
+                    hpGradient = 'linear-gradient(90deg, #ffc107, #ffdb4d)'; // Yellow
+                } else if (hpPercentage > 25) {
+                    hpGradient = 'linear-gradient(90deg, #fd7e14, #ff9147)'; // Orange
+                } else {
+                    hpGradient = 'linear-gradient(90deg, #dc3545, #e74c3c)'; // Red
+                }
+
+                // Determine button state
+                let buttonHTML = '';
+                if (isOwnChip) {
+                    // Own chip - show Nuke button (only when HP <= 50% and not destroyed)
+                    const chipHpPercentage = displayChip.currentHp / displayChip.maxHp * 100;
+                    const canNuke = !isAttacking && !anyChipDestroyed && chipHpPercentage <= 50 && displayChip.currentHp > 0;
+
+                    // Check cooldown
+                    const now = Date.now();
+                    const nextNukeTime = (gameState.chipNuke?.lastNukeTime || 0) + (180 * 1000); // 180 seconds
+                    const onCooldown = now < nextNukeTime;
+
+                    if (onCooldown) {
+                        const remainingSeconds = Math.ceil((nextNukeTime - now) / 1000);
+                        buttonHTML = `
+                            <div style="display: flex; justify-content: flex-end;">
+                                <button class="btn" disabled style="background-color: var(--secondary); padding: 0.3rem 0.6rem; font-size: 0.8rem;">
+                                    🚀 Nuke (${remainingSeconds}s)
+                                </button>
+                            </div>
+                        `;
+                    } else {
+                        buttonHTML = `
+                            <div style="display: flex; justify-content: flex-end;">
+                                <button class="btn" onclick="nukeChip()" ${canNuke ? '' : 'disabled'} style="background-color: ${canNuke ? '#e74c3c' : 'var(--accent)'}; padding: 0.3rem 0.6rem; font-size: 0.8rem;">
+                                    🚀 Nuke
+                                </button>
+                            </div>
+                        `;
+                    }
+                } else {
+                    // Enemy chip - show Attack/Stop button
+                    if (isAttackingThisChip) {
+                        buttonHTML = `
+                            <div style="display: flex; justify-content: flex-end;">
+                                <button class="btn btn-stop" onclick="stopChipAttack()" style="padding: 0.3rem 0.6rem; font-size: 0.8rem; background-color: #dc3545;">
+                                    🛑 Stop
+                                </button>
+                            </div>
+                        `;
+                    } else {
+                        // Disable attack if ANY chip is destroyed or currently attacking
+                        const canAttack = !isAttacking && !anyChipDestroyed;
+                        const thisChipDestroyed = displayChip.currentHp <= 0;
+                        buttonHTML = `
+                            <div style="display: flex; justify-content: flex-end;">
+                                <button 
+                                    class="btn ${canAttack ? '' : 'btn-secondary'}" 
+                                    onclick="attackChip('${race}')"
+                                    ${canAttack ? '' : 'disabled'}
+                                    style="padding: 0.3rem 0.6rem; font-size: 0.8rem; ${canAttack ? 'background-color: #007bff;' : ''}">
+                                    ${thisChipDestroyed ? '💀 Destroyed' : '⚔️ Attack'}
+                                </button>
+                            </div>
+                        `;
+                    }
+                }
+
+                const chipCard = document.createElement('div');
+                chipCard.style.cssText = 'background: var(--accent); padding: 1rem 1.5rem; border-radius: 8px; border: 2px solid rgba(255, 255, 255, 0.1); margin-bottom: 1rem;';
+
+                // Simple chip label
+                const chipLabel = `<div style="font-size: 1.1rem; font-weight: bold; color: var(--text);">${race} Chip</div>`;
+
+                // Ensure HP display always shows something
+                const displayHpPercentage = isNaN(hpPercentage) ? 0 : hpPercentage;
+                const displayHpGradient = hpGradient || 'linear-gradient(90deg, #dc3545, #e74c3c)';
+
+                chipCard.innerHTML = `
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem;">
+                        ${chipLabel}
+                        ${buttonHTML}
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <span style="color: var(--text-dim); font-size: 0.9rem; min-width: 30px;">HP</span>
+                        <div style="flex: 1; height: 18px; background: var(--darker-bg); border-radius: 9px; overflow: hidden; position: relative;">
+                            <div style="width: ${displayHpPercentage}%; height: 100%; background: ${displayHpGradient}; transition: width 0.3s ease;"></div>
+                            <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: bold; color: white; text-shadow: 0 0 4px rgba(0,0,0,0.8);">
+                                ${displayHpPercentage}%
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                chipList.appendChild(chipCard);
+            });
+        }
+
+        // Global listener unsubscribe for attacker results
+        let attackerListenerUnsubscribe = null;
+
+        // Setup listener for battle results
+        async function setupAttackerListener(targetRace) {
+            try {
+                const { ref, onValue, set } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js');
+                const user = window.currentUser;
+                if (!user) return;
+
+                const resultRef = ref(db, `chipAttacks/${targetRace}/${user.uid}/result`);
+
+                // Unsubscribe previous if exists
+                if (attackerListenerUnsubscribe) {
+                    attackerListenerUnsubscribe();
+                    attackerListenerUnsubscribe = null;
+                }
+
+                attackerListenerUnsubscribe = onValue(resultRef, (snapshot) => {
+                    const result = snapshot.val();
+                    if (result) {
+                        if (result.type === 'defeat') {
+                            gameState.stats.pvpPoints = Math.max(0, (gameState.stats.pvpPoints || 0) - 5);
+                            addToBattleLog(`💀 You were attacked by ${result.defenderName} and got defeated. -5 PVP Points`, 'danger');
+                            addToBattleLog('You have been kicked from the chip war.', 'info');
+                            stopChipAttack();
+                        } else if (result.type === 'win') {
+                            gameState.stats.pvpPoints = (gameState.stats.pvpPoints || 0) + 5;
+                            addToBattleLog(`🛡️ You were attacked by ${result.defenderName} but unsuccessful. +5 PVP Points`, 'success');
+                            addToBattleLog('You defended your position and continue attacking!', 'info');
+                        }
+
+                        // Update local UI
+                        if (document.getElementById('pvp-points-display')) {
+                            document.getElementById('pvp-points-display').textContent = gameState.stats.pvpPoints;
+                        }
+                        saveGameState();
+
+                        // Clear result
+                        set(resultRef, null);
+                    }
+                });
+            } catch (error) {
+                console.error('Error setting up attacker listener:', error);
+            }
+        }
+
+        // Stop attacking chip
+        function stopChipAttack() {
+            const targetRace = gameState.chipAttack.targetRace;
+
+            gameState.chipAttack = {
+                isAttacking: false,
+                targetRace: null,
+                startTime: null,
+                travelTime: 0,
+                damage: 0
+            };
+
+            // Remove attacker from Firebase
+            if (targetRace) {
+                try {
+                    const user = window.currentUser;
+                    if (user) {
+                        const attackerRef = ref(db, `chipAttacks/${targetRace}/${user.uid}`);
+                        set(attackerRef, null); // Remove entry
+                    }
+                } catch (error) {
+                    console.error('Error removing attacker:', error);
+                }
+            }
+
+            // Cleanup listener
+            if (attackerListenerUnsubscribe) {
+                attackerListenerUnsubscribe();
+                attackerListenerUnsubscribe = null;
+            }
+
+            saveGameState();
+            updateChipAttackUI();
+            renderChipList();
+            addToBattleLog('🛑 Stopped attacking chip.', 'info');
+        }
+
+        // Attack a chip
+        function attackChip(targetRace) {
+            const playerRace = gameState.character?.race;
+
+            if (!playerRace) {
+                addToBattleLog('⚠️ No character found!', 'warning');
+                return;
+            }
+
+            if (gameState.chipAttack.isAttacking) {
+                addToBattleLog('⚠️ Already attacking a chip!', 'warning');
+                return;
+            }
+
+            if (playerRace === targetRace) {
+                addToBattleLog('⚠️ Cannot attack your own race chip!', 'warning');
+                return;
+            }
+
+            const targetChip = gameState.chips[targetRace];
+            if (targetChip.currentHp <= 0) {
+                addToBattleLog(`⚠️ ${targetRace} chip is already destroyed!`, 'warning');
+                return;
+            }
+
+            // Calculate travel time
+            const travelTime = getChipTravelTime(playerRace, targetRace);
+
+            // Calculate damage (based on player's attack stat)
+            const damage = gameState.character?.attack || 100;
+
+            // Set attack state
+            gameState.chipAttack = {
+                isAttacking: true,
+                targetRace: targetRace,
+                startTime: Date.now(),
+                travelTime: travelTime * 1000, // Convert to milliseconds
+                damage: damage
+            };
+
+            // Track attacker in Firebase for defend mechanics
+            try {
+                const user = window.currentUser;
+                if (user) {
+                    const attackerRef = ref(db, `chipAttacks/${targetRace}/${user.uid}`);
+                    set(attackerRef, {
+                        name: gameState.character?.name || 'Unknown',
+                        attack: gameState.character?.attack || 0,
+                        defense: gameState.character?.defense || 0,
+                        timestamp: serverTimestamp()
+                    });
+
+                    // Setup listener for PvP results
+                    setupAttackerListener(targetRace);
+                }
+            } catch (error) {
+                console.error('Error tracking attacker:', error);
+            }
+
+            // Save game state
+            saveGameState();
+
+            // Log the attack
+            addToBattleLog(`🗡️ Traveling to attack ${targetRace} chip (${travelTime}s)...`, 'info');
+
+            // Update UI
+            updateChipAttackUI();
+            renderChipList();
+        }
+
+        // Update chip attack UI
+        function updateChipAttackUI() {
+            const activeAttackDisplay = document.getElementById('active-attack-display');
+            const targetNameSpan = document.getElementById('attack-target-name');
+
+            if (gameState.chipAttack.isAttacking) {
+                activeAttackDisplay.style.display = 'block';
+                targetNameSpan.textContent = `${gameState.chipAttack.targetRace} Chip`;
+            } else {
+                activeAttackDisplay.style.display = 'none';
+            }
+        }
+
+        // Update chip attack timer (called every second)
+        function updateChipAttackTimer() {
+            if (!gameState.chipAttack.isAttacking) return;
+
+            const now = Date.now();
+            const elapsed = now - gameState.chipAttack.startTime;
+            const remaining = Math.max(0, gameState.chipAttack.travelTime - elapsed);
+
+            // Update timer display
+            const timerDisplay = document.getElementById('attack-timer-display');
+            if (timerDisplay) {
+                const seconds = Math.ceil(remaining / 1000);
+                timerDisplay.textContent = `${seconds}s`;
+            }
+
+            // Check if attack is complete
+            if (remaining <= 0) {
+                completeChipAttack();
+            }
+        }
+
+        // Complete chip attack
+        async function completeChipAttack() {
+            const targetRace = gameState.chipAttack.targetRace;
+            const damage = gameState.chipAttack.damage;
+            const attackStartTime = gameState.chipAttack.startTime;
+
+            // Check if attack was disrupted by nuke (nuke used after attack started)
+            try {
+                const { ref, get } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js');
+                const nukeRef = ref(db, `chipNuke/${targetRace}`);
+                const nukeSnapshot = await get(nukeRef);
+
+                if (nukeSnapshot.exists()) {
+                    const nukeData = nukeSnapshot.val();
+                    const lastNukeTimestamp = nukeData.lastNukeTimestamp || 0;
+
+                    // If nuke was used after this attack started, disrupt it
+                    if (lastNukeTimestamp > attackStartTime) {
+                        addToBattleLog('🚀 Your attack was disrupted by a nuclear strike! You must restart your attack.', 'warning');
+
+                        // Reset attack state
+                        gameState.chipAttack = {
+                            isAttacking: false,
+                            targetRace: null,
+                            startTime: 0,
+                            travelTime: 0,
+                            damage: 0
+                        };
+                        saveGameState();
+                        renderChipList();
+                        updateChipAttackUI();
+                        return;
+                    }
+                }
+            } catch (error) {
+                console.error('Error checking nuke disruption:', error);
+            }
+
+            // Apply damage to chip locally
+            const targetChip = gameState.chips[targetRace];
+            const oldHp = targetChip.currentHp;
+            const newHp = Math.max(0, targetChip.currentHp - damage);
+
+            // Update global chip HP in Firebase
+            try {
+                const { ref, update } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js');
+                const chipRef = ref(db, `globalChips/${targetRace}`);
+
+                await update(chipRef, {
+                    currentHp: newHp
+                });
+
+                // Update local state
+                targetChip.currentHp = newHp;
+
+                // Log the result
+                addToBattleLog(`⚔️ Attacked ${targetRace} chip for ${damage.toLocaleString()} damage!`, 'damage');
+                addToBattleLog(`⚔️ Attacked ${targetRace} chip for ${damage.toLocaleString()} damage!`, 'damage');
+                if (newHp <= 0) {
+                    addToBattleLog(`💀 ${targetRace} chip has been destroyed!`, 'success');
+
+                    // Track last hitter and award coin
+                    const user = window.currentUser;
+                    if (user) {
+                        const lastHitterRef = ref(db, 'chipLastHitter');
+                        const currentLastHitters = gameState.lastHitters || {};
+                        currentLastHitters[targetRace] = {
+                            playerId: user?.uid || 'unknown',
+                            name: gameState.character?.name || 'Unknown',
+                            race: gameState.character?.race || 'Unknown'
+                        };
+                        await set(lastHitterRef, currentLastHitters);
+
+                        // Update local state immediately
+                        gameState.lastHitters = currentLastHitters;
+
+                        // Award 1 coin to destroyer
+                        gameState.coins += 1;
+                        document.getElementById('coins-amount').textContent = gameState.coins;
+
+
+                        saveGameState();
+
+                        // Re-render chip list to show updated breaker info
+                        renderChipList();
+                    }
+                } else {
+                    addToBattleLog(`${targetRace} chip HP: ${newHp.toLocaleString()} / ${targetChip.maxHp.toLocaleString()}`, 'info');
+                }
+
+                // Check if chip still has HP - if yes, continue attacking
+                if (newHp > 0) {
+                    // Continue attacking immediately (no travel time needed)
+                    // Just reset the timer for 1 second between attacks
+                    gameState.chipAttack = {
+                        isAttacking: true,
+                        targetRace: targetRace,
+                        startTime: Date.now(),
+                        travelTime: 1000, // 1 second cooldown between attacks
+                        damage: damage
+                    };
+
+                    // Save and update UI
+                    saveGameState();
+                    updateChipAttackUI();
+                    if (document.getElementById('chip-war-modal').style.display === 'flex') {
+                        renderChipList();
+                    }
+
+                    // Log that we're continuing the attack
+                    addToBattleLog(`⚔️ Attacking ${targetRace} chip...`, 'info');
+                } else {
+                    // Chip destroyed - reset attack state and remove from Firebase
+                    gameState.chipAttack = {
+                        isAttacking: false,
+                        targetRace: null,
+                        startTime: null,
+                        travelTime: 0,
+                        damage: 0
+                    };
+
+                    // Remove attacker from Firebase
+                    const user = window.currentUser;
+                    if (user) {
+                        const attackerRef = ref(db, `chipAttacks/${targetRace}/${user.uid}`);
+                        await set(attackerRef, null);
+                    }
+
+                    // Save game state
+                    saveGameState();
+
+                    // Update UI
+                    updateChipAttackUI();
+                    if (document.getElementById('chip-war-modal').style.display === 'flex') {
+                        renderChipList();
+                    }
+                }
+            } catch (error) {
+                console.error('Error updating global chip HP:', error);
+                addToBattleLog('⚠️ Failed to update chip HP. Please try again.', 'warning');
+
+                // Rollback local change
+                targetChip.currentHp = oldHp;
+
+                // Reset attack state on error
+                gameState.chipAttack = {
+                    isAttacking: false,
+                    targetRace: null,
+                    startTime: null,
+                    travelTime: 0,
+                    damage: 0
+                };
+
+                saveGameState();
+                updateChipAttackUI();
+                if (document.getElementById('chip-war-modal').style.display === 'flex') {
+                    renderChipList();
+                }
+            }
+        }
+
+        // Defend chip function
+        async function nukeChip() {
+            const playerRace = gameState.character?.race;
+            if (!playerRace) return;
+
+            // Check if already attacking (can't nuke while attacking)
+            if (gameState.chipAttack.isAttacking) {
+                addToBattleLog('⚠️ Cannot nuke while attacking!', 'warning');
+                return;
+            }
+
+            // Check HP requirement
+            const chip = gameState.chips[playerRace];
+            if (!chip || chip.currentHp <= 0) {
+                addToBattleLog('⚠️ Cannot nuke with destroyed chip!', 'warning');
+                return;
+            }
+            const hpPercentage = chip.currentHp / chip.maxHp * 100;
+            if (hpPercentage > 50) {
+                addToBattleLog('⚠️ Chip must be at 50% HP or below to nuke!', 'warning');
+                return;
+            }
+
+            // Check cooldown
+            const now = Date.now();
+            const lastNuke = gameState.chipNuke.lastNukeTime || 0;
+            if (now - lastNuke < 180 * 1000) {
+                const remaining = Math.ceil(((lastNuke + 180 * 1000) - now) / 1000);
+                addToBattleLog(`⚠️ Nuke is on cooldown! (${remaining}s)`, 'warning');
+                return;
+            }
+
+            // Set nuke timestamp to track when nuke was used
+            gameState.chipNuke.lastNukeTime = now;
+            gameState.chipNuke.lastNukeTimestamp = now;
+
+            // Save to Firebase - both cooldown and disruption timestamp
+            try {
+                const { ref, update } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js');
+                const nukeRef = ref(db, `chipNuke/${playerRace}`);
+                await update(nukeRef, {
+                    lastNukeTime: gameState.chipNuke.lastNukeTime,
+                    lastNukeTimestamp: gameState.chipNuke.lastNukeTimestamp
+                });
+            } catch (error) {
+                console.error('Error saving nuke data:', error);
+            }
+
+            saveGameState();
+            renderChipList();
+
+            // Force all attackers of this race to restart their attacks
+            await disruptAllAttackers(playerRace);
+
+            addToBattleLog('🚀 NUCLEAR STRIKE! All attackers of your chip have been disrupted and must restart!', 'success');
+        }
+
+
+        async function disruptAllAttackers(targetRace) {
+            try {
+                const { ref, remove, get } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js');
+
+                // Clear all attack records for this race (immediate disruption)
+                const attacksRef = ref(db, `chipAttacks/${targetRace}`);
+                await remove(attacksRef);
+
+                console.log(`Cleared all attack records against ${targetRace} chip`);
+                addToBattleLog('🚀 All ongoing attacks against your chip have been disrupted!', 'success');
+
+            } catch (error) {
+                console.error('Error disrupting attackers:', error);
+                addToBattleLog('⚠️ Error during nuclear disruption!', 'warning');
+            }
+        }
+
+
+        // Complete defend action (PvP Combat)
+        async function completeChipDefend() {
+            // Reset defend state but keep cooldown
+            gameState.chipDefend.isDefending = false;
+            gameState.chipDefend.startTime = null;
+
+            if (window.defendInterval) {
+                clearInterval(window.defendInterval);
+                window.defendInterval = null;
+            }
+
+            saveGameState();
+            renderChipList(); // Update button state
+
+            // PvP Logic
+            const myRace = gameState.character.race;
+            try {
+                const { ref, get, set, update } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js');
+
+                // Get attackers for my race chip
+                const attackersRef = ref(db, `chipAttacks/${myRace}`);
+                const snapshot = await get(attackersRef);
+
+                if (!snapshot.exists()) {
+                    addToBattleLog('🛡️ You arrived to defend, but no one is attacking!', 'info');
+                    return;
+                }
+
+                const attackers = snapshot.val();
+                const attackerIds = Object.keys(attackers);
+
+                if (attackerIds.length === 0) {
+                    addToBattleLog('🛡️ You arrived to defend, but no one is attacking!', 'info');
+                    return;
+                }
+
+                // Select random attacker
+                const randomId = attackerIds[Math.floor(Math.random() * attackerIds.length)];
+                const attacker = attackers[randomId];
+
+                // Calculate stats
+                const myStats = (gameState.character.attack || 0) + (gameState.character.defense || 0);
+                const enemyStats = (attacker.attack || 0) + (attacker.defense || 0);
+
+                addToBattleLog(`⚔️ PvP Initiated against ${attacker.name}! Comparing stats...`, 'info');
+
+                if (myStats >= enemyStats) {
+                    // WIN
+                    gameState.stats.pvpPoints = (gameState.stats.pvpPoints || 0) + 10;
+                    addToBattleLog(`🏆 You attacked ${attacker.name} and WON! +10 PVP Points`, 'success');
+
+                    // Notify attacker of defeat
+                    const attackerResultRef = ref(db, `chipAttacks/${myRace}/${randomId}/result`);
+                    await set(attackerResultRef, {
+                        type: 'defeat',
+                        defenderName: gameState.character.name,
+                        pPointsChange: -5,
+                        timestamp: Date.now()
+                    });
+
+                } else {
+                    // LOSE
+                    gameState.stats.pvpPoints = Math.max(0, (gameState.stats.pvpPoints || 0) - 5);
+                    addToBattleLog(`💀 You attacked ${attacker.name} and LOST! -5 PVP Points`, 'danger');
+                    addToBattleLog('You have been sent back to HQ.', 'info');
+
+                    // Notify attacker of win
+                    const attackerResultRef = ref(db, `chipAttacks/${myRace}/${randomId}/result`);
+                    await set(attackerResultRef, {
+                        type: 'win',
+                        defenderName: gameState.character.name,
+                        pPointsChange: 5,
+                        timestamp: Date.now()
+                    });
+                }
+
+                // Update currency/points display
+                if (document.getElementById('pvp-points-display')) {
+                    document.getElementById('pvp-points-display').textContent = gameState.stats.pvpPoints;
+                }
+                saveGameState();
+
+            } catch (error) {
+                console.error('Error in PvP defend:', error);
+                addToBattleLog('⚠️ PvP Error: ' + error.message, 'warning');
+            }
+        }
+
+        // Make chip war functions globally accessible
+        window.showChipWar = showChipWar;
+        window.attackChip = attackChip;
+        window.nukeChip = nukeChip;
+        window.renderChipList = renderChipList;
+
+        // Add chip war button event listener
+        const chipWarBtn = document.getElementById('chip-war-btn');
+        if (chipWarBtn) {
+            chipWarBtn.addEventListener('click', showChipWar);
+        }
+
+        // Update chip attack timer every second
+        setInterval(updateChipAttackTimer, 1000);
+
     </script>
     <!-- Chatbox -->
     <div id="chatbox" class="chatbox minimized">
@@ -11571,7 +12802,7 @@
             position: fixed;
             bottom: 0;
             right: 20px;
-            width: 300px;
+            width: 350px;
             background-color: var(--panel-bg);
             border: 1px solid var(--accent);
             border-top-left-radius: 8px;
