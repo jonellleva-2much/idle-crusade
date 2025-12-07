@@ -2157,8 +2157,8 @@
             <ul>
                 <li><a href="#" class="active">Game</a></li>
                 <li style="display: none;"><a href="#" id="maps-btn">Maps</a></li>
-                <li><a href="#" id="chip-war-btn">Chip War</a></li>
                 <li><a href="#" id="arena-btn">Arena</a></li>
+                <li><a href="#" id="chip-war-btn">Chip War</a></li>
                 <li><a href="#" id="market-btn">Market</a></li>
                 <li><a href="#" id="shop-btn">Shop</a></li>
                 <li>
@@ -2407,7 +2407,8 @@
             <h2 class="modal-title">CREATE CHARACTER</h2>
             <div class="form-group">
                 <label class="form-label" for="char-name-input">Character Name</label>
-                <input type="text" class="form-input" id="char-name-input" placeholder="Enter your character name">
+                <input type="text" class="form-input" id="char-name-input" placeholder="Enter your character name"
+                    maxlength="10">
             </div>
 
             <div class="form-group">
@@ -2880,8 +2881,15 @@
                 <h2 class="modal-title" style="margin-bottom: 0;">⚔️ ARENA <span
                         style="font-size: 1rem; color: var(--text-dim); margin-left: 1rem; font-weight: normal;">Next
                         Reset: <span id="arena-reset-timer">--:--:--</span></span></h2>
-                <button class="close-modal" onclick="document.getElementById('arena-modal').style.display='none'"
-                    style="position: static;">×</button>
+                <div style="display: flex; gap: 1rem; align-items: center;">
+                    <button class="btn-secondary" onclick="showChallengeLogs()"
+                        onmouseover="this.style.background='rgba(255,255,255,0.1)'"
+                        onmouseout="this.style.background='transparent'"
+                        style="padding: 0.5rem 1rem; font-size: 0.9rem; background: transparent; border: 1px solid var(--text-dim); color: inherit; transition: background 0.2s;">📜
+                        Challenge Logs</button>
+                    <button class="close-modal" onclick="document.getElementById('arena-modal').style.display='none'"
+                        style="position: static;">×</button>
+                </div>
             </div>
 
             <div class="arena-container" id="arena-container">
@@ -2920,6 +2928,21 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Challenge Logs Modal -->
+    <div class="modal" id="challenge-logs-modal" style="z-index: 2000;">
+        <div class="modal-content" style="max-width: 600px; max-height: 80vh;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                <h2 class="modal-title" style="margin-bottom: 0;">📜 Challenge Logs</h2>
+                <button class="close-modal"
+                    onclick="document.getElementById('challenge-logs-modal').style.display='none'"
+                    style="position: static;">×</button>
+            </div>
+            <div id="challenge-logs-content" style="max-height: 60vh; overflow-y: auto;">
+                <div style="color: var(--text-dim); text-align: center; padding: 2rem;">Loading...</div>
             </div>
         </div>
     </div>
@@ -4176,30 +4199,30 @@
                 "Arghol Wasp": {
                     name: "Arghol Wasp",
                     level: 15,
-                    maxHp: 3000,
-                    currentHp: 3000,
-                    attack: 100,
-                    defense: 100,
+                    maxHp: 5000,
+                    currentHp: 5000,
+                    attack: 150,
+                    defense: 150,
                     isAlive: true,
                     lastDefeated: null
                 },
                 "Turncoat Knight": {
                     name: "Turncoat Knight",
                     level: 30,
-                    maxHp: 6000,
-                    currentHp: 6000,
-                    attack: 150,
-                    defense: 150,
+                    maxHp: 10000,
+                    currentHp: 10000,
+                    attack: 200,
+                    defense: 200,
                     isAlive: true,
                     lastDefeated: null
                 },
                 "Calliana Princess": {
                     name: "Calliana Princess",
                     level: 50,
-                    maxHp: 9000,
-                    currentHp: 9000,
-                    attack: 200,
-                    defense: 200,
+                    maxHp: 15000,
+                    currentHp: 15000,
+                    attack: 300,
+                    defense: 300,
                     isAlive: true,
                     lastDefeated: null
                 }
@@ -4233,7 +4256,9 @@
             chipNuke: {
                 lastNukeTime: 0, // for 180-second cooldown
                 lastNukeTimestamp: 0 // timestamp of last nuke use
-            }
+            },
+            // ARENA STATE
+            arenaBattleInProgress: false // Prevent opening Arena during a battle
         };
 
         // Class base stats and level up system (Nerfed by ~35% total)
@@ -4419,7 +4444,7 @@
                     { type: "item", name: "Valkyrie Sword", stats: { attack: 8 }, sellValue: 1, chance: 0.05 },
                     { type: "item", name: "War Wand", stats: { attack: 8 }, sellValue: 1, chance: 0.05 },
                     { type: "item", name: "Tower Bow", stats: { attack: 8 }, sellValue: 1, chance: 0.05 },
-                    { type: "item", name: "Hora Tunic", stats: { defense: 8 }, sellValue: 1, chance: 0.05 },
+                    { type: "item", name: "Light Tunic", stats: { defense: 8 }, sellValue: 1, chance: 0.05 },
                     { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 2, chance: 0.03 },
                     { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 2, chance: 0.02 },
                     { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 2, chance: 0.01 },
@@ -4439,7 +4464,7 @@
                     { type: "item", name: "Valkyrie Sword", stats: { attack: 8 }, sellValue: 1, chance: 0.05 },
                     { type: "item", name: "War Wand", stats: { attack: 8 }, sellValue: 1, chance: 0.05 },
                     { type: "item", name: "Tower Bow", stats: { attack: 8 }, sellValue: 1, chance: 0.05 },
-                    { type: "item", name: "Hora Tunic", stats: { defense: 8 }, sellValue: 1, chance: 0.05 },
+                    { type: "item", name: "Light Tunic", stats: { defense: 8 }, sellValue: 1, chance: 0.05 },
                     { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 2, chance: 0.03 },
                     { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 2, chance: 0.02 },
                     { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 2, chance: 0.01 },
@@ -4459,7 +4484,7 @@
                     { type: "item", name: "Valkyrie Sword", stats: { attack: 8 }, sellValue: 1, chance: 0.05 },
                     { type: "item", name: "War Wand", stats: { attack: 8 }, sellValue: 1, chance: 0.05 },
                     { type: "item", name: "Tower Bow", stats: { attack: 8 }, sellValue: 1, chance: 0.05 },
-                    { type: "item", name: "Hora Tunic", stats: { defense: 8 }, sellValue: 1, chance: 0.05 },
+                    { type: "item", name: "Light Tunic", stats: { defense: 8 }, sellValue: 1, chance: 0.05 },
                     { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 2, chance: 0.03 },
                     { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 2, chance: 0.02 },
                     { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 2, chance: 0.01 },
@@ -4533,9 +4558,9 @@
             // BOSS - Arghol Wasp
             "Arghol Wasp": {
                 level: 15,
-                hp: 3000,
-                attack: 100,
-                defense: 100,
+                hp: 5000,
+                attack: 150,
+                defense: 150,
                 explorationTime: 720,
                 map: "HQ",
                 isBoss: true,
@@ -4551,7 +4576,7 @@
                     { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 2, chance: 0.07 },
                     { type: "item", name: "Mighty Ring", stats: { attack: 25, defense: 25 }, sellValue: 2, chance: 0.02 },
                     { type: "item", name: "Cosmic Ring", stats: { attack: 30, defense: 30 }, sellValue: 2, chance: 0.01 },
-                    { type: "item", name: "Basic Wings", stats: { attack: 5, defense: 5 }, movementSpeed: 1.0, isWings: true, sellValue: 5, chance: 0.9 },
+                    { type: "item", name: "Basic Wings", stats: { attack: 5, defense: 5 }, movementSpeed: 1.0, isWings: true, sellValue: 5, chance: 0.5 },
                     { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 1.0, quantity: 10 },
                     { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 1.0, quantity: 10 },
                     { type: "material", name: "Shiny Gem", stats: {}, sellValue: 5, chance: 1.0, quantity: 2 }
@@ -4780,9 +4805,9 @@
             // BOSS - Turncoat Knight
             "Turncoat Knight": {
                 level: 30,
-                hp: 6000,
-                attack: 150,
-                defense: 150,
+                hp: 10000,
+                attack: 200,
+                defense: 200,
                 explorationTime: 720,
                 map: "Sette Desert",
                 isBoss: true,
@@ -4798,7 +4823,7 @@
                     { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 2, chance: 0.08 },
                     { type: "item", name: "Mighty Ring", stats: { attack: 25, defense: 25 }, sellValue: 2, chance: 0.02 },
                     { type: "item", name: "Cosmic Ring", stats: { attack: 30, defense: 30 }, sellValue: 2, chance: 0.01 },
-                    { type: "item", name: "Basic Wings", stats: { attack: 5, defense: 5 }, movementSpeed: 1.0, isWings: true, sellValue: 5, chance: 0.9 },
+                    { type: "item", name: "Basic Wings", stats: { attack: 5, defense: 5 }, movementSpeed: 1.0, isWings: true, sellValue: 5, chance: 0.5 },
                     { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 1.0, quantity: 15 },
                     { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 1.0, quantity: 15 },
                     { type: "material", name: "Shiny Gem", stats: {}, sellValue: 10, chance: 1.0, quantity: 4 }
@@ -5146,9 +5171,9 @@
             // BOSS - Calliana Princess (Lures Lot only)
             "Calliana Princess": {
                 level: 50,
-                hp: 9000,
-                attack: 200,
-                defense: 200,
+                hp: 15000,
+                attack: 300,
+                defense: 300,
                 area: "Lures Lot",
                 map: "Ether Platform",
                 isBoss: true,
@@ -5166,7 +5191,7 @@
                     { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 2, chance: 0.09 },
                     { type: "item", name: "Mighty Ring", stats: { attack: 25, defense: 25 }, sellValue: 2, chance: 0.02 },
                     { type: "item", name: "Cosmic Ring", stats: { attack: 30, defense: 30 }, sellValue: 2, chance: 0.01 },
-                    { type: "item", name: "Basic Wings", stats: { attack: 5, defense: 5 }, movementSpeed: 1.0, isWings: true, sellValue: 5, chance: 0.9 },
+                    { type: "item", name: "Basic Wings", stats: { attack: 5, defense: 5 }, movementSpeed: 1.0, isWings: true, sellValue: 5, chance: 0.5 },
                     { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 1.0, quantity: 20 },
                     { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 1.0, quantity: 20 },
                     { type: "material", name: "Shiny Gem", stats: {}, sellValue: 10, chance: 1.0, quantity: 6 }
@@ -5187,7 +5212,7 @@
                 requirements: {
                     item: { name: "Arghol Blade", upgradeLevel: 5 },
                     materials: { "Red Gem": 5, "Blue Gem": 5, "Shiny Gem": 1 },
-                    currency: 500
+                    currency: 1000
                 }
             },
             "T1 Arghol Staff": {
@@ -5200,7 +5225,7 @@
                 requirements: {
                     item: { name: "Arghol Staff", upgradeLevel: 5 },
                     materials: { "Red Gem": 5, "Blue Gem": 5, "Shiny Gem": 1 },
-                    currency: 500
+                    currency: 1000
                 }
             },
             "T1 Arghol Bow": {
@@ -5213,7 +5238,7 @@
                 requirements: {
                     item: { name: "Arghol Bow", upgradeLevel: 5 },
                     materials: { "Red Gem": 5, "Blue Gem": 5, "Shiny Gem": 1 },
-                    currency: 500
+                    currency: 1000
                 }
             },
             "T1 Arghol Armor": {
@@ -5226,7 +5251,7 @@
                 requirements: {
                     item: { name: "Arghol Armor", upgradeLevel: 5 },
                     materials: { "Red Gem": 5, "Blue Gem": 5, "Shiny Gem": 1 },
-                    currency: 500
+                    currency: 1000
                 }
             },
 
@@ -5241,7 +5266,7 @@
                 requirements: {
                     item: { name: "Turncoat Sword", upgradeLevel: 5 },
                     materials: { "Red Gem": 8, "Blue Gem": 8, "Shiny Gem": 2 },
-                    currency: 700
+                    currency: 1500
                 }
             },
             "T1 Turncoat Staff": {
@@ -5254,7 +5279,7 @@
                 requirements: {
                     item: { name: "Turncoat Staff", upgradeLevel: 5 },
                     materials: { "Red Gem": 8, "Blue Gem": 8, "Shiny Gem": 2 },
-                    currency: 700
+                    currency: 1500
                 }
             },
             "T1 Turncoat Bow": {
@@ -5267,7 +5292,7 @@
                 requirements: {
                     item: { name: "Turncoat Bow", upgradeLevel: 5 },
                     materials: { "Red Gem": 8, "Blue Gem": 8, "Shiny Gem": 2 },
-                    currency: 700
+                    currency: 1500
                 }
             },
             "T1 Turncoat Armor": {
@@ -5280,7 +5305,7 @@
                 requirements: {
                     item: { name: "Turncoat Armor", upgradeLevel: 5 },
                     materials: { "Red Gem": 8, "Blue Gem": 8, "Shiny Gem": 2 },
-                    currency: 700
+                    currency: 1500
                 }
             },
             "T1 Calliana Sword": {
@@ -5293,7 +5318,7 @@
                 requirements: {
                     item: { name: "Calliana Sword", upgradeLevel: 5 },
                     materials: { "Red Gem": 11, "Blue Gem": 11, "Shiny Gem": 3 },
-                    currency: 900
+                    currency: 2000
                 }
             },
             "T1 Calliana Staff": {
@@ -5306,7 +5331,7 @@
                 requirements: {
                     item: { name: "Calliana Staff", upgradeLevel: 5 },
                     materials: { "Red Gem": 11, "Blue Gem": 11, "Shiny Gem": 3 },
-                    currency: 900
+                    currency: 2000
                 }
             },
             "T1 Calliana Bow": {
@@ -5319,7 +5344,7 @@
                 requirements: {
                     item: { name: "Calliana Bow", upgradeLevel: 5 },
                     materials: { "Red Gem": 11, "Blue Gem": 11, "Shiny Gem": 3 },
-                    currency: 900
+                    currency: 2000
                 }
             },
             "T1 Calliana Armor": {
@@ -5332,7 +5357,7 @@
                 requirements: {
                     item: { name: "Calliana Armor", upgradeLevel: 5 },
                     materials: { "Red Gem": 11, "Blue Gem": 11, "Shiny Gem": 3 },
-                    currency: 900
+                    currency: 2000
                 }
             },
         };
@@ -5697,9 +5722,9 @@
                 // Force update boss static stats (MaxHP, Level, etc.) from source
                 // This fixes issues where old save data has outdated boss stats (e.g. Turncoat Knight 25k HP)
                 const defaultBosses = {
-                    "Arghol Wasp": { maxHp: 3000, attack: 100, defense: 100, level: 15 },
-                    "Turncoat Knight": { maxHp: 6000, attack: 150, defense: 150, level: 30 },
-                    "Calliana Princess": { maxHp: 9000, attack: 200, defense: 200, level: 50 }
+                    "Arghol Wasp": { maxHp: 5000, attack: 150, defense: 150, level: 15 },
+                    "Turncoat Knight": { maxHp: 10000, attack: 200, defense: 200, level: 30 },
+                    "Calliana Princess": { maxHp: 15000, attack: 300, defense: 300, level: 50 }
                 };
 
                 Object.entries(defaultBosses).forEach(([bossName, stats]) => {
@@ -6011,7 +6036,7 @@
 
             // 2. EXTREME currency jump (100k+ at once = console cheat)
             const currencyDiff = data.currency - previousData.currency;
-            if (currencyDiff >= 99999) {
+            if (currencyDiff >= 80000) {
                 violations.push({
                     type: 'extreme_currency_jump',
                     before: previousData.currency,
@@ -6509,6 +6534,11 @@
 
             // Check if Accretia race (no gender required)
             const isAccretia = selectedRace && selectedRace.getAttribute('data-race') === 'Accretia';
+
+            if (nameInput.value.length > 16) {
+                alert('Character name must be 10 characters or less.');
+                return;
+            }
 
             if (!nameInput.value || !selectedRace || !selectedClass ||
                 (!isAccretia && !selectedGender)) {
@@ -8197,7 +8227,7 @@
                     <div class="item-compact-actions">
                         <button class="btn-small btn-equip" data-index="${index}" 
                             ${(!canEquip && !isEquipped) ? 'disabled style="opacity: 0.5; cursor: not-allowed;"' : ''}>
-                            ${(isEquipped) ? 'Unequip' : (canEquip ? 'Equip' : restrictionMsg)}
+                            ${isEquipped ? 'Unequip' : 'Equip'}
                         </button>
                         <button class="btn-small btn-sell" data-index="${index}" 
                             ${(isEquipped) ? 'disabled style="opacity: 0.5; cursor: not-allowed;"' : ''}>
@@ -9735,6 +9765,12 @@
 
         // Show Arena modal
         async function showArena() {
+            // Check if a battle is already in progress
+            if (gameState.arenaBattleInProgress) {
+                addToBattleLog('⚔️ You have an ongoing Arena battle! Please wait for it to finish.', 'warning');
+                return;
+            }
+
             const arenaModal = document.getElementById('arena-modal');
             arenaModal.style.display = 'flex';
 
@@ -9841,6 +9877,17 @@
 
                         ladderContent.appendChild(row);
                     }
+
+                    // Auto-scroll to player's rank
+                    setTimeout(() => {
+                        const playerRow = ladderContent.querySelector('.player-row');
+                        if (playerRow) {
+                            playerRow.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        } else {
+                            // If unranked, scroll to bottom
+                            ladderContent.scrollTop = ladderContent.scrollHeight;
+                        }
+                    }, 100);
                 });
 
             } catch (error) {
@@ -9871,19 +9918,26 @@
                     return;
                 }
 
-                // Close arena modal
+                // Close arena modal and set battle in progress
                 document.getElementById('arena-modal').style.display = 'none';
+                gameState.arenaBattleInProgress = true;
 
                 // Create player snapshot for battle
                 const char = gameState.character;
+                const effectiveStats = calculateEffectiveStats();
                 const playerSnapshot = {
                     name: char.name,
                     level: char.level,
+                    class: char.class,
                     hp: char.maxHp,
                     maxHp: char.maxHp,
-                    attack: char.attack,
-                    defense: char.defense,
-                    criticalChance: char.criticalChance || 0.05
+                    fp: char.fp,
+                    maxFp: char.maxFp,
+                    attack: effectiveStats.attack,
+                    defense: effectiveStats.defense,
+                    criticalChance: char.criticalChance || 0.05,
+                    lifesteal: char.equipped?.weapon?.lifesteal || null,
+                    damageReduction: char.equipped?.armor?.damageReduction || 0
                 };
 
                 // Create opponent snapshot
@@ -9897,23 +9951,29 @@
                     criticalChance: 0.05
                 };
 
-                // Run battle
-                addToBattleLog(`⚔️ Arena Battle: ${playerSnapshot.name} vs ${opponentSnapshot.name}!`, 'encounter');
+                // Run battle - styled announcement
+                addArenaLog(`<span style="color: #ffa500;">⚔️ <b>ARENA BATTLE:</b> ${playerSnapshot.name} vs ${opponentSnapshot.name}!</span>`);
 
                 const battleResult = await simulateArenaBattle(playerSnapshot, opponentSnapshot);
 
-                // Process battle result
+                // Process battle result and save fight log
                 if (battleResult.winner === 'player') {
                     addToBattleLog(`🏆 Victory! You defeated ${opponentSnapshot.name}!`, 'success');
                     await processArenaVictory(targetRank, opponent);
+                    await saveFightLog(playerSnapshot.name, opponentSnapshot.name, 'win', opponent.uid);
                 } else {
                     addToBattleLog(`💀 Defeat! You were defeated by ${opponentSnapshot.name}!`, 'damage');
                     await processArenaDefeat();
+                    await saveFightLog(playerSnapshot.name, opponentSnapshot.name, 'loss', opponent.uid);
                 }
+
+                // Battle is complete, allow Arena access again
+                gameState.arenaBattleInProgress = false;
 
             } catch (error) {
                 console.error('Error in arena challenge:', error);
                 alert('Failed to start arena battle. Please try again.');
+                gameState.arenaBattleInProgress = false;
             }
         }
 
@@ -9955,68 +10015,105 @@
             }
         }
 
-        // Simulate arena battle with skills and colored logs
+        // Simulate arena battle with skills, lifesteal, damage reduction and dramatic pacing
         async function simulateArenaBattle(player, opponent) {
             let playerHp = player.hp;
             let opponentHp = opponent.hp;
+            let playerFp = player.fp || 100;
             let turn = 0;
             const maxTurns = 100;
+
+            // Preparation phase - 5 second delay
+            addArenaLog(`⏳ Preparing for battle...`);
+            await new Promise(resolve => setTimeout(resolve, 5000));
 
             while (playerHp > 0 && opponentHp > 0 && turn < maxTurns) {
                 turn++;
 
-                // Player's turn
-                let playerDamage = Math.max(1, player.attack - opponent.defense * 0.5);
-                const playerCrit = Math.random() < player.criticalChance;
+                // ========== OPPONENT'S TURN (DEFENDER ATTACKS FIRST) ==========
+                // Base damage calculation
+                let opponentDamage = Math.max(1, opponent.attack - Math.floor(player.defense / 2));
 
-                // Check for skill usage (20% chance per turn)
-                if (Math.random() < 0.2 && player.level >= 10) {
-                    playerDamage *= 1.5; // Skills do 50% more damage
-                    const skillName = player.level >= 30 ? 'Elite Strike' :
-                        player.level >= 20 ? 'Expert Slash' : 'Basic Attack';
-                    addArenaLog(`${player.name} uses <span class="log-level">${skillName}</span>!`);
+                // Apply player's damage reduction from armor
+                if (player.damageReduction > 0) {
+                    const reducedAmount = Math.floor(opponentDamage * player.damageReduction);
+                    opponentDamage = Math.max(1, opponentDamage - reducedAmount);
                 }
 
-                let playerFinalDamage = Math.floor(playerCrit ? playerDamage * 1.5 : playerDamage);
-
-                opponentHp -= playerFinalDamage;
-
-                // Colored damage log for player
-                const damageText = `<span class="log-player-damage">${playerFinalDamage} damage</span>`;
-                const critText = playerCrit ? ' <span class="log-level">(CRIT!)</span>' : '';
-                addArenaLog(`${player.name} deals ${damageText}${critText}`);
-
-                if (opponentHp <= 0) {
-                    return { winner: 'player', turns: turn };
-                }
-
-                // Opponent's turn
-                let opponentDamage = Math.max(1, opponent.attack - player.defense * 0.5);
                 const opponentCrit = Math.random() < opponent.criticalChance;
-
-                // Opponent skill usage (20% chance)
-                if (Math.random() < 0.2 && opponent.level >= 10) {
-                    opponentDamage *= 1.5;
-                    const skillName = opponent.level >= 30 ? 'Elite Strike' :
-                        opponent.level >= 20 ? 'Expert Slash' : 'Basic Attack';
-                    addArenaLog(`${opponent.name} uses <span class="log-level">${skillName}</span>!`);
+                if (opponentCrit) {
+                    opponentDamage = Math.floor(opponentDamage * 1.5);
                 }
 
-                let opponentFinalDamage = Math.floor(opponentCrit ? opponentDamage * 1.5 : opponentDamage);
+                // Opponent skill usage (20% chance for bots)
+                let opponentSkillUsed = false;
+                if (Math.random() < 0.2 && opponent.level >= 10) {
+                    opponentDamage = Math.floor(opponentDamage * 1.5);
+                    opponentSkillUsed = true;
+                }
 
-                playerHp -= opponentFinalDamage;
+                playerHp -= opponentDamage;
 
-                // Colored damage log for opponent
-                const oppDamageText = `<span class="log-damage">${opponentFinalDamage} damage</span>`;
-                const oppCritText = opponentCrit ? ' <span class="log-level">(CRIT!)</span>' : '';
-                addArenaLog(`${opponent.name} deals ${oppDamageText}${oppCritText}`);
+                // Log opponent's attack with 3 second delay
+                await new Promise(resolve => setTimeout(resolve, 3000));
+                if (opponentSkillUsed) {
+                    const skillName = opponent.level >= 30 ? 'Elite Strike' :
+                        opponent.level >= 20 ? 'Expert Slash' : 'Power Attack';
+                    addArenaLog(`${opponent.name} uses <span class="log-level">${skillName}</span>! Deals <span class="log-damage">${opponentDamage} damage</span>.`);
+                } else if (opponentCrit) {
+                    addArenaLog(`⚡ ${opponent.name} lands a <span class="log-level">CRITICAL HIT</span>! Deals <span class="log-damage">${opponentDamage} damage</span>.`);
+                } else {
+                    addArenaLog(`${opponent.name} attacks for <span class="log-damage">${opponentDamage} damage</span>.`);
+                }
 
                 if (playerHp <= 0) {
                     return { winner: 'opponent', turns: turn };
                 }
 
-                // Small delay for readability
-                await new Promise(resolve => setTimeout(resolve, 100));
+                // ========== PLAYER'S TURN (CHALLENGER ATTACKS SECOND) ==========
+                // Base damage calculation (matching monster combat)
+                const basePlayerDamage = Math.max(1, player.attack - Math.floor(opponent.defense / 3));
+                const playerCrit = Math.random() < player.criticalChance;
+                const critMultiplier = playerCrit ? 1.5 : 1;
+                let playerDamage = Math.floor(basePlayerDamage * critMultiplier);
+
+                // Skill usage (30% chance, matching monster combat)
+                let skillUsed = null;
+                const mySkills = classSkills[player.class] || [];
+                const availableSkills = mySkills.filter(skill => player.level >= skill.level && playerFp >= skill.fpCost);
+
+                if (availableSkills.length > 0 && Math.random() < 0.3) {
+                    const randomSkillIndex = Math.floor(Math.random() * availableSkills.length);
+                    skillUsed = availableSkills[randomSkillIndex];
+                    playerDamage = Math.floor(playerDamage * skillUsed.damageMult);
+                    playerFp -= skillUsed.fpCost;
+                }
+
+                opponentHp -= playerDamage;
+
+                // Log player's attack with 3 second delay
+                await new Promise(resolve => setTimeout(resolve, 3000));
+                if (skillUsed) {
+                    addArenaLog(`${player.name} uses <span style="color: #00ffff;">${skillUsed.name}</span>! Deals <span class="log-player-damage">${playerDamage} damage</span>.`);
+                } else if (playerCrit) {
+                    addArenaLog(`⚡ ${player.name} lands a <span class="log-level">CRITICAL HIT</span>! Deals <span class="log-player-damage">${playerDamage} damage</span>.`);
+                } else {
+                    addArenaLog(`${player.name} attacks for <span class="log-player-damage">${playerDamage} damage</span>.`);
+                }
+
+                // Lifesteal (from equipped weapon)
+                if (player.lifesteal && Math.random() < player.lifesteal.chance) {
+                    const healAmount = Math.floor(playerDamage * player.lifesteal.multiplier);
+                    if (healAmount > 0) {
+                        playerHp = Math.min(player.maxHp, playerHp + healAmount);
+                        await new Promise(resolve => setTimeout(resolve, 3000));
+                        addArenaLog(`💚 Lifesteal! ${player.name} recovers <span style="color: #00ff00;">${healAmount} HP</span>.`);
+                    }
+                }
+
+                if (opponentHp <= 0) {
+                    return { winner: 'player', turns: turn };
+                }
             }
 
             // Timeout - whoever has more HP wins
@@ -10175,14 +10272,14 @@
                                 .join(' | ');
                         }
                         if (item.isWings && item.movementSpeed) {
-                            statsText += ` | SPD: +${Math.round((item.movementSpeed - 1) * 100)}%`;
+                            statsText += ` | SPD: ${item.movementSpeed}`;
                         }
 
                         const gearHtml = `
                             <div class="inspect-gear-item">
                                 <div class="inspect-gear-icon">${slot.icon}</div>
                                 <div class="inspect-gear-info">
-                                    <div class="inspect-gear-name">${item.name} <span style="color: var(--accent-color); font-size: 0.8rem;">+${item.level || 0}</span></div>
+                                    <div class="inspect-gear-name">${item.name} <span style="color: var(--accent-color); font-size: 0.8rem;">+${item.upgradeLevel || 0}</span></div>
                                     <div class="inspect-gear-stats">${statsText}</div>
                                 </div>
                             </div>
@@ -10238,9 +10335,114 @@
             }
         }
 
+        // Show Challenge Logs modal
+        async function showChallengeLogs() {
+            const modal = document.getElementById('challenge-logs-modal');
+            const content = document.getElementById('challenge-logs-content');
+
+            modal.style.display = 'flex';
+            content.innerHTML = '<div style="color: var(--text-dim); text-align: center; padding: 2rem;">Loading...</div>';
+
+            if (!window.currentUser) {
+                content.innerHTML = '<div style="color: var(--text-dim); text-align: center; padding: 2rem;">Please log in to view logs.</div>';
+                return;
+            }
+
+            try {
+                const { ref, get, query, orderByChild, limitToLast } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js');
+
+                const logsRef = ref(db, `arena/fightLogs/${window.currentUser.uid}`);
+                const logsQuery = query(logsRef, orderByChild('timestamp'), limitToLast(20));
+                const snapshot = await get(logsQuery);
+
+                if (!snapshot.exists()) {
+                    content.innerHTML = '<div style="color: var(--text-dim); text-align: center; padding: 2rem;">No challenge logs yet. Start fighting in the Arena!</div>';
+                    return;
+                }
+
+                // Convert to array and sort by timestamp (newest first)
+                const logs = [];
+                snapshot.forEach(child => {
+                    logs.push({ id: child.key, ...child.val() });
+                });
+                logs.sort((a, b) => b.timestamp - a.timestamp);
+
+                // Build HTML
+                content.innerHTML = logs.map(log => {
+                    const isWin = log.result === 'win';
+                    const icon = isWin ? '🏆' : '💀';
+                    const bgColor = isWin ? 'rgba(0, 255, 0, 0.1)' : 'rgba(255, 0, 0, 0.1)';
+                    const resultText = isWin ? '<span style="color: var(--success);">WON</span>' : '<span style="color: var(--danger);">LOST</span>';
+                    const isChallenged = log.type === 'challenged';
+                    const actionText = isChallenged ? '<span style="color: #f39c12;">You challenged</span>' : '<span style="color: #3498db;">You were challenged by</span>';
+                    const timeAgo = getTimeAgo(log.timestamp);
+
+                    return `<div style="padding: 0.75rem; margin-bottom: 0.5rem; background: ${bgColor}; border-radius: 6px; border-left: 3px solid ${isWin ? 'var(--success)' : 'var(--danger)'};">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div style="flex: 1;">${icon} ${actionText} <b>${log.opponent}</b></div>
+                            <div style="text-align: right; white-space: nowrap;">
+                                ${resultText}
+                                <span style="color: var(--text-dim); font-size: 0.8rem; margin-left: 0.8rem;">${timeAgo}</span>
+                            </div>
+                        </div>
+                    </div>`;
+                }).join('');
+
+            } catch (error) {
+                console.error('Error loading challenge logs:', error);
+                content.innerHTML = '<div style="color: var(--danger); text-align: center; padding: 2rem;">Error loading logs.</div>';
+            }
+        }
+
+        // Save fight log to Firebase for both players
+        async function saveFightLog(challengerName, opponentName, result, opponentUid) {
+            try {
+                const { ref, push } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js');
+
+                const timestamp = Date.now();
+                const myUid = window.currentUser.uid;
+
+                // Save log for challenger (current player)
+                const myLogRef = ref(db, `arena/fightLogs/${myUid}`);
+                await push(myLogRef, {
+                    type: 'challenged',
+                    opponent: opponentName,
+                    result: result,
+                    timestamp: timestamp
+                });
+
+                // Save log for opponent (if they're a real player)
+                if (opponentUid && opponentUid !== 'bot') {
+                    const theirLogRef = ref(db, `arena/fightLogs/${opponentUid}`);
+                    await push(theirLogRef, {
+                        type: 'challenged_by',
+                        opponent: challengerName,
+                        result: result === 'win' ? 'loss' : 'win',
+                        timestamp: timestamp
+                    });
+                }
+
+            } catch (error) {
+                console.error('Error saving fight log:', error);
+            }
+        }
+
+        // Helper function to get time ago string
+        function getTimeAgo(timestamp) {
+            const seconds = Math.floor((Date.now() - timestamp) / 1000);
+            if (seconds < 60) return 'just now';
+            const minutes = Math.floor(seconds / 60);
+            if (minutes < 60) return `${minutes}m ago`;
+            const hours = Math.floor(minutes / 60);
+            if (hours < 24) return `${hours}h ago`;
+            const days = Math.floor(hours / 24);
+            return `${days}d ago`;
+        }
+
         // Make arena functions globally accessible
         window.showArena = showArena;
         window.challengeArenaOpponent = challengeArenaOpponent;
+        window.showChallengeLogs = showChallengeLogs;
 
         // ========================================
         // END ARENA PVP SYSTEM
@@ -10668,7 +10870,7 @@
                 case 'arghol bow': return '🏹';
                 case 'rusty armor': return '🧥';
                 case 'leather shirt': return '🧥';
-                case 'hora tunic': return '🧥';
+                case 'light tunic': return '🧥';
                 case 'coil armor': return '🧥';
                 case 'arghol armor': return '🧥';
                 case 'iron tunic': return '🧥';
