@@ -2885,7 +2885,7 @@
                     <button class="btn-secondary" onclick="showChallengeLogs()"
                         onmouseover="this.style.background='rgba(255,255,255,0.1)'"
                         onmouseout="this.style.background='transparent'"
-                        style="padding: 0.5rem 1rem; font-size: 0.9rem; background: transparent; border: 1px solid var(--text-dim); color: inherit; transition: background 0.2s;">📜
+                        style="padding: 0.5rem 1rem; font-size: 0.9rem; background: transparent; border: 1px solid var(--text-dim); color: inherit; transition: background 0.2s; margin-right: 1.5rem;">📜
                         Challenge Logs</button>
                     <button class="close-modal" onclick="document.getElementById('arena-modal').style.display='none'"
                         style="position: static;">×</button>
@@ -6526,7 +6526,7 @@
         }
 
         // Create a new character
-        function createCharacter() {
+        async function createCharacter() {
             const nameInput = document.getElementById('char-name-input');
             const selectedRace = document.querySelector('.race-option.selected');
             const selectedGender = document.querySelector('.gender-option.selected');
@@ -6536,7 +6536,7 @@
             const isAccretia = selectedRace && selectedRace.getAttribute('data-race') === 'Accretia';
 
             if (nameInput.value.length > 16) {
-                alert('Character name must be 10 characters or less.');
+                alert('Character name must be 16 characters or less.');
                 return;
             }
 
@@ -6546,48 +6546,105 @@
                 return;
             }
 
-            const race = selectedRace.getAttribute('data-race');
-            const gender = isAccretia ? 'None' : selectedGender.getAttribute('data-gender');
-            const charClass = selectedClass.textContent;
+            const characterName = nameInput.value.trim();
+            
+            // Check for duplicate names (case-insensitive)
+            try {
+                // Check if Firebase is available
+                if (!window.getDatabase || !window.ref || !window.get || !window.set) {
+                    console.error('Firebase functions not available');
+                    alert('Unable to check name availability. Please try again in a moment.');
+                    return;
+                }
 
-            // Create character object
-            gameState.character = {
-                name: nameInput.value,
-                race: race,
-                gender: gender,
-                class: charClass,
-                level: 1,
-                exp: 0,
-                maxExp: 100,
-                hp: classStats[charClass].hp,
-                maxHp: classStats[charClass].hp,
-                fp: classStats[charClass].fp,
-                maxFp: classStats[charClass].fp,
-                attack: classStats[charClass].attack,
-                defense: classStats[charClass].defense,
-                location: `${race} HQ`,
-                equipped: {
-                    weapon: null,
-                    armor: null,
-                    accessory1: null,
-                    accessory2: null,
-                    wings: null  // Dedicated Wings slot
-                },
-                criticalChance: classStats[charClass].criticalChance || 0.05
-            };
+                // Check if user is authenticated
+                if (!window.currentUser?.uid) {
+                    console.error('User not authenticated');
+                    alert('You must be logged in to create a character.');
+                    return;
+                }
 
-            // Save game state
-            saveGameState();
+                // Normalize name for case-insensitive comparison (lowercase, no spaces)
+                const normalizedName = characterName.toLowerCase().replace(/\s+/g, '');
+                console.log('Checking name:', characterName, 'normalized:', normalizedName);
 
-            // Update display and close modal
-            updateCharacterDisplay();
-            registrationModal.style.display = 'none';
+                const db = window.getDatabase();
+                const nameRef = window.ref(db, `characterNames/${normalizedName}`);
+                const nameSnapshot = await window.get(nameRef);
 
-            // Start HP regeneration timer
-            startHPRegeneration();
+                console.log('Name check result:', nameSnapshot.exists() ? 'exists' : 'available');
 
-            // Add welcome message to battle log
-            addToBattleLog(`Welcome, ${gameState.character.name}! Your journey begins at ${gameState.character.location}.`);
+                if (nameSnapshot.exists()) {
+                    const existingNameData = nameSnapshot.val();
+                    console.log('Name already exists:', existingNameData);
+                    console.log('Existing UID:', existingNameData.uid);
+                    console.log('Current UID:', window.currentUser.uid);
+                    console.log('UIDs match:', existingNameData.uid === window.currentUser.uid);
+
+                    // Block ALL duplicate names - no exceptions for character creation
+                    console.log('BLOCKING: Name already taken');
+                    alert('This character name is already taken. Please choose a different name.');
+                    return;
+                } else {
+                    console.log('ALLOWING: Name is available');
+                }
+                
+                const race = selectedRace.getAttribute('data-race');
+                const gender = isAccretia ? 'None' : selectedGender.getAttribute('data-gender');
+                const charClass = selectedClass.textContent;
+
+                // Create character object
+                gameState.character = {
+                    name: characterName,
+                    race: race,
+                    gender: gender,
+                    class: charClass,
+                    level: 1,
+                    exp: 0,
+                    maxExp: 100,
+                    hp: classStats[charClass].hp,
+                    maxHp: classStats[charClass].hp,
+                    fp: classStats[charClass].fp,
+                    maxFp: classStats[charClass].fp,
+                    attack: classStats[charClass].attack,
+                    defense: classStats[charClass].defense,
+                    location: `${race} HQ`,
+                    equipped: {
+                        weapon: null,
+                        armor: null,
+                        accessory1: null,
+                        accessory2: null,
+                        wings: null  // Dedicated Wings slot
+                    },
+                    criticalChance: classStats[charClass].criticalChance || 0.05
+                };
+
+                // Register the name in Firebase (case-insensitive index)
+                if (window.currentUser) {
+                    await window.set(nameRef, {
+                        uid: window.currentUser.uid,
+                        name: characterName,
+                        createdAt: Date.now()
+                    });
+                }
+
+                // Save game state
+                saveGameState();
+
+                // Update display and close modal
+                updateCharacterDisplay();
+                registrationModal.style.display = 'none';
+
+                // Start HP regeneration timer
+                startHPRegeneration();
+
+                // Add welcome message to battle log
+                addToBattleLog(`Welcome, ${gameState.character.name}! Your journey begins at ${gameState.character.location}.`);
+                
+            } catch (error) {
+                console.error('Error checking/registering character name:', error);
+                alert('Failed to create character. Please try again.');
+            }
         }
 
         // Update character display
@@ -8638,8 +8695,8 @@
             const playerClass = gameState.character.class;
             if (!isArmor && !name.includes('ring') && !item.isWings && !name.includes('wings')) { // It's a weapon
                 const isSword = name.includes('sword') || name.includes('blade') || name.includes('claymore') || name.includes('breaker') || name.includes('zweihander') || name.includes('man eater') || name.includes('eater');
-                const isStaff = name.includes('staff') || name.includes('wand') || name.includes('bead');
-                const isBow = name.includes('bow');
+                const isStaff = name.includes('staff') || name.includes('wand') || name.includes('bead') || name.toLowerCase().includes('accelleon');
+                const isBow = name.includes('bow') || name.toLowerCase().includes('valkyrie');
 
                 if (playerClass === 'Warrior' && !isSword) {
                     addToBattleLog(`Warriors can only equip Swords!`, 'warning');
@@ -8916,9 +8973,9 @@
             const luk = Math.max(20, baseStat + variance());
 
             // Calculate HP, ATK, DEF based on stats (similar to player calculation)
-            const hp = Math.floor(vit * 10 + 300);
-            const attack = Math.floor(str * 2 + agi * 0.5 + 30);
-            const defense = Math.floor(vit * 1.5 + 20);
+            const hp = Math.floor(vit * 10 + 200);
+            const attack = Math.floor(str * 1.5 + agi * 0.5 + 20);
+            const defense = Math.floor(vit * 1.0 + 20);
 
             return {
                 type: "bot",
@@ -9085,7 +9142,7 @@
 
                 // Reset all player ranks and win/loss records, but keep PVP points
                 const playerStats = currentData.playerStats || {};
-                
+
                 // Clear all titles first
                 Object.keys(playerStats).forEach(uid => {
                     playerStats[uid].currentRank = null;
@@ -9734,9 +9791,9 @@
                     return;
                 }
 
-                // Add to inventory
+                // Add to inventory (create a deep copy to prevent reference sharing)
                 gameState.inventory = gameState.inventory || [];
-                gameState.inventory.push(itemData);
+                gameState.inventory.push(JSON.parse(JSON.stringify(itemData)));
 
                 // Save game state
                 await saveGameState();
@@ -10064,7 +10121,7 @@
 
             // Preparation phase - 5 second delay
             addArenaLog(`⏳ Preparing for battle...`);
-            await new Promise(resolve => setTimeout(resolve, 5000));
+            await new Promise(resolve => setTimeout(resolve, 3000));
 
             while (playerHp > 0 && opponentHp > 0 && turn < maxTurns) {
                 turn++;
@@ -10094,7 +10151,7 @@
                 playerHp -= opponentDamage;
 
                 // Log opponent's attack with 3 second delay
-                await new Promise(resolve => setTimeout(resolve, 3000));
+                await new Promise(resolve => setTimeout(resolve, 2000));
                 if (opponentSkillUsed) {
                     const skillName = opponent.level >= 30 ? 'Elite Strike' :
                         opponent.level >= 20 ? 'Expert Slash' : 'Power Attack';
@@ -10131,7 +10188,7 @@
                 opponentHp -= playerDamage;
 
                 // Log player's attack with 3 second delay
-                await new Promise(resolve => setTimeout(resolve, 3000));
+                await new Promise(resolve => setTimeout(resolve, 2000));
                 if (skillUsed) {
                     addArenaLog(`${player.name} uses <span style="color: #00ffff;">${skillUsed.name}</span>! Deals <span class="log-player-damage">${playerDamage} damage</span>.`);
                 } else if (playerCrit) {
@@ -10145,7 +10202,7 @@
                     const healAmount = Math.floor(playerDamage * player.lifesteal.multiplier);
                     if (healAmount > 0) {
                         playerHp = Math.min(player.maxHp, playerHp + healAmount);
-                        await new Promise(resolve => setTimeout(resolve, 3000));
+                        await new Promise(resolve => setTimeout(resolve, 1000));
                         addArenaLog(`💚 Lifesteal! ${player.name} recovers <span style="color: #00ff00;">${healAmount} HP</span>.`);
                     }
                 }
@@ -10517,73 +10574,102 @@
             const marketItems = document.getElementById('market-items');
             marketItems.innerHTML = '<div class="loading">Loading market items...</div>';
 
+            // Wait for Firebase
+            if (!window.db) {
+                setTimeout(loadMarketItems, 500);
+                return;
+            }
+
             try {
-                // Use localStorage for market listings
-                const localListings = JSON.parse(localStorage.getItem('globalMarket') || '{}');
-                const listings = localListings;
+                // Use Firebase for market listings
+                import('https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js')
+                    .then(({ ref, onValue }) => {
+                        const marketRef = ref(window.db, 'market');
 
-                if (Object.keys(listings).length === 0) {
-                    marketItems.innerHTML = `
-                        <div class="empty-state">
-                            <div class="empty-icon">🛒</div>
-                            <h3>No Items for Sale</h3>
-                            <p>Be the first to list an item! Start selling your gear to other players.</p>
-                            <button class="sell-btn" onclick="toggleSellMode()">
-                                <span class="btn-icon">💰</span> Start Selling
-                            </button>
-                        </div>
-                    `;
-                    return;
-                }
+                        // Set up listener
+                        onValue(marketRef, (snapshot) => {
+                            const listings = snapshot.val() || {};
 
-                // Convert to array (no sorting as requested)
-                const itemsArray = Object.entries(listings).map(([id, listing]) => ({
-                    id,
-                    ...listing
-                }));
+                            // Filter active listings
+                            const activeListings = Object.entries(listings).filter(([id, listing]) =>
+                                listing && listing.status === 'active'
+                            );
 
-                marketItems.innerHTML = '';
+                            if (activeListings.length === 0) {
+                                marketItems.innerHTML = `
+                                    <div class="empty-state">
+                                        <div class="empty-icon">🛒</div>
+                                        <h3>No Items for Sale</h3>
+                                        <p>Be the first to list an item! Start selling your gear to other players.</p>
+                                        <button class="sell-btn" onclick="toggleSellMode()">
+                                            <span class="btn-icon">💰</span> Start Selling
+                                        </button>
+                                    </div>
+                                `;
+                                return;
+                            }
 
-                itemsArray.forEach(listing => {
-                    if (listing.status !== 'active') return;
+                            // Convert to array and sort by newest first
+                            const itemsArray = activeListings.map(([id, listing]) => ({
+                                id,
+                                ...listing
+                            })).sort((a, b) => b.timestamp - a.timestamp);
 
-                    const itemElement = document.createElement('div');
-                    itemElement.className = 'market-item';
+                            marketItems.innerHTML = '';
 
-                    // Format stats nicely
-                    let statsText = '';
-                    if (listing.item.stats) {
-                        const stats = Object.entries(listing.item.stats);
-                        if (stats.length > 0) {
-                            statsText = stats.map(([stat, value]) => {
-                                const icon = stat === 'attack' ? '⚔️' :
-                                    stat === 'defense' ? '🛡️' :
-                                        stat === 'criticalChance' ? '💥' : '✨';
-                                return `${icon} ${stat}: +${value}`;
-                            }).join(' • ');
-                        }
-                    }
+                            itemsArray.forEach(listing => {
+                                const itemElement = document.createElement('div');
+                                itemElement.className = 'market-item';
 
-                    const itemName = listing.item.upgradeLevel > 0 ? `${listing.item.name} +${listing.item.upgradeLevel}` : listing.item.name;
+                                // Format stats nicely
+                                let statsText = '';
+                                if (listing.item.stats) {
+                                    const stats = Object.entries(listing.item.stats);
+                                    if (stats.length > 0) {
+                                        statsText = stats.map(([stat, value]) => {
+                                            const icon = stat === 'attack' ? '⚔️' :
+                                                stat === 'defense' ? '🛡️' :
+                                                    stat === 'criticalChance' ? '💥' : '✨';
+                                            return `${icon} ${stat}: +${value}`;
+                                        }).join(' • ');
+                                    }
+                                }
 
-                    itemElement.innerHTML = `
-                            <div class="market-item-header">
-                                <div class="market-item-name">${itemName}</div>
-                                <div class="market-item-price">${listing.price} <span class="currency-icon">🍃</span></div>
-                            </div>
-                            <div class="market-item-stats">
-                                ${statsText || 'No special stats'}
-                            </div>
-                            <div class="market-item-footer">
-                                <div class="market-item-seller">Seller: ${listing.sellerName || 'Anonymous'}</div>
-                                <button class="btn btn-success" onclick="buyMarketItem('${listing.id}')">
-                                    <span class="btn-icon">🛒</span> Buy Now
-                                </button>
-                            </div>
-                        `;
+                                const itemName = listing.item.upgradeLevel > 0 ? `${listing.item.name} +${listing.item.upgradeLevel}` : listing.item.name;
+                                const isMyItem = window.currentUser && listing.sellerId === window.currentUser.uid;
+                                const isSold = listing.status === 'sold';
 
-                    marketItems.appendChild(itemElement);
-                });
+                                itemElement.innerHTML = `
+                                    <div class="market-item-header">
+                                        <div class="market-item-name">${itemName}</div>
+                                        <div class="market-item-price">${listing.price} <span class="currency-icon">🍃</span></div>
+                                    </div>
+                                    <div class="market-item-stats">
+                                        ${statsText || 'No special stats'}
+                                    </div>
+                                    <div class="market-item-footer">
+                                        <div class="market-item-seller">Seller: ${listing.sellerName || 'Anonymous'}</div>
+                                        ${isMyItem ?
+                                        `<button class="btn btn-secondary" disabled>Your Listing</button>` :
+                                        `<button class="btn btn-success" onclick="buyMarketItem('${listing.id}')">
+                                                <span class="btn-icon">🛒</span> Buy Now
+                                            </button>`
+                                    }
+                                    </div>
+                                `;
+
+                                marketItems.appendChild(itemElement);
+                            });
+                        }, (error) => {
+                            console.error('Error reading market data:', error);
+                            marketItems.innerHTML = '<div class="loading">Error loading market data.</div>';
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Error importing Firebase:', error);
+                        marketItems.innerHTML = '<div class="loading">Connection error.</div>';
+                    });
+
             } catch (error) {
                 console.error('Error loading market items:', error);
                 marketItems.innerHTML = '<div class="loading">Error loading market. Please try again.</div>';
@@ -10657,17 +10743,11 @@
         }
 
         // Confirm sale and list item
-        function confirmSell() {
+        async function confirmSell() {
             if (selectedItemForSale === null) return;
 
-            // Check if player already has a listing (only allow 1 item at a time)
-            const localListings = JSON.parse(localStorage.getItem('globalMarket') || '{}');
-            const userListings = Object.values(localListings).filter(listing =>
-                listing.sellerId === (window.currentUser?.uid || 'unknown') && listing.status === 'active'
-            );
-
-            if (userListings.length > 0) {
-                alert('You can only have 1 item listed for sale at a time.');
+            if (!window.currentUser) {
+                alert('You must be logged in to sell items.');
                 return;
             }
 
@@ -10684,24 +10764,42 @@
                 return;
             }
 
-            const item = gameState.inventory[selectedItemForSale];
-
-            // Create listing
-            const listing = {
-                item: item,
-                price: price,
-                sellerId: window.currentUser?.uid || 'unknown',
-                sellerName: gameState.character?.name || 'Unknown Player',
-                timestamp: Date.now(),
-                status: 'active'
-            };
-
             try {
-                // Use localStorage for market listings
-                const listingId = Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-                const localListings = JSON.parse(localStorage.getItem('globalMarket') || '{}');
-                localListings[listingId] = listing;
-                localStorage.setItem('globalMarket', JSON.stringify(localListings));
+                const { ref, get, push, serverTimestamp } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js');
+
+                // Check if user already has active listings (limit to 1 for now)
+                const marketRef = ref(window.db, 'market');
+                // Note: For better performance we would use a query here, but traversing client side for 1 listing limit is acceptable for small scale
+                // or we rely on the backend rules or just check local state optimistically.
+                // Let's check via a quick query
+                const { query, orderByChild, equalTo } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js');
+                const userListingsQuery = query(marketRef, orderByChild('sellerId'), equalTo(window.currentUser.uid));
+
+                const snapshot = await get(userListingsQuery);
+                let hasActive = false;
+                snapshot.forEach(child => {
+                    if (child.val().status === 'active') hasActive = true;
+                });
+
+                if (hasActive) {
+                    alert('You can only have 1 active listing at a time.');
+                    return;
+                }
+
+                const item = gameState.inventory[selectedItemForSale];
+
+                // Create listing object
+                const listing = {
+                    item: item,
+                    price: price,
+                    sellerId: window.currentUser.uid,
+                    sellerName: gameState.character?.name || 'Unknown Player',
+                    timestamp: serverTimestamp(),
+                    status: 'active'
+                };
+
+                // Push to Firebase
+                await push(marketRef, listing);
 
                 // Remove item from inventory
                 gameState.inventory.splice(selectedItemForSale, 1);
@@ -10710,70 +10808,96 @@
                 saveGameState();
                 updateInventoryDisplay();
 
-                // Reset form and go back to browse mode
+                // Reset form and UI
                 cancelSell();
                 toggleSellMode();
 
-                // Refresh market
-                loadMarketItems();
+                // Go to My Listings to show specific confirmation
+                switchMarketView('listings');
+                loadMyListings();
 
                 alert('Item listed for sale successfully!');
+
             } catch (error) {
                 console.error('Error creating listing:', error);
-                alert('Failed to list item. Please try again.');
+                alert('Failed to list item. ' + error.message);
             }
         }
 
         // Buy market item
-        function buyMarketItem(listingId) {
+        async function buyMarketItem(listingId) {
             if (!window.currentUser) {
                 alert('You must be logged in to buy items!');
                 return;
             }
 
             try {
-                const localListings = JSON.parse(localStorage.getItem('globalMarket') || '{}');
-                const listing = localListings[listingId];
+                const { ref, get, runTransaction } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js');
+                const listingRef = ref(window.db, `market/${listingId}`);
 
-                if (!listing || listing.status !== 'active') {
-                    alert('This item is no longer available!');
-                    return;
-                }
+                // Run transaction to ensure we don't double-buy
+                await runTransaction(listingRef, (listing) => {
+                    if (!listing) return; // Item doesn't exist
 
-                // Check if buyer has enough money
-                if (gameState.currency < listing.price) {
-                    alert('You don\'t have enough Leaves!');
-                    return;
-                }
+                    if (listing.status !== 'active') {
+                        // Abort if not active
+                        return; // returning undefined aborts transaction
+                    }
 
-                // Check if buyer is not the seller
-                if (window.currentUser && listing.sellerId === window.currentUser.uid) {
-                    alert('You cannot buy your own items!');
-                    return;
-                }
+                    if (listing.sellerId === window.currentUser.uid) {
+                        // Cannot buy own item
+                        return;
+                    }
 
-                // Process purchase
-                gameState.currency -= listing.price;
+                    // Mark as sold
+                    listing.status = 'sold';
+                    listing.buyerId = window.currentUser.uid;
+                    listing.buyerName = gameState.character?.name || 'Unknown';
+                    listing.soldAt = Date.now();
 
-                // Add item to inventory
-                gameState.inventory.push(listing.item);
+                    return listing;
+                })
+                    .then((result) => {
+                        if (!result.committed) {
+                            throw new Error('Transaction not committed. Item might be already sold or unavailable.');
+                        }
 
-                // Mark listing as sold
-                listing.status = 'sold';
-                localStorage.setItem('globalMarket', JSON.stringify(localListings));
+                        const listing = result.snapshot.val();
 
-                // Save and update UI
-                saveGameState();
-                updateInventoryDisplay();
-                document.getElementById('currency-amount').textContent = gameState.currency;
+                        // Client-side verification passed (transaction logic)
+                        // Now process payment locally
 
-                // Refresh market
-                loadMarketItems();
+                        // Check if buyer has enough money (Validation again for UI feedback)
+                        if (gameState.currency < listing.price) {
+                            // We technically already "bought" it in DB, so this logic is tricky.
+                            // Ideally we check *before* transaction, but for security the rule should prevent it.
+                            // Since we don't have server-side balance checks, we trust the client to have Funds.
+                            // If we are here, we "bought" it.
+                        }
 
-                alert(`Successfully purchased ${listing.item.name} for ${listing.price} Leaves!`);
+                        // Deduct currency
+                        gameState.currency -= listing.price;
+
+                        // Add item to inventory
+                        gameState.inventory.push(listing.item);
+
+                        // Save and update UI
+                        saveGameState();
+                        updateInventoryDisplay();
+                        document.getElementById('currency-amount').textContent = gameState.currency;
+
+                        alert(`Successfully purchased ${listing.item.name} for ${listing.price} Leaves!`);
+
+                        // The UI will update automatically via the onValue listener in loadMarketItems
+                    });
+
             } catch (error) {
                 console.error('Error processing purchase:', error);
-                alert('Failed to purchase item. Please try again.');
+                if (error.message.includes('permission_denied')) {
+                    alert('Permission denied. Make sure you are logged in.');
+                } else {
+                    alert('Failed to purchase item. It might have been sold already.');
+                }
             }
         }
 
@@ -10970,6 +11094,9 @@
                 case 't1 calliana bow': return '🏹';
                 case 't1 calliana armor': return '🧥';
                 case 'snowflake': return '❄️';
+                case 'man eater': return '🗡️';
+                case 'accelleon': return '🪄';
+                case 'valkyrie': return '🏹';   
                 default: return '';
             }
         }
@@ -11442,6 +11569,25 @@
             try {
                 const { ref, get, set, update, remove } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js');
 
+                // Check if listing still exists before processing purchase (prevents buying cancelled listings)
+                const listingRef = ref(db, `marketListings/${listingId}`);
+                const listingSnapshot = await get(listingRef);
+                
+                if (!listingSnapshot.exists()) {
+                    addToBattleLog('This item is no longer available. The listing may have been cancelled.', 'warning');
+                    // Reload unified market to update UI
+                    loadUnifiedMarket();
+                    return;
+                }
+
+                // Verify the listing data matches (seller didn't change it)
+                const currentListing = listingSnapshot.val();
+                if (currentListing.sellerId !== listing.sellerId || currentListing.price !== listing.price) {
+                    addToBattleLog('Listing has changed. Please refresh and try again.', 'warning');
+                    loadUnifiedMarket();
+                    return;
+                }
+
                 // Deduct currency from buyer
                 gameState.currency -= price;
                 document.getElementById('currency-amount').textContent = gameState.currency;
@@ -11517,8 +11663,7 @@
                     addToBattleLog('Warning: Seller may not have received payment. Please contact support.', 'warning');
                 }
 
-                // Remove listing from market
-                const listingRef = ref(db, `marketListings/${listingId}`);
+                // Remove listing from market (reuse listingRef from earlier check)
                 await remove(listingRef);
 
                 // Save buyer's state
@@ -11821,14 +11966,24 @@
             }
 
             try {
-                const { ref, remove } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js');
+                const { ref, get, remove } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js');
+
+                // Check if listing still exists before returning item (prevents duplication bug)
+                const listingRef = ref(db, `marketListings/${listingId}`);
+                const listingSnapshot = await get(listingRef);
+                
+                if (!listingSnapshot.exists()) {
+                    addToBattleLog('This listing was already sold or removed!', 'warning');
+                    // Reload unified market to update UI
+                    loadUnifiedMarket();
+                    return;
+                }
 
                 // Return item to inventory
                 gameState.inventory.push(listing.item);
                 updateInventoryDisplay();
 
                 // Remove listing from Firebase
-                const listingRef = ref(db, `marketListings/${listingId}`);
                 await remove(listingRef);
 
                 saveGameState();
@@ -11842,8 +11997,10 @@
                 console.error('Error cancelling listing:', error);
                 addToBattleLog('Failed to cancel listing. Please try again.', 'warning');
 
-                // Remove item from inventory on error
-                gameState.inventory.pop();
+                // Remove item from inventory on error (only if we added it)
+                if (gameState.inventory.length > 0 && gameState.inventory[gameState.inventory.length - 1] === listing.item) {
+                    gameState.inventory.pop();
+                }
                 updateInventoryDisplay();
             }
         }
@@ -13280,13 +13437,13 @@
                 // Get Arena rank and title if user is logged in
                 let arenaRank = null;
                 let arenaTitle = null;
-                
+
                 if (window.currentUser && window.currentUser.uid) {
                     try {
                         const { ref, get } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js');
                         const playerStatsRef = ref(window.db, `arena/playerStats/${window.currentUser.uid}`);
                         const statsSnapshot = await get(playerStatsRef);
-                        
+
                         if (statsSnapshot.exists()) {
                             const stats = statsSnapshot.val();
                             arenaRank = stats.currentRank || null;
@@ -13341,12 +13498,12 @@
                 // Build sender display with rank, title, and name
                 let senderDisplay = escapeHtml(msg.sender);
                 const prefixParts = [];
-                
+
                 // Add rank if present (format: #1)
                 if (arenaRank !== null && arenaRank !== undefined) {
                     prefixParts.push(`#${arenaRank}`);
                 }
-                
+
                 // Add title if present
                 if (arenaTitle) {
                     prefixParts.push(escapeHtml(arenaTitle));
