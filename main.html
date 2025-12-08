@@ -1824,6 +1824,7 @@
                 height: auto;
                 overflow-y: auto;
                 padding: 0.5rem;
+                padding-bottom: 80px;
                 gap: 1rem;
                 /* Add gap between panels */
             }
@@ -6547,7 +6548,7 @@
             }
 
             const characterName = nameInput.value.trim();
-            
+
             // Check for duplicate names (case-insensitive)
             try {
                 // Check if Firebase is available
@@ -6588,7 +6589,7 @@
                 } else {
                     console.log('ALLOWING: Name is available');
                 }
-                
+
                 const race = selectedRace.getAttribute('data-race');
                 const gender = isAccretia ? 'None' : selectedGender.getAttribute('data-gender');
                 const charClass = selectedClass.textContent;
@@ -6640,7 +6641,7 @@
 
                 // Add welcome message to battle log
                 addToBattleLog(`Welcome, ${gameState.character.name}! Your journey begins at ${gameState.character.location}.`);
-                
+
             } catch (error) {
                 console.error('Error checking/registering character name:', error);
                 alert('Failed to create character. Please try again.');
@@ -11095,6 +11096,7 @@
                 case 'beam bow': return '🏹';
                 case 'siege bow': return '🏹';
                 case 'beam siege bow': return '🏹';
+                case 'black stick bead': return '🪄'
                 case 'turncoat bow': return '🏹';
                 case 't1 turncoat sword': return '🗡️';
                 case 't1 turncoat staff': return '🪄';
@@ -11115,7 +11117,7 @@
                 case 'snowflake': return '❄️';
                 case 'man eater': return '🗡️';
                 case 'accelleon': return '🪄';
-                case 'valkyrie': return '🏹';   
+                case 'valkyrie': return '🏹';
                 default: return '';
             }
         }
@@ -11591,7 +11593,7 @@
                 // Check if listing still exists before processing purchase (prevents buying cancelled listings)
                 const listingRef = ref(db, `marketListings/${listingId}`);
                 const listingSnapshot = await get(listingRef);
-                
+
                 if (!listingSnapshot.exists()) {
                     addToBattleLog('This item is no longer available. The listing may have been cancelled.', 'warning');
                     // Reload unified market to update UI
@@ -11990,7 +11992,7 @@
                 // Check if listing still exists before returning item (prevents duplication bug)
                 const listingRef = ref(db, `marketListings/${listingId}`);
                 const listingSnapshot = await get(listingRef);
-                
+
                 if (!listingSnapshot.exists()) {
                     addToBattleLog('This listing was already sold or removed!', 'warning');
                     // Reload unified market to update UI
