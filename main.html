@@ -1750,7 +1750,7 @@
         }
 
         .item-rarity-t1 {
-            color: #ff5e76 !important;
+            color: #f8c291 !important;
             /* Yellow */
             text-shadow: 0 0 5px rgba(255, 215, 0, 0.3);
         }
@@ -1947,6 +1947,29 @@
             display: flex;
             flex-direction: column;
             overflow: hidden;
+        }
+
+        .craft-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 0.5rem;
+        }
+
+        .craft-tab {
+            background-color: var(--accent);
+            border: 1px solid transparent;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: var(--text);
+        }
+
+        .craft-tab:hover, .craft-tab.active {
+            background-color: var(--highlight);
+            border-color: var(--accent-color);
         }
 
         .recipe-list {
@@ -3976,6 +3999,16 @@
     <div class="crafting-modal" id="crafting-modal">
         <div class="crafting-content">
             <h2 class="modal-title">CRAFTING</h2>
+
+            <!-- Craft Category Tabs -->
+            <div class="craft-tabs">
+                <button class="craft-tab active" data-category="sword">Sword</button>
+                <button class="craft-tab" data-category="staff">Staff</button>
+                <button class="craft-tab" data-category="bow">Bow</button>
+                <button class="craft-tab" data-category="launcher">Launcher</button>
+                <button class="craft-tab" data-category="armor">Armor</button>
+            </div>
+
             <div class="recipe-list" id="recipe-list">
                 <!-- Recipes will be dynamically added here -->
             </div>
@@ -4871,19 +4904,21 @@
         const classStats = {
             Warrior: { hp: 130, fp: 35, attack: 20, defense: 13, criticalChance: 0.05 },
             Ranger: { hp: 100, fp: 55, attack: 17, defense: 10, criticalChance: 0.10 },
-            Mystic: { hp: 85, fp: 100, attack: 14, defense: 6, criticalChance: 0.05 }
+            Mystic: { hp: 85, fp: 100, attack: 14, defense: 6, criticalChance: 0.05 },
+            Launcher: { hp: 85, fp: 100, attack: 14, defense: 6, criticalChance: 0.05 }
         };
 
         // Level up stat increases (Nerfed by ~35% total)
         const statIncrease = {
             Warrior: { hp: 32, fp: 10, attack: 2, defense: 2 },
             Ranger: { hp: 24, fp: 16, attack: 3, defense: 2 },
-            Mystic: { hp: 16, fp: 26, attack: 3, defense: 1 }
+            Mystic: { hp: 16, fp: 26, attack: 3, defense: 1 },
+            Launcher: { hp: 16, fp: 26, attack: 3, defense: 1 }
         };
 
         // Race-class mappings
         const raceClasses = {
-            Accretia: ["Warrior", "Ranger"],
+            Accretia: ["Warrior", "Ranger", "Launcher"],
             Bellato: ["Warrior", "Ranger", "Mystic"],
             Cora: ["Warrior", "Ranger", "Mystic"]
         };
@@ -4901,6 +4936,12 @@
                 { name: "Flame Arrow", level: 20, damageMult: 1.7, fpCost: 25, type: "Expert" },
                 { name: "Blaze Pearl", level: 25, damageMult: 2.2, fpCost: 40, type: "Elite" },
                 { name: "Force Impact", level: 30, damageMult: 2.7, fpCost: 60, type: "Ultimate" }
+            ],
+            Launcher: [
+                { name: "Heavy Shot", level: 15, damageMult: 1.4, fpCost: 15, type: "Basic" },
+                { name: "Compound Siege", level: 20, damageMult: 1.7, fpCost: 25, type: "Expert" },
+                { name: "Chain Rocket", level: 25, damageMult: 2.2, fpCost: 40, type: "Elite" },
+                { name: "Final Blast", level: 30, damageMult: 2.7, fpCost: 60, type: "Ultimate" }
             ],
             Ranger: [
                 { name: "Fast Shot", level: 15, damageMult: 1.3, fpCost: 15, type: "Basic" },
@@ -4926,6 +4967,7 @@
                     { type: "item", name: "Rusty Sword", stats: { attack: 2 }, sellValue: 1, chance: 0.05 },
                     { type: "item", name: "Rusty Wand", stats: { attack: 2 }, sellValue: 1, chance: 0.05 },
                     { type: "item", name: "Rusty Bow", stats: { attack: 2 }, sellValue: 1, chance: 0.05 },
+                    { type: "item", name: "Rusty Launcher", stats: { attack: 2 }, sellValue: 1, chance: 0.05 },
                     { type: "item", name: "Rusty Armor", stats: { defense: 2 }, sellValue: 1, chance: 0.05 },
                     { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 3, chance: 0.007 },
                     { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 3, chance: 0.006 },
@@ -4946,6 +4988,7 @@
                     { type: "item", name: "Rusty Sword", stats: { attack: 2 }, sellValue: 1, chance: 0.05 },
                     { type: "item", name: "Rusty Wand", stats: { attack: 2 }, sellValue: 1, chance: 0.05 },
                     { type: "item", name: "Rusty Bow", stats: { attack: 2 }, sellValue: 1, chance: 0.05 },
+                    { type: "item", name: "Rusty Launcher", stats: { attack: 2 }, sellValue: 1, chance: 0.05 },
                     { type: "item", name: "Rusty Armor", stats: { defense: 2 }, sellValue: 1, chance: 0.05 },
                     { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 3, chance: 0.007 },
                     { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 3, chance: 0.006 },
@@ -4966,6 +5009,7 @@
                     { type: "item", name: "Rusty Sword", stats: { attack: 2 }, sellValue: 1, chance: 0.05 },
                     { type: "item", name: "Rusty Wand", stats: { attack: 2 }, sellValue: 1, chance: 0.05 },
                     { type: "item", name: "Rusty Bow", stats: { attack: 2 }, sellValue: 1, chance: 0.05 },
+                    { type: "item", name: "Rusty Launcher", stats: { attack: 2 }, sellValue: 1, chance: 0.05 },
                     { type: "item", name: "Rusty Armor", stats: { defense: 2 }, sellValue: 1, chance: 0.05 },
                     { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 3, chance: 0.007 },
                     { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 3, chance: 0.006 },
@@ -4988,6 +5032,7 @@
                     { type: "item", name: "Sword Breaker", stats: { attack: 5 }, sellValue: 2, chance: 0.05 },
                     { type: "item", name: "Battle Staff", stats: { attack: 5 }, sellValue: 2, chance: 0.05 },
                     { type: "item", name: "Assemble Bow", stats: { attack: 5 }, sellValue: 2, chance: 0.05 },
+                    { type: "item", name: "Soft Launcher", stats: { attack: 5 }, sellValue: 2, chance: 0.05 },
                     { type: "item", name: "Leather Shirt", stats: { defense: 5 }, sellValue: 2, chance: 0.05 },
                     { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 3, chance: 0.007 },
                     { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 3, chance: 0.006 },
@@ -5008,6 +5053,7 @@
                     { type: "item", name: "Sword Breaker", stats: { attack: 5 }, sellValue: 2, chance: 0.05 },
                     { type: "item", name: "Battle Staff", stats: { attack: 5 }, sellValue: 2, chance: 0.05 },
                     { type: "item", name: "Assemble Bow", stats: { attack: 5 }, sellValue: 2, chance: 0.05 },
+                    { type: "item", name: "Soft Launcher", stats: { attack: 5 }, sellValue: 2, chance: 0.05 },
                     { type: "item", name: "Leather Shirt", stats: { defense: 5 }, sellValue: 2, chance: 0.05 },
                     { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 3, chance: 0.007 },
                     { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 3, chance: 0.006 },
@@ -5028,6 +5074,7 @@
                     { type: "item", name: "Sword Breaker", stats: { attack: 5 }, sellValue: 2, chance: 0.05 },
                     { type: "item", name: "Battle Staff", stats: { attack: 5 }, sellValue: 2, chance: 0.05 },
                     { type: "item", name: "Assemble Bow", stats: { attack: 5 }, sellValue: 2, chance: 0.05 },
+                    { type: "item", name: "Soft Launcher", stats: { attack: 5 }, sellValue: 2, chance: 0.05 },
                     { type: "item", name: "Leather Shirt", stats: { defense: 5 }, sellValue: 2, chance: 0.05 },
                     { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 3, chance: 0.007 },
                     { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 3, chance: 0.006 },
@@ -5047,9 +5094,10 @@
                 map: "HQ",
                 drops: [
                     { type: "currency", amount: 3, chance: 1.0 },
-                    { type: "item", name: "Valkyrie Sword", stats: { attack: 8 }, sellValue: 3, chance: 0.05 },
+                    { type: "item", name: "Valkyr Sword", stats: { attack: 8 }, sellValue: 3, chance: 0.05 },
                     { type: "item", name: "War Wand", stats: { attack: 8 }, sellValue: 3, chance: 0.05 },
                     { type: "item", name: "Tower Bow", stats: { attack: 8 }, sellValue: 3, chance: 0.05 },
+                    { type: "item", name: "Basic Launcher", stats: { attack: 8 }, sellValue: 3, chance: 0.05 },
                     { type: "item", name: "Light Tunic", stats: { defense: 8 }, sellValue: 3, chance: 0.05 },
                     { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 3, chance: 0.007 },
                     { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 3, chance: 0.006 },
@@ -5067,9 +5115,10 @@
                 map: "HQ",
                 drops: [
                     { type: "currency", amount: 3, chance: 1.0 },
-                    { type: "item", name: "Valkyrie Sword", stats: { attack: 8 }, sellValue: 3, chance: 0.05 },
+                    { type: "item", name: "Valkyr Sword", stats: { attack: 8 }, sellValue: 3, chance: 0.05 },
                     { type: "item", name: "War Wand", stats: { attack: 8 }, sellValue: 3, chance: 0.05 },
                     { type: "item", name: "Tower Bow", stats: { attack: 8 }, sellValue: 3, chance: 0.05 },
+                    { type: "item", name: "Basic Launcher", stats: { attack: 8 }, sellValue: 3, chance: 0.05 },
                     { type: "item", name: "Light Tunic", stats: { defense: 8 }, sellValue: 3, chance: 0.05 },
                     { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 3, chance: 0.007 },
                     { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 3, chance: 0.006 },
@@ -5087,9 +5136,10 @@
                 map: "HQ",
                 drops: [
                     { type: "currency", amount: 3, chance: 1.0 },
-                    { type: "item", name: "Valkyrie Sword", stats: { attack: 8 }, sellValue: 3, chance: 0.05 },
+                    { type: "item", name: "Valkyr Sword", stats: { attack: 8 }, sellValue: 3, chance: 0.05 },
                     { type: "item", name: "War Wand", stats: { attack: 8 }, sellValue: 3, chance: 0.05 },
                     { type: "item", name: "Tower Bow", stats: { attack: 8 }, sellValue: 3, chance: 0.05 },
+                    { type: "item", name: "Basic Launcher", stats: { attack: 8 }, sellValue: 3, chance: 0.05 },
                     { type: "item", name: "Light Tunic", stats: { defense: 8 }, sellValue: 3, chance: 0.05 },
                     { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 3, chance: 0.007 },
                     { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 3, chance: 0.006 },
@@ -5112,6 +5162,7 @@
                     { type: "item", name: "Zweihander", stats: { attack: 12 }, sellValue: 4, chance: 0.05 },
                     { type: "item", name: "Red Bead", stats: { attack: 12 }, sellValue: 4, chance: 0.05 },
                     { type: "item", name: "Beam Cross-Bow", stats: { attack: 12 }, sellValue: 4, chance: 0.05 },
+                    { type: "item", name: "Light Launcher", stats: { attack: 12 }, sellValue: 4, chance: 0.05 },
                     { type: "item", name: "Coil Armor", stats: { defense: 12 }, sellValue: 4, chance: 0.05 },
                     { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 3, chance: 0.007 },
                     { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 3, chance: 0.006 },
@@ -5132,6 +5183,7 @@
                     { type: "item", name: "Zweihander", stats: { attack: 12 }, sellValue: 4, chance: 0.05 },
                     { type: "item", name: "Red Bead", stats: { attack: 12 }, sellValue: 4, chance: 0.05 },
                     { type: "item", name: "Beam Cross-Bow", stats: { attack: 12 }, sellValue: 4, chance: 0.05 },
+                    { type: "item", name: "Lite Launcher", stats: { attack: 12 }, sellValue: 4, chance: 0.05 },
                     { type: "item", name: "Coil Armor", stats: { defense: 12 }, sellValue: 4, chance: 0.05 },
                     { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 3, chance: 0.007 },
                     { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 3, chance: 0.006 },
@@ -5152,6 +5204,7 @@
                     { type: "item", name: "Zweihander", stats: { attack: 12 }, sellValue: 4, chance: 0.05 },
                     { type: "item", name: "Red Bead", stats: { attack: 12 }, sellValue: 4, chance: 0.05 },
                     { type: "item", name: "Beam Cross-Bow", stats: { attack: 12 }, sellValue: 4, chance: 0.05 },
+                    { type: "item", name: "Lite Launcher", stats: { attack: 12 }, sellValue: 4, chance: 0.05 },
                     { type: "item", name: "Coil Armor", stats: { defense: 12 }, sellValue: 4, chance: 0.05 },
                     { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 3, chance: 0.007 },
                     { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 3, chance: 0.006 },
@@ -5175,7 +5228,8 @@
                     { type: "item", name: "Arghol Blade", stats: { attack: 15 }, sellValue: 10, chance: 0.8 },
                     { type: "item", name: "Arghol Staff", stats: { attack: 15 }, sellValue: 10, chance: 0.8 },
                     { type: "item", name: "Arghol Bow", stats: { attack: 15 }, sellValue: 10, chance: 0.8 },
-                    { type: "item", name: "Arghol Armor", stats: { defense: 15 }, sellValue: 10, chance: 0.8, quantity: 2 },
+                    { type: "item", name: "Arghol Launcher", stats: { attack: 15 }, sellValue: 10, chance: 0.8 },
+                    { type: "item", name: "Arghol Armor", stats: { defense: 15 }, sellValue: 10, chance: 0.8 },
                     { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 3, chance: 0.009 },
                     { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 3, chance: 0.008 },
                     { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 3, chance: 0.007 },
@@ -5203,6 +5257,7 @@
                     { type: "item", name: "Bastard Sword", stats: { attack: 20 }, sellValue: 5, chance: 0.05 },
                     { type: "item", name: "Black Wand", stats: { attack: 20 }, sellValue: 5, chance: 0.05 },
                     { type: "item", name: "Long Bow", stats: { attack: 20 }, sellValue: 5, chance: 0.05 },
+                    { type: "item", name: "Heavy Launcher", stats: { attack: 20 }, sellValue: 5, chance: 0.05 },
                     { type: "item", name: "Iron Tunic", stats: { defense: 20 }, sellValue: 5, chance: 0.05 },
                     { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 3, chance: 0.007 },
                     { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 3, chance: 0.006 },
@@ -5225,6 +5280,7 @@
                     { type: "item", name: "Claymore", stats: { attack: 22 }, sellValue: 6, chance: 0.05 },
                     { type: "item", name: "Field Staff", stats: { attack: 22 }, sellValue: 6, chance: 0.05 },
                     { type: "item", name: "Battle Bow", stats: { attack: 22 }, sellValue: 6, chance: 0.05 },
+                    { type: "item", name: "Dusty Launcher", stats: { attack: 22 }, sellValue: 6, chance: 0.05 },
                     { type: "item", name: "Steel Core", stats: { defense: 22 }, sellValue: 6, chance: 0.05 },
                     { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 3, chance: 0.007 },
                     { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 3, chance: 0.006 },
@@ -5247,6 +5303,7 @@
                     { type: "item", name: "Claymore", stats: { attack: 22 }, sellValue: 6, chance: 0.05 },
                     { type: "item", name: "Field Staff", stats: { attack: 22 }, sellValue: 6, chance: 0.05 },
                     { type: "item", name: "Battle Bow", stats: { attack: 22 }, sellValue: 6, chance: 0.05 },
+                    { type: "item", name: "Dusty Launcher", stats: { attack: 22 }, sellValue: 6, chance: 0.05 },
                     { type: "item", name: "Steel Core", stats: { defense: 22 }, sellValue: 6, chance: 0.05 },
                     { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 3, chance: 0.007 },
                     { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 3, chance: 0.006 },
@@ -5269,6 +5326,7 @@
                     { type: "item", name: "Big Breaker", stats: { attack: 25 }, sellValue: 7, chance: 0.05 },
                     { type: "item", name: "Dual Wand", stats: { attack: 25 }, sellValue: 7, chance: 0.05 },
                     { type: "item", name: "Dual Bow", stats: { attack: 25 }, sellValue: 7, chance: 0.05 },
+                    { type: "item", name: "Flame Thrower", stats: { attack: 25 }, sellValue: 7, chance: 0.05 },
                     { type: "item", name: "Duple Armor", stats: { defense: 25 }, sellValue: 7, chance: 0.05 },
                     { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 3, chance: 0.007 },
                     { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 3, chance: 0.006 },
@@ -5291,6 +5349,7 @@
                     { type: "item", name: "Big Breaker", stats: { attack: 25 }, sellValue: 7, chance: 0.05 },
                     { type: "item", name: "Dual Wand", stats: { attack: 25 }, sellValue: 7, chance: 0.05 },
                     { type: "item", name: "Dual Bow", stats: { attack: 25 }, sellValue: 7, chance: 0.05 },
+                    { type: "item", name: "Flame Thrower", stats: { attack: 25 }, sellValue: 7, chance: 0.05 },
                     { type: "item", name: "Duple Armor", stats: { defense: 25 }, sellValue: 7, chance: 0.05 },
                     { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 3, chance: 0.007 },
                     { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 3, chance: 0.006 },
@@ -5313,6 +5372,7 @@
                     { type: "item", name: "Beam Sword", stats: { attack: 28 }, sellValue: 8, chance: 0.05 },
                     { type: "item", name: "Beam Bead", stats: { attack: 28 }, sellValue: 8, chance: 0.05 },
                     { type: "item", name: "Beam Bow", stats: { attack: 28 }, sellValue: 8, chance: 0.05 },
+                    { type: "item", name: "Hook Launcher", stats: { attack: 28 }, sellValue: 8, chance: 0.05 },
                     { type: "item", name: "Sprits Cloak", stats: { defense: 28 }, sellValue: 8, chance: 0.05 },
                     { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 3, chance: 0.007 },
                     { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 3, chance: 0.006 },
@@ -5335,6 +5395,7 @@
                     { type: "item", name: "Beam Sword", stats: { attack: 28 }, sellValue: 8, chance: 0.05 },
                     { type: "item", name: "Beam Bead", stats: { attack: 28 }, sellValue: 8, chance: 0.05 },
                     { type: "item", name: "Beam Bow", stats: { attack: 28 }, sellValue: 8, chance: 0.05 },
+                    { type: "item", name: "Hook Launcher", stats: { attack: 28 }, sellValue: 8, chance: 0.05 },
                     { type: "item", name: "Sprits Cloak", stats: { defense: 28 }, sellValue: 8, chance: 0.05 },
                     { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 3, chance: 0.007 },
                     { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 3, chance: 0.006 },
@@ -5356,6 +5417,7 @@
                     { type: "item", name: "Scale Sword", stats: { attack: 32 }, sellValue: 9, chance: 0.05 },
                     { type: "item", name: "Blue Wand", stats: { attack: 32 }, sellValue: 9, chance: 0.05 },
                     { type: "item", name: "Siege Bow", stats: { attack: 32 }, sellValue: 9, chance: 0.05 },
+                    { type: "item", name: "Bazooka", stats: { attack: 32 }, sellValue: 9, chance: 0.05 },
                     { type: "item", name: "Soul Armor", stats: { defense: 32 }, sellValue: 9, chance: 0.05 },
                     { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 3, chance: 0.007 },
                     { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 3, chance: 0.006 },
@@ -5377,6 +5439,7 @@
                     { type: "item", name: "Scale Sword", stats: { attack: 32 }, sellValue: 9, chance: 0.05 },
                     { type: "item", name: "Blue Wand", stats: { attack: 32 }, sellValue: 9, chance: 0.05 },
                     { type: "item", name: "Siege Bow", stats: { attack: 32 }, sellValue: 9, chance: 0.05 },
+                    { type: "item", name: "Bazooka", stats: { attack: 32 }, sellValue: 9, chance: 0.05 },
                     { type: "item", name: "Soul Armor", stats: { defense: 32 }, sellValue: 9, chance: 0.05 },
                     { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 3, chance: 0.007 },
                     { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 3, chance: 0.006 },
@@ -5398,6 +5461,7 @@
                     { type: "item", name: "Scale Sword", stats: { attack: 32 }, sellValue: 9, chance: 0.05 },
                     { type: "item", name: "Blue Wand", stats: { attack: 32 }, sellValue: 9, chance: 0.05 },
                     { type: "item", name: "Siege Bow", stats: { attack: 32 }, sellValue: 9, chance: 0.05 },
+                    { type: "item", name: "Bazooka", stats: { attack: 32 }, sellValue: 9, chance: 0.05 },
                     { type: "item", name: "Soul Armor", stats: { defense: 32 }, sellValue: 9, chance: 0.05 },
                     { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 3, chance: 0.007 },
                     { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 3, chance: 0.006 },
@@ -5422,7 +5486,8 @@
                     { type: "item", name: "Turncoat Sword", stats: { attack: 35 }, sellValue: 15, chance: 0.8 },
                     { type: "item", name: "Turncoat Staff", stats: { attack: 35 }, sellValue: 15, chance: 0.8 },
                     { type: "item", name: "Turncoat Bow", stats: { attack: 35 }, sellValue: 15, chance: 0.8 },
-                    { type: "item", name: "Turncoat Armor", stats: { defense: 35 }, sellValue: 15, chance: 0.8, quantity: 2 },
+                    { type: "item", name: "Turncoat Launcher", stats: { attack: 35 }, sellValue: 15, chance: 0.8 },
+                    { type: "item", name: "Turncoat Armor", stats: { defense: 35 }, sellValue: 15, chance: 0.8 },
                     { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 3, chance: 0.010 },
                     { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 3, chance: 0.009 },
                     { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 3, chance: 0.008 },
@@ -5790,6 +5855,7 @@
                     { type: "item", name: "Calliana Sword", stats: { attack: 55 }, sellValue: 20, chance: 0.9 },
                     { type: "item", name: "Calliana Staff", stats: { attack: 55 }, sellValue: 20, chance: 0.9 },
                     { type: "item", name: "Calliana Bow", stats: { attack: 55 }, sellValue: 20, chance: 0.9 },
+                    { type: "item", name: "Calliana Launcher", stats: { attack: 55 }, sellValue: 20, chance: 0.9 },
                     { type: "item", name: "Calliana Armor", stats: { defense: 55 }, sellValue: 20, chance: 0.9, quantity: 2 },
                     { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 3, chance: 0.11 },
                     { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 3, chance: 0.10 },
@@ -5818,7 +5884,7 @@
                 requirements: {
                     item: { name: "Arghol Blade", upgradeLevel: 5 },
                     materials: { "Red Gem": 5, "Blue Gem": 5, "Shiny Gem": 1 },
-                    currency: 1000
+                    currency: 900
                 }
             },
             "T1 Arghol Staff": {
@@ -5831,7 +5897,7 @@
                 requirements: {
                     item: { name: "Arghol Staff", upgradeLevel: 5 },
                     materials: { "Red Gem": 5, "Blue Gem": 5, "Shiny Gem": 1 },
-                    currency: 1000
+                    currency: 900
                 }
             },
             "T1 Arghol Bow": {
@@ -5844,7 +5910,20 @@
                 requirements: {
                     item: { name: "Arghol Bow", upgradeLevel: 5 },
                     materials: { "Red Gem": 5, "Blue Gem": 5, "Shiny Gem": 1 },
-                    currency: 1000
+                    currency: 900
+                }
+            },
+            "T1 Arghol Launcher": {
+                name: "T1 Arghol Launcher",
+                type: "weapon",
+                stats: { attack: 50 },
+                lifesteal: { chance: 0.20, multiplier: 0.50 },
+                sellValue: 30,
+                rarity: "t1",
+                requirements: {
+                    item: { name: "Arghol Launcher", upgradeLevel: 5 },
+                    materials: { "Red Gem": 5, "Blue Gem": 5, "Shiny Gem": 1 },
+                    currency: 900
                 }
             },
             "T1 Arghol Armor": {
@@ -5857,7 +5936,7 @@
                 requirements: {
                     item: { name: "Arghol Armor", upgradeLevel: 5 },
                     materials: { "Red Gem": 5, "Blue Gem": 5, "Shiny Gem": 1 },
-                    currency: 1000
+                    currency: 900
                 }
             },
 
@@ -5872,7 +5951,7 @@
                 requirements: {
                     item: { name: "Turncoat Sword", upgradeLevel: 5 },
                     materials: { "Red Gem": 8, "Blue Gem": 8, "Shiny Gem": 2 },
-                    currency: 1500
+                    currency: 1200
                 }
             },
             "T1 Turncoat Staff": {
@@ -5885,7 +5964,7 @@
                 requirements: {
                     item: { name: "Turncoat Staff", upgradeLevel: 5 },
                     materials: { "Red Gem": 8, "Blue Gem": 8, "Shiny Gem": 2 },
-                    currency: 1500
+                    currency: 1200
                 }
             },
             "T1 Turncoat Bow": {
@@ -5898,7 +5977,20 @@
                 requirements: {
                     item: { name: "Turncoat Bow", upgradeLevel: 5 },
                     materials: { "Red Gem": 8, "Blue Gem": 8, "Shiny Gem": 2 },
-                    currency: 1500
+                    currency: 1200
+                }
+            },
+            "T1 Turncoat Launcher": {
+                name: "T1 Turncoat Launcher",
+                type: "weapon",
+                stats: { attack: 70 },
+                lifesteal: { chance: 0.20, multiplier: 0.50 },
+                sellValue: 35,
+                rarity: "t1",
+                requirements: {
+                    item: { name: "Turncoat Launcher", upgradeLevel: 5 },
+                    materials: { "Red Gem": 8, "Blue Gem": 8, "Shiny Gem": 2 },
+                    currency: 1200
                 }
             },
             "T1 Turncoat Armor": {
@@ -5911,7 +6003,7 @@
                 requirements: {
                     item: { name: "Turncoat Armor", upgradeLevel: 5 },
                     materials: { "Red Gem": 8, "Blue Gem": 8, "Shiny Gem": 2 },
-                    currency: 1500
+                    currency: 1200
                 }
             },
             "T1 Calliana Sword": {
@@ -5924,7 +6016,7 @@
                 requirements: {
                     item: { name: "Calliana Sword", upgradeLevel: 5 },
                     materials: { "Red Gem": 11, "Blue Gem": 11, "Shiny Gem": 3 },
-                    currency: 2000
+                    currency: 1500
                 }
             },
             "T1 Calliana Staff": {
@@ -5937,7 +6029,7 @@
                 requirements: {
                     item: { name: "Calliana Staff", upgradeLevel: 5 },
                     materials: { "Red Gem": 11, "Blue Gem": 11, "Shiny Gem": 3 },
-                    currency: 2000
+                    currency: 1500
                 }
             },
             "T1 Calliana Bow": {
@@ -5950,7 +6042,20 @@
                 requirements: {
                     item: { name: "Calliana Bow", upgradeLevel: 5 },
                     materials: { "Red Gem": 11, "Blue Gem": 11, "Shiny Gem": 3 },
-                    currency: 2000
+                    currency: 1500
+                }
+            },
+            "T1 Calliana Launcher": {
+                name: "T1 Calliana Launcher",
+                type: "weapon",
+                stats: { attack: 90 },
+                lifesteal: { chance: 0.20, multiplier: 0.50 },
+                sellValue: 40,
+                rarity: "t1",
+                requirements: {
+                    item: { name: "Calliana Launcher", upgradeLevel: 5 },
+                    materials: { "Red Gem": 11, "Blue Gem": 11, "Shiny Gem": 3 },
+                    currency: 1500
                 }
             },
             "T1 Calliana Armor": {
@@ -5963,7 +6068,7 @@
                 requirements: {
                     item: { name: "Calliana Armor", upgradeLevel: 5 },
                     materials: { "Red Gem": 11, "Blue Gem": 11, "Shiny Gem": 3 },
-                    currency: 2000
+                    currency: 1500
                 }
             },
         };
@@ -5986,19 +6091,19 @@
                 2: 0.9,  // 90%
                 3: 0.8,  // 80%
                 4: 0.7,  // 70%
-                5: 0.6,  // 60%
+                5: 0.5,  // 50%
                 6: 0.4,  // 40%
-                7: 0.2   // 20%
+                7: 0.3   // 30%
             },
             // Cost per level - Weapons use Red Gems, Armors use Blue Gems
             costs: {
-                1: { "Red Gem": 1, "Blue Gem": 1, "currency": 10 },
-                2: { "Red Gem": 2, "Blue Gem": 2, "currency": 20 },
-                3: { "Red Gem": 3, "Blue Gem": 3, "currency": 30 },
-                4: { "Red Gem": 4, "Blue Gem": 4, "currency": 40 },
-                5: { "Red Gem": 5, "Blue Gem": 5, "currency": 50 },
-                6: { "Red Gem": 6, "Blue Gem": 6, "currency": 60 },
-                7: { "Red Gem": 7, "Blue Gem": 7, "currency": 70 }
+                1: { "Red Gem": 1, "Blue Gem": 1, "currency": 100 },
+                2: { "Red Gem": 2, "Blue Gem": 2, "currency": 100 },
+                3: { "Red Gem": 3, "Blue Gem": 3, "currency": 100 },
+                4: { "Red Gem": 4, "Blue Gem": 4, "currency": 100 },
+                5: { "Red Gem": 5, "Blue Gem": 5, "currency": 100 },
+                6: { "Red Gem": 6, "Blue Gem": 6, "currency": 100 },
+                7: { "Red Gem": 7, "Blue Gem": 7, "currency": 100 }
             },
             // Destroy on +5, +6, +7 failure
             destroyOnFailure: [5, 6, 7]
@@ -7013,6 +7118,15 @@
             // Craft button
             craftBtn.addEventListener('click', openCraftingModal);
             craftCancelBtn.addEventListener('click', closeCraftingModal);
+
+            // Craft tab event listeners
+            document.querySelectorAll('.craft-tab').forEach(tab => {
+                tab.addEventListener('click', () => {
+                    document.querySelectorAll('.craft-tab').forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    renderRecipes(tab.dataset.category);
+                });
+            });
             craftConfirmBtn.addEventListener('click', async () => {
                 // 1. Add pulsing class and disable
                 craftConfirmBtn.classList.add('btn-pulsing');
@@ -7584,16 +7698,16 @@
             const etherExpValues = {
                 'Chooty': 180,
                 'Hobo Mite': 185,
-                'Hobo Sword': 190,
+                'Hobo Sword': 185,
                 'Hobo Turnpike': 195,
-                'Hobo Cutter': 200,
-                'Passer Alpha': 205,
-                'Hobo Robber': 210,
-                'Hobo Blade': 210,
-                'Passer Beta': 220,
-                'Calliana Atroc': 230,
-                'Calliana Crew': 230,
-                'Assassin Builder B': 250,
+                'Hobo Cutter': 195,
+                'Passer Alpha': 210,
+                'Hobo Robber': 230,
+                'Hobo Blade': 230,
+                'Passer Beta': 240,
+                'Calliana Atroc': 250,
+                'Calliana Crew': 250,
+                'Assassin Builder B': 270,
                 'Calliana Princess': 300
             };
 
@@ -9321,6 +9435,7 @@
                 const isSword = name.includes('sword') || name.includes('blade') || name.includes('claymore') || name.includes('breaker') || name.includes('zweihander') || name.includes('man eater') || name.includes('eater');
                 const isStaff = name.includes('staff') || name.includes('wand') || name.includes('bead') || name.toLowerCase().includes('accelleon');
                 const isBow = name.includes('bow') || name.toLowerCase().includes('valkyrie');
+                const isLauncher = name.includes('launcher') || name.toLowerCase().includes('cerberus') || name.toLowerCase().includes('flame thrower') || name.toLowerCase().includes('bazooka');
 
                 if (playerClass === 'Warrior' && !isSword) {
                     addToBattleLog(`Warriors can only equip Swords!`, 'warning');
@@ -9330,6 +9445,9 @@
                     return;
                 } else if (playerClass === 'Ranger' && !isBow) {
                     addToBattleLog(`Rangers can only equip Bows!`, 'warning');
+                    return;
+                } else if (playerClass === 'Launcher' && !isLauncher) {
+                    addToBattleLog(`Launchers can only equip Launchers!`, 'warning');
                     return;
                 }
             }
@@ -9860,72 +9978,88 @@
             leaves: [
                 {
                     id: 'intense_spadona',
-                    name: 'Intense Spadona',
-                    icon: '⚔️',
+                    name: 'Int Spadona',
+                    icon: '🗡️',
                     type: 'weapon',
                     stats: '+50 Attack',
-                    price: 10000,
+                    price: 15000,
                     currency: 'leaves',
                     itemData: {
-                        name: 'Intense Spadona',
+                        name: 'Int Spadona',
                         type: 'weapon',
                         stats: { attack: 50, defense: 0 },
                         rarity: 'intense',
-                        sellValue: 99
+                        sellValue: 25
                     }
                 },
                 {
                     id: 'intense_sickle_staff',
-                    name: 'Intense Sickle Staff',
+                    name: 'Int Sickle Staff',
                     icon: '🪄',
                     type: 'weapon',
                     stats: '+50 Attack',
-                    price: 10000,
+                    price: 15000,
                     currency: 'leaves',
                     itemData: {
-                        name: 'Intense Sickle Staff',
+                        name: 'Int Sickle Staff',
                         type: 'weapon',
                         stats: { attack: 50, defense: 0 },
                         rarity: 'intense',
-                        sellValue: 99
+                        sellValue: 25
                     }
                 },
                 {
                     id: 'intense_sickle_bow',
-                    name: 'Intense Sickle Bow',
+                    name: 'Inte Sickle Bow',
                     icon: '🏹',
                     type: 'weapon',
                     stats: '+50 Attack',
-                    price: 10000,
+                    price: 15000,
                     currency: 'leaves',
                     itemData: {
-                        name: 'Intense Sickle Bow',
+                        name: 'Int Sickle Bow',
                         type: 'weapon',
                         stats: { attack: 50, defense: 0 },
                         rarity: 'intense',
-                        sellValue: 99
+                        sellValue: 25
+                    }
+                },
+                {
+                    id: 'intense_flame_thrower',
+                    name: 'Int Flame Thrower',
+                    icon: '🏹',
+                    type: 'weapon',
+                    stats: '+50 Attack',
+                    price: 15000,
+                    currency: 'leaves',
+                    itemData: {
+                        name: 'Intense Flame Thrower',
+                        type: 'weapon',
+                        stats: { attack: 50, defense: 0 },
+                        rarity: 'intense',
+                        sellValue: 25
                     }
                 },
                 {
                     id: 'intense_elixir_robe',
-                    name: 'Intense Elixir Robe',
+                    name: 'Int Elixir Robe',
                     icon: '🥋',
                     type: 'armor',
                     stats: '+50 Attack',
-                    price: 10000,
+                    price: 15000,
                     currency: 'leaves',
                     itemData: {
                         name: 'Intense Elixir Robe',
                         type: 'armor',
                         stats: { attack: 0, defense: 50 },
                         rarity: 'intense',
-                        sellValue: 99
+                        sellValue: 25
                     }
                 },
                 {
                     id: 'arghol_sword_1',
                     name: 'Arghol Blade',
-                    icon: '⚔️',
+                    icon: '🗡️',
                     type: 'weapon',
                     stats: '+15 Attack',
                     price: 10000,
@@ -9934,7 +10068,7 @@
                         name: 'Arghol Blade',
                         type: 'weapon',
                         stats: { attack: 15, defense: 0 },
-                        sellValue: 99
+                        sellValue: 10
                     }
                 },
                 {
@@ -9949,7 +10083,7 @@
                         name: 'Arghol Staff',
                         type: 'weapon',
                         stats: { attack: 15, defense: 0 },
-                        sellValue: 99
+                        sellValue: 10
                     }
                 },
                 {
@@ -9964,7 +10098,7 @@
                         name: 'Arghol Bow',
                         type: 'weapon',
                         stats: { attack: 15, defense: 0 },
-                        sellValue: 99
+                        sellValue: 10
                     }
                 },
                 {
@@ -9979,7 +10113,7 @@
                         name: 'Arghol Armor',
                         type: 'armor',
                         stats: { attack: 0, defense: 15 },
-                        sellValue: 99
+                        sellValue: 10
                     }
                 }
             ],
@@ -9998,7 +10132,7 @@
                         type: 'accessory',
                         slot: 'ring',
                         bonusPercent: { attack: 0.3, defense: 0.3 },
-                        sellValue: 99
+                        sellValue: 6
                     }
                 },
 
@@ -10007,7 +10141,7 @@
                 {
                     id: 'relic_man_eater',
                     name: 'Man Eater',
-                    icon: '⚔️',
+                    icon: '🗡️',
                     type: 'weapon',
                     stats: '+150 Attack',
                     price: 5000,
@@ -10017,7 +10151,7 @@
                         type: 'weapon',
                         stats: { attack: 150, defense: 0 },
                         rarity: 'relic',
-                        sellValue: 99
+                        sellValue: 35
                     }
                 },
                 {
@@ -10033,7 +10167,7 @@
                         type: 'weapon',
                         stats: { attack: 140, defense: 0 },
                         rarity: 'relic',
-                        sellValue: 99
+                        sellValue: 35
                     }
                 },
                 {
@@ -10049,7 +10183,23 @@
                         type: 'weapon',
                         stats: { attack: 145, defense: 0 },
                         rarity: 'relic',
-                        sellValue: 99
+                        sellValue: 35
+                    }
+                },
+                {
+                    id: 'relic_cerberus',
+                    name: 'Cerberus',
+                    icon: '🚀',
+                    type: 'weapon',
+                    stats: '+148 Attack',
+                    price: 5000,
+                    currency: 'pvp',
+                    itemData: {
+                        name: 'Cerberus',
+                        type: 'weapon',
+                        stats: { attack: 148, defense: 0 },
+                        rarity: 'relic',
+                        sellValue: 35
                     }
                 }
             ],
@@ -10057,7 +10207,7 @@
                 {
                     id: 'coin_relic_man_eater',
                     name: 'Man Eater',
-                    icon: '⚔️',
+                    icon: '🗡️',
                     type: 'weapon',
                     stats: '+150 Attack',
                     price: 100,
@@ -10068,7 +10218,7 @@
                         type: 'weapon',
                         stats: { attack: 150, defense: 0 },
                         rarity: 'relic',
-                        sellValue: 99
+                        sellValue: 35
                     }
                 },
                 {
@@ -10085,7 +10235,7 @@
                         type: 'weapon',
                         stats: { attack: 140, defense: 0 },
                         rarity: 'relic',
-                        sellValue: 99
+                        sellValue: 35
                     }
                 },
                 {
@@ -10102,7 +10252,24 @@
                         type: 'weapon',
                         stats: { attack: 145, defense: 0 },
                         rarity: 'relic',
-                        sellValue: 99
+                        sellValue: 35
+                    }
+                },
+                {
+                    id: 'coin_relic_cerberus',
+                    name: 'Cerberus',
+                    icon: '🚀',
+                    type: 'weapon',
+                    stats: '+148 Attack',
+                    price: 100,
+                    currency: 'coins',
+                    originalTab: 'pvp',
+                    itemData: {
+                        name: 'Cerberus',
+                        type: 'weapon',
+                        stats: { attack: 148, defense: 0 },
+                        rarity: 'relic',
+                        sellValue: 35
                     }
                 }
             ]
@@ -11674,30 +11841,27 @@
                 case 'currency': return '🍃';
                 case 'rusty sword': return '🗡️';
                 case 'sword breaker': return '🗡️';
-                case 'valkyrie sword': return '🗡️';
+                case 'valkyr sword': return '🗡️';
                 case 'zweihander': return '🗡️';
-                case 'arghol blade': return '🗡️';
                 case 'rusty wand': return '🪄';
+                case 'rusty launcher': return '🚀';
+                case 'int flame thrower': return '🚀';
                 case 'battle staff': return '🪄';
                 case 'war wand': return '🪄';
                 case 'red bead': return '🪄';
-                case 'arghol staff': return '🪄';
                 case 'rusty bow': return '🏹';
                 case 'assemble bow': return '🏹';
                 case 'tower bow': return '🏹';
                 case 'beam cross-bow': return '🏹';
-                case 'arghol bow': return '🏹';
                 case 'rusty armor': return '🧥';
                 case 'leather shirt': return '🧥';
                 case 'light tunic': return '🧥';
                 case 'coil armor': return '🧥';
-                case 'arghol armor': return '🧥';
                 case 'iron tunic': return '🧥';
                 case 'steel core': return '🧥';
                 case 'duple armor': return '🧥';
                 case 'sprits cloak': return '🧥';
                 case 'soul armor': return '🧥';
-                case 'turncoat armor': return '🧥';
                 case 'glow suit': return '🧥';
                 case 'red gem': return '♦️';
                 case 'blue gem': return '🔷';
@@ -11718,14 +11882,12 @@
                 case 'big breaker': return '🗡️';
                 case 'beam sword': return '🗡️';
                 case 'scale sword': return '🗡️';
-                case 'turncoat sword': return '🗡️';
                 case 'estoc': return '🗡️';
                 case 'black wand': return '🪄';
                 case 'field staff': return '🪄';
                 case 'dual wand': return '🪄';
                 case 'beam bead': return '🪄';
                 case 'blue wand': return '🪄';
-                case 'turncoat staff': return '🪄'
                 case 'long bow': return '🏹';
                 case 'battle bow': return '🏹';
                 case 'dual bow': return '🏹';
@@ -11733,27 +11895,53 @@
                 case 'siege bow': return '🏹';
                 case 'beam siege bow': return '🏹';
                 case 'black stick bead': return '🪄'
-                case 'turncoat bow': return '🏹';
-                case 't1 turncoat sword': return '🗡️';
-                case 't1 turncoat staff': return '🪄';
-                case 't1 turncoat bow': return '🏹';
-                case 't1 turncoat armor': return '🧥';
-                case 't1 arghol blade': return '🗡️';
-                case 't1 arghol staff': return '🪄';
-                case 't1 arghol bow': return '🏹';
-                case 't1 arghol armor': return '🧥';
-                case 'calliana sword': return '🗡️';
-                case 'calliana staff': return '🪄';
-                case 'calliana bow': return '🏹';
-                case 'calliana armor': return '🧥';
-                case 't1 calliana sword': return '🗡️';
-                case 't1 calliana staff': return '🪄';
-                case 't1 calliana bow': return '🏹';
-                case 't1 calliana armor': return '🧥';
+                case 'turncoat sword': return '𖤍🗡️';
+                case 'turncoat staff': return '𖤍🪄'
+                case 'turncoat armor': return '𖤍🧥';
+                case 'turncoat bow': return '𖤍🏹';
+                case 'arghol blade': return '𖤍🗡️';
+                case 'arghol staff': return '𖤍🪄';
+                case 'arghol bow': return '𖤍🏹';
+                case 'arghol armor': return '𖤍🧥';
+                case 't1 turncoat sword': return '𖤍🗡️';
+                case 't1 turncoat staff': return '𖤍🪄';
+                case 't1 turncoat bow': return '𖤍🏹';
+                case 't1 turncoat armor': return '𖤍🧥';
+                case 't1 arghol blade': return '𖤍🗡️';
+                case 't1 arghol staff': return '𖤍🪄';
+                case 't1 arghol bow': return '𖤍🏹';
+                case 't1 arghol armor': return '𖤍🧥';
+                case 'calliana sword': return '𖤍🗡️';
+                case 'calliana staff': return '𖤍🪄';
+                case 'calliana bow': return '𖤍🏹';
+                case 'calliana armor': return '𖤍🧥';
+                case 't1 calliana sword': return '𖤍🗡️';
+                case 't1 calliana staff': return '𖤍🪄';
+                case 't1 calliana bow': return '𖤍🏹';
+                case 't1 calliana armor': return '𖤍🧥';
                 case 'snowflake': return '❄️';
                 case 'man eater': return '🗡️';
                 case 'accelleon': return '🪄';
                 case 'valkyrie': return '🏹';
+                case 'cerberus': return '🚀';
+                case 'arghol launcher': return '𖤍🚀';
+                case 'turncoat launcher': return '𖤍🚀';
+                case 'calliana launcher': return '𖤍🚀';
+                case 't1 arghol launcher': return '𖤍🚀';
+                case 't1 turncoat launcher': return '𖤍🚀';
+                case 't1 calliana launcher': return '𖤍🚀';
+                case 'soft launcher': return '🚀';
+                case 'basic launcher': return '🚀';
+                case 'light launcher ': return '🚀';
+                case 'heavy launcher': return '🚀';
+                case 'dusty launcher': return '🚀';
+                case 'flame thrower': return '🔥';
+                case 'hook launcher': return '🚀';
+                case 'bazooka': return '☄️';
+                case 'int spadona': return '🗡️';
+                case 'int sickle staff': return '🪄';
+                case 'int sickle bow': return '🏹';
+                case 'int flame thrower': return '🔥';
                 default: return '';
             }
         }
@@ -11796,7 +11984,10 @@
         // Crafting Functions
         function openCraftingModal() {
             craftingModal.style.display = 'flex';
-            renderRecipes();
+            // Ensure Sword tab is active by default
+            document.querySelectorAll('.craft-tab').forEach(t => t.classList.remove('active'));
+            document.querySelector('.craft-tab[data-category="sword"]').classList.add('active');
+            renderRecipes('sword');
         }
 
         function closeCraftingModal() {
@@ -11805,10 +11996,31 @@
             craftConfirmBtn.disabled = true;
         }
 
-        function renderRecipes() {
+        function renderRecipes(category = 'sword') {
             recipeList.innerHTML = '';
 
             Object.entries(craftingRecipes).forEach(([key, recipe]) => {
+                // Filter by category
+                let shouldShow = false;
+                switch (category) {
+                    case 'sword':
+                        shouldShow = recipe.type === 'weapon' && (recipe.name.toLowerCase().includes('sword') || recipe.name.toLowerCase().includes('blade') || recipe.name.toLowerCase().includes('claymore') || recipe.name.toLowerCase().includes('breaker') || recipe.name.toLowerCase().includes('zweihander') || recipe.name.toLowerCase().includes('man eater') || recipe.name.toLowerCase().includes('eater'));
+                        break;
+                    case 'staff':
+                        shouldShow = recipe.type === 'weapon' && (recipe.name.toLowerCase().includes('staff') || recipe.name.toLowerCase().includes('wand') || recipe.name.toLowerCase().includes('bead') || recipe.name.toLowerCase().includes('accelleon'));
+                        break;
+                    case 'bow':
+                        shouldShow = recipe.type === 'weapon' && (recipe.name.toLowerCase().includes('bow') || recipe.name.toLowerCase().includes('valkyrie'));
+                        break;
+                    case 'launcher':
+                        shouldShow = recipe.type === 'weapon' && recipe.name.toLowerCase().includes('launcher');
+                        break;
+                    case 'armor':
+                        shouldShow = recipe.type === 'armor';
+                        break;
+                }
+
+                if (!shouldShow) return;
                 const recipeEl = document.createElement('div');
                 recipeEl.className = 'recipe-item';
                 if (selectedRecipe === key) recipeEl.classList.add('selected');
@@ -12791,8 +13003,8 @@
 
             // Check if player is level 30 or above
             const playerLevel = gameState.character?.level || 0;
-            if (playerLevel < 30) {
-                addToBattleLog('⚠️ Chip War is only available to players level 30 and above!', 'warning');
+            if (playerLevel < 20) {
+                addToBattleLog('⚠️ Chip War is only available to players level 20 and above!', 'warning');
                 return;
             }
 
