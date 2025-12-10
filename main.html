@@ -1967,7 +1967,8 @@
             color: var(--text);
         }
 
-        .craft-tab:hover, .craft-tab.active {
+        .craft-tab:hover,
+        .craft-tab.active {
             background-color: var(--highlight);
             border-color: var(--accent-color);
         }
@@ -9000,11 +9001,13 @@
                         const isSword = name.includes('sword') || name.includes('blade') || name.includes('claymore') || name.includes('breaker') || name.includes('zweihander') || name.includes('man eater') || name.includes('eater') || name.includes('spadona');
                         const isStaff = name.includes('staff') || name.includes('wand') || name.includes('bead');
                         const isBow = name.includes('bow');
+                        const isLauncher = name.includes('launcher') || name.includes('flame thrower') || name.includes('bazooka') || name === 'cerberus';
 
                         let requiredClass = null;
                         if (isSword) requiredClass = 'Warrior';
                         else if (isStaff) requiredClass = 'Mystic';
                         else if (isBow) requiredClass = 'Ranger';
+                        else if (isLauncher) requiredClass = 'Launcher';
 
                         if (requiredClass && playerClass !== requiredClass) {
                             canEquip = false;
@@ -9109,7 +9112,8 @@
                 // Check if it's armor or weapon
                 const isArmor = item.name.toLowerCase().includes('armor') ||
                     item.name.toLowerCase().includes('shirt') ||
-                    item.name.toLowerCase().includes('tunic');
+                    item.name.toLowerCase().includes('tunic') ||
+                    item.name.toLowerCase() === 'steel core';
 
                 const statType = isArmor ? 'defense' : 'attack';
                 const currentStat = item.stats[statType] + (upgradeSystem.bonuses[itemLevel]?.[statType] || 0);
@@ -9142,7 +9146,8 @@
             const isArmor = lowerName.includes('armor') ||
                 lowerName.includes('shirt') ||
                 lowerName.includes('tunic') ||
-                lowerName.includes('suit');
+                lowerName.includes('suit') ||
+                lowerName === 'steel core';
 
             const statType = isArmor ? 'defense' : 'attack';
             const currentStat = item.stats[statType] + (upgradeSystem.bonuses[itemLevel]?.[statType] || 0);
@@ -9186,7 +9191,8 @@
             const isArmor = lowerName.includes('armor') ||
                 lowerName.includes('shirt') ||
                 lowerName.includes('tunic') ||
-                lowerName.includes('suit');
+                lowerName.includes('suit') ||
+                lowerName === 'steel core';
 
             const statType = isArmor ? 'defense' : 'attack';
             const gemType = isArmor ? "Blue Gem" : "Red Gem";
@@ -13238,9 +13244,9 @@
                 const chipsRef = ref(db, 'globalChips');
 
                 await update(chipsRef, {
-                    'Accretia/currentHp': 30000,
-                    'Bellato/currentHp': 30000,
-                    'Cora/currentHp': 30000
+                    'Accretia/currentHp': 50000,
+                    'Bellato/currentHp': 50000,
+                    'Cora/currentHp': 50000
                 });
 
                 console.log('✅ Chip HP reset to full (12pm GMT+8 reset)');
