@@ -4722,24 +4722,18 @@
                     }
                 }, 3000); // Wait a bit longer for Firebase to be fully ready
 
-                // SESSION MANAGEMENT: Generate or reuse session ID
-                let sessionId = sessionStorage.getItem('currentSessionId');
-                if (!sessionId) {
-                    // Generate new session ID only if one doesn't exist
-                    sessionId = Date.now() + '-' + Math.random().toString(36).substr(2, 9);
-                    sessionStorage.setItem('currentSessionId', sessionId);
+                // SESSION MANAGEMENT: Always generate new session ID (prevents duplicate tabs)
+                const sessionId = Date.now() + '-' + Math.random().toString(36).substr(2, 9);
+                sessionStorage.setItem('currentSessionId', sessionId);
 
-                    // Write session ID to Firebase only for new sessions
-                    set(ref(db, `users/${user.uid}/activeSession`), sessionId)
-                        .then(() => {
-                            console.log('✅ Session ID set:', sessionId);
-                        })
-                        .catch((error) => {
-                            console.error('❌ Error setting session ID:', error);
-                        });
-                } else {
-                    console.log('✅ Reusing existing session ID:', sessionId);
-                }
+                // Write session ID to Firebase (will logout previous tabs)
+                set(ref(db, `users/${user.uid}/activeSession`), sessionId)
+                    .then(() => {
+                        console.log('✅ Session ID set:', sessionId);
+                    })
+                    .catch((error) => {
+                        console.error('❌ Error setting session ID:', error);
+                    });
 
                 // Monitor session changes (skip initial trigger)
                 let isFirstCheck = true;
