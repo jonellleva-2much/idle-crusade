@@ -62,9 +62,18 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Courier Prime', monospace;
+            font-family: 'Open Sans', sans-serif;
             font-size: 14px;
-            /* Classic terminal size */
+        }
+
+        .battle-log,
+        .log-entry,
+        code,
+        pre,
+        .stat-value,
+        .inventory-item-stats,
+        .combat-value {
+            font-family: 'Courier Prime', monospace;
         }
 
         body {
@@ -76,15 +85,18 @@
         }
 
         header {
-            background-color: var(--darker-bg);
-            padding: 1rem 2rem;
+            background-color: rgba(10, 10, 10, 0.95);
+            padding: 0.8rem 2rem;
             border-bottom: 1px solid var(--accent);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin: 0 215px;
+            width: calc(100% - 2rem);
+            max-width: calc(1400px - 2rem);
+            margin: 1rem auto 0;
+            border-radius: 6px;
             flex-wrap: wrap;
-            /* Allow wrapping on smaller screens */
+            z-index: 100;
         }
 
         .logo {
@@ -127,6 +139,7 @@
             /* Allow items to wrap */
         }
 
+
         nav a {
             color: var(--text);
             text-decoration: none;
@@ -148,7 +161,9 @@
             gap: 1rem;
             height: calc(100vh - 80px);
             overflow: hidden;
-            margin: 0 200px;
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
         }
 
         .mobile-tabs {
@@ -159,30 +174,33 @@
 
         .mobile-tab-btn {
             flex: 1;
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            background: var(--panel-bg);
-            color: var(--text);
-            padding: 0.6rem 0.8rem;
-            border-radius: 6px;
+            border: none;
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-dim);
+            padding: 0.7rem 0.5rem;
+            border-radius: 4px;
             font-weight: 600;
             text-transform: uppercase;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             letter-spacing: 0.05em;
             cursor: pointer;
-            transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+            transition: all 0.2s ease;
         }
 
         .mobile-tab-btn.active {
-            background: var(--accent);
-            border-color: var(--accent-color);
-            color: var(--accent-color);
+            background: var(--accent-color);
+            color: #fff;
+            box-shadow: 0 2px 8px rgba(255, 122, 47, 0.3);
         }
 
         .panel {
-            background-color: var(--panel-bg);
-            border-radius: 8px;
-            padding: 1.5rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            background-color: rgba(30, 30, 30, 0.95);
+            border-radius: 6px;
+            padding: 1.25rem;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            display: flex;
+            flex-direction: column;
         }
 
         .left-panel {
@@ -401,19 +419,27 @@
         }
 
         .btn {
-            padding: 0.8rem 1.5rem;
+            padding: 0.7rem 1.2rem;
             border: none;
             border-radius: 4px;
             background-color: var(--accent-color);
             color: white;
-            font-weight: bold;
+            font-weight: 600;
             cursor: pointer;
-            transition: background-color 0.2s;
+            transition: all 0.2s;
             flex: 1;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            font-family: 'Open Sans', sans-serif;
+        }
+
+        .btn:active {
+            transform: translateY(1px);
         }
 
         .btn:hover {
             background-color: var(--accent-hover);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            transform: translateY(-1px);
         }
 
         .btn:disabled {
@@ -1523,7 +1549,7 @@
 
         .upgrade-content {
             background-color: var(--panel-bg);
-            border-radius: 8px;
+            border-radius: 6px;
             padding: 2rem;
             width: 90%;
             max-width: 500px;
@@ -1771,46 +1797,67 @@
         @media (max-width: 720px) {
             header {
                 margin: 0;
-                padding: 0.5rem;
-                flex-direction: row;
-                /* Keep row for logo and nav */
-                flex-wrap: wrap;
-                justify-content: space-between;
-                align-items: center;
-                gap: 0.5rem;
+                padding: 0.5rem 1rem;
+                flex-direction: column;
+                align-items: stretch;
+                gap: 1.5rem;
+                position: sticky;
+                top: 0;
+                width: 100%;
+                z-index: 1000;
+                background-color: rgba(10, 10, 10, 0.98);
+                border-bottom: 1px solid rgba(255, 255, 255, 0.05);
             }
 
             .logo {
-                margin-bottom: 1rem;
+                margin-bottom: 0.5rem;
                 gap: 0.5rem;
             }
 
             .logo-image {
-                height: 35px;
+                height: 32px;
             }
 
             .logo-title {
-                font-size: 1.2rem;
+                font-size: 1.1rem;
             }
 
             .logo-subtitle {
-                font-size: 0.75rem;
-                margin-top: 0.1rem;
+                font-size: 0.7rem;
+                margin-top: 0.05rem;
             }
 
             nav {
-                width: auto;
+                width: 100%;
             }
 
             nav ul {
-                justify-content: flex-end;
-                gap: 0.5rem;
+                justify-content: center;
+                gap: 0.3rem;
                 padding: 0;
+                display: flex;
+                flex-wrap: wrap;
+                list-style: none;
+            }
+
+            /* Create two rows for mobile navigation */
+            nav li:nth-child(-n+4) {
+                order: 1;
+            }
+
+            nav li:nth-child(n+5) {
+                order: 2;
+            }
+
+            /* Style the logout button for mobile */
+            nav li:last-child .btn {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.8rem;
             }
 
             .dropdown-content {
                 right: 0;
-                min-width: 200px;
+                min-width: 180px;
             }
 
             .mobile-tabs {
@@ -1818,15 +1865,17 @@
                 margin: 0 0 0.5rem;
             }
 
+            /*panel padding*/
             .container {
                 margin: 0;
                 flex-direction: column;
                 height: auto;
                 overflow-y: auto;
-                padding: 0.5rem;
+                padding: 2.0rem;
                 padding-bottom: 80px;
-                gap: 1rem;
-                /* Add gap between panels */
+                gap: 0.6rem;
+                width: 100%;
+                max-width: 100%;
             }
 
             .left-panel,
@@ -1835,8 +1884,13 @@
                 width: 100%;
                 height: auto;
                 overflow: visible;
-                padding: 1rem;
+                padding: 0.75rem;
                 /* Reduce padding slightly */
+            }
+
+            .panel-title {
+                font-size: 1rem;
+                margin-bottom: 0.7rem;
             }
 
             .mobile-tab-panel {
@@ -1858,69 +1912,80 @@
             }
 
             .inventory-scrollable {
-                max-height: 60vh;
+                max-height: 55vh;
                 overflow-y: auto;
             }
 
             .battle-log {
-                height: 400px;
-                /* Larger log on mobile as requested */
+                height: 300px;
+                /* Slightly shorter to show more actions */
+                font-size: 0.8rem;
+                line-height: 1.3;
+                border: 1px solid rgba(255, 255, 255, 0.05);
             }
 
             .stat-group {
-                grid-template-columns: 1fr 1fr 1fr;
+                grid-template-columns: repeat(4, 1fr);
             }
 
             .actions {
                 flex-direction: column;
                 /* Stack actions vertically or wrap */
-                gap: 0.5rem;
+                gap: 0.4rem;
             }
 
             .action-buttons {
                 flex-wrap: wrap;
                 justify-content: space-between;
                 /* Distribute buttons */
-                gap: 0.5rem;
+                gap: 0.4rem;
             }
 
             .btn {
-                flex: 1 1 45%;
-                /* Grow and shrink, basis 45% */
-                min-width: 120px;
-                /* Minimum width for touch targets */
-                padding: 0.8rem 0.5rem;
-                /* Adjust padding */
-                font-size: 0.9rem;
+                flex: 1 1 40%;
+                /* Grow and shrink, basis 40% */
+                min-width: 100px;
+                /* Smaller touch targets */
+                padding: 0.6rem 0.4rem;
+                font-size: 0.85rem;
             }
 
             #auth-btn {
                 min-width: auto;
                 flex: none;
                 width: auto;
-                padding: 0.5rem 0.8rem;
-                font-size: 0.8rem !important;
+                padding: 0.4rem 0.6rem;
+                font-size: 0.75rem !important;
             }
 
             .explore-options {
                 display: flex;
                 flex-wrap: wrap;
-                gap: 0.75rem;
+                gap: 0.5rem;
             }
 
             .explore-option {
-                flex: 1 1 calc(50% - 0.75rem);
-                max-width: calc(50% - 0.75rem);
+                flex: 0 0 calc(50% - 0.25rem);
+                min-width: 0;
             }
 
             .explore-option .btn {
                 width: 100%;
+                padding: 0.55rem 0.4rem;
             }
 
             .explore-status {
                 margin-top: 0 !important;
-                margin-bottom: 0.5rem !important;
-                padding: 0 0.5rem;
+                margin-bottom: 0.4rem !important;
+                padding: 0 0.4rem;
+            }
+
+            .combat-stat {
+                padding: 0.4rem 0.25rem;
+            }
+
+            .skills-group {
+                gap: 0.4rem;
             }
         }
 
@@ -2489,19 +2554,25 @@
             <div class="maps-list" id="maps-list">
                 <div class="map-item" id="hq-map"
                     style="padding: 1rem; background-color: var(--accent); border-radius: 4px; margin-bottom: 1rem; cursor: pointer; border: 2px solid var(--accent-color);">
-                    <div class="map-name" style="font-weight: bold; font-size: 1.1rem;">HQ</div>
+                    <div class="map-name" style="font-weight: bold; font-size: 1.1rem;">🏠 HQ</div>
                     <div class="map-level" style="color: var(--text-dim);">Level 1-20</div>
                 </div>
                 <div class="map-item" id="sette-desset-map"
                     style="padding: 1rem; background-color: var(--accent); border-radius: 4px; margin-bottom: 1rem; cursor: pointer; opacity: 1;">
-                    <div class="map-name" style="font-weight: bold; font-size: 1.1rem;">Sette Desert</div>
+                    <div class="map-name" style="font-weight: bold; font-size: 1.1rem;">🏜️ Sette Desert</div>
                     <div class="map-level" style="color: var(--text-dim);">Level 20+</div>
                 </div>
                 <div class="map-item" id="ether-platform-map"
                     style="padding: 1rem; background-color: var(--accent); border-radius: 4px; margin-bottom: 1rem; cursor: pointer; opacity: 1;">
-                    <div class="map-name" style="font-weight: bold; font-size: 1.1rem;">Ether Platform</div>
+                    <div class="map-name" style="font-weight: bold; font-size: 1.1rem;">🌌 Ether Platform</div>
                     <div class="map-level" style="color: var(--text-dim);">Level 30+ <span
                             style="color: var(--warning); font-size: 0.8rem;">(Cost: 1000 Leaves)</span></div>
+                </div>
+                <div class="map-item" id="volcanic-cauldron-map"
+                    style="padding: 1rem; background-color: var(--accent); border-radius: 4px; margin-bottom: 1rem; cursor: not-allowed; opacity: 0.5;">
+                    <div class="map-name" style="font-weight: bold; font-size: 1.1rem;">🌋 Volcanic Cauldron</div>
+                    <div class="map-level" style="color: var(--text-dim);">Level 40+ <span
+                            style="color: var(--danger); font-size: 0.8rem;">(Coming Soon)</span></div>
                 </div>
             </div>
         </div>
@@ -3354,6 +3425,53 @@
             .shop-buy-btn.coins:hover:not(:disabled) {
                 background: #e67e22;
             }
+
+            /* Shop Tabs */
+            .shop-tabs {
+                display: flex;
+                gap: 0.5rem;
+                margin-bottom: 1.5rem;
+                border-bottom: 2px solid var(--accent);
+                padding-bottom: 0;
+            }
+
+            .shop-tab {
+                padding: 0.8rem 1.5rem;
+                background: transparent;
+                border: none;
+                color: var(--text-dim);
+                cursor: pointer;
+                font-size: 0.95rem;
+                font-weight: bold;
+                transition: all 0.2s;
+                border-bottom: 3px solid transparent;
+                margin-bottom: -2px;
+            }
+
+            .shop-tab:hover {
+                color: var(--text);
+                background: rgba(255, 255, 255, 0.05);
+            }
+
+            .shop-tab.active {
+                color: var(--accent-color);
+                border-bottom-color: var(--accent-color);
+            }
+
+            .shop-tab.leaves-tab.active {
+                color: var(--success);
+                border-bottom-color: var(--success);
+            }
+
+            .shop-tab.pvp-tab.active {
+                color: #3498db;
+                border-bottom-color: #3498db;
+            }
+
+            .shop-tab.coins-tab.active {
+                color: #f39c12;
+                border-bottom-color: #f39c12;
+            }
         </style>
         <div class="modal-content" style="max-width: 1300px;">
             <button class="close-modal" onclick="document.getElementById('shop-modal').style.display='none'"
@@ -3379,10 +3497,17 @@
                     </div>
                 </div>
 
-                <!-- Shop Content - All items in one grid -->
+                <!-- Shop Tabs -->
+                <div class="shop-tabs">
+                    <button class="shop-tab leaves-tab active" onclick="switchShopTab('leaves')">🍃 Leaves Shop</button>
+                    <button class="shop-tab pvp-tab" onclick="switchShopTab('pvp')">⚔️ PVP Shop</button>
+                    <button class="shop-tab coins-tab" onclick="switchShopTab('coins')">🪙 Coin Shop</button>
+                </div>
+
+                <!-- Shop Content -->
                 <div class="shop-content">
                     <div class="shop-items-grid" id="shop-items-container">
-                        <!-- All items will be loaded here -->
+                        <!-- Items will be loaded here based on selected tab -->
                     </div>
                 </div>
             </div>
@@ -3971,6 +4096,7 @@
 
             <div class="rankings-tabs">
                 <button class="rankings-tab active" onclick="switchRankingsTab('level')">Top Level</button>
+                <button class="rankings-tab" onclick="switchRankingsTab('leaves')">Leaves</button>
                 <button class="rankings-tab" onclick="switchRankingsTab('pvp')">PVP Points</button>
                 <button class="rankings-tab" onclick="switchRankingsTab('guilds')">Guilds</button>
             </div>
@@ -4008,6 +4134,7 @@
                 <button class="craft-tab" data-category="bow">Bow</button>
                 <button class="craft-tab" data-category="launcher">Launcher</button>
                 <button class="craft-tab" data-category="armor">Armor</button>
+                <button class="craft-tab" data-category="accessories">Accessories</button>
             </div>
 
             <div class="recipe-list" id="recipe-list">
@@ -4968,7 +5095,8 @@
                     { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 3, chance: 0.006 },
                     { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 3, chance: 0.005 },
                     { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.05 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.05 }
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.05 },
+                    { type: "material", name: "Herb", stats: {}, sellValue: 1, chance: 0.05 }
                 ]
             },
             "Wing": {
@@ -4989,7 +5117,8 @@
                     { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 3, chance: 0.006 },
                     { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 3, chance: 0.005 },
                     { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.05 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.05 }
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.05 },
+                    { type: "material", name: "Herb", stats: {}, sellValue: 1, chance: 0.05 }
                 ]
             },
             "Flym": {
@@ -5010,7 +5139,8 @@
                     { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 3, chance: 0.006 },
                     { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 3, chance: 0.005 },
                     { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.05 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.05 }
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.05 },
+                    { type: "material", name: "Herb", stats: {}, sellValue: 1, chance: 0.05 }
                 ]
             },
 
@@ -5033,7 +5163,8 @@
                     { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 3, chance: 0.006 },
                     { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 3, chance: 0.005 },
                     { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.05 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.05 }
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.05 },
+                    { type: "material", name: "Herb", stats: {}, sellValue: 1, chance: 0.05 }
                 ]
             },
             "Desert Klan": {
@@ -5054,7 +5185,8 @@
                     { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 3, chance: 0.006 },
                     { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 3, chance: 0.005 },
                     { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.05 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.05 }
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.05 },
+                    { type: "material", name: "Herb", stats: {}, sellValue: 1, chance: 0.05 }
                 ]
             },
             "Demolis": {
@@ -5075,7 +5207,8 @@
                     { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 3, chance: 0.006 },
                     { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 3, chance: 0.005 },
                     { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.05 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.05 }
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.05 },
+                    { type: "material", name: "Herb", stats: {}, sellValue: 1, chance: 0.05 }
                 ]
             },
 
@@ -5098,7 +5231,8 @@
                     { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 3, chance: 0.006 },
                     { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 3, chance: 0.005 },
                     { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.05 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.05 }
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.05 },
+                    { type: "material", name: "Herb", stats: {}, sellValue: 1, chance: 0.05 }
                 ]
             },
             "Lunker": {
@@ -5119,7 +5253,8 @@
                     { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 3, chance: 0.006 },
                     { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 3, chance: 0.005 },
                     { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.05 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.05 }
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.05 },
+                    { type: "material", name: "Herb", stats: {}, sellValue: 1, chance: 0.05 }
                 ]
             },
             "Warbeast": {
@@ -5140,7 +5275,8 @@
                     { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 3, chance: 0.006 },
                     { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 3, chance: 0.005 },
                     { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.05 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.05 }
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.05 },
+                    { type: "material", name: "Herb", stats: {}, sellValue: 1, chance: 0.05 }
                 ]
             },
 
@@ -5163,7 +5299,8 @@
                     { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 3, chance: 0.006 },
                     { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 3, chance: 0.005 },
                     { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.05 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.05 }
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.05 },
+                    { type: "material", name: "Herb", stats: {}, sellValue: 1, chance: 0.05 }
                 ]
             },
             "Snatcher Cheat": {
@@ -5184,7 +5321,8 @@
                     { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 3, chance: 0.006 },
                     { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 3, chance: 0.005 },
                     { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.05 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.05 }
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.05 },
+                    { type: "material", name: "Herb", stats: {}, sellValue: 1, chance: 0.05 }
                 ]
             },
             "Splinter": {
@@ -5205,7 +5343,8 @@
                     { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 3, chance: 0.006 },
                     { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 3, chance: 0.005 },
                     { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.05 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.05 }
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.05 },
+                    { type: "material", name: "Herb", stats: {}, sellValue: 1, chance: 0.05 }
                 ]
             },
 
@@ -5220,11 +5359,11 @@
                 isBoss: true,
                 drops: [
                     { type: "currency", amount: 100, chance: 1.0 },
-                    { type: "item", name: "Arghol Blade", stats: { attack: 15 }, sellValue: 10, chance: 0.8 },
-                    { type: "item", name: "Arghol Staff", stats: { attack: 15 }, sellValue: 10, chance: 0.8 },
-                    { type: "item", name: "Arghol Bow", stats: { attack: 15 }, sellValue: 10, chance: 0.8 },
-                    { type: "item", name: "Arghol Launcher", stats: { attack: 15 }, sellValue: 10, chance: 0.8 },
-                    { type: "item", name: "Arghol Armor", stats: { defense: 15 }, sellValue: 10, chance: 0.8 },
+                    { type: "item", name: "Arghol Blade", stats: { attack: 15 }, sellValue: 10, chance: 0.5 },
+                    { type: "item", name: "Arghol Staff", stats: { attack: 15 }, sellValue: 10, chance: 0.5 },
+                    { type: "item", name: "Arghol Bow", stats: { attack: 15 }, sellValue: 10, chance: 0.5 },
+                    { type: "item", name: "Arghol Launcher", stats: { attack: 15 }, sellValue: 10, chance: 0.5 },
+                    { type: "item", name: "Arghol Armor", stats: { defense: 15 }, sellValue: 10, chance: 0.5 },
                     { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 3, chance: 0.009 },
                     { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 3, chance: 0.008 },
                     { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 3, chance: 0.007 },
@@ -5234,7 +5373,9 @@
                     { type: "item", name: "Basic Wings", stats: { attack: 5, defense: 5 }, movementSpeed: 1.0, isWings: true, sellValue: 5, chance: 0.5 },
                     { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 1.0, quantity: 10 },
                     { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 1.0, quantity: 10 },
-                    { type: "material", name: "Shiny Gem", stats: {}, sellValue: 5, chance: 1.0, quantity: 2 }
+                    { type: "material", name: "Shiny Gem", stats: {}, sellValue: 5, chance: 1.0, quantity: 2 },
+                    { type: "material", name: "Herb", stats: {}, sellValue: 1, chance: 1.0, quantity: 10 }
+
                 ]
             },
 
@@ -5259,7 +5400,8 @@
                     { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 3, chance: 0.005 },
                     { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 3, chance: 0.004 },
                     { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.06 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.06 }
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.06 },
+                    { type: "material", name: "Empty Box", stats: {}, sellValue: 2, chance: 0.06 }
                 ]
             },
             "Ghost": {
@@ -5282,7 +5424,8 @@
                     { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 3, chance: 0.005 },
                     { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 3, chance: 0.004 },
                     { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.06 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.06 }
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.06 },
+                    { type: "material", name: "Empty Box", stats: {}, sellValue: 2, chance: 0.06 }
                 ]
             },
             "Ghost II": { // Hack for 1 hour
@@ -5305,7 +5448,8 @@
                     { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 3, chance: 0.005 },
                     { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 3, chance: 0.004 },
                     { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.06 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.06 }
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.06 },
+                    { type: "material", name: "Empty Box", stats: {}, sellValue: 2, chance: 0.06 }
                 ]
             },
             "Rigor Lapis": {
@@ -5328,7 +5472,8 @@
                     { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 3, chance: 0.005 },
                     { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 3, chance: 0.004 },
                     { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.06 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.06 }
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.06 },
+                    { type: "material", name: "Empty Box", stats: {}, sellValue: 2, chance: 0.06 }
                 ]
             },
             "Rigor Lapis II": { // Hack for 6 hours
@@ -5351,7 +5496,8 @@
                     { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 3, chance: 0.005 },
                     { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 3, chance: 0.004 },
                     { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.06 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.06 }
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.06 },
+                    { type: "material", name: "Empty Box", stats: {}, sellValue: 2, chance: 0.06 }
                 ]
             },
             "Grumble Hook": {
@@ -5374,7 +5520,8 @@
                     { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 3, chance: 0.005 },
                     { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 3, chance: 0.004 },
                     { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.06 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.06 }
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.06 },
+                    { type: "material", name: "Empty Box", stats: {}, sellValue: 2, chance: 0.06 }
                 ]
             },
             "Grumble Hook II": { // Hack for 6 hours
@@ -5397,7 +5544,8 @@
                     { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 3, chance: 0.005 },
                     { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 3, chance: 0.004 },
                     { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.06 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.06 }
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.06 },
+                    { type: "material", name: "Empty Box", stats: {}, sellValue: 2, chance: 0.06 }
                 ]
             },
             "Turncoat": {
@@ -5419,7 +5567,8 @@
                     { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 3, chance: 0.005 },
                     { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 3, chance: 0.004 },
                     { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.06 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.06 }
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.06 },
+                    { type: "material", name: "Empty Box", stats: {}, sellValue: 2, chance: 0.06 }
                 ]
             },
             "Turncoat II": { // Hack for 6 hours
@@ -5441,7 +5590,8 @@
                     { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 3, chance: 0.005 },
                     { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 3, chance: 0.004 },
                     { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.06 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.06 }
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.06 },
+                    { type: "material", name: "Empty Box", stats: {}, sellValue: 2, chance: 0.06 }
                 ]
             },
             "Turncoat III": { // Hack for 12 hours
@@ -5463,7 +5613,8 @@
                     { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 3, chance: 0.005 },
                     { type: "item", name: "Power Ring", stats: { attack: 20, defense: 20 }, sellValue: 3, chance: 0.004 },
                     { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 0.06 },
-                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.06 }
+                    { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 0.06 },
+                    { type: "material", name: "Empty Box", stats: {}, sellValue: 2, chance: 0.06 }
                 ]
             },
 
@@ -5478,11 +5629,11 @@
                 isBoss: true,
                 drops: [
                     { type: "currency", amount: 150, chance: 1.0 },
-                    { type: "item", name: "Turncoat Sword", stats: { attack: 35 }, sellValue: 15, chance: 0.8 },
-                    { type: "item", name: "Turncoat Staff", stats: { attack: 35 }, sellValue: 15, chance: 0.8 },
-                    { type: "item", name: "Turncoat Bow", stats: { attack: 35 }, sellValue: 15, chance: 0.8 },
-                    { type: "item", name: "Turncoat Launcher", stats: { attack: 35 }, sellValue: 15, chance: 0.8 },
-                    { type: "item", name: "Turncoat Armor", stats: { defense: 35 }, sellValue: 15, chance: 0.8 },
+                    { type: "item", name: "Turncoat Sword", stats: { attack: 35 }, sellValue: 15, chance: 0.5 },
+                    { type: "item", name: "Turncoat Staff", stats: { attack: 35 }, sellValue: 15, chance: 0.5 },
+                    { type: "item", name: "Turncoat Bow", stats: { attack: 35 }, sellValue: 15, chance: 0.5 },
+                    { type: "item", name: "Turncoat Launcher", stats: { attack: 35 }, sellValue: 15, chance: 0.5 },
+                    { type: "item", name: "Turncoat Armor", stats: { defense: 35 }, sellValue: 15, chance: 0.5 },
                     { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 3, chance: 0.010 },
                     { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 3, chance: 0.009 },
                     { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 3, chance: 0.008 },
@@ -5492,8 +5643,8 @@
                     { type: "item", name: "Polished Wings", stats: { attack: 6, defense: 6 }, movementSpeed: 1.0, isWings: true, sellValue: 5, chance: 0.5 },
                     { type: "material", name: "Red Gem", stats: {}, sellValue: 1, chance: 1.0, quantity: 15 },
                     { type: "material", name: "Blue Gem", stats: {}, sellValue: 1, chance: 1.0, quantity: 15 },
-                    { type: "material", name: "Shiny Gem", stats: {}, sellValue: 10, chance: 1.0, quantity: 4 }
-
+                    { type: "material", name: "Shiny Gem", stats: {}, sellValue: 10, chance: 1.0, quantity: 4 },
+                    { type: "material", name: "Empty Box", stats: {}, sellValue: 2, chance: 1.0, quantity: 5 }
                 ]
             },
 
@@ -5501,9 +5652,9 @@
             // Wharf Area
             "Chooty": {
                 level: 40,
-                hp: 900,
-                attack: 170,
-                defense: 130,
+                hp: 500,
+                attack: 100,
+                defense: 100,
                 area: "Wharf",
                 map: "Ether Platform",
                 drops: [
@@ -5523,9 +5674,9 @@
             },
             "Hobo Mite": {
                 level: 41,
-                hp: 910,
-                attack: 175,
-                defense: 135,
+                hp: 600,
+                attack: 120,
+                defense: 110,
                 area: "Wharf",
                 map: "Ether Platform",
                 drops: [
@@ -5545,9 +5696,9 @@
             },
             "Hobo Sword": {
                 level: 41,
-                hp: 920,
-                attack: 180,
-                defense: 140,
+                hp: 600,
+                attack: 120,
+                defense: 110,
                 area: "Wharf",
                 map: "Ether Platform",
                 drops: [
@@ -5567,9 +5718,9 @@
             },
             "Hobo Turnpike": {
                 level: 41,
-                hp: 930,
-                attack: 185,
-                defense: 145,
+                hp: 650,
+                attack: 130,
+                defense: 115,
                 area: "Wharf",
                 map: "Ether Platform",
                 drops: [
@@ -5589,9 +5740,9 @@
             },
             "Hobo Cutter": {
                 level: 41,
-                hp: 940,
-                attack: 190,
-                defense: 150,
+                hp: 650,
+                attack: 130,
+                defense: 115,
                 area: "Wharf",
                 map: "Ether Platform",
                 drops: [
@@ -5611,9 +5762,9 @@
             },
             "Passer Alpha": {
                 level: 44,
-                hp: 950,
-                attack: 200,
-                defense: 155,
+                hp: 675,
+                attack: 145,
+                defense: 120,
                 area: "Wharf",
                 map: "Ether Platform",
                 drops: [
@@ -5635,9 +5786,9 @@
             // White Hole Area
             "Hobo Robber": {
                 level: 45,
-                hp: 960,
-                attack: 205,
-                defense: 160,
+                hp: 700,
+                attack: 150,
+                defense: 125,
                 area: "White Hole",
                 map: "Ether Platform",
                 drops: [
@@ -5657,9 +5808,9 @@
             },
             "Hobo Blade": {
                 level: 45,
-                hp: 970,
-                attack: 210,
-                defense: 165,
+                hp: 700,
+                attack: 150,
+                defense: 125,
                 area: "White Hole",
                 map: "Ether Platform",
                 drops: [
@@ -5679,9 +5830,9 @@
             },
             "Passer Beta": {
                 level: 46,
-                hp: 980,
-                attack: 215,
-                defense: 170,
+                hp: 725,
+                attack: 155,
+                defense: 130,
                 area: "White Hole",
                 map: "Ether Platform",
                 drops: [
@@ -5701,9 +5852,9 @@
             },
             "Calliana Atroc": {
                 level: 47,
-                hp: 990,
-                attack: 220,
-                defense: 175,
+                hp: 750,
+                attack: 165,
+                defense: 145,
                 area: "White Hole",
                 map: "Ether Platform",
                 drops: [
@@ -5723,9 +5874,9 @@
             },
             "Calliana Crew": {
                 level: 47,
-                hp: 990,
-                attack: 225,
-                defense: 180,
+                hp: 750,
+                attack: 165,
+                defense: 145,
                 area: "White Hole",
                 map: "Ether Platform",
                 drops: [
@@ -5747,9 +5898,9 @@
             // Lures Lot Area
             "Calliana Atroc II": { // Duplicate for Lures Lot
                 level: 47,
-                hp: 995,
-                attack: 230,
-                defense: 185,
+                hp: 750,
+                attack: 165,
+                defense: 145,
                 area: "Lures Lot",
                 map: "Ether Platform",
                 drops: [
@@ -5769,9 +5920,9 @@
             },
             "Calliana Crew II": { // Duplicate for Lures Lot
                 level: 47,
-                hp: 995,
-                attack: 235,
-                defense: 190,
+                hp: 750,
+                attack: 165,
+                defense: 145,
                 area: "Lures Lot",
                 map: "Ether Platform",
                 drops: [
@@ -5791,9 +5942,9 @@
             },
             "Calliana Archer": {
                 level: 49,
-                hp: 1000,
-                attack: 240,
-                defense: 195,
+                hp: 800,
+                attack: 175,
+                defense: 155,
                 area: "Lures Lot",
                 map: "Ether Platform",
                 drops: [
@@ -5813,9 +5964,9 @@
             },
             "Assassin Builder B": {
                 level: 50,
-                hp: 1010,
-                attack: 245,
-                defense: 200,
+                hp: 850,
+                attack: 200,
+                defense: 160,
                 area: "Lures Lot",
                 map: "Ether Platform",
                 drops: [
@@ -5847,11 +5998,11 @@
                     { type: "currency", amount: 200, chance: 1.0 },
                     { type: "material", name: "Winter Box", sellValue: 20, chance: 1.0, quantity: 50 },
                     { type: "material", name: "Snowflake", sellValue: 15, chance: 1.0, quantity: 1 },
-                    { type: "item", name: "Calliana Sword", stats: { attack: 55 }, sellValue: 20, chance: 0.9 },
-                    { type: "item", name: "Calliana Staff", stats: { attack: 55 }, sellValue: 20, chance: 0.9 },
-                    { type: "item", name: "Calliana Bow", stats: { attack: 55 }, sellValue: 20, chance: 0.9 },
-                    { type: "item", name: "Calliana Launcher", stats: { attack: 55 }, sellValue: 20, chance: 0.9 },
-                    { type: "item", name: "Calliana Armor", stats: { defense: 55 }, sellValue: 20, chance: 0.9, quantity: 2 },
+                    { type: "item", name: "Calliana Sword", stats: { attack: 55 }, sellValue: 20, chance: 0.5 },
+                    { type: "item", name: "Calliana Staff", stats: { attack: 55 }, sellValue: 20, chance: 0.5 },
+                    { type: "item", name: "Calliana Bow", stats: { attack: 55 }, sellValue: 20, chance: 0.5 },
+                    { type: "item", name: "Calliana Launcher", stats: { attack: 55 }, sellValue: 20, chance: 0.5 },
+                    { type: "item", name: "Calliana Armor", stats: { defense: 55 }, sellValue: 20, chance: 0.9 },
                     { type: "item", name: "Novice Ring", stats: { attack: 5, defense: 5 }, sellValue: 3, chance: 0.11 },
                     { type: "item", name: "Mild Ring", stats: { attack: 10, defense: 10 }, sellValue: 3, chance: 0.10 },
                     { type: "item", name: "Normal Ring", stats: { attack: 15, defense: 15 }, sellValue: 3, chance: 0.009 },
@@ -6066,6 +6217,60 @@
                     currency: 1500
                 }
             },
+
+            // Accessory Crafting Recipes
+            "Novice Ring ★": {
+                name: "Novice Ring ★",
+                type: "accessory",
+                stats: { attack: 10, defense: 10 },
+                sellValue: 6,
+                rarity: "common",
+                successRate: 0.30, // 30% success rate
+                requirements: {
+                    items: [{ name: "Novice Ring", quantity: 2 }], // Requires 2 Novice Rings
+                    materials: {},
+                    currency: 100
+                }
+            },
+            "Mild Ring ★": {
+                name: "Mild Ring ★",
+                type: "accessory",
+                stats: { attack: 15, defense: 15 },
+                sellValue: 6,
+                rarity: "common",
+                successRate: 0.30, // 30% success rate
+                requirements: {
+                    items: [{ name: "Mild Ring", quantity: 2 }], // Requires 2 Mild Rings
+                    materials: {},
+                    currency: 100
+                }
+            },
+            "Normal Ring ★": {
+                name: "Normal Ring ★",
+                type: "accessory",
+                stats: { attack: 20, defense: 20 },
+                sellValue: 6,
+                rarity: "common",
+                successRate: 0.30, // 30% success rate
+                requirements: {
+                    items: [{ name: "Normal Ring", quantity: 2 }], // Requires 2 Novice Rings
+                    materials: {},
+                    currency: 100
+                }
+            },
+            "Power Ring ★": {
+                name: "Power Ring ★",
+                type: "accessory",
+                stats: { attack: 25, defense: 25 },
+                sellValue: 6,
+                rarity: "common",
+                successRate: 0.30, // 30% success rate
+                requirements: {
+                    items: [{ name: "Power Ring", quantity: 2 }], // Requires 2 Novice Rings
+                    materials: {},
+                    currency: 100
+                }
+            },
         };
 
         // Upgrade system
@@ -6138,6 +6343,7 @@
         // Current item being upgraded
         let currentUpgradeItem = null;
         let selectedRecipe = null;
+        let currentCategory = 'sword'; // Track current crafting category
 
         // Process offline battles
         function processOfflineBattles(count, map, duration, area = null) {
@@ -6977,6 +7183,21 @@
                     }
                 }
             }
+
+            // Volcanic Cauldron: Level 40+ (Coming Soon - visual teaser only)
+            const volcanicMap = document.getElementById('volcanic-cauldron-map');
+            if (volcanicMap) {
+                // Always show as disabled teaser
+                volcanicMap.classList.remove('map-unlocked');
+                volcanicMap.style.opacity = '0.5';
+                volcanicMap.style.cursor = 'default';
+                volcanicMap.onclick = null; // No click handler - just visual
+
+                const levelText = volcanicMap.querySelector('.map-level');
+                if (levelText) {
+                    levelText.innerHTML = 'Level 40+ <span style="color: var(--danger); font-size: 0.8rem;">(Coming Soon)</span>';
+                }
+            }
         }
 
         // Set up event listeners
@@ -7119,6 +7340,7 @@
                 tab.addEventListener('click', () => {
                     document.querySelectorAll('.craft-tab').forEach(t => t.classList.remove('active'));
                     tab.classList.add('active');
+                    currentCategory = tab.dataset.category;
                     renderRecipes(tab.dataset.category);
                 });
             });
@@ -8113,7 +8335,7 @@
         function scheduleNextBattle() {
             if (!gameState.isExploring) return;
 
-            let baseInterval = 30000 + Math.random() * 30000; // 30-60 seconds
+            let baseInterval = 60000 + Math.random() * 60000; // 60-120 seconds
 
             // Calculate movement speed bonus from equipped accessories
             const char = gameState.character;
@@ -10276,6 +10498,9 @@
         };
 
 
+        // Current shop tab state
+        let currentShopTab = 'leaves';
+
         // Show Shop modal
         async function showShop() {
             const shopModal = document.getElementById('shop-modal');
@@ -10284,29 +10509,80 @@
             // Load player currencies
             await loadPlayerCurrencies();
 
-            // Load all shop items
-            loadAllShopItems();
+            // Reset to leaves tab and load items
+            currentShopTab = 'leaves';
+            updateShopTabUI();
+            loadShopItemsByTab('leaves');
         }
 
-        // Load all shop items (no tabs)
-        function loadAllShopItems() {
+        // Switch shop tab
+        function switchShopTab(tab) {
+            currentShopTab = tab;
+            updateShopTabUI();
+            loadShopItemsByTab(tab);
+        }
+
+        // Update shop tab UI
+        function updateShopTabUI() {
+            const tabs = document.querySelectorAll('.shop-tab');
+            tabs.forEach(tab => {
+                tab.classList.remove('active');
+                const onclick = tab.getAttribute('onclick');
+                if (onclick && onclick.includes(`'${currentShopTab}'`)) {
+                    tab.classList.add('active');
+                }
+            });
+        }
+
+        // Load shop items by tab
+        function loadShopItemsByTab(tab) {
             const container = document.getElementById('shop-items-container');
             if (!container) return;
 
             container.innerHTML = '';
 
-            // Load items in order: leaves first, then accessories, then PVP, then coins
-            const allItems = [
-                ...shopItems.leaves.map(item => ({ ...item, tabType: 'leaves' })),
-                ...shopItems.accessories.map(item => ({ ...item, tabType: 'leaves' })),
-                ...shopItems.pvp.map(item => ({ ...item, tabType: 'pvp' })),
-                ...shopItems.coins.map(item => ({ ...item, tabType: 'coins' }))
-            ];
+            let itemsToLoad = [];
 
-            allItems.forEach(item => {
+            switch (tab) {
+                case 'leaves':
+                    // Leaves shop includes leaves items and accessories that cost leaves
+                    itemsToLoad = [
+                        ...shopItems.leaves.map(item => ({ ...item, tabType: 'leaves' })),
+                        ...shopItems.accessories.filter(item => item.currency === 'leaves').map(item => ({ ...item, tabType: 'leaves' }))
+                    ];
+                    break;
+                case 'pvp':
+                    // PVP shop includes pvp items and accessories that cost pvp points
+                    itemsToLoad = [
+                        ...shopItems.pvp.map(item => ({ ...item, tabType: 'pvp' })),
+                        ...shopItems.accessories.filter(item => item.currency === 'pvp').map(item => ({ ...item, tabType: 'pvp' }))
+                    ];
+                    break;
+                case 'coins':
+                    // Coins shop includes coins items and accessories that cost coins
+                    itemsToLoad = [
+                        ...shopItems.coins.map(item => ({ ...item, tabType: 'coins' })),
+                        ...shopItems.accessories.filter(item => item.currency === 'coins').map(item => ({ ...item, tabType: 'coins' }))
+                    ];
+                    break;
+                default:
+                    itemsToLoad = [];
+            }
+
+            if (itemsToLoad.length === 0) {
+                container.innerHTML = '<div style="text-align: center; padding: 2rem; color: var(--text-dim);">No items available in this shop.</div>';
+                return;
+            }
+
+            itemsToLoad.forEach(item => {
                 const itemElement = createShopItemElement(item);
                 container.appendChild(itemElement);
             });
+        }
+
+        // Load all shop items (legacy - kept for compatibility)
+        function loadAllShopItems() {
+            loadShopItemsByTab(currentShopTab);
         }
 
         // Load player currencies
@@ -10598,6 +10874,7 @@
         // Make shop functions globally accessible
         window.showShop = showShop;
         window.buyShopItem = buyShopItem;
+        window.switchShopTab = switchShopTab;
 
         // ========================================
         // ACCESSORY BONUS SYSTEM
@@ -11867,6 +12144,7 @@
                 case 'blue gem': return '🔷';
                 case 'shiny gem': return '💎';
                 case 'winter box': return '🧊';
+                case 'empty box': return '📦';
                 case 'exp': return '✨';
                 case 'novice ring': return '💍';
                 case 'mild ring': return '💍';
@@ -11942,6 +12220,11 @@
                 case 'int sickle staff': return '🪄';
                 case 'int sickle bow': return '🏹';
                 case 'int flame thrower': return '🔥';
+                case 'novice ring ★': return '💍';
+                case 'mild ring ★': return '💍';
+                case 'normal ring ★': return '💍';
+                case 'power ring ★': return '💍';
+                case 'herb': return '🌿';
                 default: return '';
             }
         }
@@ -11987,6 +12270,7 @@
             // Ensure Sword tab is active by default
             document.querySelectorAll('.craft-tab').forEach(t => t.classList.remove('active'));
             document.querySelector('.craft-tab[data-category="sword"]').classList.add('active');
+            currentCategory = 'sword';
             renderRecipes('sword');
         }
 
@@ -12018,6 +12302,9 @@
                     case 'armor':
                         shouldShow = recipe.type === 'armor';
                         break;
+                    case 'accessories':
+                        shouldShow = recipe.type === 'accessory';
+                        break;
                 }
 
                 if (!shouldShow) return;
@@ -12044,20 +12331,40 @@
                     `;
                 });
 
-                // Check base item
-                const reqItem = recipe.requirements.item;
-                // Find ANY matching item in inventory
-                const matchingItems = gameState.inventory.filter(i =>
-                    i.name === reqItem.name &&
-                    i.upgradeLevel >= reqItem.upgradeLevel
-                );
-                const hasItem = matchingItems.length > 0;
+                // Check base item (support both single item and items array for accessories)
+                let hasItem = false;
+                let itemHtml = '';
 
-                const itemHtml = `
-                    <div class="req-item ${hasItem ? 'req-met' : 'req-missing'}">
-                        ${getEmoji(reqItem.name.toLowerCase())} ${reqItem.name} +${reqItem.upgradeLevel}: ${hasItem ? 'Available' : 'Missing'}
-                    </div>
-                `;
+                if (recipe.requirements.items) {
+                    // Accessory crafting with multiple items
+                    let allItemsMet = true;
+                    recipe.requirements.items.forEach(reqItem => {
+                        const matchingItems = gameState.inventory.filter(i => i.name === reqItem.name);
+                        const hasEnough = matchingItems.length >= reqItem.quantity;
+                        if (!hasEnough) allItemsMet = false;
+
+                        itemHtml += `
+                            <div class="req-item ${hasEnough ? 'req-met' : 'req-missing'}">
+                                ${getEmoji(reqItem.name.toLowerCase())} ${reqItem.name} x${reqItem.quantity}: ${matchingItems.length}/${reqItem.quantity}
+                            </div>
+                        `;
+                    });
+                    hasItem = allItemsMet;
+                } else if (recipe.requirements.item) {
+                    // Traditional single item crafting
+                    const reqItem = recipe.requirements.item;
+                    const matchingItems = gameState.inventory.filter(i =>
+                        i.name === reqItem.name &&
+                        i.upgradeLevel >= reqItem.upgradeLevel
+                    );
+                    hasItem = matchingItems.length > 0;
+
+                    itemHtml = `
+                        <div class="req-item ${hasItem ? 'req-met' : 'req-missing'}">
+                            ${getEmoji(reqItem.name.toLowerCase())} ${reqItem.name} +${reqItem.upgradeLevel}: ${hasItem ? 'Available' : 'Missing'}
+                        </div>
+                    `;
+                }
 
                 const currencyHtml = `
                     <div class="req-item ${hasCurrency ? 'req-met' : 'req-missing'}">
@@ -12065,8 +12372,14 @@
                     </div>
                 `;
 
-                let statsDisplay = `<span>ATK: ${recipe.stats.attack}</span>`;
-                if (recipe.lifesteal) {
+                // Stats display
+                let statsDisplay = '';
+                if (recipe.type === 'accessory') {
+                    // Accessory stats display
+                    const atk = recipe.stats.attack || 0;
+                    const def = recipe.stats.defense || 0;
+                    statsDisplay = `<span>+${atk} ATK +${def} DEF</span>`;
+                } else if (recipe.lifesteal) {
                     statsDisplay = `
                         <div style="text-align: right;">
                             <div>ATK: ${recipe.stats.attack}</div>
@@ -12082,7 +12395,16 @@
                     `;
                 } else if (recipe.stats.defense) {
                     statsDisplay = `<span>DEF: ${recipe.stats.defense}</span>`;
+                } else {
+                    statsDisplay = `<span>ATK: ${recipe.stats.attack}</span>`;
                 }
+
+                // Success rate display for accessories
+                const successRateHtml = recipe.successRate ? `
+                    <div class="req-item" style="color: #f39c12;">
+                        ⚠️ Success Rate: ${Math.round(recipe.successRate * 100)}%
+                    </div>
+                ` : '';
 
                 recipeEl.innerHTML = `
                     <div class="recipe-header">
@@ -12093,6 +12415,7 @@
                         ${itemHtml}
                         ${materialsHtml}
                         ${currencyHtml}
+                        ${successRateHtml}
                     </div>
                 `;
 
@@ -12106,7 +12429,7 @@
 
         function selectRecipe(recipeKey) {
             selectedRecipe = recipeKey;
-            renderRecipes();
+            renderRecipes(currentCategory);
 
             // Check if craftable
             const recipe = craftingRecipes[recipeKey];
@@ -12119,12 +12442,22 @@
                 if (playerAmount < amount) materialsMet = false;
             });
 
-            const reqItem = recipe.requirements.item;
-            const matchingItems = gameState.inventory.filter(i =>
-                i.name === reqItem.name &&
-                i.upgradeLevel >= reqItem.upgradeLevel
-            );
-            const hasItem = matchingItems.length > 0;
+            // Check items (support both single item and items array)
+            let hasItem = false;
+            if (recipe.requirements.items) {
+                // Accessory crafting - check if all required items are available
+                hasItem = recipe.requirements.items.every(reqItem => {
+                    const matchingItems = gameState.inventory.filter(i => i.name === reqItem.name);
+                    return matchingItems.length >= reqItem.quantity;
+                });
+            } else if (recipe.requirements.item) {
+                const reqItem = recipe.requirements.item;
+                const matchingItems = gameState.inventory.filter(i =>
+                    i.name === reqItem.name &&
+                    i.upgradeLevel >= reqItem.upgradeLevel
+                );
+                hasItem = matchingItems.length > 0;
+            }
 
             craftConfirmBtn.disabled = !(hasCurrency && materialsMet && hasItem);
         }
@@ -12147,56 +12480,116 @@
                 }
             });
 
-            // 3. Consume Base Item
-            const reqItem = recipe.requirements.item;
-            // Prioritize unequipped items
-            let targetItem = gameState.inventory.find(i =>
-                i.name === reqItem.name &&
-                i.upgradeLevel >= reqItem.upgradeLevel &&
-                gameState.character.equipped.weapon !== i
-            );
+            // 3. Consume Base Items (support both single item and items array)
+            if (recipe.requirements.items) {
+                // Accessory crafting with multiple items
+                recipe.requirements.items.forEach(reqItem => {
+                    for (let i = 0; i < reqItem.quantity; i++) {
+                        // Find and remove unequipped items first
+                        let targetItem = gameState.inventory.find(item =>
+                            item.name === reqItem.name &&
+                            gameState.character.equipped.accessory1 !== item &&
+                            gameState.character.equipped.accessory2 !== item
+                        );
 
-            // If no unequipped item, use equipped one
-            if (!targetItem) {
-                targetItem = gameState.inventory.find(i =>
+                        if (!targetItem) {
+                            // Use equipped item if no unequipped available
+                            targetItem = gameState.inventory.find(item => item.name === reqItem.name);
+
+                            // Unequip it first
+                            if (gameState.character.equipped.accessory1 === targetItem) {
+                                gameState.character.equipped.accessory1 = null;
+                                gameState.character.attack -= targetItem.stats?.attack || 0;
+                                gameState.character.defense -= targetItem.stats?.defense || 0;
+                            } else if (gameState.character.equipped.accessory2 === targetItem) {
+                                gameState.character.equipped.accessory2 = null;
+                                gameState.character.attack -= targetItem.stats?.attack || 0;
+                                gameState.character.defense -= targetItem.stats?.defense || 0;
+                            }
+                        }
+
+                        const itemIndex = gameState.inventory.indexOf(targetItem);
+                        if (itemIndex > -1) {
+                            gameState.inventory.splice(itemIndex, 1);
+                        }
+                    }
+                });
+
+                // 4. Check success rate for accessory crafting
+                const successRate = recipe.successRate || 1.0;
+                const isSuccess = Math.random() < successRate;
+
+                if (isSuccess) {
+                    // Create the new accessory
+                    const newItem = {
+                        name: recipe.name,
+                        stats: { ...recipe.stats },
+                        sellValue: recipe.sellValue,
+                        quantity: 1,
+                        type: recipe.type,
+                        upgradeLevel: 0,
+                        rarity: recipe.rarity
+                    };
+
+                    gameState.inventory.push(newItem);
+                    addToBattleLog(`✨ Crafted ${getEmoji(newItem.name.toLowerCase())} ${newItem.name}!`, 'success');
+                } else {
+                    // Failure - items already destroyed, currency already deducted
+                    addToBattleLog(`❌ Crafting failed! Your materials were destroyed.`, 'danger');
+                }
+            } else if (recipe.requirements.item) {
+                // Traditional single item crafting (always succeeds)
+                const reqItem = recipe.requirements.item;
+                // Prioritize unequipped items
+                let targetItem = gameState.inventory.find(i =>
                     i.name === reqItem.name &&
-                    i.upgradeLevel >= reqItem.upgradeLevel
+                    i.upgradeLevel >= reqItem.upgradeLevel &&
+                    gameState.character.equipped.weapon !== i
                 );
 
-                // Unequip it first
-                if (gameState.character.equipped.weapon === targetItem) {
-                    gameState.character.equipped.weapon = null;
-                    // Remove stats
-                    const itemLevel = targetItem.upgradeLevel;
-                    const bonus = upgradeSystem.bonuses[itemLevel]?.attack || 0;
-                    gameState.character.attack -= (targetItem.stats.attack + bonus);
+                // If no unequipped item, use equipped one
+                if (!targetItem) {
+                    targetItem = gameState.inventory.find(i =>
+                        i.name === reqItem.name &&
+                        i.upgradeLevel >= reqItem.upgradeLevel
+                    );
+
+                    // Unequip it first
+                    if (gameState.character.equipped.weapon === targetItem) {
+                        gameState.character.equipped.weapon = null;
+                        // Remove stats
+                        const itemLevel = targetItem.upgradeLevel;
+                        const bonus = upgradeSystem.bonuses[itemLevel]?.attack || 0;
+                        gameState.character.attack -= (targetItem.stats.attack + bonus);
+                    }
                 }
+
+                const itemIndex = gameState.inventory.indexOf(targetItem);
+                gameState.inventory.splice(itemIndex, 1);
+
+                // Create the new item
+                const newItem = {
+                    name: recipe.name,
+                    stats: { ...recipe.stats },
+                    sellValue: recipe.sellValue,
+                    quantity: 1,
+                    type: recipe.type,
+                    upgradeLevel: 0,
+                    rarity: recipe.rarity,
+                    lifesteal: recipe.lifesteal || null,
+                    damageReduction: recipe.damageReduction || null
+                };
+
+                gameState.inventory.push(newItem);
+                addToBattleLog(`Crafted <span class="item-rarity-t1">${getEmoji(newItem.name.toLowerCase())} ${newItem.name}</span>!`, 'success');
             }
 
-            const itemIndex = gameState.inventory.indexOf(targetItem);
-            gameState.inventory.splice(itemIndex, 1);
-
-            // 4. Add New Item
-            const newItem = {
-                name: recipe.name,
-                stats: { ...recipe.stats },
-                sellValue: recipe.sellValue,
-                quantity: 1,
-                type: recipe.type,
-                upgradeLevel: 0,
-                rarity: recipe.rarity,
-                rarity: recipe.rarity,
-                lifesteal: recipe.lifesteal || null,
-                damageReduction: recipe.damageReduction || null
-            };
-
-            gameState.inventory.push(newItem);
-
             // 5. Update UI
-            addToBattleLog(`Crafted <span class="item-rarity-t1">${getEmoji(newItem.name.toLowerCase())} ${newItem.name}</span>!`, 'success');
             updateInventoryDisplay();
             updateCharacterDisplay();
-            // closeCraftingModal(); // Keep open to show "Crafted!" state
+            renderRecipes(currentCategory);
+            selectedRecipe = null;
+            craftConfirmBtn.disabled = true;
             saveGameState();
         }
 
@@ -14627,6 +15020,8 @@
 
             if (tab === 'level') {
                 await loadTopLevelRankings();
+            } else if (tab === 'leaves') {
+                await loadLeavesRankings();
             } else if (tab === 'pvp') {
                 await loadPVPRankings();
             } else if (tab === 'guilds') {
@@ -14639,7 +15034,9 @@
             const tabs = document.querySelectorAll('.rankings-tab');
             tabs.forEach(tab => {
                 tab.classList.remove('active');
-                if (tab.textContent.toLowerCase().includes(currentRankingsTab.substring(0, 3))) {
+                // Extract tab type from onclick attribute
+                const onclick = tab.getAttribute('onclick');
+                if (onclick && onclick.includes(`'${currentRankingsTab}'`)) {
                     tab.classList.add('active');
                 }
             });
@@ -14709,6 +15106,82 @@
 
             } catch (error) {
                 console.error('Error loading level rankings:', error);
+                rankingsList.innerHTML = '<div class="rankings-empty">Failed to load rankings.</div>';
+            }
+        }
+
+        // Load Leaves Rankings (players with highest leaves)
+        async function loadLeavesRankings() {
+            const rankingsList = document.getElementById('rankings-list');
+
+            try {
+                const { ref, get } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js');
+
+                const usersRef = ref(db, 'users');
+                const snapshot = await get(usersRef);
+
+                if (!snapshot.exists()) {
+                    rankingsList.innerHTML = '<div class="rankings-empty">No players found.</div>';
+                    return;
+                }
+
+                const users = snapshot.val();
+                const players = [];
+
+                // Collect player data with leaves count
+                Object.entries(users).forEach(([uid, userData]) => {
+                    if (userData.profile) {
+                        // Get leaves from currency object (new structure) or directly (legacy)
+                        let leaves = 0;
+                        if (userData.currency && typeof userData.currency === 'object') {
+                            leaves = userData.currency.leaves || 0;
+                        } else if (typeof userData.currency === 'number') {
+                            leaves = userData.currency;
+                        }
+
+                        players.push({
+                            uid: uid,
+                            name: userData.profile.name || 'Unknown',
+                            race: userData.profile.race || '',
+                            class: userData.profile.class || '',
+                            leaves: leaves
+                        });
+                    }
+                });
+
+                // Sort by leaves (highest first)
+                players.sort((a, b) => b.leaves - a.leaves);
+
+                // Take top 20
+                const top20 = players.slice(0, 20);
+
+                if (top20.length === 0) {
+                    rankingsList.innerHTML = '<div class="rankings-empty">No players found.</div>';
+                    return;
+                }
+
+                // Render rankings
+                rankingsList.innerHTML = top20.map((player, index) => {
+                    const rank = index + 1;
+                    let rowClass = 'rankings-row';
+                    if (rank === 1) rowClass += ' top-1';
+                    else if (rank === 2) rowClass += ' top-2';
+                    else if (rank === 3) rowClass += ' top-3';
+
+                    return `
+                            <div class="${rowClass}">
+                                <div class="rankings-rank">#${rank}</div>
+                                <div class="rankings-name">
+                                    ${player.name}
+                                    <span class="race-class">${player.race} ${player.class}</span>
+                                </div>
+                                <div class="rankings-value">🍃 ${player.leaves.toLocaleString()}</div>
+                            </div>
+                        `;
+                }).join('');
+
+            } catch (error) {
+                console.error('Error loading leaves rankings:', error);
                 rankingsList.innerHTML = '<div class="rankings-empty">Failed to load rankings.</div>';
             }
         }
@@ -14904,17 +15377,19 @@
             width: 350px;
             background-color: var(--panel-bg);
             border: 1px solid var(--accent);
-            border-top-left-radius: 8px;
-            border-top-right-radius: 8px;
+            border-top-left-radius: 4px;
+            border-top-right-radius: 4px;
             box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.3);
             z-index: 2000;
-            transition: transform 0.3s ease;
+            transition: transform 0.25s ease;
             display: flex;
             flex-direction: column;
         }
 
         .chatbox.minimized {
             transform: translateY(calc(100% - 40px));
+            /* Slower closing animation */
+            transition: transform 0.6s ease;
         }
 
         .chatbox-header {
@@ -14943,7 +15418,7 @@
         .chatbox-toggle {
             color: var(--text-dim);
             font-size: 0.8rem;
-            transition: transform 0.3s ease;
+            transition: transform 0.1s ease-out;
         }
 
         .chatbox.minimized .chatbox-toggle {
@@ -14956,6 +15431,13 @@
             flex-direction: column;
             background-color: var(--darker-bg);
             border-top: 1px solid var(--accent);
+        }
+
+        .chatbox.minimized .chatbox-content {
+            position: absolute;
+            left: -9999px;
+            opacity: 0;
+            pointer-events: none;
         }
 
         .chat-messages {
@@ -14997,11 +15479,11 @@
         }
 
         .chat-input-area {
-            padding: 10px;
-            background-color: var(--panel-bg);
-            border-top: 1px solid var(--accent);
+            padding: 12px;
+            background-color: rgba(0, 0, 0, 0.2);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
             display: flex;
-            gap: 5px;
+            gap: 8px;
         }
 
         #chat-input {
@@ -15037,7 +15519,7 @@
         /* Mobile Responsiveness for Chatbox */
         @media (max-width: 768px) {
             .chatbox {
-                width: 80%;
+                width: 70%;
                 /* Mobile width */
                 right: 2%;
                 /* Center it approximately */
