@@ -193,6 +193,41 @@
             box-shadow: 0 2px 8px rgba(255, 122, 47, 0.3);
         }
 
+        /* Mobile Panel Visibility - Only on mobile screens */
+        @media (max-width: 720px) {
+            .mobile-tabs {
+                display: flex;
+            }
+
+            .mobile-tab-panel {
+                display: none !important;
+            }
+
+            .mobile-tab-panel.active-mobile {
+                display: flex !important;
+                flex-direction: column;
+            }
+
+            .container {
+                flex-direction: column;
+                height: auto;
+                overflow: visible;
+            }
+
+            .left-panel,
+            .center-panel,
+            .right-panel {
+                width: 100%;
+            }
+        }
+
+        /* Desktop - ensure all panels are visible */
+        @media (min-width: 721px) {
+            .mobile-tab-panel {
+                display: flex !important;
+            }
+        }
+
         .panel {
             background-color: rgba(30, 30, 30, 0.95);
             border-radius: 6px;
@@ -1955,7 +1990,6 @@
                 flex: none;
                 width: auto;
                 padding: 0.4rem 0.6rem;
-                font-size: 0.75rem !important;
             }
 
             .explore-options {
@@ -2030,6 +2064,7 @@
             cursor: pointer;
             transition: all 0.2s;
             color: var(--text);
+            font-size: 1.4rem;
         }
 
         .craft-tab:hover,
@@ -2639,8 +2674,69 @@
                 min-width: 100px;
                 text-align: right;
             }
+
+            @media (max-width: 768px) {
+                .market-item-row {
+                    display: grid;
+                    grid-template-columns: 1fr auto;
+                    grid-template-areas:
+                        "name price"
+                        "stats action";
+                    gap: 0.4rem;
+                    padding: 0.8rem;
+                    align-items: center;
+                }
+
+                .market-item-info {
+                    display: contents;
+                }
+
+                .market-item-name {
+                    grid-area: name;
+                    font-size: 0.9rem;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    min-width: 0;
+                }
+
+                .market-item-price {
+                    grid-area: price;
+                    font-size: 0.95rem;
+                    font-weight: bold;
+                    text-align: right;
+                    margin: 0 0 0 0.5rem;
+                    white-space: nowrap;
+                }
+
+                .market-item-stats {
+                    grid-area: stats;
+                    font-size: 0.75rem;
+                    color: var(--text-dim);
+                    text-align: left;
+                    white-space: nowrap;
+                    margin: 0;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+
+                .market-item-action {
+                    grid-area: action;
+                    width: auto;
+                    min-width: 0;
+                    text-align: right;
+                    margin: 0;
+                }
+
+                .market-item-action button {
+                    width: auto;
+                    padding: 0.3rem 0.8rem;
+                    font-size: 0.8rem;
+                    min-width: 70px;
+                }
+            }
         </style>
-        <div class="modal-content" style="max-width: 1000px;">
+        <div class="modal-content" style="max-width: 1000px; padding-bottom: 2rem;">
             <!-- Header with title, sell button, and close button -->
             <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem; padding-right: 3rem;">
                 <h2 class="modal-title" style="margin: 0;">🏪 GLOBAL MARKET</h2>
@@ -2672,6 +2768,26 @@
                     <div id="market-items-container">
                         <!-- Market items will be loaded here -->
                     </div>
+                </div>
+            </div>
+
+
+
+            <!-- Claim Payments Section -->
+            <div id="market-claim-payments" style="display: none;">
+
+                <div id="pending-payments-container">
+                    <!-- Pending payments will be loaded here -->
+                </div>
+
+                <div id="claim-summary"
+                    style="display: none; margin-top: 1.5rem; padding: 1rem; background: var(--panel-bg); border-radius: 8px; text-align: center;">
+                    <div id="claim-total"
+                        style="font-size: 1.2rem; font-weight: bold; color: var(--accent-color); margin-bottom: 1rem;">
+                    </div>
+                    <button class="btn btn-primary" onclick="processClaimPayments()" style="padding: 0.5rem 1.5rem;">
+                        <span class="btn-icon">💰</span> Claim All Payments
+                    </button>
                 </div>
             </div>
 
@@ -2731,6 +2847,19 @@
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <!-- Footer Actions (Mobile Friendly) -->
+            <div
+                style="display: flex; justify-content: space-between; margin-top: 2rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.05); gap: 1rem; flex-wrap: wrap;">
+                <button class="btn btn-secondary" onclick="showUnifiedView()"
+                    style="padding: 0.5rem 1rem; font-size: 0.9rem; flex: 1; max-width: 200px;">
+                    ← Back to Market
+                </button>
+                <button class="btn btn-warning" onclick="showClaimPayments()"
+                    style="padding: 0.5rem 1rem; font-size: 0.9rem; box-shadow: 0 4px 8px rgba(0,0,0,0.3); flex: 1; max-width: 200px;">
+                    <span class="btn-icon">💰</span> Claim Payments
+                </button>
             </div>
         </div>
     </div>
@@ -2913,13 +3042,56 @@
                 }
             }
 
+            .arena-header-left {
+                display: flex;
+                flex-direction: row;
+                align-items: baseline;
+                gap: 1.5rem;
+            }
+
+            .arena-header-left .modal-title {
+                margin-bottom: 0;
+                line-height: normal;
+            }
+
             @media (max-width: 768px) {
+                .arena-header-left {
+                    flex-direction: column;
+                    align-items: flex-start;
+                    gap: 0;
+                }
+
+                .arena-header-left .modal-title {
+                    margin-bottom: 0.25rem;
+                    line-height: 1;
+                }
+
+                .arena-modal-content {
+                    overflow-y: hidden !important;
+                    display: flex !important;
+                    flex-direction: column;
+                }
+
                 .arena-container {
+                    display: flex;
+                    flex-direction: column;
+                    flex: 1;
+                    overflow: hidden;
                     max-height: none;
                 }
 
-                .arena-ladder {
+                .arena-stats-panel {
+                    flex-shrink: 0;
                     overflow-x: hidden;
+                    /* Prevent scrolling */
+                    margin-bottom: 0.5rem;
+                }
+
+                .arena-ladder {
+                    flex: 1;
+                    overflow-y: auto;
+                    overflow-x: hidden;
+                    min-height: 0;
                 }
 
                 .arena-ladder-header {
@@ -2927,62 +3099,84 @@
                 }
 
                 .arena-ladder-row {
-                    grid-template-columns: 60px 1fr;
-                    grid-template-rows: auto auto auto;
-                    gap: 0.4rem 0.8rem;
+                    grid-template-columns: 1fr auto;
+                    grid-template-rows: auto auto;
+                    gap: 0.3rem 0.5rem;
                     padding: 0.8rem;
+                    align-items: center;
                 }
 
                 .arena-rank {
                     display: none;
                 }
 
+                .arena-level {
+                    display: none;
+                }
+
                 .arena-name {
-                    grid-column: 2;
+                    grid-column: 1 / -1;
                     grid-row: 1;
-                    flex-wrap: wrap;
+                    font-size: 0.95rem;
+                    padding-bottom: 0.2rem;
                 }
 
                 .arena-rank-inline {
                     display: inline-flex;
                     font-weight: bold;
                     color: var(--accent-color);
-                }
-
-                .arena-level {
-                    display: none;
-                }
-
-                .arena-level-inline {
-                    display: inline-flex;
-                    font-size: 0.85rem;
-                    color: var(--text-dim);
+                    margin-right: 0.3rem;
                 }
 
                 .arena-stats-preview {
-                    grid-column: 1 / -1;
+                    grid-column: 1;
                     grid-row: 2;
-                    white-space: normal;
-                    font-size: 0.8rem;
-                    text-align: center;
+                    white-space: nowrap;
+                    font-size: 0.75rem;
+                    text-align: left;
+                    display: flex;
+                    align-items: center;
+                    color: var(--text-dim);
+                }
+
+                .mobile-level {
+                    display: inline;
+                    margin-right: 0.4rem;
+                    color: var(--text);
                 }
 
                 .arena-action {
-                    grid-column: 1 / -1;
-                    grid-row: 3;
-                    text-align: left;
+                    grid-column: 2;
+                    grid-row: 2;
+                    text-align: right;
+                    width: auto;
+                    align-self: center;
+                    /* Vertically center in the grid row */
                 }
 
                 .btn-challenge {
-                    width: 100%;
+                    width: auto;
+                    min-width: 80px;
+                    /* Increase width */
+                    padding: 0.4rem 1rem;
+                    /* Increase padding */
+                    font-size: 0.85rem;
+                }
+            }
+
+            @media (min-width: 769px) {
+                .mobile-level {
+                    display: none;
                 }
             }
         </style>
-        <div class="modal-content" style="max-width: 1200px; max-height: 90vh; overflow-y: auto;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
-                <h2 class="modal-title" style="margin-bottom: 0;">⚔️ ARENA <span
-                        style="font-size: 1rem; color: var(--text-dim); margin-left: 1rem; font-weight: normal;">Next
-                        Reset: <span id="arena-reset-timer">--:--:--</span></span></h2>
+        <div class="modal-content arena-modal-content" style="max-width: 1200px; max-height: 90vh; overflow-y: auto;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.5rem;">
+                <div class="arena-header-left">
+                    <h2 class="modal-title">⚔️ ARENA</h2>
+                    <div style="font-size: 0.9rem; color: var(--text-dim);">Next Reset: <span
+                            id="arena-reset-timer">--:--:--</span></div>
+                </div>
                 <div style="display: flex; gap: 1rem; align-items: center;">
                     <button class="btn-secondary" onclick="showChallengeLogs()"
                         onmouseover="this.style.background='rgba(255,255,255,0.1)'"
@@ -4129,12 +4323,12 @@
 
             <!-- Craft Category Tabs -->
             <div class="craft-tabs">
-                <button class="craft-tab active" data-category="sword">Sword</button>
-                <button class="craft-tab" data-category="staff">Staff</button>
-                <button class="craft-tab" data-category="bow">Bow</button>
-                <button class="craft-tab" data-category="launcher">Launcher</button>
-                <button class="craft-tab" data-category="armor">Armor</button>
-                <button class="craft-tab" data-category="accessories">Accessories</button>
+                <button class="craft-tab active" data-category="sword">🗡️</button>
+                <button class="craft-tab" data-category="staff">🪄</button>
+                <button class="craft-tab" data-category="bow">🏹</button>
+                <button class="craft-tab" data-category="launcher">🚀</button>
+                <button class="craft-tab" data-category="armor">🧥</button>
+                <button class="craft-tab" data-category="accessories">💍</button>
             </div>
 
             <div class="recipe-list" id="recipe-list">
@@ -6796,16 +6990,10 @@
 
                                     // Only update if there's an actual change (to avoid save loops)
                                     if (newLeaves !== gameState.currency) {
-                                        const diff = newLeaves - gameState.currency;
                                         gameState.currency = newLeaves;
 
                                         // Update UI
                                         document.getElementById('currency-amount').textContent = gameState.currency;
-
-                                        // Show notification if currency increased (item sold)
-                                        if (diff > 0) {
-                                            addToBattleLog(`💰 +${diff} Leaves received! (Item sold on market)`, 'success');
-                                        }
 
                                         console.log(`Currency synced from Firebase: ${newLeaves} Leaves`);
                                     }
@@ -7524,6 +7712,39 @@
                     mapsModal.style.display = 'none';
                     upgradeModal.style.display = 'none';
                     craftingModal.style.display = 'none';
+                });
+            });
+
+            // Mobile Tab Switching Logic
+            window.switchTab = function (tabName) {
+                // Map tab names to IDs if necessary, or assume direct mapping
+                // Buttons have data-tab="character", "battle", "inventory"
+                // Panels have id="panel-character", "panel-battle", "panel-inventory"
+
+                // Normalize tab name
+                let normalizedTab = tabName;
+                if (tabName === 'log-panel') normalizedTab = 'battle'; // Handle legacy/alias
+
+                let targetId = 'panel-' + normalizedTab;
+
+                // Only apply tab switching on mobile
+                if (window.innerWidth <= 720) {
+                    // 1. Update buttons
+                    document.querySelectorAll('.mobile-tab-btn').forEach(btn => {
+                        btn.classList.toggle('active', btn.dataset.tab === normalizedTab);
+                    });
+
+                    // 2. Update panels using active-mobile class (works with CSS)
+                    document.querySelectorAll('.mobile-tab-panel').forEach(panel => {
+                        panel.classList.toggle('active-mobile', panel.id === targetId);
+                    });
+                }
+            }
+
+            // Bind click events to mobile tab buttons
+            document.querySelectorAll('.mobile-tab-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    switchTab(btn.dataset.tab);
                 });
             });
         }
@@ -9057,7 +9278,7 @@
 
                         // Determine type dynamically
                         let itemType = 'weapon';
-                        if (drop.name.toLowerCase().includes('armor') || drop.name.toLowerCase().includes('core') || drop.name.toLowerCase().includes('tunic') || drop.name.toLowerCase().includes('cloak')) {
+                        if (drop.name.toLowerCase().includes('armor') || drop.name.toLowerCase().includes('core') || drop.name.toLowerCase().includes('tunic') || drop.name.toLowerCase().includes('cloak') || drop.name.toLowerCase().includes('robe')) {
                             itemType = 'armor';
                         } else if (drop.name.toLowerCase().includes('ring')) {
                             itemType = 'accessory';
@@ -9218,7 +9439,8 @@
                         item.name.toLowerCase().includes('tunic') ||
                         item.name.toLowerCase().includes('cloak') ||
                         item.name.toLowerCase().includes('core') ||
-                        item.name.toLowerCase().includes('suit');
+                        item.name.toLowerCase().includes('suit') ||
+                        item.name.toLowerCase().includes('robe');
 
                     const isAccessory = item.name.toLowerCase().includes('wristlet') ||
                         item.name.toLowerCase().includes('ring') ||
@@ -9397,7 +9619,8 @@
                 const isArmor = item.name.toLowerCase().includes('armor') ||
                     item.name.toLowerCase().includes('shirt') ||
                     item.name.toLowerCase().includes('tunic') ||
-                    item.name.toLowerCase() === 'steel core';
+                    item.name.toLowerCase() === 'steel core' ||
+                    item.name.toLowerCase().includes('robe');
 
                 const statType = isArmor ? 'defense' : 'attack';
                 const currentStat = item.stats[statType] + (upgradeSystem.bonuses[itemLevel]?.[statType] || 0);
@@ -9431,7 +9654,8 @@
                 lowerName.includes('shirt') ||
                 lowerName.includes('tunic') ||
                 lowerName.includes('suit') ||
-                lowerName === 'steel core';
+                lowerName === 'steel core' ||
+                lowerName.includes('robe');
 
             const statType = isArmor ? 'defense' : 'attack';
             const currentStat = item.stats[statType] + (upgradeSystem.bonuses[itemLevel]?.[statType] || 0);
@@ -9476,7 +9700,8 @@
                 lowerName.includes('shirt') ||
                 lowerName.includes('tunic') ||
                 lowerName.includes('suit') ||
-                lowerName === 'steel core';
+                lowerName === 'steel core' ||
+                lowerName.includes('robe');
 
             const statType = isArmor ? 'defense' : 'attack';
             const gemType = isArmor ? "Blue Gem" : "Red Gem";
@@ -9712,7 +9937,8 @@
                 name.includes('tunic') ||
                 name.includes('cloak') ||
                 name.includes('core') ||
-                name === 'steel core'; // Explicit check
+                name === 'steel core' ||
+                name.includes('robe'); // Explicit check
 
             // Fallback: If it has defense but no attack, it's armor
             if (!isArmor && item.stats.defense && !item.stats.attack) {
@@ -9722,7 +9948,7 @@
             // Class Weapon Restrictions Check
             const playerClass = gameState.character.class;
             if (!isArmor && !name.includes('ring') && !item.isWings && !name.includes('wings')) { // It's a weapon
-                const isSword = name.includes('sword') || name.includes('blade') || name.includes('claymore') || name.includes('breaker') || name.includes('zweihander') || name.includes('man eater') || name.includes('eater');
+                const isSword = name.includes('sword') || name.includes('blade') || name.includes('claymore') || name.includes('breaker') || name.includes('zweihander') || name.includes('man eater') || name.includes('eater') || name.includes('spadona');
                 const isStaff = name.includes('staff') || name.includes('wand') || name.includes('bead') || name.toLowerCase().includes('accelleon');
                 const isBow = name.includes('bow') || name.toLowerCase().includes('valkyrie');
                 const isLauncher = name.includes('launcher') || name.toLowerCase().includes('cerberus') || name.toLowerCase().includes('flame thrower') || name.toLowerCase().includes('bazooka');
@@ -10300,7 +10526,7 @@
                 },
                 {
                     id: 'intense_sickle_bow',
-                    name: 'Inte Sickle Bow',
+                    name: 'Int Sickle Bow',
                     icon: '🏹',
                     type: 'weapon',
                     stats: '+50 Attack',
@@ -10339,7 +10565,7 @@
                     price: 15000,
                     currency: 'leaves',
                     itemData: {
-                        name: 'Intense Elixir Robe',
+                        name: 'Int Elixir Robe',
                         type: 'armor',
                         stats: { attack: 0, defense: 50 },
                         rarity: 'intense',
@@ -11003,6 +11229,9 @@
                 return;
             }
 
+            // Switch to Battle Log tab on mobile
+            if (window.switchTab) switchTab('battle');
+
             const arenaModal = document.getElementById('arena-modal');
             arenaModal.style.display = 'flex';
 
@@ -11095,10 +11324,12 @@
                                  title="${!isBot ? 'Click to inspect' : ''}">
                                 <span class="arena-rank-inline">#${rank}</span>
                                 ${isBot ? '🔹' : '🔸'} ${holder.name}
-                                <span class="arena-level-inline">• Lv ${holder.level}</span>
                             </div>
                             <div class="arena-level">Lv ${holder.level}</div>
-                            <div class="arena-stats-preview">ATK: ${holder.attack} | DEF: ${holder.defense}</div>
+                            <div class="arena-stats-preview">
+                                <span class="mobile-level">• Lv ${holder.level}</span>
+                                ATK: ${holder.attack} | DEF: ${holder.defense}
+                            </div>
                             <div class="arena-action">
                                 ${canChallenge ?
                                 `<button class="btn-challenge" onclick="challengeArenaOpponent(${rank})">Fight</button>` :
@@ -11151,8 +11382,14 @@
                 }
 
                 // Close arena modal and set battle in progress
+                // Close arena modal and set battle in progress
                 document.getElementById('arena-modal').style.display = 'none';
                 gameState.arenaBattleInProgress = true;
+
+                // Switch to battle log on mobile
+                if (window.switchTab && window.innerWidth <= 768) {
+                    switchTab('battle');
+                }
 
                 // Create player snapshot for battle
                 const char = gameState.character;
@@ -12811,12 +13048,14 @@
         function showUnifiedView() {
             document.getElementById('market-unified-view').style.display = 'block';
             document.getElementById('market-sell-mode').style.display = 'none';
+            document.getElementById('market-claim-payments').style.display = 'none';
         }
 
         // Show sell mode
         function showSellMode() {
             document.getElementById('market-unified-view').style.display = 'none';
             document.getElementById('market-sell-mode').style.display = 'block';
+            document.getElementById('market-claim-payments').style.display = 'none';
             loadSellInventory();
         }
 
@@ -13362,14 +13601,177 @@
             return `${Math.floor(seconds / 86400)}d ago`;
         }
 
+        // Show claim payments view
+        function showClaimPayments() {
+            document.getElementById('market-unified-view').style.display = 'none';
+            document.getElementById('market-sell-mode').style.display = 'none';
+            document.getElementById('market-claim-payments').style.display = 'block';
+            loadPendingPayments();
+        }
+
+        // Load and display pending payments
+        async function loadPendingPayments() {
+            const container = document.getElementById('pending-payments-container');
+            const summaryDiv = document.getElementById('claim-summary');
+
+            container.innerHTML = '<div style="text-align: center; padding: 2rem; color: var(--text-dim);">Loading payments...</div>';
+
+            if (!window.currentUser || !window.db) {
+                container.innerHTML = '<div style="text-align: center; padding: 2rem; color: var(--warning);">You must be logged in to view payments</div>';
+                summaryDiv.style.display = 'none';
+                return;
+            }
+
+            try {
+                const { ref, get } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js');
+                const pendingPaymentsRef = ref(window.db, `pendingPayments/${window.currentUser.uid}`);
+                const snapshot = await get(pendingPaymentsRef);
+
+                if (!snapshot.exists()) {
+                    container.innerHTML = `
+                        <div style="text-align: center; padding: 3rem;">
+                            <div style="font-size: 3rem; margin-bottom: 1rem;">📭</div>
+                            <h3 style="color: var(--text-dim); margin-bottom: 0.5rem;">No Pending Payments</h3>
+                            <p style="color: var(--text-dim); font-size: 0.95rem;">You don't have any payments to claim yet</p>
+                        </div>
+                    `;
+                    summaryDiv.style.display = 'none';
+                    return;
+                }
+
+                const pendingPayments = snapshot.val();
+                const payments = Object.entries(pendingPayments).filter(([_, payment]) => payment.status === 'pending');
+
+                if (payments.length === 0) {
+                    container.innerHTML = `
+                        <div style="text-align: center; padding: 3rem;">
+                            <div style="font-size: 3rem; margin-bottom: 1rem;">✅</div>
+                            <h3 style="color: var(--text-dim); margin-bottom: 0.5rem;">All Caught Up!</h3>
+                            <p style="color: var(--text-dim); font-size: 0.95rem;">You've claimed all your pending payments</p>
+                        </div>
+                    `;
+                    summaryDiv.style.display = 'none';
+                    return;
+                }
+
+                // Calculate total
+                const totalAmount = payments.reduce((sum, [_, payment]) => sum + payment.amount, 0);
+
+                // Display payments
+                container.innerHTML = payments.map(([paymentId, payment]) => `
+                    <div class="market-item-row" style="margin-bottom: 0.5rem;">
+                        <div class="market-item-info">
+                            <div class="market-item-name">${getEmoji(payment.itemName.toLowerCase())} ${payment.itemName}</div>
+                            <div class="market-item-stats">Sold to: ${payment.buyerName}</div>
+                            <div class="market-item-price" style="color: var(--success); font-weight: bold;">+${payment.amount} 🍃</div>
+                        </div>
+                    </div>
+                `).join('');
+
+                // Show summary
+                document.getElementById('claim-total').textContent = `Total: ${totalAmount} Leaves from ${payments.length} sale${payments.length > 1 ? 's' : ''}`;
+                summaryDiv.style.display = 'block';
+
+            } catch (error) {
+                console.error('Error loading pending payments:', error);
+                container.innerHTML = '<div style="text-align: center; padding: 2rem; color: var(--danger);">Error loading payments</div>';
+                summaryDiv.style.display = 'none';
+            }
+        }
+
+        // Process claiming all pending payments
+        async function processClaimPayments() {
+            if (window.processingPayments) {
+                addToBattleLog('⚠️ Payment processing already in progress', 'warning');
+                return;
+            }
+            window.processingPayments = true;
+
+            if (!window.currentUser || !window.db) {
+                addToBattleLog('❌ You must be logged in to claim payments', 'warning');
+                window.processingPayments = false;
+                return;
+            }
+
+            try {
+                const { ref, get, remove, update, runTransaction } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js');
+
+                const pendingPaymentsRef = ref(window.db, `pendingPayments/${window.currentUser.uid}`);
+                const snapshot = await get(pendingPaymentsRef);
+
+                if (!snapshot.exists()) {
+                    addToBattleLog('📭 No pending payments to claim', 'info');
+                    window.processingPayments = false;
+                    return;
+                }
+
+                const pendingPayments = snapshot.val();
+                const payments = Object.entries(pendingPayments).filter(([_, payment]) => payment.status === 'pending');
+
+                if (payments.length === 0) {
+                    addToBattleLog('✅ No new payments to claim', 'info');
+                    window.processingPayments = false;
+                    return;
+                }
+
+                const totalPayment = payments.reduce((sum, [_, payment]) => sum + payment.amount, 0);
+                const itemCount = payments.length;
+
+                // Process each payment
+                for (const [paymentId, payment] of payments) {
+                    const paymentRef = ref(window.db, `pendingPayments/${window.currentUser.uid}/${paymentId}`);
+                    await remove(paymentRef);
+                }
+
+                // Update seller's currency in Firebase
+                const currencyRef = ref(window.db, `users/${window.currentUser.uid}/currency`);
+
+                await runTransaction(currencyRef, (currentCurrency) => {
+                    if (currentCurrency === null) {
+                        return { leaves: totalPayment, coins: 0 };
+                    }
+
+                    if (typeof currentCurrency === 'object') {
+                        currentCurrency.leaves = (currentCurrency.leaves || 0) + totalPayment;
+                    } else {
+                        currentCurrency = { leaves: currentCurrency + totalPayment, coins: 0 };
+                    }
+
+                    return currentCurrency;
+                });
+
+                // Success message
+                if (itemCount === 1) {
+                    addToBattleLog(`💰 Claimed ${totalPayment} Leaves! (Item sold on market)`, 'success');
+                } else {
+                    addToBattleLog(`💰 Claimed ${totalPayment} Leaves from ${itemCount} items sold on market!`, 'success');
+                }
+
+                // Refresh the UI
+                loadPendingPayments();
+
+                console.log(`✅ Claimed ${totalPayment} Leaves from ${itemCount} items`);
+
+            } catch (error) {
+                console.error('❌ Error claiming payments:', error);
+                addToBattleLog('❌ Failed to claim payments. Please try again.', 'warning');
+            } finally {
+                window.processingPayments = false;
+            }
+        }
+
         // Make functions globally accessible
         window.showMarket = showMarket;
         window.showUnifiedView = showUnifiedView;
         window.showSellMode = showSellMode;
+        window.showClaimPayments = showClaimPayments;
+        window.loadPendingPayments = loadPendingPayments;
+        window.processClaimPayments = processClaimPayments;
         window.buyMarketItem = buyMarketItem;
         window.confirmSell = confirmSell;
         window.cancelListing = cancelListing;
         window.loadUnifiedMarket = loadUnifiedMarket;
+        window.getEmoji = getEmoji;
 
         // Add message to battle log
         function addToBattleLog(message, type = 'info') {
@@ -13472,6 +13874,9 @@
 
         // Show Chip War modal
         async function showChipWar() {
+            // Switch to Battle Log tab on mobile
+            if (window.switchTab) switchTab('battle');
+
             // Removed HQ requirement - can open from any map
 
             // Check if player is level 30 or above
