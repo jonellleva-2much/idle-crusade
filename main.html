@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300..800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="gm_style.css">
     <style>
         :root {
             --dark-bg: #121212;
@@ -16035,7 +16036,6 @@
         }
 
         .msg-sender {
-            font-weight: bold;
             color: #ffcc80;
             margin-right: 4px;
             font-size: 0.9rem;
@@ -16255,6 +16255,10 @@
                 let senderDisplay = escapeHtml(msg.sender);
                 const prefixParts = [];
 
+                // GM Check
+                const gmNames = ['2MuchSauce'];
+                const isGM = gmNames.includes(msg.sender);
+
                 // Add rank if present (format: #1)
                 if (arenaRank !== null && arenaRank !== undefined) {
                     prefixParts.push(`#${arenaRank}`);
@@ -16265,8 +16269,15 @@
                     prefixParts.push(escapeHtml(arenaTitle));
                 }
 
-                // Build the display with proper color separation
-                if (prefixParts.length > 0) {
+                // Apply GM Styling if applicable
+                let messageClass = 'msg-text';
+
+                if (isGM) {
+                    // Override sender display for GMs
+                    senderDisplay = `<span class="gm-user-container"><span class="gm-tag">GM</span><span class="gm-name-animated">${escapeHtml(msg.sender)}</span></span>`;
+                    messageClass = 'msg-text gm-message-text';
+                } else if (prefixParts.length > 0) {
+                    // Only apply rank/title logic if NOT GM (or mix them if you prefer, but override is cleaner)
                     let prefixHtml = '';
 
                     // Always color rank with default color (#ffb74d)
@@ -16291,7 +16302,7 @@
                 div.innerHTML = `
                     <span class="msg-time">[${timeStr}]</span>
                     <span class="msg-sender">${senderDisplay}:</span>
-                    <span class="msg-text">${escapeHtml(msg.text)}</span>
+                    <span class="${messageClass}">${escapeHtml(msg.text)}</span>
                 `;
 
                 chatMessages.appendChild(div);
